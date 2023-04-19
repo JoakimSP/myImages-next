@@ -25,14 +25,14 @@ model photographer {
 
 model photographerinfo {
   personID        Int          @id @unique(map: "photographerInfo_personID_key") @default(autoincrement())
-  country         String       @db.VarChar(255)
-  city            String       @db.VarChar(255)
-  about           String       @db.VarChar(255)
-  camera          String       @db.VarChar(255)
-  lens            String       @db.VarChar(255)
-  FavoritePhoto   String       @db.VarChar(255)
-  PhotoPreference String       @db.VarChar(255)
-  careerStart     String       @db.VarChar(255)
+  country         String?       @db.VarChar(255)
+  city            String?       @db.VarChar(255)
+  about           String?       @db.VarChar(255)
+  camera          String?       @db.VarChar(255)
+  lens            String?       @db.VarChar(255)
+  FavoritePhoto   String?       @db.VarChar(255)
+  photoPreference String?       @db.VarChar(255)
+  careerStart     String?       @db.VarChar(255)
   photographer    photographer @relation(fields: [personID], references: [personID])
 }
 

@@ -4,6 +4,8 @@ import Image from "next/image"
 
 
 export default function photographersName({ photographer }) {
+  const {info} = photographer
+  console.log(info)
   return (
     <div>
       <Header></Header>
@@ -18,6 +20,7 @@ export default function photographersName({ photographer }) {
       <div>
         <Image src="/#" alt="Image of photographer" width={300} height={300} />
         <h2>{photographer.firstName + " " + photographer.lastName}</h2>
+        <h6>photographer since {info.careerStart}</h6>
       </div>
 
     </div>
@@ -32,7 +35,10 @@ export async function getServerSideProps(context) {
     const photographer = await prisma.photographer.findUnique({
       where: {
         user: photographersName
-      }
+      },
+      include: {
+        info: true
+      },
     })
     console.log(photographer)
     return {

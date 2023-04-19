@@ -11,7 +11,7 @@ export default function index({ photografers }) {
       <h1>Our photographers</h1>
       {photografers.map(photographer => {
         return (
-          <div>
+          <div key={photographer.personID}>
             <Link href={`./photographers/${photographer.user}`}>{photographer.user}</Link>
           </div>
         )
@@ -21,7 +21,7 @@ export default function index({ photografers }) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const prisma = new PrismaClient()
   const photografers = await prisma.photographer.findMany()
   return {

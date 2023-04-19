@@ -7,16 +7,19 @@ export default async function handler(req, res) {
     const { username, firstname, lastname, email, password } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)
     const newUser = {
-        
+
         firstName: firstname,
         lastName: lastname,
         email: email,
         password: hashedPassword,
-        user: username
+        user: username,
+        info: {
+            create: {}
+        }
     }
 
     try {
-        const createPhotographer = await prisma.photographer.create({data: newUser})
+        const createPhotographer = await prisma.photographer.create({ data: newUser })
 
         res.status(200).json({ Message: 'Add new photographer' })
     } catch (error) {
