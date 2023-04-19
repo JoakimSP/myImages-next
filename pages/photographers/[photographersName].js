@@ -35,7 +35,7 @@ export default function photographersName({ photographer }) {
         <button><a>See all of {photographer.firstName}s photographs</a></button>
       </div>
       <div>
-        <h4>{photographer.firstName}'s top collections</h4>
+        <h4>{photographer.firstName}&apos;s top collections</h4>
       </div>
 
     </div>
