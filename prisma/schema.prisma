@@ -30,7 +30,7 @@ model photographerinfo {
   about           String?       @db.VarChar(255)
   camera          String?       @db.VarChar(255)
   lens            String?       @db.VarChar(255)
-  FavoritePhoto   String?       @db.VarChar(255)
+  favoritePhoto   String?       @db.VarChar(255)
   photoPreference String?       @db.VarChar(255)
   careerStart     String?       @db.VarChar(255)
   photographer    photographer @relation(fields: [personID], references: [personID])

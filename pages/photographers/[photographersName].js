@@ -5,6 +5,7 @@ import Image from "next/image"
 
 export default function photographersName({ photographer }) {
   const {info} = photographer
+  console.log(info.photoPreference)
   console.log(info)
   return (
     <div>
@@ -21,6 +22,20 @@ export default function photographersName({ photographer }) {
         <Image src="/#" alt="Image of photographer" width={300} height={300} />
         <h2>{photographer.firstName + " " + photographer.lastName}</h2>
         <h6>photographer since {info.careerStart}</h6>
+        <h6>About:</h6>
+        <p>{info.about}</p>
+        <h6>Lens of choice:</h6>
+        <p>{info.lens}</p>
+        <h6>Favorite Photo:</h6>
+        <p>{info.favoritePhoto}</p>
+        <h6>Favorite thing to photograph</h6>
+        <p>{info.photoPreference}</p>
+      </div>
+      <div>
+        <button><a>See all of {photographer.firstName}s photographs</a></button>
+      </div>
+      <div>
+        <h4>{photographer.firstName}'s top collections</h4>
       </div>
 
     </div>
