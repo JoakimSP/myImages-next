@@ -36,6 +36,13 @@ export default function EditPhotographerPage({ userdata }) {
         }
         <button type="submit">Submit</button>
       </form>
+        <form action="../../api/images/storeImages" method="post" encType="multipart/form-data"> 
+          <label htmlFor="image">Upload image:
+            <input type="file" name="image" multiple/>
+          </label>
+          <button type="submit">upload</button>
+        </form>
+
     </div>
   )
 }
