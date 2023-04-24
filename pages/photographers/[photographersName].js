@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import Header from "@/components/header"
 import Image from "next/image"
+import Link from "next/link"
 
 
 export default function photographersName({ photographer, photos }) {
@@ -40,6 +41,7 @@ export default function photographersName({ photographer, photos }) {
         {Object.values(photos).map((photo, index) => {
           if (photo) {
             return (
+              <Link href={`/images/${photo.filename}`}>
               <Image
                 key={index}
                 src={`/${photo.url}/thumbnail-${photo.filename}`}
@@ -47,6 +49,7 @@ export default function photographersName({ photographer, photos }) {
                 width={300}
                 height={300}
               />
+              </Link>
             );
           }
           return null;
