@@ -56,24 +56,26 @@ const handler = nextConnect()
           const thumbnailName = "thumbnail-" + file.filename;
           const inputPath = path.join(file.destination, file.filename);
           const outputPath = path.join(file.destination, thumbnailName);
+          const uniqueSuffix = path.basename(file.destination);
 
           sharp(inputPath)
             .resize(300, 300, { fit: "inside" })
             .toFile(outputPath);
 
-
+            
+           
               await prisma.photos.create({            
                 data : {
                   personID : currentUser.personID,
                   filename : file.filename,
                   filetype : file.mimetype,
                   filesize : file.size,
-                  url      : file.destination,
+                  url      : "uploads/" + uniqueSuffix
                 }
               })             
         });
-
-        res.status(200).json({ message: "Images uploaded", files: req.files });
+        console.log(`"Images uploaded", files: ${req.files}`)
+        res.redirect("/")
       });
     });
 

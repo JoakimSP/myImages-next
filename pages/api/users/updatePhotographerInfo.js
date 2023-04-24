@@ -33,7 +33,8 @@ export default async function handler(req, res) {
             },
             data: updateData
         })
-        res.status(200).json({ message: "Updated photographers information" })
+        console.log("Updated photographers information")
+        res.redirect("/")
 
     } catch (error) {
         res.status(405).json({ error: `Cant update the photografers info ${error}` })

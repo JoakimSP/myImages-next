@@ -21,7 +21,7 @@ model photographer {
   email     String            @unique @default("") @db.VarChar(255)
   password  String            @default("") @db.VarChar(255)
   info      photographerinfo?
-  photos    photos?
+  photos    photos[]
 }
 
 model photographerinfo {
@@ -38,8 +38,9 @@ model photographerinfo {
 }
 
 model photos {
-  personID     Int          @id @unique(map: "photos_personID_key") @default(autoincrement())
-   title        String?
+  id           Int          @id @default(autoincrement())
+  personID     Int          
+  title        String?
   description  String?
   filename     String
   filetype     String

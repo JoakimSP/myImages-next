@@ -3,10 +3,9 @@ import Header from "@/components/header"
 import Image from "next/image"
 
 
-export default function photographersName({ photographer }) {
-  const {info} = photographer
-  console.log(info.photoPreference)
-  console.log(info)
+export default function photographersName({ photographer, photos }) {
+  const { info } = photographer
+
   return (
     <div>
       <Header></Header>
@@ -37,7 +36,22 @@ export default function photographersName({ photographer }) {
       <div>
         <h4>{photographer.firstName}&apos;s top collections</h4>
       </div>
-
+      <div className="images">
+        {Object.values(photos).map((photo, index) => {
+          if (photo) {
+            return (
+              <Image
+                key={index}
+                src={`/${photo.url}/thumbnail-${photo.filename}`}
+                alt="Something"
+                width={300}
+                height={300}
+              />
+            );
+          }
+          return null;
+        })}
+      </div>
     </div>
   )
 }
@@ -52,18 +66,42 @@ export async function getServerSideProps(context) {
         user: photographersName
       },
       include: {
-        info: true
+        info: true,
+      }
+    })
+
+    const photos = await prisma.photos.findMany({
+      where : {
+        personID : photographer.personID
+      },
+      select: {
+        personID: true,
+        title: true,
+        description: true,
+        filename: true,
+        filetype: true,
+        filesize: true,
+        url: true,
+        thumbnailUrl: true,
+        dateTaken: true,
+        uploadDate: false, // Set this to false to exclude the uploadDate field
+        width: true,
+        height: true,
+        tags: true,
+        privacy: true,
+        photographer: true,
       },
     })
-    console.log(photographer)
+
     return {
-      props: { photographer }
+      props: { 
+        photographer,
+        photos
+      }
     }
   } catch (error) {
     console.log(error)
   }
-
-
 
 }
 

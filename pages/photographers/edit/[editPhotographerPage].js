@@ -6,7 +6,6 @@ import { useState } from "react";
 
 export default function EditPhotographerPage({ userdata }) {
   const { info } = userdata
-  console.log(userdata.personID)
 
   return (
     <div>
@@ -15,12 +14,12 @@ export default function EditPhotographerPage({ userdata }) {
       <form action='../../api/users/updatePhotographerInfo' method='post'>
         {
           Object.keys(info).map((prop) => {
-            if(prop == "personID"){
+            if (prop == "personID") {
               return (
-                <FormInput
+                <input
                 key={prop}
                 type="hidden"
-                inputName={prop}
+                name={prop}
                 value={userdata.personID}
               />
               )
@@ -36,12 +35,12 @@ export default function EditPhotographerPage({ userdata }) {
         }
         <button type="submit">Submit</button>
       </form>
-        <form action="../../api/images/storeImages" method="post" encType="multipart/form-data"> 
-          <label htmlFor="image">Upload image:
-            <input type="file" name="image" multiple/>
-          </label>
-          <button type="submit">upload</button>
-        </form>
+      <form action="../../api/images/storeImages" method="post" encType="multipart/form-data">
+        <label htmlFor="image">Upload image:
+          <input type="file" name="image" multiple required />
+        </label>
+        <button type="submit">upload</button>
+      </form>
 
     </div>
   )
