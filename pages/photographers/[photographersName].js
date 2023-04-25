@@ -41,9 +41,8 @@ export default function photographersName({ photographer, photos }) {
         {Object.values(photos).map((photo, index) => {
           if (photo) {
             return (
-              <Link href={`/images/${photo.filename}`}>
-              <Image
-                key={index}
+              <Link key={index} href={`/images/${photo.filename}`}>
+              <Image        
                 src={`/${photo.url}/thumbnail-${photo.filename}`}
                 alt="Something"
                 width={300}
@@ -59,8 +58,8 @@ export default function photographersName({ photographer, photos }) {
   )
 }
 
-export async function getServerSideProps(context) {
-  const { photographersName } = context.query
+export async function getStaticProps(context) {
+  const { photographersName } = context.params
 
   try {
     const prisma = new PrismaClient
@@ -100,13 +99,34 @@ export async function getServerSideProps(context) {
       props: { 
         photographer,
         photos
-      }
+      },
+      revalidate: 60,
     }
   } catch (error) {
     console.log(error)
   }
 
 }
+
+export async function getStaticPaths() {
+  const prisma = new PrismaClient();
+
+  const photographers = await prisma.photographer.findMany({
+    select: {
+      user: true,
+    },
+  });
+
+  const paths = photographers.map((photographer) => ({
+    params: { photographersName: photographer.user },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+}
+
 
 
 
