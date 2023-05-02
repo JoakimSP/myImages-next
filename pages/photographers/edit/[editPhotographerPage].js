@@ -2,13 +2,13 @@ import { getSession } from "next-auth/react"
 import prisma from "@/components/prisma";
 import Header from "@/components/header";
 import FormInput from "./formInput";
-import HandleUpdateInfo from "./handleUpdateInfo";
+import HandleUpdateInfo from "@/components/utils/handleUpdateInfo";
 import { useRouter } from "next/router";
+
 
 export default function EditPhotographerPage({ userdata }) {
   const { info } = userdata
   const router = useRouter()
-
 
   async function HandleUploadPhoto(e) {
     e.preventDefault()
@@ -16,18 +16,17 @@ export default function EditPhotographerPage({ userdata }) {
     formData.append(e.target[0].name, e.target[0].files[0])
 
     const response = await fetch('../../api/images/storeImages', {
-      method: 'POST',
-      body: formData
+        method: 'POST',
+        body: formData
     })
 
-    if(!response.ok){
-      throw new Error({error: "Something went wrong with the upload"})
+    if (!response.ok) {
+        throw new Error({ error: "Something went wrong with the upload" })
     }
-    else {
+    else{
       router.push("/")
     }
-
-  }
+}
 
   return (
     <div>
