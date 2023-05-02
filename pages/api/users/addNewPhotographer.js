@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') { return res.status(405).json({ error: 'Method not allowed' }) }
+    console.log(req.body)
 
     const { username, firstname, lastname, email, password } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)

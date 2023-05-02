@@ -48,7 +48,6 @@ model photos {
   url          String
   thumbnailUrl String?
   dateTaken    DateTime?
-  uploadDate   DateTime     @default(now())
   width        Int?
   height       Int?
   tags         Json?

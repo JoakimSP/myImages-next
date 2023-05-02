@@ -76,23 +76,6 @@ export async function getStaticProps(context) {
       where : {
         personID : photographer.personID
       },
-      select: {
-        personID: true,
-        title: true,
-        description: true,
-        filename: true,
-        filetype: true,
-        filesize: true,
-        url: true,
-        thumbnailUrl: true,
-        dateTaken: true,
-        uploadDate: false, // Set this to false to exclude the uploadDate field
-        width: true,
-        height: true,
-        tags: true,
-        privacy: true,
-        photographer: true,
-      },
     })
 
     return {
