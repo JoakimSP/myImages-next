@@ -1,7 +1,9 @@
 import Head from 'next/head'
 import Header from '@/components/header'
+import { PrismaClient } from "@prisma/client"
 
-export default function Home() {
+
+export default function Home({photos}) {
   return (
     <>
       <Head>
@@ -11,6 +13,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header/>
+
+
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const prisma = new PrismaClient()
+
+  try {
+    const photos = await prisma.photos.findMany()
+
+    return {
+      props: {photos}
+    };
+  } catch (error) {
+    console.log(error)
+  }
+  
 }

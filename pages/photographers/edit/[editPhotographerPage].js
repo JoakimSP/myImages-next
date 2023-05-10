@@ -47,7 +47,14 @@ export default function EditPhotographerPage({ userdata }) {
   async function HandleUploadPhoto(e) {
     e.preventDefault()
     const formData = new FormData()
-    formData.append(e.target[0].name, e.target[0].files[0])
+
+    const files = e.target[0].files
+    console.log(files)
+    for (let i = 0; i < files.length; i++) {
+      formData.append("image", files[i])
+    }
+
+    
 
     const response = await fetch('../../api/images/storeImages', {
         method: 'POST',
@@ -57,9 +64,8 @@ export default function EditPhotographerPage({ userdata }) {
     if (!response.ok) {
         throw new Error({ error: "Something went wrong with the upload" })
     }
-    else{
-      router.push("/")
-    }
+    router.push("/")
+    
 }
 
   return (
