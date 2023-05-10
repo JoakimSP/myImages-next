@@ -1,9 +1,13 @@
 import Head from 'next/head'
 import Header from '@/components/header'
 import { PrismaClient } from "@prisma/client"
+import Image from 'next/image'
+import Link from 'next/link'
+import showImages from '@/components/showImages'
 
 
 export default function Home({photos}) {
+
   return (
     <>
       <Head>
@@ -14,6 +18,7 @@ export default function Home({photos}) {
       </Head>
       <Header/>
 
+      {showImages(photos)}
 
     </>
   )

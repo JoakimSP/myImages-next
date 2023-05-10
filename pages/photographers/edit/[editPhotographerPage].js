@@ -3,9 +3,10 @@ import prisma from "@/components/prisma";
 import Header from "@/components/header";
 import FormInput from "./formInput";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 
-export default function EditPhotographerPage({ userdata }) {
+export default function EditPhotographerPage({ userdata, photos }) {
   const { info } = userdata
   const router = useRouter()
 
@@ -102,7 +103,7 @@ export default function EditPhotographerPage({ userdata }) {
         </label>
         <button type="submit">upload</button>
       </form>
-
+        <button><Link href={`/photographers/editPhoto/myPhotos`}>Edit photos</Link></button>
     </div>
   )
 }
@@ -119,8 +120,17 @@ export async function getServerSideProps(context) {
     },
   })
 
+  const photos = await prisma.photos.findMany({
+    where: {
+      personID : userdata.personID
+    }
+  })
+
 
   return {
-    props: { userdata }
+    props: { 
+      userdata,
+      photos
+     }
   }
 }
