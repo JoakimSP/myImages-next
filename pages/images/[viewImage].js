@@ -4,9 +4,12 @@ import { getSession } from "next-auth/react"
 import Header from "@/components/header"
 import formatCurrency from "@/components/utils/formatCurrency"
 import router from "next/router"
+import { useContext } from "react"
+import { CartContext } from "@/context/cartProvider"
 
 export default function ViewImage({ photo, photographer }) {
     const { url, filename, title, personID, id } = photo
+    const {cart, addToCart} = useContext(CartContext)
 
     async function HandleUpdateInfo(e) {
         e.preventDefault()
@@ -61,7 +64,7 @@ export default function ViewImage({ photo, photographer }) {
             />
             <p>{formatCurrency(photo.price)}</p>
             <p>{photo.description}</p>
-            <button>Add to cart</button>
+            <button onClick={() => addToCart(photo.id)}>Add to cart</button>
             {photographer.personID === personID &&
                 <form onSubmit={HandleUpdateInfo}>
                     <div>
