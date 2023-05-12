@@ -9,7 +9,7 @@ export default function LoginPage() {
             <div>
                 <p>Welcome, {session.user.name || session.user.email}</p>
                 <img src={session.user.image} alt="Image of user" />
-                <button onClick={() => signOut()}>Sign out</button>
+                <button onClick={() => signOut({callbackUrl: `${window.location.origin}`})}>Sign out</button>
             </div>
         )
     }

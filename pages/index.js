@@ -1,8 +1,6 @@
 import Head from 'next/head'
 import Header from '@/components/header'
 import { PrismaClient } from "@prisma/client"
-import Image from 'next/image'
-import Link from 'next/link'
 import showImages from '@/components/showImages'
 
 
