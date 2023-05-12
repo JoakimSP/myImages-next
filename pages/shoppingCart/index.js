@@ -3,11 +3,11 @@ import { CartContext } from "@/context/cartProvider"
 import showImages from "@/components/showImages"
 import prisma from "@/components/prisma"
 
-export default function ShoppingCart(photos) {
-    
+export default function ShoppingCart() {
+    const {cart} = useContext(CartContext)
   return (
     <div>
-      {Object.keys(photos).map((element, index) => {
+      {cart.map((element, index) => {
         return (
             <div key={index}>
                 <p>{element}</p>
@@ -17,24 +17,5 @@ export default function ShoppingCart(photos) {
       })}
     </div>
   )
-}
-
-async function getServerSideProps(){
-    const {cart} = useContext(CartContext)
-    try {
-        const photos = await prisma.photos.findMany({
-            where: {
-                id: cart
-            }
-        })
-    } catch (error) {
-        console.log(error)
-    }
-
-    return {
-        props: {
-            photos
-        }
-    }
 }
 
