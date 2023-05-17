@@ -7,7 +7,7 @@ import router from "next/router"
 import { useContext } from "react"
 import { CartContext } from "@/context/cartProvider"
 
-export default function ViewImage({ photo, photographer }) {
+export default function ViewImage({ photo, photographer, session }) {
     const { url, filename, title, personID, id } = photo
     const {cart, addToCart} = useContext(CartContext)
 
@@ -50,7 +50,22 @@ export default function ViewImage({ photo, photographer }) {
             console.log(error)
         }
 
+    }
+    async function handleAddToCart(id){
+        const data = {
+            id,
+            session
+        }
+        const result = await fetch('/api/cart/storeCartData', {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: 'include',
+            body: JSON.stringify(data)
+          })
 
+        addToCart(id)
     }
     return (
         <div>
@@ -64,7 +79,7 @@ export default function ViewImage({ photo, photographer }) {
             />
             <p>{formatCurrency(photo.price)}</p>
             <p>{photo.description}</p>
-            <button onClick={() => addToCart(photo.id)}>Add to cart</button>
+            <button onClick={() => handleAddToCart(id)}>Add to cart</button>
             {photographer.personID === personID &&
                 <form onSubmit={HandleUpdateInfo}>
                     <div>
@@ -105,6 +120,7 @@ export async function getServerSideProps(context) {
     const { query } = context
     const session = await getSession(context)
     let photographer = {}
+    
 
     const photo = await prisma.photos.findFirst({
         where: {
@@ -120,14 +136,11 @@ export async function getServerSideProps(context) {
         })
     }
 
-
-
-
-
     return {
         props: {
             photo,
-            photographer
+            photographer,
+            session: session.user.email
         }
     }
 }

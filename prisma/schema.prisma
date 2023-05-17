@@ -39,7 +39,7 @@ model photographerinfo {
 
 model photos {
   id           Int          @id @default(autoincrement())
-  personID     Int          
+  personID     Int
   title        String?
   description  String?
   filename     String
@@ -54,6 +54,12 @@ model photos {
   price        Int?
   privacy      Boolean      @default(true)
   photographer photographer @relation(fields: [personID], references: [personID])
+}
+
+model cart {
+  id           String @id @default(cuid())
+  photoID      Int  @unique
+  sessionEmail String 
 }
 
 model Account {

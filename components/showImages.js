@@ -2,11 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function showImages(photos) {
+
+
   return (
     <div className="images">
         {Object.values(photos).map((photo, index) => {
           if (photo) {
             return (
+              <>
               <Link key={index} href={`/images/${photo.filename}`}>
               <Image        
                 src={`/${photo.url}/thumbnail-${photo.filename}`}
@@ -15,10 +18,10 @@ export default function showImages(photos) {
                 height={300}
               />
               </Link>
+              <p>{photo.title}</p>             
+              </>
             );
-            
           }
-          return null;
         })}
       </div>
   )

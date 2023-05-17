@@ -1,8 +1,9 @@
 import React, { createContext, useReducer } from "react";
-import { setCookie, deleteCookie } from "cookies-next";
-
 // Define the context
 const CartContext = createContext();
+
+
+
 
 // Define the reducer
 const cartReducer = (state, action) => {
@@ -22,10 +23,9 @@ const cartReducer = (state, action) => {
 const CartProvider = ({ children }) => {
   const [cart, dispatch] = useReducer(cartReducer, []);
 
-const addToCart = (item) => {
+const addToCart = async (item) => {
   const isDuplicate = cart.some(element => element === item);
   if (!isDuplicate) {
-    setCookie("cartItems", cart)
     dispatch({ type: "ADD_ITEM", item });
   } else {
     console.log("Item is already in the cart");
@@ -51,4 +51,5 @@ const addToCart = (item) => {
 };
 
 export { CartContext, CartProvider };
+
 
