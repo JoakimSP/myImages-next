@@ -17,8 +17,8 @@ export default function showImages(photos) {
                 width={300}
                 height={300}
               />
-              </Link>
-              <p>{photo.title}</p>             
+              <p style={{display: "inline"}}>{photo.title}</p> 
+              </Link>               
               </>
             );
           }

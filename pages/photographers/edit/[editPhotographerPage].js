@@ -20,8 +20,8 @@ export default function EditPhotographerPage({ userdata, photos }) {
       about: e.target[3].value,
       camera: e.target[4].value,
       lens: e.target[5].value,
-      FavoritePhoto: e.target[6].value,
-      PhotoPreference: e.target[7].value,
+      favoritePhoto: e.target[6].value,
+      photoPreference: e.target[7].value,
       careerStart: e.target[8].value
     }
 

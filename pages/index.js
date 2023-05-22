@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client"
 import showImages from '@/components/showImages'
 
 
-export default function Home({photos}) {
+export default function Home({ photos }) {
 
   return (
     <>
@@ -14,7 +14,7 @@ export default function Home({photos}) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header/>
+      <Header />
 
       {showImages(photos)}
 
@@ -29,10 +29,12 @@ export async function getServerSideProps(context) {
     const photos = await prisma.photos.findMany()
 
     return {
-      props: {photos}
+      props: { photos }
     };
   } catch (error) {
     console.log(error)
+  } finally {
+    await prisma.$disconnect()
   }
-  
+
 }

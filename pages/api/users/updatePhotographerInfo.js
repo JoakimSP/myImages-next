@@ -8,8 +8,8 @@ export default async function handler(req, res) {
         about,
         camera,
         lens,
-        FavoritePhoto,
-        PhotoPreference,
+        favoritePhoto,
+        photoPreference,
         careerStart
     } = req.body
 

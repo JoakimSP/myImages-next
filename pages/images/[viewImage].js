@@ -1,6 +1,6 @@
 import Image from "next/image"
 import prisma from "../../components/prisma"
-import { getSession } from "next-auth/react"
+import { getSession, signIn } from "next-auth/react"
 import Header from "@/components/header"
 import formatCurrency from "@/components/utils/formatCurrency"
 import router from "next/router"
@@ -9,7 +9,7 @@ import { CartContext } from "@/context/cartProvider"
 
 export default function ViewImage({ photo, photographer, session }) {
     const { url, filename, title, personID, id } = photo
-    const {cart, addToCart} = useContext(CartContext)
+    const { cart, addToCart } = useContext(CartContext)
 
     async function HandleUpdateInfo(e) {
         e.preventDefault()
@@ -17,7 +17,7 @@ export default function ViewImage({ photo, photographer, session }) {
         for (let i = 3; i < 6; i++) {
             if (e.target[i].checked) {
                 tagValue = e.target[i].value
-                break 
+                break
             }
             else {
                 continue
@@ -44,14 +44,17 @@ export default function ViewImage({ photo, photographer, session }) {
 
             if (response.ok) {
                 router.push("/")
-                
+
             }
         } catch (error) {
             console.log(error)
         }
 
     }
-    async function handleAddToCart(id){
+    async function handleAddToCart(id) {
+        if(!session){
+            return signIn()
+        }
         const data = {
             id,
             session
@@ -59,11 +62,11 @@ export default function ViewImage({ photo, photographer, session }) {
         const result = await fetch('/api/cart/storeCartData', {
             method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
             credentials: 'include',
             body: JSON.stringify(data)
-          })
+        })
 
         addToCart(id)
     }
@@ -120,27 +123,45 @@ export async function getServerSideProps(context) {
     const { query } = context
     const session = await getSession(context)
     let photographer = {}
-    
 
-    const photo = await prisma.photos.findFirst({
-        where: {
-            filename: query.viewImage
-        },
-    })
-
-    if (session) {
-        photographer = await prisma.photographer.findUnique({
+    try {
+        const photo = await prisma.photos.findFirst({
             where: {
-                email: session.user.email
-            }
+                filename: query.viewImage
+            },
         })
+
+        if (session) {
+            photographer = await prisma.photographer.findUnique({
+                where: {
+                    email: session.user.email
+                }
+            })
+
+
+            return {
+                props: {
+                    photo,
+                    photographer,
+                    session: session.user.email
+                }
+            }
+        }
+        else {
+            return {
+                props: {
+                    photo,
+                    photographer,
+                   
+                }
+            }
+        }
+
+    } catch (error) {
+        console.log(error)
+    } finally {
+        await prisma.$disconnect()
     }
 
-    return {
-        props: {
-            photo,
-            photographer,
-            session: session.user.email
-        }
-    }
+
 }

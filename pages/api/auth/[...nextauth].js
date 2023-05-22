@@ -37,6 +37,8 @@ export default NextAuth({
         } catch (error) {
           console.log(error)
           return null
+        } finally{
+          await prisma.$disconnect()
         }
 
       }

@@ -16,6 +16,8 @@ res.status(200).json({id})
     } catch (error) {
         console.log(error)
         res.status(500).json({message: "Server error"})
-    } 
+    } finally{
+        await prisma.$disconnect()
+      }
 }
   

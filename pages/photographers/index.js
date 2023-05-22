@@ -23,8 +23,18 @@ export default function index({ photografers }) {
 
 export async function getServerSideProps() {
   const prisma = new PrismaClient()
-  const photografers = await prisma.photographer.findMany()
-  return {
-    props: { photografers }
+  try {
+    
+    const photografers = await prisma.photographer.findMany()
+
+    return {
+      props: { photografers }
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    await prisma.$disconnect()
   }
+
+  
 }

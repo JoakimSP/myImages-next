@@ -93,13 +93,22 @@ export const config = {
 
 
 async function getCurrentUser(email) {
-  const currentUser = await prisma.photographer.findUnique({
-    where: {
-      email: email
-    }
-  })
 
-  return currentUser
+  try {
+    const currentUser = await prisma.photographer.findUnique({
+      where: {
+        email: email
+      }
+    })
+    return currentUser
+  } catch (error) {
+    console.log(error)
+  } finally{
+    await prisma.$disconnect()
+  }
+  
+
+  
 }
 
 export default handler;

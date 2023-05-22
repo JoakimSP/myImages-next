@@ -42,12 +42,12 @@ export default function photographersName({ photographer, photos }) {
           if (photo) {
             return (
               <Link key={index} href={`/images/${photo.filename}`}>
-              <Image        
-                src={`/${photo.url}/thumbnail-${photo.filename}`}
-                alt="Something"
-                width={300}
-                height={300}
-              />
+                <Image
+                  src={`/${photo.url}/thumbnail-${photo.filename}`}
+                  alt="Something"
+                  width={300}
+                  height={300}
+                />
               </Link>
             );
           }
@@ -60,9 +60,10 @@ export default function photographersName({ photographer, photos }) {
 
 export async function getStaticProps(context) {
   const { photographersName } = context.params
+  const prisma = new PrismaClient
 
   try {
-    const prisma = new PrismaClient
+    
     const photographer = await prisma.photographer.findUnique({
       where: {
         user: photographersName
@@ -73,13 +74,13 @@ export async function getStaticProps(context) {
     })
 
     const photos = await prisma.photos.findMany({
-      where : {
-        personID : photographer.personID
+      where: {
+        personID: photographer.personID
       },
     })
 
     return {
-      props: { 
+      props: {
         photographer,
         photos
       },
@@ -87,6 +88,8 @@ export async function getStaticProps(context) {
     }
   } catch (error) {
     console.log(error)
+  } finally {
+    await prisma.$disconnect()
   }
 
 }
@@ -94,20 +97,25 @@ export async function getStaticProps(context) {
 export async function getStaticPaths() {
   const prisma = new PrismaClient();
 
-  const photographers = await prisma.photographer.findMany({
-    select: {
-      user: true,
-    },
-  });
+  try {
+    const photographers = await prisma.photographer.findMany({
+      select: {
+        user: true,
+      },
+    });
 
-  const paths = photographers.map((photographer) => ({
-    params: { photographersName: photographer.user },
-  }));
-
-  return {
-    paths,
-    fallback: 'blocking',
-  };
+    const paths = photographers.map((photographer) => ({
+      params: { photographersName: photographer.user },
+    }));
+    return {
+      paths,
+      fallback: 'blocking',
+    };
+  } catch (error) {
+    console.log(error)
+  } finally {
+    await prisma.$disconnect()
+  }
 }
 
 

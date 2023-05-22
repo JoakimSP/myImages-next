@@ -58,8 +58,14 @@ model photos {
 
 model cart {
   id           String @id @default(cuid())
-  photoID      Int  @unique
-  sessionEmail String 
+  photoID      Int    @unique
+  sessionEmail String
+}
+
+model completedorders {
+  id           String @id
+  photosID     String
+  sessionEmail String
 }
 
 model Account {
