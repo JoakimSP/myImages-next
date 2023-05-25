@@ -2,7 +2,7 @@ import nextConnect from "next-connect";
 import multer from "multer";
 import path from "path";
 import sharp from "sharp";
-import { mkdir, mkdirSync } from "fs";
+import { mkdir } from "fs";
 import prisma from "@/components/prisma";
 import { getSession } from "next-auth/react";
 
@@ -61,7 +61,6 @@ handler.post(async (req, res) => {
         const inputPath = path.join(file.destination, file.filename);
         const outputPath = path.join("public/uploads", thumbnailName);
         const uniqueSuffix = path.basename(file.destination);
-        mkdirSync(uniqueSuffix, { recursive: true });
 
         sharp(inputPath)
           .metadata()
