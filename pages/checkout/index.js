@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import formatCurrency from '@/components/utils/formatCurrency';
 
-export default function index() {
+export default function Index() {
   const router = useRouter()
   const [sumOfCart, setSumOfCart] = useState();
 console.log(router.query.sumOfCart)
