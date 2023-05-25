@@ -24,12 +24,12 @@ export async function getServerSideProps(context) {
                 personID: photografer.personID
             }
         })
+
+        await prisma.$disconnect()
         return {
             props: { photos }
         }
     } catch (error) {
         console.log(error)
-    } finally {
-        await prisma.$disconnect()
     }
 }

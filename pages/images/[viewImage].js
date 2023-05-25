@@ -75,10 +75,11 @@ export default function ViewImage({ photo, photographer, session }) {
             <Header />
             <h1>{title}</h1>
             <Image
-                src={`/${url}/${filename}`}
+                src={`/${url}`}
                 width={800}
                 height={600}
                 alt={`${title}`}
+                onContextMenu={(e) => e.preventDefault()}
             />
             <p>{formatCurrency(photo.price)}</p>
             <p>{photo.description}</p>

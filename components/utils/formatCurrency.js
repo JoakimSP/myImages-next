@@ -1,5 +1,5 @@
-const CURRENCY_FORMATTER =  new Intl.NumberFormat(undefined, {
-    currency: "SEK", style: "currency"
+const CURRENCY_FORMATTER =  new Intl.NumberFormat("en-us", {
+    currency: "USD", style: "currency"
 })
 
 export default function formatCurrency(number) {

@@ -2,14 +2,14 @@ import nextConnect from "next-connect";
 import multer from "multer";
 import path from "path";
 import sharp from "sharp";
-import { mkdir } from "fs";
+import { mkdir, mkdirSync } from "fs";
 import prisma from "@/components/prisma";
 import { getSession } from "next-auth/react";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const dirPath = path.join(process.cwd(), "public/uploads", uniqueSuffix);
+    const dirPath = path.join(process.cwd(), "content/images", uniqueSuffix);
     mkdir(dirPath, { recursive: true }, (err) => {
       if (err) {
         throw new err
@@ -59,12 +59,18 @@ handler.post(async (req, res) => {
       files.forEach(async (file) => {
         const thumbnailName = "thumbnail-" + file.filename;
         const inputPath = path.join(file.destination, file.filename);
-        const outputPath = path.join(file.destination, thumbnailName);
+        const outputPath = path.join("public/uploads", thumbnailName);
         const uniqueSuffix = path.basename(file.destination);
+        mkdirSync(uniqueSuffix, { recursive: true });
 
         sharp(inputPath)
-          .resize(300, 300, { fit: "inside" })
-          .toFile(outputPath);
+          .metadata()
+          .then(({ width, height }) => {
+            return sharp(inputPath)
+              .resize(Math.round(width / 2), Math.round(height / 2))
+              .toFile(outputPath);
+          })
+          .catch(err => console.error(err));
 
 
 
@@ -74,7 +80,7 @@ handler.post(async (req, res) => {
             filename: file.filename,
             filetype: file.mimetype,
             filesize: file.size,
-            url: "uploads/" + uniqueSuffix
+            url: "uploads/" + thumbnailName
           }
         })
       });
@@ -103,12 +109,12 @@ async function getCurrentUser(email) {
     return currentUser
   } catch (error) {
     console.log(error)
-  } finally{
+  } finally {
     await prisma.$disconnect()
   }
-  
 
-  
+
+
 }
 
 export default handler;

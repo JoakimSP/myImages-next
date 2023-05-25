@@ -1,14 +1,15 @@
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import prisma from "@/components/prisma";
+import { useRouter } from "next/router";
 
 export default function index({ photosInCart, email }) {
-
+const router = useRouter()
 
   const sumOfCart = photosInCart.reduce((total, photo) => {
     return total + parseInt(photo.price)
   }, 0)
   return (
-    <PayPalScriptProvider options={{ "client-id": "AUpZeEpRpA5n0Af8j2ykd8anE-EM21A6HYKXGsIVYUF2aybDkK-GqCvn-ROcJtleeCl3_refQOXqvLsd", currency: "SEK" }}>
+    <PayPalScriptProvider options={{ "client-id": "AUpZeEpRpA5n0Af8j2ykd8anE-EM21A6HYKXGsIVYUF2aybDkK-GqCvn-ROcJtleeCl3_refQOXqvLsd", currency: "EUR" }}>
       <PayPalButtons
         createOrder={(data, actions) => {
           return actions.order
@@ -31,7 +32,8 @@ export default function index({ photosInCart, email }) {
             data = {
               details,
               email,
-              photosInCart
+              photosInCart,
+              sumOfCart
             }
            try {
              const result = await fetch('/../api/cart/createOrder', {
@@ -43,7 +45,13 @@ export default function index({ photosInCart, email }) {
               body: JSON.stringify(data)
              })
 
-             if(!result){
+             if(result){
+              router.push({
+                pathname: '/checkout',
+                query: { sumOfCart }
+            })
+             }
+             else{
               throw new Error({error: "Cant accsess createorder"})
              }
            } catch (error) {
