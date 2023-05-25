@@ -2,7 +2,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import prisma from "@/components/prisma";
 import { useRouter } from "next/router";
 
-export default function index({ photosInCart, email }) {
+export default function Index({ photosInCart, email }) {
 const router = useRouter()
 
   const sumOfCart = photosInCart.reduce((total, photo) => {
