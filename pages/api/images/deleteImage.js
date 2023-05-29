@@ -4,7 +4,6 @@ import path from "path"
 
 export default async function handler(req, res){
     const photoId = Number.parseInt(req.body)
-
     const photo = await prisma.photos.findUnique({
         where : {
             id : photoId
@@ -13,8 +12,6 @@ export default async function handler(req, res){
 
     try {
         if (photo.url) {
-            console.log(path.join(__dirname, '..', '..', '..' ,  '..' , '..' , 'public'  ,photo.thumbnailUrl))
-            console.log(path.join(__dirname, '..',  '..' , '..' , '..', '..' , photo.url))
             fs.unlinkSync(path.join(__dirname, '..',  '..' , '..' , '..', '..' , photo.url))
             
         }

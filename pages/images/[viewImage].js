@@ -52,7 +52,7 @@ export default function ViewImage({ photo, photographer, session }) {
 
     }
     async function handleAddToCart(id) {
-        if(!session){
+        if (!session) {
             return signIn()
         }
         const data = {
@@ -70,7 +70,7 @@ export default function ViewImage({ photo, photographer, session }) {
 
         addToCart(id)
     }
-    async function handleDeleteImage(){
+    async function handleDeleteImage() {
         if (window.confirm("Are you sure you want to delete this image?")) {
             const result = await fetch('../api/images/deleteImage', {
                 method: "POST",
@@ -79,13 +79,13 @@ export default function ViewImage({ photo, photographer, session }) {
                 },
                 body: JSON.stringify(id)
             })
-    
-            if(result){
+
+            if (result) {
                 router.push("/")
             }
         }
     }
-    
+
     return (
         <div>
             <Header />
@@ -101,37 +101,39 @@ export default function ViewImage({ photo, photographer, session }) {
             <p>{photo.description}</p>
             <button onClick={() => handleAddToCart(id)}>Add to cart</button>
             {photographer.personID === personID &&
-                <form onSubmit={HandleUpdateInfo}>
-                    <div>
-                        <label htmlFor="title">Title</label>
-                        <input id="title" type="text" name="title" required />
-                    </div>
-                    <div>
-                        <label htmlFor="description">Description</label>
-                        <input id="description" type="text" name="description" required />
-                    </div>
-                    <div>
-                        <label htmlFor="price">Price</label>
-                        <input id="price" type="number" name="price" required />
-                    </div>
-                    <div>
+                <>
+                    <form onSubmit={HandleUpdateInfo}>
+                        <div>
+                            <label htmlFor="title">Title</label>
+                            <input id="title" type="text" name="title" required />
+                        </div>
+                        <div>
+                            <label htmlFor="description">Description</label>
+                            <input id="description" type="text" name="description" required />
+                        </div>
+                        <div>
+                            <label htmlFor="price">Price</label>
+                            <input id="price" type="number" name="price" required />
+                        </div>
+                        <div>
 
-                        <legend>Category</legend>
-                        <label htmlFor="sunset">Sunset</label>
-                        <input type="radio" id="sunset" name="category" value="sunset" />
-                        <label htmlFor="family">Family</label>
-                        <input type="radio" id="family" name="category" value="family" />
-                        <label htmlFor="ocean">Ocean</label>
-                        <input type="radio" id="ocean" name="category" value="ocean" />
+                            <legend>Category</legend>
+                            <label htmlFor="sunset">Sunset</label>
+                            <input type="radio" id="sunset" name="category" value="sunset" />
+                            <label htmlFor="family">Family</label>
+                            <input type="radio" id="family" name="category" value="family" />
+                            <label htmlFor="ocean">Ocean</label>
+                            <input type="radio" id="ocean" name="category" value="ocean" />
 
-                    </div>
-                    <div>
-                        <input type="submit" value="Submit" />
-                    </div>
-                </form>
-
+                        </div>
+                        <div>
+                            <input type="submit" value="Submit" />
+                        </div>
+                    </form>
+                    <button onClick={handleDeleteImage}>Delete image</button>
+                </>
             }
-            <button onClick={handleDeleteImage}>Delete image</button>
+
         </div>
     )
 }
@@ -170,7 +172,7 @@ export async function getServerSideProps(context) {
                 props: {
                     photo,
                     photographer,
-                   
+
                 }
             }
         }
