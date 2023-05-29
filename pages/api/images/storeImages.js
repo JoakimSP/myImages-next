@@ -6,10 +6,10 @@ import { mkdir } from "fs";
 import prisma from "@/components/prisma";
 import { getSession } from "next-auth/react";
 
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const dirPath = path.join(process.cwd(), "content/images", uniqueSuffix);
+    const dirPath = path.join(process.cwd(), "content/images/");
     mkdir(dirPath, { recursive: true }, (err) => {
       if (err) {
         throw new err
@@ -60,7 +60,7 @@ handler.post(async (req, res) => {
         const thumbnailName = "thumbnail-" + file.filename;
         const inputPath = path.join(file.destination, file.filename);
         const outputPath = path.join("public/uploads", thumbnailName);
-        const uniqueSuffix = path.basename(file.destination);
+/*         const uniqueSuffix = path.basename(file.destination); */
 
         sharp(inputPath)
           .metadata()
@@ -79,7 +79,8 @@ handler.post(async (req, res) => {
             filename: file.filename,
             filetype: file.mimetype,
             filesize: file.size,
-            url: "uploads/" + thumbnailName
+            url: "content/images/" + file.filename,
+            thumbnailUrl: "uploads/" + thumbnailName
           }
         })
       });

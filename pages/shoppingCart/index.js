@@ -32,7 +32,7 @@ export default function ShoppingCart({ photosInCart }) {
               <>
                 <Link key={index} href={`/images/${photo.filename}`}>
                   <Image
-                    src={`/${photo.url}`}
+                    src={`/${photo.thumbnailUrl}`}
                     alt="Something"
                     width={300}
                     height={300}

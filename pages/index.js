@@ -2,9 +2,15 @@ import Head from 'next/head'
 import Header from '@/components/header'
 import { PrismaClient } from "@prisma/client"
 import showImages from '@/components/showImages'
+import { useEffect } from 'react'
 
 
 export default function Home({ photos }) {
+
+  function handleShowPhotos() {
+
+
+  }
 
   return (
     <>
@@ -15,8 +21,10 @@ export default function Home({ photos }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+        {showImages(photos)}
 
-      {showImages(photos)}
+
+
 
     </>
   )
@@ -27,14 +35,11 @@ export async function getServerSideProps(context) {
 
   try {
     const photos = await prisma.photos.findMany()
-
+    prisma.$disconnect()
     return {
       props: { photos }
     };
   } catch (error) {
     console.log(error)
-  } finally {
-    await prisma.$disconnect()
   }
-
 }

@@ -7,13 +7,12 @@ export default function showImages(photos) {
   return (
     <div className="images">
       {Object.values(photos).map((photo, index) => {
-        console.log(photo.url)
         if (photo) {
           return (
             <>
               <Link key={index} href={`/images/${photo.filename}`}>
                 <Image
-                  src={`/${photo.url}`}
+                  src={`/${photo.thumbnailUrl}`}
                   alt="Something"
                   width={300}
                   height={300}

@@ -78,7 +78,7 @@ export async function getStaticProps(context) {
         personID: photographer.personID
       },
     })
-
+    prisma.$disconnect()
     return {
       props: {
         photographer,
@@ -88,8 +88,6 @@ export async function getStaticProps(context) {
     }
   } catch (error) {
     console.log(error)
-  } finally {
-    await prisma.$disconnect()
   }
 
 }
@@ -103,7 +101,7 @@ export async function getStaticPaths() {
         user: true,
       },
     });
-
+    prisma.$disconnect()
     const paths = photographers.map((photographer) => ({
       params: { photographersName: photographer.user },
     }));
@@ -113,8 +111,6 @@ export async function getStaticPaths() {
     };
   } catch (error) {
     console.log(error)
-  } finally {
-    await prisma.$disconnect()
   }
 }
 
