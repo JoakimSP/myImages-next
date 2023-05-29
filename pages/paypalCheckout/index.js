@@ -48,7 +48,8 @@ const router = useRouter()
              if(result){
               router.push({
                 pathname: '/checkout',
-                query: { sumOfCart }
+                query: { 
+                  sumOfCart }
             })
              }
              else{

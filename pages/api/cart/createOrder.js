@@ -1,7 +1,7 @@
 import prisma from "@/components/prisma";
 
 export default async function handler(req, res) {
-    console.log(req.body)
+
     const { email, photosInCart, sumOfCart } = req.body
     const { id } = req.body.details
 const photoIDsInCart = photosInCart.map(item => item.id);

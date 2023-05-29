@@ -8,7 +8,7 @@ import { useContext } from "react"
 import { CartContext } from "@/context/cartProvider"
 
 export default function ViewImage({ photo, photographer, session }) {
-    const { url, filename, title, personID, id } = photo
+    const { thumbnailUrl, filename, title, personID, id } = photo
     const { cart, addToCart } = useContext(CartContext)
 
     async function HandleUpdateInfo(e) {
@@ -70,12 +70,28 @@ export default function ViewImage({ photo, photographer, session }) {
 
         addToCart(id)
     }
+    async function handleDeleteImage(){
+        if (window.confirm("Are you sure you want to delete this image?")) {
+            const result = await fetch('../api/images/deleteImage', {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(id)
+            })
+    
+            if(result){
+                router.push("/")
+            }
+        }
+    }
+    
     return (
         <div>
             <Header />
             <h1>{title}</h1>
             <Image
-                src={`/${url}`}
+                src={`/${thumbnailUrl}`}
                 width={800}
                 height={600}
                 alt={`${title}`}
@@ -115,6 +131,7 @@ export default function ViewImage({ photo, photographer, session }) {
                 </form>
 
             }
+            <button onClick={handleDeleteImage}>Delete image</button>
         </div>
     )
 }
@@ -138,7 +155,7 @@ export async function getServerSideProps(context) {
                     email: session.user.email
                 }
             })
-
+            prisma.$disconnect()
 
             return {
                 props: {
@@ -160,8 +177,6 @@ export async function getServerSideProps(context) {
 
     } catch (error) {
         console.log(error)
-    } finally {
-        await prisma.$disconnect()
     }
 
 
