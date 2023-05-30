@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client"
 import Header from "@/components/header"
 import Image from "next/image"
 import Link from "next/link"
+import showImages from "@/components/showImages"
 
 
 export default function photographersName({ photographer, photos }) {
@@ -37,23 +38,7 @@ export default function photographersName({ photographer, photos }) {
       <div>
         <h4>{photographer.firstName}&apos;s top collections</h4>
       </div>
-      <div className="images">
-        {Object.values(photos).map((photo, index) => {
-          if (photo) {
-            return (
-              <Link key={index} href={`/images/${photo.filename}`}>
-                <Image
-                  src={`/${photo.url}/thumbnail-${photo.filename}`}
-                  alt="Something"
-                  width={300}
-                  height={300}
-                />
-              </Link>
-            );
-          }
-          return null;
-        })}
-      </div>
+      {showImages(photos)}
     </div>
   )
 }
