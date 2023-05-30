@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Header from "@/components/header"
-import { PrismaClient } from "@prisma/client"
+import prisma from "@/components/prisma"
 
 export default function index({ photografers }) {
   return (
@@ -22,7 +22,7 @@ export default function index({ photografers }) {
 }
 
 export async function getServerSideProps() {
-  const prisma = new PrismaClient()
+
   try {
     
     const photografers = await prisma.photographer.findMany()

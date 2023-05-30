@@ -29,8 +29,8 @@ export default function ShoppingCart({ photosInCart }) {
         {Object.values(photosInCart).map((photo, index) => {
           if (photo) {
             return (
-              <>
-                <Link key={index} href={`/images/${photo.filename}`}>
+              <div key={index}>
+                <Link  href={`/images/${photo.filename}`}>
                   <Image
                     src={`/${photo.thumbnailUrl}`}
                     alt="Something"
@@ -40,7 +40,7 @@ export default function ShoppingCart({ photosInCart }) {
                 </Link>
                 <button onClick={() => { handleRemoveFromCart(photo.id) }}>Remove</button>
                 <p>{photo.title}</p>
-              </>
+              </div>
             );
           }
         })}

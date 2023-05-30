@@ -1,9 +1,6 @@
 import prisma from "@/components/prisma"
-<<<<<<< HEAD
-=======
 import fs from 'fs';
 import path from 'path';
->>>>>>> dba4fbcc468a44947e0140bcb8f1f08a5d20081d
 import archiver from 'archiver';
 
 export default async function handler(req, res) {

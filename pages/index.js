@@ -1,8 +1,7 @@
 import Head from 'next/head'
 import Header from '@/components/header'
-import { PrismaClient } from "@prisma/client"
+import prisma from '@/components/prisma'
 import showImages from '@/components/showImages'
-import { useEffect } from 'react'
 
 
 export default function Home({ photos }) {
@@ -31,7 +30,7 @@ export default function Home({ photos }) {
 }
 
 export async function getServerSideProps(context) {
-  const prisma = new PrismaClient()
+
 
   try {
     const photos = await prisma.photos.findMany()

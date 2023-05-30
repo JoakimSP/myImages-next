@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import prisma from "@/components/prisma"
 import Header from "@/components/header"
 import Image from "next/image"
 import Link from "next/link"
@@ -20,7 +20,7 @@ export default function photographersName({ photographer, photos }) {
         <h6>Read more about the photographer here</h6>
       </div>
       <div>
-        <Image src="/#" alt="Image of photographer" width={300} height={300} />
+       {/*  <Image src={"/#"} alt="Image of photographer" width={300} height={300} /> */}
         <h2>{photographer.firstName + " " + photographer.lastName}</h2>
         <h6>photographer since {info.careerStart}</h6>
         <h6>About:</h6>
@@ -33,7 +33,7 @@ export default function photographersName({ photographer, photos }) {
         <p>{info.photoPreference}</p>
       </div>
       <div>
-        <button><a>See all of {photographer.firstName}s photographs</a></button>
+        <button><Link href={"#"}>See all of {photographer.firstName}s photographs</Link></button>
       </div>
       <div>
         <h4>{photographer.firstName}&apos;s top collections</h4>
@@ -45,7 +45,7 @@ export default function photographersName({ photographer, photos }) {
 
 export async function getStaticProps(context) {
   const { photographersName } = context.params
-  const prisma = new PrismaClient
+
 
   try {
     
@@ -78,7 +78,6 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const prisma = new PrismaClient();
 
   try {
     const photographers = await prisma.photographer.findMany({
