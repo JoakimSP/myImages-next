@@ -2,14 +2,22 @@ import Link from "next/link"
 import LoginPage from "./login"
 import { useSession } from "next-auth/react"
 import { CartContext } from "@/context/cartProvider"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
+
 
 
 export default function Header() {
   const { data: session, status } = useSession()
   const { cart } = useContext(CartContext)
+  const [isAllowed, setIsAllowed] = useState(false)
 
-
+    useEffect(() => {
+      if(session && session.user.email === "jocke@live.se"){
+        setIsAllowed(true)
+      } else {
+        setIsAllowed(false)
+      }
+    }, [session])
 
   return (
     <div>
@@ -23,9 +31,11 @@ export default function Header() {
           <Link href="/photographers/edit/editPhotographerPage">Edit your page</Link>
         </div>
       )}
+      {isAllowed &&
       <div>
-        <Link href="/photographers/createPhotographerAccount">Add new photografer</Link>
-      </div>
+      <Link href="/photographers/createPhotographerAccount">Add new photografer</Link>
+    </div>
+      }
       <button style={{ width: "3rem", height: "3rem", position: "relative" }}>
         <Link href="/shoppingCart">
           <svg
