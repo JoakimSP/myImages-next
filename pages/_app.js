@@ -1,5 +1,6 @@
 import { SessionProvider } from "next-auth/react"
 import { CartProvider } from "@/context/cartProvider"
+import "../styles/globals.css"
 
 
 

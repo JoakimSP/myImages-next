@@ -2,14 +2,19 @@ import Head from 'next/head'
 import Header from '@/components/header'
 import prisma from '@/components/prisma'
 import showImages from '@/components/showImages'
+import Image from 'next/image'
+import SearchBar from '@/components/searchbar'
 
 
 export default function Home({ photos }) {
 
-  function handleShowPhotos() {
 
-
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
   }
+
+  const randomNumber = getRandomInt(photos.length)
+  console.log(randomNumber)
 
   return (
     <>
@@ -20,11 +25,12 @@ export default function Home({ photos }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-        {showImages(photos)}
+      
+      <div className="relative h-96 mb-11 bg-cover bg-center " style={{ backgroundImage: `url(/${photos[randomNumber].thumbnailUrl})` }}>
+      <SearchBar />
+      </div>
 
-
-
-
+      {showImages(photos)}
     </>
   )
 }
