@@ -7,13 +7,6 @@ import { CartContext } from "@/context/cartProvider"
 
 export default function Index({lastReceipt}) {
   const { clearCart } = useContext(CartContext)
-  const lastBought = parseInt(lastReceipt[0].dateAdded)
-  let withinLastMinute = Date.now() - 60000
-
-  if(lastBought < withinLastMinute){
-    console.log("Not authorized")
-    return null
-  }
   const router = useRouter()
   const [sumOfCart, setSumOfCart] = useState();
   useEffect(() => {
@@ -21,6 +14,15 @@ export default function Index({lastReceipt}) {
       setSumOfCart(router.query.sumOfCart);
     }
   }, [router]);
+  
+  const lastBought = parseInt(lastReceipt[0].dateAdded)
+  let withinLastMinute = Date.now() - 60000
+
+  if(lastBought < withinLastMinute){
+    console.log("Not authorized")
+    return null
+  }
+ 
 
 //TODO
   async function handleDownloadImage(e){
