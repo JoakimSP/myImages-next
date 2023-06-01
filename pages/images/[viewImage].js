@@ -89,52 +89,59 @@ export default function ViewImage({ photo, photographer, session }) {
     return (
         <div>
             <Header />
-            <h1>{title}</h1>
-            <Image
-                src={`/${thumbnailUrl}`}
-                width={800}
-                height={600}
-                alt={`${title}`}
-                onContextMenu={(e) => e.preventDefault()}
-            />
-            <p>{formatCurrency(photo.price)}</p>
-            <p>{photo.description}</p>
-            <button onClick={() => handleAddToCart(id)}>Add to cart</button>
-            {photographer.personID === personID &&
-                <>
-                    <form onSubmit={HandleUpdateInfo}>
-                        <div>
-                            <label htmlFor="title">Title</label>
-                            <input id="title" type="text" name="title" required />
-                        </div>
-                        <div>
-                            <label htmlFor="description">Description</label>
-                            <input id="description" type="text" name="description" required />
-                        </div>
-                        <div>
-                            <label htmlFor="price">Price</label>
-                            <input id="price" type="number" name="price" required />
-                        </div>
-                        <div>
-
-                            <legend>Category</legend>
-                            <label htmlFor="sunset">Sunset</label>
-                            <input type="radio" id="sunset" name="category" value="sunset" />
-                            <label htmlFor="family">Family</label>
-                            <input type="radio" id="family" name="category" value="family" />
-                            <label htmlFor="ocean">Ocean</label>
-                            <input type="radio" id="ocean" name="category" value="ocean" />
-
-                        </div>
-                        <div>
-                            <input type="submit" value="Submit" />
-                        </div>
-                    </form>
-                    <button onClick={handleDeleteImage}>Delete image</button>
-                </>
-            }
-
+            <div className="flex flex-auto justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8">
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start mb-6">
+                    <div className="col-span-2">
+                        <h1 className="text-3xl text-center font-bold mt-8 mb-6">{title}</h1>
+                        <Image
+                            src={`/${thumbnailUrl}`}
+                            width={800}
+                            height={600}
+                            alt={`${title}`}
+                            onContextMenu={(e) => e.preventDefault()}
+                        />
+                    </div>
+                    <div className="space-y-6 flex-shrink">
+                        <p className="text-xl font-semibold">{formatCurrency(photo.price)}</p>
+                        <p className="text-base">{photo.description}</p>
+                        <button className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700" onClick={() => handleAddToCart(id)}>Add to cart</button>
+                        {photographer.personID === personID &&
+                            <form className="space-y-4" onSubmit={HandleUpdateInfo}>
+                                <div>
+                                    <label className="block mb-2" htmlFor="title">Title</label>
+                                    <input id="title" type="text" name="title" className="w-full p-2 border rounded" required />
+                                </div>
+                                <div>
+                                    <label className="block mb-2" htmlFor="description">Description</label>
+                                    <input id="description" type="text" name="description" className="w-full p-2 border rounded" required />
+                                </div>
+                                <div>
+                                    <label className="block mb-2" htmlFor="price">Price</label>
+                                    <input id="price" type="number" name="price" className="w-full p-2 border rounded" required />
+                                </div>
+                                <div className="space-y-2">
+                                    <legend className="font-semibold">Category</legend>
+                                    <div>
+                                        <input type="radio" id="sunset" name="category" value="sunset" className="mr-2" />
+                                        <label htmlFor="sunset" className="mr-4">Sunset</label>
+                                        <input type="radio" id="family" name="category" value="family" className="mr-2" />
+                                        <label htmlFor="family" className="mr-4">Family</label>
+                                        <input type="radio" id="ocean" name="category" value="ocean" className="mr-2" />
+                                        <label htmlFor="ocean">Ocean</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input type="submit" value="Submit" className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700" />
+                                    <button className="ml-4 mt-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
+                                </div>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
+
     )
 }
 

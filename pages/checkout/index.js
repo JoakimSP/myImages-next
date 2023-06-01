@@ -1,11 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 import formatCurrency from '@/components/utils/formatCurrency';
 import { getSession } from 'next-auth/react';
 import prisma from '@/components/prisma';
+import { CartContext } from "@/context/cartProvider"
 
 export default function Index({lastReceipt}) {
-  console.log(lastReceipt)
+  const { clearCart } = useContext(CartContext)
+  const lastBought = parseInt(lastReceipt[0].dateAdded)
+  let withinLastMinute = Date.now() - 60000
+
+  if(lastBought < withinLastMinute){
+    console.log("Not authorized")
+    return null
+  }
   const router = useRouter()
   const [sumOfCart, setSumOfCart] = useState();
   useEffect(() => {
@@ -15,7 +23,6 @@ export default function Index({lastReceipt}) {
   }, [router]);
 
 //TODO
-//Check weather this receipt is created witihin a 1 minute timespan
   async function handleDownloadImage(e){
     e.preventDefault()
     const photosID = lastReceipt.map(photo => photo.photosID);
@@ -23,7 +30,7 @@ export default function Index({lastReceipt}) {
       window.open(`/api/images/downloadImage?receiptId=${encodeURIComponent(JSON.stringify(photosID))}`, '_blank');
 
     }
-
+    clearCart()
     setTimeout(() => {
       router.push("/")
     }, 5000);
