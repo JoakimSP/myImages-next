@@ -2,7 +2,7 @@ import prisma from "@/components/prisma"
 import Header from "@/components/header"
 import Image from "next/image"
 import Link from "next/link"
-import {showPhotographerImage} from "@/components/showImages"
+import {ShowPhotographerImage} from "@/components/showImages"
 
 
 export default function photographersName({ photographer, photos }) {
@@ -38,7 +38,7 @@ export default function photographersName({ photographer, photos }) {
       <div>
         <h4>{photographer.firstName}&apos;s top collections</h4>
       </div>
-      {showPhotographerImage(personID)}
+      {ShowPhotographerImage(personID)}
     </div>
   )
 }
