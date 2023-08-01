@@ -4,7 +4,7 @@ import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { useState, useEffect } from "react";
 import { storage } from "./firebase";
 
-export function showPhotographerImage(photographer) {
+export function ShowPhotographerImage(photographer) {
   const [imageList, setImageList] = useState([])
   const imageListRef = ref(storage, `${photographer}`);
 
