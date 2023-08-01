@@ -45,7 +45,8 @@ model photos {
   filename     String
   filetype     String
   filesize     Int
-  url          String
+  url          String       @db.VarChar(250)
+  urlUser      String       @db.VarChar(250)
   thumbnailUrl String?
   dateTaken    DateTime?
   width        Int?

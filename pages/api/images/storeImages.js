@@ -1,13 +1,42 @@
-import nextConnect from "next-connect";
-import multer from "multer";
-import path from "path";
-import sharp from "sharp";
-import { mkdir } from "fs";
 import prisma from "@/components/prisma";
-import { getSession } from "next-auth/react";
+
+export default async function handler(req, res) {
+  const {
+    personID,
+    filename,
+    filetype,
+    filesize,
+    url,
+    urlUser
+  } = req.body
+
+  try {
+
+    await prisma.photos.create({
+      data: {
+        personID: personID,
+        filename: filename,
+        filetype: filetype,
+        filesize: filesize,
+        url: url,
+        urlUser: urlUser
+      }
+    })
+    prisma.$disconnect()
+
+    res.status(200).json({ message: "Succsessfully added image data to DB" })
+
+  } catch (error) {
+    console.error(error)
+  }
 
 
-const storage = multer.diskStorage({
+}
+
+
+//TODO
+//Edit photo name so it dosen't contain any spaces. That will mess with diffrent parts of the program (like the ability to delete)
+/* const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const dirPath = path.join(process.cwd(), "content/images/");
     mkdir(dirPath, { recursive: true }, (err) => {
@@ -59,8 +88,8 @@ handler.post(async (req, res) => {
       files.forEach(async (file) => {
         const thumbnailName = "thumbnail-" + file.filename;
         const inputPath = path.join(file.destination, file.filename);
-        const outputPath = path.join("public/uploads", thumbnailName);
-/*         const uniqueSuffix = path.basename(file.destination); */
+        const outputPath = path.join("uploads", thumbnailName);
+        const uniqueSuffix = path.basename(file.destination); 
 
         sharp(inputPath)
           .metadata()
@@ -117,4 +146,4 @@ async function getCurrentUser(email) {
 
 }
 
-export default handler;
+*/

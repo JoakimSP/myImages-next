@@ -5,8 +5,14 @@ import FormInput from "./formInput";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+import { useState } from "react"
+import { storage } from "@/components/firebase";
+import { ref, uploadBytes, getDownloadURL, list } from "firebase/storage";
+import { v4 } from "uuid";
 
-export default function EditPhotographerPage({ userdata, photos }) {
+
+export default function EditPhotographerPage({ userdata }) {
+  const [imageUpload, setImageUpload] = useState()
   const { info } = userdata
   const router = useRouter()
 
@@ -30,44 +36,72 @@ export default function EditPhotographerPage({ userdata, photos }) {
       const response = await fetch('../../api/users/updatePhotographerInfo', {
         method: 'POST',
         headers: {
-          'content-type' : 'application/json'
+          'content-type': 'application/json'
         },
         body: JSON.stringify(newUserInformation)
       })
 
-      if(response.ok){
+      if (response.ok) {
         router.push("/")
       }
     } catch (error) {
       console.log(error)
     }
-    
+
 
   }
 
-  async function HandleUploadPhoto(e) {
-    e.preventDefault()
-    const formData = new FormData()
+  const uploadImage = async () => {
+    if (imageUpload == null) return;
+    const imageName = imageUpload.name + v4();
+  
+    const imageRefUser = ref(storage, `${userdata.personID}/${imageName}`);
+    const imageRef = ref(storage, `${imageName}`);
 
-    const files = e.target[0].files
-    console.log(files)
-    for (let i = 0; i < files.length; i++) {
-      formData.append("image", files[i])
+    console.log(userdata.personID + "/" + imageName)
+  
+    try {
+      // Upload to user-specific directory
+      await uploadBytes(imageRefUser, imageUpload);
+  
+      // Upload to general directory
+      await uploadBytes(imageRef, imageUpload);
+  
+      // Get the download URL
+      const url = await getDownloadURL(imageRef);
+      const urlUser = await getDownloadURL(imageRefUser);
+  
+      // Pass URL to uploadData function
+      uploadImageData(url, urlUser);
+      window.alert("image uploaded");
+  
+    } catch (error) {
+
+      console.error("Error uploading image: ", error);
+    }
+  };
+  const uploadImageData = async (imageUrl, imageUrlUser) => {
+    const fileName = imageUpload.name + v4();
+    console.log(imageUrl)
+    const photoInformation = {
+      personID: userdata.personID,
+      filename: fileName,
+      filetype: imageUpload.type,
+      filesize: imageUpload.size,
+      url: imageUrl,
+      urlUser: imageUrlUser
     }
 
-    
-
-    const response = await fetch('../../api/images/storeImages', {
-        method: 'POST',
-        body: formData
+    const res = await fetch('../../api/images/storeImages',{
+      method: "POST",
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(photoInformation)
     })
+  }
 
-    if (!response.ok) {
-        throw new Error({ error: "Something went wrong with the upload" })
-    }
-    router.push("/")
-    
-}
+
 
   return (
     <div>
@@ -97,19 +131,16 @@ export default function EditPhotographerPage({ userdata, photos }) {
         }
         <button type="submit">Submit</button>
       </form>
-      <form onSubmit={HandleUploadPhoto} method="post" accept="image/*">
-        <label htmlFor="image">Upload image:
-          <input type="file" name="image" multiple required />
-        </label>
-        <button type="submit">upload</button>
-      </form>
-        <button><Link href={`/photographers/editPhoto/myPhotos`}>Edit photos</Link></button>
+      <input type="file" onChange={(e) => {setImageUpload(e.target.files[0])}}/>
+      <button onClick={uploadImage}> Upload image</button>
+      <button><Link href={`/photographers/editPhoto/myPhotos`}>Edit photos</Link></button>
     </div>
   )
 }
 
 export async function getServerSideProps(context) {
   const session = await getSession(context)
+  
 
   const userdata = await prisma.photographer.findUnique({
     where: {
@@ -120,17 +151,12 @@ export async function getServerSideProps(context) {
     },
   })
 
-  const photos = await prisma.photos.findMany({
-    where: {
-      personID : userdata.personID
-    }
-  })
+  prisma.$disconnect()
 
 
   return {
-    props: { 
+    props: {
       userdata,
-      photos
-     }
+    }
   }
 }

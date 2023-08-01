@@ -1,18 +1,11 @@
 import Head from 'next/head'
 import Header from '@/components/header'
-import prisma from '@/components/prisma'
-import showImages from '@/components/showImages'
+import ShowImagesNext from '@/components/showImages'
 import SearchBar from '@/components/searchbar'
-import Image from 'next/image'
+import Image from "next/image";
 
 
-export default function Home({ photos }) {
-
-
-  function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-  }
-  const randomNumber = getRandomInt(photos.length)
+export default function Home() {
 
   return (
     <div className='bg-custom-grey'>
@@ -24,30 +17,16 @@ export default function Home({ photos }) {
       </Head>
       <Header />
 
-       <div className="relative h-96  mb-11 bg-cover bg-center ">
+      <div className="relative h-[42rem]  mb-11 bg-cover bg-center ">
         <Image
-         src={`/${photos[randomNumber]?.thumbnailUrl || '/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG'}`}
-         alt=""
-         fill={true}
-         className="object-cover w-full"
+          src={`/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG`}
+          alt=""
+          fill={true}
+          className="object-cover w-full"
         />
         <SearchBar />
       </div>
-    {showImages(photos)}
+     <ShowImagesNext/>
     </div>
   )
-}
-
-export async function getServerSideProps(context) {
-
-
-  try {
-    const photos = await prisma.photos.findMany()
-    prisma.$disconnect()
-    return {
-      props: { photos }
-    };
-  } catch (error) {
-    console.log(error)
-  }
 }

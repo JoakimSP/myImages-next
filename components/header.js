@@ -11,6 +11,9 @@ export default function Header() {
   const { cart } = useContext(CartContext)
   const [isAllowed, setIsAllowed] = useState(false)
 
+  //TODO
+  //Fetch photographers from getAllPhotographers API
+
     useEffect(() => {
       if(session && session.user.email === "jocke@live.se"){
         setIsAllowed(true)
@@ -18,7 +21,6 @@ export default function Header() {
         setIsAllowed(false)
       }
     }, [session])
-
   return (
 <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-b from-gray-950 shadow-md">
     <div className="flex items-center space-x-6">
@@ -28,7 +30,7 @@ export default function Header() {
       <Link href="/photographers">
         <p className="text-gray-300 hover:text-blue-600">Photographers</p>
       </Link>
-      {status === "authenticated" && (
+      {status === "authenticated" && session.provider !== "google" && (
         <Link href="/photographers/edit/editPhotographerPage">
           <p className="text-gray-300 hover:text-blue-600">Edit your page</p>
         </Link>
@@ -49,7 +51,7 @@ export default function Header() {
             <span className="absolute top-0 right-0 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                 {cart.length}
             </span>}
-                      
+            
         </Link>
     </button>
 </div>
@@ -58,4 +60,3 @@ export default function Header() {
 
   )
 }
-
