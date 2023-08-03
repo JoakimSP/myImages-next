@@ -12,25 +12,26 @@ export default function ViewImage(props) {
         img,
         photographer,
         photo,
+        session
     } = props
 
 
-    /* const { thumbnailUrl, filename, title, personID, id } = photo
+    const { thumbnailUrl, filename, title, personID, id } = photo
     const { cart, addToCart } = useContext(CartContext)
     const [isPhotographer, setIsPhotographer] = useState(false)
-
-    if(photographer && photographer.personID === personID){
-        useEffect(() => {
-            setIsPhotographer(true)
-        })
-        
-    }
-    else {
-        useEffect(() => {
-            setIsPhotographer(false)
-        })
-    }
-*/
+    /* 
+        if(photographer && photographer.personID === personID){
+            useEffect(() => {
+                setIsPhotographer(true)
+            })
+            
+        }
+        else {
+            useEffect(() => {
+                setIsPhotographer(false)
+            })
+        }
+    */
     async function HandleUpdateInfo(e) {
         e.preventDefault()
         let tagValue
@@ -72,7 +73,7 @@ export default function ViewImage(props) {
 
     }
 
-    /*
+
     async function handleAddToCart(id) {
         if (!session) {
             return signIn()
@@ -92,7 +93,7 @@ export default function ViewImage(props) {
 
         addToCart(id)
     }
-     */
+
     async function handleDeleteImage() {
         if (window.confirm("Are you sure you want to delete this image?")) {
             const result = await fetch('../api/images/deleteImage', {
@@ -129,9 +130,13 @@ export default function ViewImage(props) {
                     <div className="space-y-6 flex-shrink">
                         <p className="text-xl font-semibold">{formatCurrency(photo.price)}</p>
                         <p className="text-base">{photo.description}</p>
-                        <button className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700" onClick={() => handleAddToCart(id)}>Add to cart</button>
-                        { photographer?.personID === photo.personID && 
-                            <form className="space-y-4"  onSubmit={HandleUpdateInfo}>
+                        <button
+                            className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
+                            onClick={() => handleAddToCart(photo.id)}
+                        >Add to cart
+                        </button>
+                        {photographer?.personID === photo.personID &&
+                            <form className="space-y-4" onSubmit={HandleUpdateInfo}>
                                 <div>
                                     <label className="block mb-2" htmlFor="title">title</label>
                                     <input id="title" type="text" name="title" className="w-full p-2 border rounded" required />
@@ -173,41 +178,41 @@ export async function getServerSideProps(context) {
     const { img } = context.query;
     const session = await getSession(context);
     console.log()
-  
-    let props = {};
-  
-    try {
-      const photo = await prisma.photos.findFirst({
-        where: { url: img },
-      });
 
-      console.log(photo.personID)
-  
-      // Check if session and session.user exist before trying to access the email
-      const userEmail = session && session.user ? session.user.email : null;
-  
-      props = { img, photo, session: userEmail };
-  
-      if (photo && session) {
-        const photographer = await prisma.photographer.findUnique({
-          where: { email: session.user.email},
+    let props = {};
+
+    try {
+        const photo = await prisma.photos.findFirst({
+            where: { url: img },
         });
-  
-        if (photographer){
-            props.photographer = photographer;
-            console.log(photographer.personID)
-        } 
-      }
-     
-  
+
+        console.log(photo.personID)
+
+        // Check if session and session.user exist before trying to access the email
+        const userEmail = session && session.user ? session.user.email : null;
+
+        props = { img, photo, session: userEmail };
+
+        if (photo && session) {
+            const photographer = await prisma.photographer.findUnique({
+                where: { email: session.user.email },
+            });
+
+            if (photographer) {
+                props.photographer = photographer;
+                console.log(photographer.personID)
+            }
+        }
+
+
     } catch (error) {
-      console.log(error);
-      props.error = 'An error occurred while loading data';
+        console.log(error);
+        props.error = 'An error occurred while loading data';
     } finally {
-      prisma.$disconnect();
+        prisma.$disconnect();
     }
-  
+
     return { props };
-  }
-  
+}
+
 

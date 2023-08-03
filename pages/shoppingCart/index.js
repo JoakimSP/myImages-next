@@ -24,26 +24,29 @@ export default function ShoppingCart({ photosInCart }) {
 
   return (
     <>
-      <Header />
-      <div className="images">
-        {Object.values(photosInCart).map((photo, index) => {
-          if (photo) {
+    <Header/>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" >
+        {
+          Object.values(photosInCart).map((photo) => {
             return (
-              <div key={index}>
-                <Link  href={`/images/${photo.filename}`}>
-                  <Image
-                    src={`/${photo.thumbnailUrl}`}
-                    alt="Something"
-                    width={300}
-                    height={300}
-                  />
+              <>
+                <Link  href={`/images/viewimage?img=${encodeURIComponent(photo.url)}`}>
+                  <div className="group relative h-60">
+                    <Image
+                      src={photo.url}
+                      alt="image"
+                      fill={true}
+                      className="object-cover w-full"
+                      sizes="(max-width: 768px)"
+                    />
+                  </div>
                 </Link>
                 <button onClick={() => { handleRemoveFromCart(photo.id) }}>Remove</button>
                 <p>{photo.title}</p>
-              </div>
-            );
-          }
-        })}
+              </>
+            )
+          })
+        }
       </div>
       <Link href={"/paypalCheckout"}><button>Checkout</button></Link>
     </>
@@ -75,7 +78,32 @@ export async function getServerSideProps() {
   } finally {
     await prisma.$disconnect()
   }
- 
+
 }
 
 
+
+
+{/*  <Header />
+      <div className="images">
+        {Object.values(photosInCart).map((photo, index) => {
+          if (photo) {
+            return (
+              <div key={index}>
+                <Link  href={`/images/${photo.filename}`}>
+                  <Image
+                    src={`/${photo.url}`}
+                    alt="Something"
+                    width={300}
+                    height={300}
+                  />
+                </Link>
+                <button onClick={() => { handleRemoveFromCart(photo.id) }}>Remove</button>
+                <p>{photo.title}</p>
+              </div>
+            );
+          }
+        })}
+      </div> 
+      <Link href={"/paypalCheckout"}><button>Checkout</button></Link>
+      */}
