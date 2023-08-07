@@ -52,7 +52,7 @@ model photos {
   width        Int?
   height       Int?
   tags         Json?
-  price        Int?
+  price        Int?         @default(100)
   privacy      Boolean      @default(true)
   photographer photographer @relation(fields: [personID], references: [personID])
 }

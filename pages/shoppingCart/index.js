@@ -4,9 +4,11 @@ import prisma from "@/components/prisma"
 import Link from "next/link"
 import Image from "next/image"
 import Header from "@/components/header"
+import { getSession } from "next-auth/react"
 
 export default function ShoppingCart({ photosInCart }) {
   const { removeFromCart } = useContext(CartContext)
+
 
   async function handleRemoveFromCart(id) {
     removeFromCart(id)
@@ -30,7 +32,7 @@ export default function ShoppingCart({ photosInCart }) {
           Object.values(photosInCart).map((photo) => {
             return (
               <>
-                <Link  href={`/images/viewimage?img=${encodeURIComponent(photo.url)}`}>
+                <Link key={photo.id}  href={`/images/viewimage?img=${encodeURIComponent(photo.url)}`}>
                   <div className="group relative h-60">
                     <Image
                       src={photo.url}
@@ -53,10 +55,15 @@ export default function ShoppingCart({ photosInCart }) {
   )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  
   try {
+    const session = await getSession(context)
     const cartData = await prisma.cart.findMany()
-    const photoIDsInCart = cartData.map(item => item.photoID); // Extract all photoIDs from cartData
+    const currentUserCart = await cartData.filter(item => item.sessionEmail == session.user.email)
+
+    const photoIDsInCart = currentUserCart
+    .map(item => item.photoID); // Extract all photoIDs from cartData */
 
     const photosInCart = await prisma.photos.findMany({
       where: {
@@ -66,15 +73,16 @@ export async function getServerSideProps() {
       }
     })
 
-    if (!photosInCart) {
-      return
-    }
+   
     return {
       props: { photosInCart }
     }
 
   } catch (error) {
     console.log(error)
+    return {
+        props: { photosInCart: [] }  // you should return an object in every condition
+    }
   } finally {
     await prisma.$disconnect()
   }

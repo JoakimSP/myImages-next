@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 
 export default function Index({ photosInCart, email }) {
 const router = useRouter()
-
   const sumOfCart = photosInCart.reduce((total, photo) => {
     return total + parseInt(photo.price)
   }, 0)
@@ -81,7 +80,12 @@ export async function getServerSideProps() {
     })
 
     if (!photosInCart) {
-      return
+      return {
+        props: {
+          photosInCart : null,
+           email : null
+        }
+      }
     }
 
     return {
@@ -92,6 +96,12 @@ export async function getServerSideProps() {
     }
   } catch (error) {
     console.log(error)
+    return {
+      props: {
+        photosInCart : null,
+         email : null
+      }
+    }
   } finally {
     await prisma.$disconnect()
   }
