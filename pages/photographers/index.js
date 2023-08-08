@@ -12,19 +12,21 @@ export default function index({ photografers }) {
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
           {photografers.map(photographer => {
             return (
-              <div key={photographer.personID} className=' m-4 rounded overflow-hidden shadow-lg bg-gradient-to-tr from-gray-300 shadow-md'>
-                <div className='px-6 py-4'>
-                  <div className='font-bold text-xl mb-2'>
-                    <Link href={`./photographers/${photographer.user}`}>{photographer.user}</Link>
-                    <Image
-                    src="/avatar-2a011dc65ff512e320f013780071ae03.jpg"
-                    alt="kitten"
-                    width="300"
-                    height="500"
-                    />
+              <Link href={`./photographers/${photographer.user}`}>
+                <div key={photographer.personID} className=' m-4 rounded overflow-hidden shadow-lg bg-gradient-to-tr from-gray-300 shadow-md'>
+                  <div className='px-6 py-4'>
+                    <div className='font-bold text-xl mb-2'>
+                      {photographer.user}
+                      <Image
+                        src="/avatar-2a011dc65ff512e320f013780071ae03.jpg"
+                        alt="kitten"
+                        width="300"
+                        height="500"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             )
           })}
         </div>
