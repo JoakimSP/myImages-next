@@ -12,8 +12,8 @@ export default function index({ photografers }) {
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
           {photografers.map(photographer => {
             return (
-              <Link href={`./photographers/${photographer.user}`}>
-                <div key={photographer.personID} className=' m-4 rounded overflow-hidden shadow-lg bg-gradient-to-tr from-gray-300 shadow-md'>
+              <Link key={photographer.personID} href={`./photographers/${photographer.user}`}>
+                <div  className=' m-4 rounded overflow-hidden shadow-lg bg-gradient-to-tr from-gray-300 shadow-md'>
                   <div className='px-6 py-4'>
                     <div className='font-bold text-xl mb-2'>
                       {photographer.user}
