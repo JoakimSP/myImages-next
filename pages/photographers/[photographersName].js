@@ -6,7 +6,8 @@ import { ShowPhotographerImage } from "@/components/showImages"
 
 
 export default function photographersName({ photographer, photos }) {
-  const { info, personID } = photographer
+  const { info } = photographer
+  console.log(info.personID)
 
   return (
     <div className='bg-custom-grey'>
@@ -42,7 +43,7 @@ export default function photographersName({ photographer, photos }) {
       <div>
         <h4 className="text-4xl text-white mb-3">{photographer.firstName}&apos;s top collections</h4>
       </div>
-      {ShowPhotographerImage(personID)}
+      {ShowPhotographerImage(info.personID)}
     </div>
   )
 }
