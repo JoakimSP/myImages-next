@@ -6,6 +6,7 @@ import router from "next/router"
 import { useContext, useState, useEffect } from "react"
 import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
+import EditPhoto from "@/components/editPhoto"
 
 export default function ViewImage(props) {
     const {
@@ -15,63 +16,8 @@ export default function ViewImage(props) {
         session
     } = props
 
-
-    const { thumbnailUrl, filename, title, personID, id } = photo
     const { cart, addToCart } = useContext(CartContext)
-    const [isPhotographer, setIsPhotographer] = useState(false)
-    /* 
-        if(photographer && photographer.personID === personID){
-            useEffect(() => {
-                setIsPhotographer(true)
-            })
-            
-        }
-        else {
-            useEffect(() => {
-                setIsPhotographer(false)
-            })
-        }
-    */
-    async function HandleUpdateInfo(e) {
-        e.preventDefault()
-        let tagValue
-        for (let i = 3; i < 6; i++) {
-            if (e.target[i].checked) {
-                tagValue = e.target[i].value
-                break
-            }
-            else {
-                continue
-            }
-        }
 
-        const newPhotoInformation = {
-            title: e.target[0].value,
-            description: e.target[1].value,
-            price: e.target[2].value,
-            tags: tagValue,
-            photoID: photo.id
-        }
-
-
-        try {
-            const response = await fetch('../api/images/editPhotoInfo', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(newPhotoInformation)
-            })
-
-            if (response.ok) {
-                router.push("/")
-
-            }
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
 
 
     async function handleAddToCart(id) {
@@ -136,35 +82,13 @@ export default function ViewImage(props) {
                         >Add to cart
                         </button>
                         {photographer?.personID === photo.personID &&
-                            <form className="space-y-4" onSubmit={HandleUpdateInfo}>
+
+                            <>
+                                <EditPhoto photo={photo} />
                                 <div>
-                                    <label className="block mb-2" htmlFor="title">title</label>
-                                    <input id="title" type="text" name="title" className="w-full p-2 border rounded" required />
-                                </div>
-                                <div>
-                                    <label className="block mb-2" htmlFor="description">Description</label>
-                                    <input id="description" type="text" name="description" className="w-full p-2 border rounded" required />
-                                </div>
-                                <div>
-                                    <label className="block mb-2" htmlFor="price">Price</label>
-                                    <input id="price" type="number" name="price" className="w-full p-2 border rounded" required />
-                                </div>
-                                <div className="space-y-2">
-                                    <legend className="font-semibold">Category</legend>
-                                    <div>
-                                        <input type="radio" id="sunset" name="category" value="sunset" className="mr-2" />
-                                        <label htmlFor="sunset" className="mr-4">Sunset</label>
-                                        <input type="radio" id="family" name="category" value="family" className="mr-2" />
-                                        <label htmlFor="family" className="mr-4">Family</label>
-                                        <input type="radio" id="ocean" name="category" value="ocean" className="mr-2" />
-                                        <label htmlFor="ocean">Ocean</label>
-                                    </div>
-                                </div>
-                                <div>
-                                    <input type="submit" value="Submit" className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700" />
                                     <button className="ml-4 mt-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
                                 </div>
-                            </form>
+                            </>
                         }
                     </div>
                 </div>
@@ -180,13 +104,17 @@ export async function getServerSideProps(context) {
     console.log()
 
     let props = {};
+    let photo = {}
 
     try {
-        const photo = await prisma.photos.findFirst({
+         photo = await prisma.photos.findFirst({
             where: { url: img },
         });
-
-        console.log(photo.personID)
+        if(!photo){
+             photo = await prisma.photos.findFirst({
+                where: { urlUser: img },
+            });
+        }
 
         // Check if session and session.user exist before trying to access the email
         const userEmail = session && session.user ? session.user.email : null;
