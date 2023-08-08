@@ -54,27 +54,27 @@ export default function EditPhotographerPage({ userdata }) {
   const uploadImage = async () => {
     if (imageUpload == null) return;
     const imageName = imageUpload.name + v4();
-  
+
     const imageRefUser = ref(storage, `${userdata.personID}/${imageName}`);
     const imageRef = ref(storage, `${imageName}`);
 
     console.log(userdata.personID + "/" + imageName)
-  
+
     try {
       // Upload to user-specific directory
       await uploadBytes(imageRefUser, imageUpload);
-  
+
       // Upload to general directory
       await uploadBytes(imageRef, imageUpload);
-  
+
       // Get the download URL
       const url = await getDownloadURL(imageRef);
       const urlUser = await getDownloadURL(imageRefUser);
-  
+
       // Pass URL to uploadData function
       uploadImageData(url, urlUser);
       window.alert("image uploaded");
-  
+
     } catch (error) {
 
       console.error("Error uploading image: ", error);
@@ -92,7 +92,7 @@ export default function EditPhotographerPage({ userdata }) {
       urlUser: imageUrlUser
     }
 
-    const res = await fetch('../../api/images/storeImages',{
+    const res = await fetch('../../api/images/storeImages', {
       method: "POST",
       headers: {
         'content-type': 'application/json'
@@ -106,41 +106,79 @@ export default function EditPhotographerPage({ userdata }) {
   return (
     <div>
       <Header></Header>
-      <h1>Photographer Info Form</h1>
+      <h1 className=" text-center text-3xl font-medium text-gray-900">Photographer Info</h1>
+
       <form onSubmit={HandleUpdateInfo} method='post'>
-        {
-          Object.keys(info).map((prop) => {
-            if (prop == "personID") {
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 p-8">
+          {
+            Object.keys(info).map((prop) => {
+              if (prop == "personID") {
+                return (
+                  <input
+                    key={prop}
+                    type="hidden"
+                    name={prop}
+                    value={userdata.personID}
+                  />
+                )
+              }
               return (
-                <input
+                <FormInput
                   key={prop}
-                  type="hidden"
-                  name={prop}
-                  value={userdata.personID}
+                  type={"text"}
+                  inputName={prop}
                 />
               )
-            }
-            return (
-              <FormInput
-                key={prop}
-                type={"text"}
-                inputName={prop}
-              />
-            )
-          })
-        }
-        <button type="submit">Submit</button>
+            })
+          }
+        </div>
+        <div className="border-b-2 shadow-md">
+          <button className="text-white mb-8 ml-8 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="submit">Submit</button>
+        </div>
       </form>
-      <input type="file" onChange={(e) => {setImageUpload(e.target.files[0])}}/>
-      <button onClick={uploadImage}> Upload image</button>
-      <button><Link href={`/photographers/editPhoto/myPhotos`}>Edit photos</Link></button>
+
+      <div className="m-8">
+        <div className="flex flex-col items-center space-y-6">
+          {/* Drop zone */}
+          <div
+            onDrop={(e) => {
+              e.preventDefault();
+              const files = e.dataTransfer.files;
+              if (files.length) {
+                setImageUpload(files[0]);
+              }
+            }}
+            onDragOver={(e) => e.preventDefault()} 
+            className="flex justify-center items-center w-60 h-60 border-dotted border-4 border-gray-400 hover:border-gray-600 cursor-pointer bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+          >
+            <p className="text-gray-800 text-center dark:text-gray-300">{imageUpload ? imageUpload.name : "Drop image here"}</p>
+          </div>
+
+          {/* File Input */}
+          <input
+            onChange={(e) => { setImageUpload(e.target.files[0]) }}
+            className="block text-sm mb-8 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            aria-describedby="user_avatar_help"
+            id="user_avatar"
+            type="file"
+          />
+
+          {/* Upload Button */}
+          <button
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={uploadImage}
+          >
+            Ladda upp bild
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
 
 export async function getServerSideProps(context) {
   const session = await getSession(context)
-  
+
 
   const userdata = await prisma.photographer.findUnique({
     where: {
