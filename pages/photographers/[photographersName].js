@@ -10,42 +10,62 @@ export default function photographersName({ photographer, photos }) {
   console.log(info.personID)
 
   return (
-    <div className='bg-custom-grey'>
-      <Header></Header>
-      <div className="bg-[url('/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG')] h-96 pt-4">
-        <h1 className="text-center text-7xl text-white mb-3">{photographer.firstName + " " + photographer.lastName}</h1>
-        <p className="text-center text-lg text-white">Read more about our photographer {photographer.firstName + " " + photographer.lastName}</p>
-      </div>
-      <div className="flex justify-center  px-8">
-        <div className="flex-1 flex justify-center m-4">
-          <Image src={"/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG"} alt="Image of photographer" width={300} height={300} />
+    
+<>
+    {/* Header */}
+    <Header />
+    <div className="bg-custom-grey min-h-screen flex flex-col"> 
+    {/* Main Profile Section */}
+    <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: "url('/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG')" }}>
+        <div className="absolute inset-0 bg-black opacity-60"></div>
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white space-y-5">
+            <h1 className="text-6xl font-bold">{photographer.firstName + " " + photographer.lastName}</h1>
+            <p className="text-xl font-light text-center">Diving deep into the journey of {photographer.firstName}, a master behind the lens.</p>
         </div>
-        <div className="flex-1 text-white">
-          <h2 className="text-3xl mb-3">{photographer.firstName + " " + photographer.lastName}</h2>
-          <h6 className="mb-3">photographer since {info.careerStart}</h6>
+    </section>
 
-          <h6 className="inline-block mb-3 font-bold">About:</h6>
-          <p className="inline break-normal"> {info.about}</p>
-
-          <h6 className=" mb-3 font-bold">Lens of choice:</h6>
-          <p className="inline break-normal">{info.lens}</p>
-
-          <h6 className=" mb-3 font-bold">Favorite Photo:</h6>
-          <p className="inline break-normal">{info.favoritePhoto}</p>
-
-          <h6 className=" mb-3 font-bold">Favorite thing to photograph</h6>
-          <p className="inline break-normal">{info.photoPreference}</p>
+    {/* Details Section */}
+    <section className="bg-white py-12 px-6 md:px-24">
+        <div className="flex flex-wrap -mx-4">
+            <div className="w-full lg:w-1/3 px-4 flex justify-center">
+                <Image src={"/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG"} alt="Image of photographer" width={300} height={300} className="rounded-full shadow-xl" />
+            </div>
+            <div className="w-full lg:w-2/3 px-4 space-y-6">
+                <div className="space-y-3">
+                    <h2 className="text-4xl font-semibold">{photographer.firstName + " " + photographer.lastName}</h2>
+                    <p className="text-gray-500 text-lg">Creating art since {info.careerStart}</p>
+                </div>
+                <div className="space-y-5">
+                    <BioDetail title="About Me" content={info.about} />
+                    <BioDetail title="Lens of Choice" content={info.lens} />
+                    <BioDetail title="Favorite Capture" content={info.favoritePhoto} />
+                    <BioDetail title="I Love to Photograph" content={info.photoPreference} />
+                </div>
+            </div>
         </div>
-      </div>
-      <div>
-        {/* <button><Link href={"#"}>See all of {photographer.firstName}s photographs</Link></button> */}
-      </div>
-      <div>
-        <h4 className="text-4xl text-white mb-3">{photographer.firstName}&apos;s top collections</h4>
-      </div>
-      {ShowPhotographerImage(info.personID)}
-    </div>
+    </section>
+
+    {/* Signature Collections Section */}
+    <section className="py-12 px-6 md:px-24 bg-custom-grey">
+        <h4 className="text-4xl text-white mb-10 font-semibold text-center">{photographer.firstName}&apos;s Signature Collections</h4>
+        {ShowPhotographerImage(info.personID)}
+    </section>
+
+</div>
+</>
+// Assuming you have a component to handle individual bio details to reduce repetition.
+
+
   )
+}
+
+export function BioDetail({ title, content }) {
+  return (
+      <div>
+          <h6 className="font-semibold text-xl text-gray-900">{title}</h6>
+          <p className="text-gray-700">{content}</p>
+      </div>
+  );
 }
 
 export async function getStaticProps(context) {

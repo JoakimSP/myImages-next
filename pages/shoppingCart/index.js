@@ -27,31 +27,47 @@ export default function ShoppingCart({ photosInCart }) {
   return (
     <>
     <Header/>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" >
-        {
-          Object.values(photosInCart).map((photo) => {
-            return (
-              <>
-                <Link key={photo.id}  href={`/images/viewimage?img=${encodeURIComponent(photo.url)}`}>
-                  <div className="group relative h-60">
-                    <Image
-                      src={photo.url}
-                      alt="image"
-                      fill={true}
-                      className="object-cover w-full"
-                      sizes="(max-width: 768px)"
-                    />
-                  </div>
-                </Link>
-                <button onClick={() => { handleRemoveFromCart(photo.id) }}>Remove</button>
-                <p>{photo.title}</p>
-              </>
-            )
-          })
-        }
-      </div>
-      <Link href={"/paypalCheckout"}><button>Checkout</button></Link>
-    </>
+
+    <div className="p-8  dark:bg-gray-900 min-h-screen">
+        <h1 className="text-center text-3xl font-semibold mb-10 text-gray-800">Your Cart</h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" >
+            {
+                Object.values(photosInCart).map((photo) => (
+                    <div key={photo.id} className="rounded-lg shadow-md overflow-hidden bg-white group">
+                        <Link className="block relative h-60" href={`/images/viewimage?img=${encodeURIComponent(photo.url)}`}>
+                                <Image
+                                    src={photo.url}
+                                    alt="image"
+                                    fill
+                                    className="object-cover w-full transition-transform duration-300 group-hover:scale-105"
+                                />
+                        </Link>
+
+                        <div className="p-4">
+                            <p className="mb-4 font-medium text-gray-800">{photo.title}</p>
+                            <button 
+                                onClick={() => { handleRemoveFromCart(photo.id) }} 
+                                className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded focus:outline-none transition-colors duration-300"
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+
+        <div className="mt-10 text-center">
+            <Link href={"/paypalCheckout"}>
+                <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-3 focus:outline-none transition-colors duration-300">
+                    Checkout
+                </button>
+            </Link>
+        </div>
+    </div>
+</>
+
   )
 }
 
