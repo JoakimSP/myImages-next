@@ -17,7 +17,7 @@ export default function Home() {
       </Head>
       <Header />
 
-      <div className="relative h-[42rem]  mb-11 bg-cover bg-center ">
+      <div className="flex justify-center  items-center relative h-[42rem]  mb-11 bg-cover bg-center ">
         <Image
           src={`/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG`}
           alt=""
