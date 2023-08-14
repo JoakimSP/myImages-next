@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     if (req.method !== 'POST') { return res.status(405).json({ error: 'Method not allowed' }) }
     console.log(req.body)
 
-    const { username, firstname, lastname, email, password } = req.body
+    const { username, firstname, lastname, email, password, role } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)
     const newUser = {
 
@@ -14,6 +14,7 @@ export default async function handler(req, res) {
         email: email,
         password: hashedPassword,
         user: username,
+        role: role,
         info: {
             create: {}
         }

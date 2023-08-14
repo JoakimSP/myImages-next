@@ -36,8 +36,8 @@ export default function Header() {
         </Link>
       )}
       {isAllowed && (
-        <Link href="/photographers/createPhotographerAccount">
-          <p className="text-gray-300 hover:text-blue-600">Add new photographer</p>
+        <Link href="/photographers/adminPage">
+          <p className="text-gray-300 hover:text-blue-600">Admin Page</p>
         </Link>
       )}
     </div>
