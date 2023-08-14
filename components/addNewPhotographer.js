@@ -71,7 +71,7 @@ export default function AddNewPhotographer({photographers}) {
         <h2 className="text-3xl text-white font-bold mb-6">Current Photographers</h2>
         <ul>
           {currentUsers.map((user) => (
-            <li className="mb-2 text-lg text-gray-400 hover:text-gray-300 transition-all duration-200">
+            <li key={user.firstName} className="mb-2 text-lg text-gray-400 hover:text-gray-300 transition-all duration-200">
               {`${user.firstName} ${user.lastName}`}
             </li>
           ))}

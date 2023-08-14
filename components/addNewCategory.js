@@ -51,7 +51,7 @@ export default function AddNewCategory({categories}) {
         <h2 className="text-3xl text-white font-bold mb-6">Current categories</h2>
         <ul>
           {currentCat.map((categorie) => (
-            <li className="mb-2 text-lg text-gray-400 hover:text-gray-300 transition-all duration-200">
+            <li key={categorie.name} className="mb-2 text-lg text-gray-400 hover:text-gray-300 transition-all duration-200">
               {`${categorie.name}`}
             </li>
           ))}
