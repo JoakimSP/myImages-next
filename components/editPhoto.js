@@ -4,10 +4,10 @@ export default function EditPhoto({photo}) {
     console.log(photo)
     async function HandleUpdateInfo(e) {
         e.preventDefault()
-        let tagValue
+        let catValue
         for (let i = 3; i < 6; i++) {
             if (e.target[i].checked) {
-                tagValue = e.target[i].value
+                catValue = e.target[i].value
                 break
             }
             else {
@@ -19,7 +19,7 @@ export default function EditPhoto({photo}) {
             title: e.target[0].value,
             description: e.target[1].value,
             price: e.target[2].value,
-            tags: tagValue,
+            category: catValue,
             photoID: photo.id
         }
 
