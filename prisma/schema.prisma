@@ -20,6 +20,7 @@ model photographer {
   lastName  String            @default("") @db.VarChar(255)
   email     String            @unique @default("") @db.VarChar(255)
   password  String            @default("") @db.VarChar(255)
+  role      String            @default("user")
   info      photographerinfo?
   photos    photos[]
 }
@@ -38,28 +39,35 @@ model photographerinfo {
 }
 
 model photos {
-  id           Int          @id @default(autoincrement())
-  personID     Int
-  title        String?
-  description  String?
-  filename     String
-  filetype     String
-  filesize     Int
-  url          String       @db.VarChar(250)
-  urlUser      String       @db.VarChar(250)
-  thumbnailUrl String?
-  dateTaken    DateTime?
-  width        Int?
-  height       Int?
-  tags         Json?
-  price        Int?         @default(100)
-  privacy      Boolean      @default(true)
-  photographer photographer @relation(fields: [personID], references: [personID])
+  id              Int          @id @default(autoincrement())
+  personID        Int
+  title           String?
+  description     String?
+  filename        String
+  filetype        String
+  filesize        Int
+  url             String       @db.VarChar(250)
+  urlUser         String       @db.VarChar(250)
+  thumbnailUrl    String?
+  dateTaken       DateTime?
+  width           Int?
+  height          Int?
+  tags            Json?
+  category        String?
+  countViewd      Int?
+  countDownloaded Int?
+  price           Int?         @default(100)
+  privacy         Boolean      @default(true)
+  photographer    photographer @relation(fields: [personID], references: [personID])
+  collection      collection?  @relation(fields: [collectionId], references: [id])
+  collectionId    Int?
+  categories      categories?  @relation(fields: [categoriesId], references: [id])
+  categoriesId    Int?
 }
 
 model cart {
   id           String @id @default(cuid())
-  photoID      Int    
+  photoID      Int
   sessionEmail String
 }
 
@@ -69,6 +77,26 @@ model receipt {
   sessionEmail String
   dateAdded    String
   price        Int
+}
+
+model categories {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  parentId    Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  photos      photos[]
+}
+
+model collection {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  parentId    Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  photos      photos[]
 }
 
 model Account {
