@@ -15,7 +15,7 @@ export default function Header() {
   //Fetch photographers from getAllPhotographers API
 
     useEffect(() => {
-      if(session && session.user.email === "jocke@live.se"){
+      if(session && session.user.email === "jocke@live.se" || session && session.user.email === "Pernilla@test.se"){
         setIsAllowed(true)
       } else {
         setIsAllowed(false)
