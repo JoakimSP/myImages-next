@@ -26,7 +26,7 @@ class ErrorBoundary extends Component {
         <div className="text-center p-8">
           <img src="/path-to-error-image.svg" alt="Error Illustration" className="mx-auto w-48 mb-4" />
           <h1 className="text-2xl font-bold mb-2">Oops! Something went wrong.</h1>
-          <p className="mb-4">We're sorry for the inconvenience.</p>
+          <p className="mb-4">We are sorry for the inconvenience.</p>
           
           <p className="mt-4">If the problem persists, please <a href="mailto:pernilla@spprod.se" className="text-blue-500 hover:underline">contact our support</a>.</p>
         </div>
