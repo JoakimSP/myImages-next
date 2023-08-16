@@ -1,5 +1,6 @@
 import router from "next/router"
 import { toast } from "react-toastify"
+import ErrorBoundary from "./errorBoundery"
 
 export default function EditPhoto({photo}) {
 
@@ -45,6 +46,7 @@ export default function EditPhoto({photo}) {
 
     }
     return (
+        <ErrorBoundary>
         <form className="space-y-4" onSubmit={HandleUpdateInfo}>
             <div>
                 <label className="block mb-2" htmlFor="title">title</label>
@@ -73,5 +75,6 @@ export default function EditPhoto({photo}) {
             <input type="submit" value="Submit" className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700" />
             </div>
         </form>
+        </ErrorBoundary>
     )
 }

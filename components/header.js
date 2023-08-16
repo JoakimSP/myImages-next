@@ -3,6 +3,7 @@ import LoginPage from "./login"
 import { useSession } from "next-auth/react"
 import { CartContext } from "@/context/cartProvider"
 import { useContext, useEffect, useState } from "react"
+import ErrorBoundary from "./errorBoundery"
 
 
 
@@ -22,6 +23,7 @@ export default function Header() {
       }
     }, [session])
   return (
+    <ErrorBoundary>
 <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-b from-gray-950 shadow-md">
     <div className="flex items-center space-x-6">
       <Link href="/">
@@ -57,6 +59,6 @@ export default function Header() {
 </div>
 
   </div>
-
+  </ErrorBoundary>
   )
 }

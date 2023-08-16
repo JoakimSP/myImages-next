@@ -1,6 +1,7 @@
 import InputField from "./utils/inputField";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import ErrorBoundary from "./errorBoundery";
 
 export default function AddNewPhotographer({photographers}) {
     const [currentUsers, setCurrentUsers] = useState(photographers)
@@ -42,6 +43,7 @@ export default function AddNewPhotographer({photographers}) {
 
   return (
     <>
+    <ErrorBoundary>
     {/* Title */}
     <div className="text-center py-8 w-full">
         <h1 className="text-5xl text-white font-bold">Create New Photographer Account</h1>
@@ -78,6 +80,7 @@ export default function AddNewPhotographer({photographers}) {
         </ul>
       </div>
     </div>
+    </ErrorBoundary>
     </>
   )
 }

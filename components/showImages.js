@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { useState, useEffect } from "react";
 import { storage } from "./firebase";
+import ErrorBoundary from "./errorBoundery";
 
 export function ShowPhotographerImage(photographer) {
   const [imageList, setImageList] = useState([])
@@ -18,6 +19,7 @@ export function ShowPhotographerImage(photographer) {
   }, []);
 
   return (
+    <ErrorBoundary>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {imageList.map((url) => {
 
@@ -36,6 +38,7 @@ export function ShowPhotographerImage(photographer) {
         )
       })}
     </div>
+    </ErrorBoundary>
   )
 }
 
@@ -55,6 +58,7 @@ export default function ShowImagesNext() {
   }, []);
 
   return (
+    <ErrorBoundary>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {imageList.map((url) => {
 
@@ -73,5 +77,6 @@ export default function ShowImagesNext() {
         )
       })}
     </div>
+    </ErrorBoundary>
   )
 }

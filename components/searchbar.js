@@ -1,4 +1,5 @@
 import { useState } from "react"
+import ErrorBoundary from "./errorBoundery"
 
 function SearchBar() {
   const [view, setView] = useState("hidden")
@@ -13,7 +14,7 @@ function SearchBar() {
   }
 
   return (
-
+<ErrorBoundary>
     <form className="w-1/2">
       <div className="flex relative">
         <label htmlFor="search-dropdown" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
@@ -50,7 +51,7 @@ function SearchBar() {
         </div>
       </div>
     </form>
-
+    </ErrorBoundary>
   )
 }
 

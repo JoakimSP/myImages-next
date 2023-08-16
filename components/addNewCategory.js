@@ -1,6 +1,7 @@
 import InputField from "./utils/inputField";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import ErrorBoundary from "./errorBoundery";
 
 export default function AddNewCategory({categories}) {
     const [currentCat, setCurrentCat] = useState(categories)
@@ -33,6 +34,7 @@ export default function AddNewCategory({categories}) {
       }
   return (
     <>
+    <ErrorBoundary>
     <div className="text-center py-8 w-full">
         <h1 className="text-5xl text-white font-bold">Create New Categorie</h1>
     </div>
@@ -58,6 +60,7 @@ export default function AddNewCategory({categories}) {
         </ul>
       </div>  
     </div>
+    </ErrorBoundary>
     </>
   )
 }

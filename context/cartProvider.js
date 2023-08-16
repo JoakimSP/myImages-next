@@ -1,5 +1,6 @@
 import React, { createContext, useReducer } from "react";
 import { toast } from "react-toastify"
+import ErrorBoundary from "@/components/errorBoundery";
 // Define the context
 const CartContext = createContext();
 
@@ -43,11 +44,13 @@ const addToCart = async (item) => {
   };
 
   return (
+    <ErrorBoundary>
     <CartContext.Provider
       value={{ cart, addToCart, removeFromCart, clearCart }}
     >
       {children}
     </CartContext.Provider>
+    </ErrorBoundary>
   );
 };
 
