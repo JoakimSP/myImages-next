@@ -17,7 +17,7 @@ export default function index({ photographers }) {
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 lg:px-24'>
             {photographers.map(photographer => {
                 return (
-                  <Link key={photographer.personID} href={`./photographers/${photographer.user}`}>
+                  <Link key={photographer.personID} href={`./photographers/photoGraphersName/${photographer.user}`}>
                   <div className='cursor-pointer transform transition-transform duration-300 hover:scale-105 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl bg-white'>
                       
                       <Image
