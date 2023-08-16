@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import prisma from "@/components/prisma";
 import AddNewPhotographer from "@/components/addNewPhotographer";
 import AddNewCategory from "@/components/addNewCategory";
+const logger = require('@/components/utils/logger')
 
 export default function AdminPage({photographers, categories}) {
 
@@ -37,7 +38,7 @@ export async function getServerSideProps(context) {
     }
 
   } catch (error) {
-    console.log(error)
+    logger.logger.log('error', error)
     return {
         props: { 
           photographers: [],

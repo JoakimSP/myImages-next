@@ -1,4 +1,5 @@
 import prisma from "@/components/prisma";
+const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res) {
 
@@ -29,6 +30,6 @@ const photosIDString = photoIDsInCart.join(',');
         res.status(200).json({ message: "Added a an order in db" });
 
     } catch (error) {
-        console.log(error)
+        logger.logger.log('error', error)
     }
 }

@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import prisma from '@/components/prisma';
+const logger = require('@/components/utils/logger')
 
 
 export default async function handler(req, res) {
@@ -10,11 +10,9 @@ export default async function handler(req, res) {
       }
 
       const imageFolder = path.join(process.cwd(), '/images')
-      console.log(imageFolder)
 
       try {
         const files = await fs.readdir("/images")
-        console.log(files)
         const imageExtension = ['.jpg','.jpeg', '.png']
         const imageFiles = files.filter((file) => {
             imageExtension.includes(path.extname(file).toLowerCase())
@@ -22,6 +20,7 @@ export default async function handler(req, res) {
             res.status(200).json(imageFiles)
         })
       } catch (error) {
+        logger.logger.log('error', error)
         res.status(500).json({ error: 'Error reading directory' });
       }
   }

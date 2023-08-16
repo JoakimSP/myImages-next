@@ -4,6 +4,7 @@ import prisma from "@/components/prisma"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from 'bcrypt'
+const logger = require('@/components/utils/logger')
 
 
 
@@ -35,7 +36,7 @@ export default NextAuth({
           return user
 
         } catch (error) {
-          console.log(error)
+          logger.logger.log('error', error)
           return null
         } finally{
           await prisma.$disconnect()

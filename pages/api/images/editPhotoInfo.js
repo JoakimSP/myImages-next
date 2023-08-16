@@ -1,14 +1,14 @@
 import prisma from "@/components/prisma";
+const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res){
     const {
         title,
         description,
-        tags,
+        category,
         price,
         photoID
     } = req.body
-    console.log(photoID)
 
     try {
         const result = await prisma.photos.update({
@@ -24,6 +24,7 @@ export default async function handler(req, res){
         })
         res.status(200).json({message: "PhotoData updated"})
     } catch (error) {
+        logger.logger.log('error', error)
         res.status(405).json({ error: `Cant update the photo info ${error}` })
     } finally{
         await prisma.$disconnect()

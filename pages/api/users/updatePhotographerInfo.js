@@ -1,4 +1,5 @@
 import prisma from "@/components/prisma";
+const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res) {
     const {
@@ -33,10 +34,10 @@ export default async function handler(req, res) {
             },
             data: updateData
         })
-        console.log("Updated photographers information")
         res.redirect("/")
 
     } catch (error) {
+        logger.logger.log('error', error)
         res.status(405).json({ error: `Cant update the photografers info ${error}` })
     }
 }

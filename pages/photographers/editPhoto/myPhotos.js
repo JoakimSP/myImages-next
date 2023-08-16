@@ -1,6 +1,7 @@
 import { getSession } from "next-auth/react"
 import prisma from "@/components/prisma"
 import showImages from "@/components/showImages"
+const logger = require('@/components/utils/logger')
 
 export default function FileName({ photos }) {
 
@@ -29,6 +30,6 @@ export async function getServerSideProps(context) {
             props: { photos }
         }
     } catch (error) {
-        console.log(error)
+        logger.logger.log('error', error)
     }
 }

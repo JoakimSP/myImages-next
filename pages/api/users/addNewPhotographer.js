@@ -1,9 +1,9 @@
 import prisma from "@/components/prisma"
 import bcrypt from 'bcrypt'
+const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') { return res.status(405).json({ error: 'Method not allowed' }) }
-    console.log(req.body)
 
     const { username, firstname, lastname, email, password, role } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)
@@ -22,10 +22,9 @@ export default async function handler(req, res) {
 
     try {
         const createPhotographer = await prisma.photographer.create({ data: newUser })
-        console.log("Add new photographer")
         res.redirect("/")
     } catch (error) {
-        console.log(error)
+        logger.logger.log('error', error)
         res.status(400).json({ error: 'could not add new photographer' })
     }
 }

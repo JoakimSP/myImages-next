@@ -6,6 +6,7 @@ import Image from "next/image"
 import Header from "@/components/header"
 import { signIn } from "next-auth/react"
 import { getSession } from "next-auth/react"
+const logger = require('@/components/utils/logger')
 
 export default function ShoppingCart({ photosInCart, session }) {
   const { removeFromCart } = useContext(CartContext)
@@ -19,7 +20,6 @@ export default function ShoppingCart({ photosInCart, session }) {
       userEmail
     }
 
-console.log(data)
     const result = await fetch('/api/cart/removeCartData', {
       method: 'POST',
       headers: {
@@ -67,7 +67,7 @@ console.log(data)
                 ))
             }
         </div>
-
+            {photosInCart != 0 &&
         <div className="mt-10 text-center">
             <Link href={"/paypalCheckout"}>
                 <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-3 focus:outline-none transition-colors duration-300">
@@ -75,6 +75,7 @@ console.log(data)
                 </button>
             </Link>
         </div>
+    }
     </div>
 </>
 
@@ -107,7 +108,7 @@ export async function getServerSideProps(context) {
     }
 
   } catch (error) {
-    console.log(error)
+    logger.logger.log('error', error)
     return {
         props: { 
           photosInCart: [],

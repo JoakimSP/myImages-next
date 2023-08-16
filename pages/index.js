@@ -3,6 +3,7 @@ import Header from '@/components/header'
 import ShowImagesNext from '@/components/showImages'
 import SearchBar from '@/components/searchbar'
 import Image from "next/image";
+import ErrorBoundary from '@/components/errorBoundery';
 
 
 export default function Home() {
@@ -24,9 +25,13 @@ export default function Home() {
           fill={true}
           className="object-cover w-full"
         />
+        
         <SearchBar />
+        
       </div>
+      <ErrorBoundary>
      <ShowImagesNext/>
+     </ErrorBoundary>
     </div>
   )
 }

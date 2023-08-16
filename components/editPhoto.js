@@ -1,7 +1,8 @@
 import router from "next/router"
+import { toast } from "react-toastify"
 
 export default function EditPhoto({photo}) {
-    console.log(photo)
+
     async function HandleUpdateInfo(e) {
         e.preventDefault()
         let catValue
@@ -34,11 +35,12 @@ export default function EditPhoto({photo}) {
             })
 
             if (response.ok) {
+                toast("Photo information updated")
                 router.push("/")
 
             }
         } catch (error) {
-            console.log(error)
+            toast("Opps, something went wrong")
         }
 
     }

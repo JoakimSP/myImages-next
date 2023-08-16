@@ -2,6 +2,7 @@ import Link from "next/link"
 import Header from "@/components/header"
 import prisma from "@/components/prisma"
 import Image from "next/image"
+const logger = require('@/components/utils/logger')
 
 export default function index({ photographers }) {
   return (
@@ -56,7 +57,7 @@ export async function getServerSideProps() {
       props: { photographers }
     }
   } catch (error) {
-    console.log(error)
+    logger.logger.log('error', error)
   } finally {
     await prisma.$disconnect()
   }

@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from "react";
+import { toast } from "react-toastify"
 // Define the context
 const CartContext = createContext();
 
@@ -28,7 +29,7 @@ const addToCart = async (item) => {
   if (!isDuplicate) {
     dispatch({ type: "ADD_ITEM", item });
   } else {
-    console.log("Item is already in the cart");
+    toast.warn("Item is already in the cart");
   }
 };
 

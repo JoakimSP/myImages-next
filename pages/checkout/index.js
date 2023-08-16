@@ -15,16 +15,7 @@ export default function Index({lastReceipt}) {
     }
   }, [router]);
   
-/*   const lastBought = parseInt(lastReceipt[0].dateAdded)
-  let withinLastMinute = Date.now() - 60000
 
-  if(lastBought < withinLastMinute){
-    console.log("Not authorized")
-    return null
-  } */
- 
-
-//TODO
   async function handleDownloadImage(e){
     e.preventDefault()
     const photosID = lastReceipt.map(photo => photo.photosID);

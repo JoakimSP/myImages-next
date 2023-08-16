@@ -4,6 +4,7 @@ import Header from "@/components/header";
 import FormInput from "./formInput";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 import { useState } from "react"
 import { storage } from "@/components/firebase";
@@ -45,7 +46,7 @@ export default function EditPhotographerPage({ userdata }) {
         router.push("/")
       }
     } catch (error) {
-      console.log(error)
+      toast.error("Something went wrong")
     }
 
 
@@ -57,8 +58,6 @@ export default function EditPhotographerPage({ userdata }) {
 
     const imageRefUser = ref(storage, `${userdata.personID}/${imageName}`);
     const imageRef = ref(storage, `${imageName}`);
-
-    console.log(userdata.personID + "/" + imageName)
 
     try {
       // Upload to user-specific directory
@@ -82,7 +81,6 @@ export default function EditPhotographerPage({ userdata }) {
   };
   const uploadImageData = async (imageUrl, imageUrlUser) => {
     const fileName = imageUpload.name + v4();
-    console.log(imageUrl)
     const photoInformation = {
       personID: userdata.personID,
       filename: fileName,

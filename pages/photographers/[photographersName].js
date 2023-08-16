@@ -3,11 +3,11 @@ import Header from "@/components/header"
 import Image from "next/image"
 import Link from "next/link"
 import { ShowPhotographerImage } from "@/components/showImages"
+const logger = require('@/components/utils/logger')
 
 
 export default function photographersName({ photographer, photos }) {
   const { info } = photographer
-  console.log(info.personID)
 
   return (
     
@@ -97,7 +97,7 @@ export async function getStaticProps(context) {
       revalidate: 60,
     }
   } catch (error) {
-    console.log(error)
+    logger.logger.log('error', error)
   }
 
 }
@@ -119,7 +119,7 @@ export async function getStaticPaths() {
       fallback: 'blocking',
     };
   } catch (error) {
-    console.log(error)
+    logger.logger.log('error', error)
   }
 }
 

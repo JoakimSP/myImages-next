@@ -3,6 +3,7 @@ import fs from "fs"
 import path from "path"
 import { ref, deleteObject } from "firebase/storage";
 import { storage } from "@/components/firebase";
+const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res) {
     const {
@@ -15,7 +16,6 @@ export default async function handler(req, res) {
     const folderRef = ref(storage, `${urlUser}`)
     const storageRef = ref(storage, `${url}`)
 
-    console.log(filename)
 
 
     try {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
         if(deletePhoto){res.status(200).json({ message: "Delete image" })}
     } catch (err) {
-        console.error("Error deleting files:", err);
+        logger.logger.log('error', err)
         return res.status(500).json({ message: "Error deleting files", error: err })
     }
 

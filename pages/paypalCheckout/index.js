@@ -1,6 +1,7 @@
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import prisma from "@/components/prisma";
 import { useRouter } from "next/router";
+const logger = require('@/components/utils/logger')
 
 export default function Index({ photosInCart, email }) {
 const router = useRouter()
@@ -55,7 +56,7 @@ const router = useRouter()
               throw new Error({error: "Cant accsess createorder"})
              }
            } catch (error) {
-            console.log(error)
+            logger.logger.log('error', error)
            }
           });
         }}
@@ -95,7 +96,7 @@ export async function getServerSideProps() {
       }
     }
   } catch (error) {
-    console.log(error)
+    logger.logger.log('error', error)
     return {
       props: {
         photosInCart : null,

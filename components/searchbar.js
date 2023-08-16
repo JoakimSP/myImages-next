@@ -12,8 +12,6 @@ function SearchBar() {
     }
   }
 
- console.log(categorie)
-
   return (
 
     <form className="w-1/2">

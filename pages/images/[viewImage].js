@@ -7,6 +7,7 @@ import { useContext, useState, useEffect } from "react"
 import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
 import EditPhoto from "@/components/editPhoto"
+const logger = require('@/components/utils/logger')
 
 export default function ViewImage(props) {
     const {
@@ -101,7 +102,7 @@ export default function ViewImage(props) {
 export async function getServerSideProps(context) {
     const { img } = context.query;
     const session = await getSession(context);
-    console.log()
+
 
     let props = {};
     let photo = {}
@@ -128,14 +129,13 @@ export async function getServerSideProps(context) {
 
             if (photographer) {
                 props.photographer = photographer;
-                console.log(photographer.personID)
+
             }
         }
 
 
     } catch (error) {
-        console.log(error);
-        props.error = 'An error occurred while loading data';
+        logger.logger.log('error', error)
     } finally {
         prisma.$disconnect();
     }
