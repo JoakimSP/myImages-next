@@ -115,7 +115,7 @@ export async function getStaticPaths() {
     });
     prisma.$disconnect()
     const paths = photographers.map((photographer) => ({
-      params: { photoGraphersName: photographer.user },
+      params: { photographersName: photographer.user },
     }));
     return {
       paths,
