@@ -97,11 +97,10 @@ export async function getStaticProps(context) {
       revalidate: 60,
     }
   } catch (error) {
-  /*   logger.logger.log('error', {
+    logger.logger.log('error', {
       message: error.message,
       stack: error.stack
-  }) */
-  console.log(error)
+  })
   }
 
 }

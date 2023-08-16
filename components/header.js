@@ -38,7 +38,7 @@ export default function Header() {
         </Link>
       )}
       {isAllowed && (
-        <Link href="/photographers/adminPage">
+        <Link href="/admin/adminPage">
           <p className="text-gray-300 hover:text-blue-600">Admin Page</p>
         </Link>
       )}

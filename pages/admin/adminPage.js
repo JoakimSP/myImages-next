@@ -5,33 +5,33 @@ import AddNewPhotographer from "@/components/addNewPhotographer";
 import AddNewCategory from "@/components/addNewCategory";
 const logger = require('@/components/utils/logger')
 
-export default function AdminPage({photographers, categories}) {
+export default function AdminPage({ photographers, categories }) {
 
-  
+
 
   return (
     <div className="bg-custom-grey min-h-screen flex flex-col justify-center items-center px-6 md:px-24">
 
-    
-    <AddNewPhotographer photographers={photographers}/>
-    <AddNewCategory categories={categories}/>
-    
 
-  </div>
+      <AddNewPhotographer photographers={photographers} />
+      <AddNewCategory categories={categories} />
+
+
+    </div>
   );
 }
 
 
 export async function getServerSideProps(context) {
-  
+
   try {
-   
+
     const photographers = await prisma.photographer.findMany()
     const categories = await prisma.categories.findMany()
 
-   
+
     return {
-      props: { 
+      props: {
         photographers,
         categories: JSON.parse(JSON.stringify(categories))
       }
@@ -41,12 +41,12 @@ export async function getServerSideProps(context) {
     logger.logger.log('error', {
       message: error.message,
       stack: error.stack
-  })
+    })
     return {
-        props: { 
-          photographers: [],
-          categories: []
-        }  // you should return an object in every condition
+      props: {
+        photographers: [],
+        categories: []
+      }  // you should return an object in every condition
     }
   } finally {
     await prisma.$disconnect()
