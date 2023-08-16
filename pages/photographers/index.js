@@ -57,7 +57,10 @@ export async function getServerSideProps() {
       props: { photographers }
     }
   } catch (error) {
-    logger.logger.log('error', error)
+    logger.logger.log('error', {
+      message: error.message,
+      stack: error.stack
+  })
   } finally {
     await prisma.$disconnect()
   }

@@ -16,7 +16,10 @@ export default async function handler(req, res) {
         }) 
         res.status(200).json({message: "Removed from cart"})
     } catch (error) {
-        logger.logger.log('error', error)
+        logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+        })
         res.status(500).json({message: "Server error"})
     } finally{
         await prisma.$disconnect()

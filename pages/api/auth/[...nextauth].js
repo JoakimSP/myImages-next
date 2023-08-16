@@ -36,7 +36,10 @@ export default NextAuth({
           return user
 
         } catch (error) {
-          logger.logger.log('error', error)
+          logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+        })
           return null
         } finally{
           await prisma.$disconnect()

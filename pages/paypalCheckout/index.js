@@ -97,7 +97,10 @@ export async function getServerSideProps() {
       }
     }
   } catch (error) {
-    logger.logger.log('error', error)
+    logger.logger.log('error', {
+      message: error.message,
+      stack: error.stack
+  })
     return {
       props: {
         photosInCart : null,

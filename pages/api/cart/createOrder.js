@@ -30,6 +30,9 @@ const photosIDString = photoIDsInCart.join(',');
         res.status(200).json({ message: "Added a an order in db" });
 
     } catch (error) {
-        logger.logger.log('error', error)
+        logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+        })
     }
 }

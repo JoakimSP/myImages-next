@@ -37,7 +37,10 @@ export default async function handler(req, res) {
         res.redirect("/")
 
     } catch (error) {
-        logger.logger.log('error', error)
+        logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+        })
         res.status(405).json({ error: `Cant update the photografers info ${error}` })
     }
 }

@@ -35,8 +35,11 @@ export default async function handler(req, res) {
         prisma.$disconnect()
 
         if(deletePhoto){res.status(200).json({ message: "Delete image" })}
-    } catch (err) {
-        logger.logger.log('error', err)
+    } catch (error) {
+        logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+        })
         return res.status(500).json({ message: "Error deleting files", error: err })
     }
 

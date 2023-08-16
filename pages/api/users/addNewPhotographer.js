@@ -22,9 +22,12 @@ export default async function handler(req, res) {
 
     try {
         const createPhotographer = await prisma.photographer.create({ data: newUser })
-        res.redirect("/")
     } catch (error) {
-        logger.logger.log('error', error)
+
+        logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+        })
         res.status(400).json({ error: 'could not add new photographer' })
     }
 }
