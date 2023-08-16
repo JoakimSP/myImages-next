@@ -57,7 +57,10 @@ const router = useRouter()
               throw new Error({error: "Cant accsess createorder"})
              }
            } catch (error) {
-            logErrorToApi(error.toString())
+            logErrorToApi({
+              message: error.message,
+              stack: error.stack
+          })
            }
           });
         }}

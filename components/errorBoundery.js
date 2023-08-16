@@ -16,7 +16,10 @@ class ErrorBoundary extends Component {
   componentDidCatch(error, errorInfo) {
     // You can log the error to an error reporting service
     console.log("Trying to run function to send error")
-    logErrorToApi(error.toString());
+    logErrorToApi({
+      message: error.message,
+      stack: error.stack
+  });
   }
 
   render() {
