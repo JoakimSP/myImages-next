@@ -2,6 +2,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import prisma from "@/components/prisma";
 import { useRouter } from "next/router";
 const logger = require('@/components/utils/logger')
+import { logErrorToApi } from "@/components/utils/logErrorToApi";
 
 export default function Index({ photosInCart, email }) {
 const router = useRouter()
@@ -56,7 +57,7 @@ const router = useRouter()
               throw new Error({error: "Cant accsess createorder"})
              }
            } catch (error) {
-            logger.logger.log('error', error)
+            logErrorToApi(error.toString())
            }
           });
         }}
