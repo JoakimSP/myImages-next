@@ -54,8 +54,8 @@ model photos {
   height          Int?
   tags            Json?
   category        String?
-  countViewd      Int?
-  countDownloaded Int?
+  countViewd      Int?         @default(0)
+  countDownloaded Int?         @default(0)
   price           Int?         @default(100)
   privacy         Boolean      @default(true)
   photographer    photographer @relation(fields: [personID], references: [personID])

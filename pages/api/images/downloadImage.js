@@ -22,6 +22,15 @@ export default async function handler(req, res) {
             return;
         }
 
+        await prisma.photos.updateMany({
+            where : {
+                id: {in: parseToInt}
+            },
+            data: {
+                countDownloaded: {increment: 1}
+            }
+        })
+
         // Create a zip archive using Archiver
         const archive = archiver('zip', {
             zlib: { level: 9 } // Sets the compression level.

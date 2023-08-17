@@ -103,18 +103,32 @@ export async function getServerSideProps(context) {
     const { img } = context.query;
     const session = await getSession(context);
 
-
     let props = {};
-    let photo = {}
+    let photo;
 
     try {
-         photo = await prisma.photos.findFirst({
+        photo = await prisma.photos.findFirst({
             where: { url: img },
         });
-        if(!photo){
-             photo = await prisma.photos.findFirst({
-                where: { urlUser: img },
-            });
+   
+        switch(true) {
+            case Boolean(photo):
+                await prisma.photos.update({
+                    where: { id: photo.id },
+                    data: { countViewd: { increment: 1 } },
+                });
+                break;
+            default:
+                    photo = await prisma.photos.findFirst({
+                    where: { urlUser: img },
+                });
+                if (photo) {
+                    await prisma.photos.update({
+                        where: { id: photo.id },
+                        data: { countViewd: { increment: 1 } },
+                    });
+                }
+                
         }
 
         // Check if session and session.user exist before trying to access the email
@@ -129,21 +143,20 @@ export async function getServerSideProps(context) {
 
             if (photographer) {
                 props.photographer = photographer;
-
             }
         }
-
 
     } catch (error) {
         logger.logger.log('error', {
             message: error.message,
             stack: error.stack
-        })
+        });
     } finally {
         prisma.$disconnect();
     }
 
     return { props };
 }
+
 
 
