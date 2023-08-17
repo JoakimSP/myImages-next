@@ -1,5 +1,6 @@
 import { logErrorToApi } from "./utils/logErrorToApi";
 import React, { Component } from 'react';
+import Image from "next/image";
 
 
 class ErrorBoundary extends Component {
@@ -27,7 +28,7 @@ class ErrorBoundary extends Component {
       // You can render any custom fallback UI
       return (
         <div className="text-center p-8">
-          <img src="/path-to-error-image.svg" alt="Error Illustration" className="mx-auto w-48 mb-4" />
+          <Image src="errorImage.png" width={600} height={600} alt="Error Illustration" className="mx-auto w-48 mb-4" />
           <h1 className="text-2xl font-bold mb-2">Oops! Something went wrong.</h1>
           <p className="mb-4">We are sorry for the inconvenience.</p>
           
