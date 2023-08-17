@@ -4,9 +4,10 @@ import ShowImagesNext from '@/components/showImages'
 import SearchBar from '@/components/searchbar'
 import Image from "next/image";
 import ErrorBoundary from '@/components/errorBoundery';
+import prisma from '@/components/prisma';
 
 
-export default function Home() {
+export default function Home({categories}) {
 
   return (
     <div className='bg-custom-grey'>
@@ -26,7 +27,7 @@ export default function Home() {
           className="object-cover w-full"
         />
         
-        <SearchBar />
+        <SearchBar categories={categories} />
         
       </div>
       <ErrorBoundary>
@@ -34,4 +35,19 @@ export default function Home() {
      </ErrorBoundary>
     </div>
   )
+}
+
+
+  export async function getServerSideProps(){
+    const categories = await prisma.categories.findMany({
+      select: {
+        name: true,
+      },
+    })
+
+    console.log(categories)
+
+    return {
+      props : {categories}
+    }
 }
