@@ -7,7 +7,8 @@ export default async function handler(req, res){
         description,
         category,
         price,
-        photoID
+        photoID,
+        tags
     } = req.body
 
     try {
@@ -19,6 +20,7 @@ export default async function handler(req, res){
                 title: title,
                 description: description,
                 tags: tags,
+                category: category,
                 price: parseInt(price), 
             }
         })

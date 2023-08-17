@@ -1,8 +1,16 @@
 import router from "next/router"
 import { toast } from "react-toastify"
 import ErrorBoundary from "./errorBoundery"
+import TagsInput from "react-tagsinput"
+import 'react-tagsinput/react-tagsinput.css'
+import { useState } from "react"
 
 export default function EditPhoto({photo}) {
+    const [tags, setTags] = useState([])
+
+    const handleUpdateTags = (newTags) => {
+        setTags(newTags);
+      };
 
     async function HandleUpdateInfo(e) {
         e.preventDefault()
@@ -22,6 +30,7 @@ export default function EditPhoto({photo}) {
             description: e.target[1].value,
             price: e.target[2].value,
             category: catValue,
+            tags: tags,
             photoID: photo.id
         }
 
@@ -70,6 +79,9 @@ export default function EditPhoto({photo}) {
                     <input type="radio" id="ocean" name="category" value="ocean" className="mr-2" />
                     <label htmlFor="ocean">Ocean</label>
                 </div>
+            </div>
+            <div>
+            <TagsInput value={tags} onChange={handleUpdateTags} onlyUnique/>
             </div>
             <div>
             <input type="submit" value="Submit" className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700" />
