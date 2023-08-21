@@ -4,20 +4,24 @@ import prisma from "@/components/prisma";
 import AddNewPhotographer from "@/components/addNewPhotographer";
 import AddNewCategory from "@/components/addNewCategory";
 const logger = require('@/components/utils/logger')
+import Header from "@/components/header";
 
 export default function AdminPage({ photographers, categories }) {
 
 
 
   return (
+    <>
+    <Header/>
     <div className="bg-custom-grey min-h-screen flex flex-col justify-center items-center px-6 md:px-24">
 
-
+      
       <AddNewPhotographer photographers={photographers} />
       <AddNewCategory categories={categories} />
 
 
     </div>
+    </>
   );
 }
 

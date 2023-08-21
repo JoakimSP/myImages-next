@@ -5,6 +5,7 @@ import SearchBar from '@/components/searchbar'
 import Image from "next/image";
 import ErrorBoundary from '@/components/errorBoundery';
 import prisma from '@/components/prisma';
+import Footer from '@/components/footer';
 
 
 export default function Home({categories}) {
@@ -33,6 +34,7 @@ export default function Home({categories}) {
       <ErrorBoundary>
      <ShowImagesNext/>
      </ErrorBoundary>
+     <Footer/>
     </div>
   )
 }
@@ -41,6 +43,7 @@ export default function Home({categories}) {
   export async function getServerSideProps(){
     const categories = await prisma.categories.findMany({
       select: {
+        id: true,
         name: true,
       },
     })
