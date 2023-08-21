@@ -9,7 +9,7 @@ import 'react-quill/dist/quill.snow.css';
 
 export default function PrivacyPolicy({ text }) {
     const { data: session } = useSession()
-    const [value, setValue] = useState(text ? text.text.toString() : "");
+    const [value, setValue] = useState(text && text.text ? text.text.toString() : "");
 
     const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), []);
     console.log(text)
@@ -49,7 +49,7 @@ export default function PrivacyPolicy({ text }) {
                             font-size: 2rem;
                         } 
                     `}</style>
-                    <div className="custom-css" dangerouslySetInnerHTML={{ __html: text.text }}></div>
+                    <div className="custom-css" dangerouslySetInnerHTML={{ __html: text && text.text ? text.text : "" }}></div>
                 </div>
             )}
         </>
@@ -60,7 +60,6 @@ export default function PrivacyPolicy({ text }) {
 
 
 export async function getServerSideProps() {
-
     const text = await prisma.privacypolicy.findFirst({
         where: {
             id: "1"
@@ -68,8 +67,13 @@ export async function getServerSideProps() {
         select: {
             text: true
         }
-    })
+    });
 
+    if (!text) {
+        return {
+            props: { text: null }
+        }
+    }
 
     return {
         props: { text }
