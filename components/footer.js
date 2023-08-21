@@ -41,6 +41,14 @@ function Footer() {
                                 </li>
                             </ul>
                         </div>
+                        <div>
+                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Support</h2>
+                            <ul className="text-gray-500 dark:text-gray-400 font-medium">
+                                <li className="mb-4">
+                                    <Link href="/information/support" className="hover:underline">Customer support</Link>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
