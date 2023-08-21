@@ -9,13 +9,7 @@ import 'react-quill/dist/quill.snow.css';
 
 export default function PrivacyPolicy({ text }) {
     const { data: session } = useSession()
-    if(text){
-        const [value, setValue] = useState(text.text.toString());
-    }
-    else{
-        const [value, setValue] = useState("");
-    }
-    
+    const [value, setValue] = useState(text ? text.text.toString() : "");
 
     const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), []);
     console.log(text)
