@@ -7,6 +7,7 @@ import Header from "@/components/header"
 import { signIn } from "next-auth/react"
 import { getSession } from "next-auth/react"
 const logger = require('@/components/utils/logger')
+import Footer from "@/components/footer";
 
 export default function ShoppingCart({ photosInCart, session }) {
   const { removeFromCart } = useContext(CartContext)
@@ -77,6 +78,7 @@ export default function ShoppingCart({ photosInCart, session }) {
         </div>
     }
     </div>
+    <Footer/>
 </>
 
   )

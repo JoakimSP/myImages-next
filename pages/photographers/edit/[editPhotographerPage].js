@@ -5,6 +5,7 @@ import FormInput from "./formInput";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import Footer from "@/components/footer";
 
 import { useState } from "react"
 import { storage } from "@/components/firebase";
@@ -187,6 +188,7 @@ export default function EditPhotographerPage({ userdata }) {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   )
 }

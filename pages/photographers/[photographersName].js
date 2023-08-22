@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ShowPhotographerImage } from "@/components/showImages"
 const logger = require('@/components/utils/logger')
+import Footer from "@/components/footer";
 
 
 export default function photographersName({ photographer, photos }) {
@@ -52,6 +53,7 @@ export default function photographersName({ photographer, photos }) {
     </section>
 
 </div>
+<Footer/>
 </>
 // Assuming you have a component to handle individual bio details to reduce repetition.
 

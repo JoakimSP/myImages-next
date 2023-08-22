@@ -5,6 +5,7 @@ import AddNewCategory from "@/components/addNewCategory";
 const logger = require('@/components/utils/logger')
 import Header from "@/components/header";
 import EditPrivacyPolicy from "@/components/editPrivacyPolicy";
+import Footer from "@/components/footer";
 
 export default function AdminPage({ photographers, categories, policyText }) {
 
@@ -57,6 +58,7 @@ export default function AdminPage({ photographers, categories, policyText }) {
       </div>
       <div className="flex flex-col pb-44">{renderActiveView()}</div>
     </div>
+    <Footer/>
     </>
   );
 }

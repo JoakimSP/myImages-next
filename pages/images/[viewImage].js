@@ -8,6 +8,7 @@ import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
 import EditPhoto from "@/components/editPhoto"
 const logger = require('@/components/utils/logger')
+import Footer from "@/components/footer"
 
 export default function ViewImage(props) {
     const {
@@ -94,6 +95,7 @@ export default function ViewImage(props) {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
 
     )
@@ -110,8 +112,10 @@ export async function getServerSideProps(context) {
         photo = await prisma.photos.findFirst({
             where: { url: img },
         });
-   
-        switch(true) {
+        // Switch to check if the user clicked an image from the photographers page or homepage.
+        // Firebase storage contains duplicate images, but the database has URLs for both.
+
+        switch (true) {
             case Boolean(photo):
                 await prisma.photos.update({
                     where: { id: photo.id },
@@ -119,7 +123,7 @@ export async function getServerSideProps(context) {
                 });
                 break;
             default:
-                    photo = await prisma.photos.findFirst({
+                photo = await prisma.photos.findFirst({
                     where: { urlUser: img },
                 });
                 if (photo) {
@@ -128,7 +132,7 @@ export async function getServerSideProps(context) {
                         data: { countViewd: { increment: 1 } },
                     });
                 }
-                
+
         }
 
         // Check if session and session.user exist before trying to access the email

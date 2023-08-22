@@ -1,5 +1,6 @@
 import Header from "@/components/header"
 import { useState } from "react"
+import Footer from "@/components/footer";
 
 export default function Support() {
     const [first, setFirst] = useState("hidden")
@@ -76,6 +77,7 @@ export default function Support() {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     )
 }

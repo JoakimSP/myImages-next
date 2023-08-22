@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from '@/components/header';
 import prisma from "@/components/prisma";
+import Footer from "@/components/footer";
 
 
 export default function PrivacyPolicy({ text }) {
@@ -21,6 +22,7 @@ export default function PrivacyPolicy({ text }) {
                     `}</style>
                     <div className="custom-css" dangerouslySetInnerHTML={{ __html: text && text.text ? text.text : "" }}></div>
                 </div>
+                <Footer/>
         </>
     );
     

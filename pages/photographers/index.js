@@ -3,6 +3,7 @@ import Header from "@/components/header"
 import prisma from "@/components/prisma"
 import Image from "next/image"
 const logger = require('@/components/utils/logger')
+import Footer from "@/components/footer";
 
 export default function index({ photographers }) {
   return (
@@ -42,6 +43,7 @@ export default function index({ photographers }) {
             })}
         </div>
     </div>
+    <Footer/>
 </>
 
   )
