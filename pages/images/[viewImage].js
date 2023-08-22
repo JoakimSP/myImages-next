@@ -60,9 +60,9 @@ export default function ViewImage(props) {
     }
 
     return (
-        <div>
+        <div className="bg-custom-grey">
             <Header />
-            <div className="flex flex-auto justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8">
+            <div className="flex flex-auto justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 ">
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start mb-6">
                     <div className="col-span-2">

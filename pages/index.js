@@ -11,6 +11,8 @@ import Footer from '@/components/footer';
 export default function Home({categories}) {
 
   return (
+    <>
+    <Header />
     <div className='bg-custom-grey'>
       <Head>
         <title>My images</title>
@@ -18,9 +20,18 @@ export default function Home({categories}) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      
 
       <div className="flex justify-center  items-center relative h-[42rem]  mb-11 bg-cover bg-center ">
+        <div className='z-10 absolute w-full h-full'>
+          <Image
+            src={`appContent/myimages-logo-white-1.svg`}
+            alt="Logo"
+            width={300}
+            height={300}
+            className="object-cover m-10"
+          />
+        </div>
         <Image
           src={`/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG`}
           alt=""
@@ -36,6 +47,7 @@ export default function Home({categories}) {
      </ErrorBoundary>
      <Footer/>
     </div>
+    </>
   )
 }
 

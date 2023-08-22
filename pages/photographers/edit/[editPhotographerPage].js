@@ -105,7 +105,7 @@ export default function EditPhotographerPage({ userdata }) {
   return (
     <>
       <Header />
-      <div className="bg-gray-50 min-h-screen dark:bg-gray-900">
+      <div className="bg-custom-grey min-h-screen">
 
         <h1 className="text-center text-4xl font-semibold text-gray-900 pt-12 mb-6 dark:text-white">Photographer Info</h1>
 
@@ -187,8 +187,9 @@ export default function EditPhotographerPage({ userdata }) {
             </button>
           </div>
         </div>
+        <Footer/>
       </div>
-      <Footer/>
+      
     </>
   )
 }

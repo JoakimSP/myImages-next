@@ -12,10 +12,10 @@ export default function photographersName({ photographer, photos }) {
 
   return (
     
-<>
+<div className="bg-custom-grey">
     {/* Header */}
     <Header />
-    <div className="bg-custom-grey min-h-screen flex flex-col"> 
+    <div className=" min-h-screen flex flex-col"> 
     {/* Main Profile Section */}
     <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: "url('/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG')" }}>
         <div className="absolute inset-0 bg-black opacity-60"></div>
@@ -54,7 +54,7 @@ export default function photographersName({ photographer, photos }) {
 
 </div>
 <Footer/>
-</>
+</div>
 // Assuming you have a component to handle individual bio details to reduce repetition.
 
 

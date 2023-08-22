@@ -7,10 +7,10 @@ import Footer from "@/components/footer";
 
 export default function index({ photographers }) {
   return (
-    <>
+    <div className="bg-custom-grey">
     <Header />
 
-    <div className=' dark:bg-gray-900 min-h-screen py-10'>
+    <div className='min-h-screen py-10'>
         {/* Title */}
         <h1 className="text-center text-4xl font-semibold text-gray-900 pt-12 mb-6 dark:text-white">Our Photographers</h1>
         
@@ -44,7 +44,7 @@ export default function index({ photographers }) {
         </div>
     </div>
     <Footer/>
-</>
+</div>
 
   )
 }

@@ -9,7 +9,7 @@ import Footer from "@/components/footer";
 
 export default function AdminPage({ photographers, categories, policyText }) {
 
-  const [activeView, setActiveView] = useState(null);
+  const [activeView, setActiveView] = useState('photographers');
 
   const renderActiveView = () => {
     switch(activeView) {
@@ -25,15 +25,15 @@ export default function AdminPage({ photographers, categories, policyText }) {
   }
 
   return (
-    <>
+    <div className="bg-custom-grey">
     <Header/>
-    <div className="bg-custom-grey min-h-screen flex flex-col justify-center items-center px-6 md:px-24">
-      <div className="mb-auto">
-        <ul className="text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
+    <div className=" min-h-screen flex flex-col justify-center items-center px-6 md:px-24">
+      <div className="mb-auto my-3">
+        <ul className="text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex">
         <li className="w-full">
             <p 
                onClick={() => setActiveView('photographers')} 
-               className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'photographers' ? 'text-white bg-blue-600' : 'text-gray-900 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
+               className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'photographers' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
             >
               photographers
             </p>
@@ -41,7 +41,7 @@ export default function AdminPage({ photographers, categories, policyText }) {
           <li className="w-full">
             <p 
                onClick={() => setActiveView('categories')} 
-               className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'categories' ? 'text-white bg-blue-600' : 'text-gray-900 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
+               className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'categories' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
             >
               photosettings
             </p>
@@ -49,7 +49,7 @@ export default function AdminPage({ photographers, categories, policyText }) {
           <li className="w-full">
             <p 
                onClick={() => setActiveView('privacy')} 
-               className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'privacy' ? 'text-white bg-blue-600' : 'text-gray-900 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
+               className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'privacy' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
             >
               Privacy
             </p>
@@ -59,7 +59,7 @@ export default function AdminPage({ photographers, categories, policyText }) {
       <div className="flex flex-col pb-44">{renderActiveView()}</div>
     </div>
     <Footer/>
-    </>
+    </div>
   );
 }
 

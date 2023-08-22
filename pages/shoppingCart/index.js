@@ -36,7 +36,7 @@ export default function ShoppingCart({ photosInCart, session }) {
 
 
   return (
-    <>
+    <div className="bg-custom-grey">
     <Header/>
 
     <div className="p-8  dark:bg-gray-900 min-h-screen">
@@ -79,7 +79,7 @@ export default function ShoppingCart({ photosInCart, session }) {
     }
     </div>
     <Footer/>
-</>
+</div>
 
   )
 }
