@@ -5,6 +5,7 @@ import Image from "next/image"
 const logger = require('@/components/utils/logger')
 import Footer from "@/components/footer";
 
+
 export default function index({ photographers }) {
   return (
     <div className="bg-custom-grey">
@@ -19,14 +20,14 @@ export default function index({ photographers }) {
             {photographers.map(photographer => {
                 return (
                   <Link key={photographer.personID} href={`./photographers/${photographer.user}`}>
-                  <div className='cursor-pointer transform transition-transform duration-300 hover:scale-105 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl bg-white'>
+                  <div className='flex flex-col items-center justify-center cursor-pointer transform transition-transform duration-300 hover:scale-105 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl bg-white'>
                       
                       <Image
-                          src="/avatar-2a011dc65ff512e320f013780071ae03.jpg"
+                          src={photographer.profilepicture}
                           alt="photographer"
                           width="300"
                           height="300"
-                          className="object-cover w-full"
+                          className="object-cover max-h-80"
                       />
                       
                       <div className='px-6 py-4'>

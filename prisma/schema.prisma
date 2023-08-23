@@ -14,15 +14,17 @@ model images {
 }
 
 model photographer {
-  personID  Int               @id @unique @default(autoincrement())
-  user      String            @unique @default("") @db.VarChar(255)
-  firstName String            @default("") @db.VarChar(255)
-  lastName  String            @default("") @db.VarChar(255)
-  email     String            @unique @default("") @db.VarChar(255)
-  password  String            @default("") @db.VarChar(255)
-  role      String            @default("user")
-  info      photographerinfo?
-  photos    photos[]
+  personID       Int               @id @unique @default(autoincrement())
+  user           String            @unique @default("") @db.VarChar(255)
+  profilepicture String            @default("") @db.VarChar(255)
+  firstName      String            @default("") @db.VarChar(255)
+  lastName       String            @default("") @db.VarChar(255)
+  email          String            @unique @default("") @db.VarChar(255)
+  password       String            @default("") @db.VarChar(255)
+  role           String            @default("user")
+  info           photographerinfo?
+  photos         photos[]
+  collection     collection[]
 }
 
 model photographerinfo {
@@ -63,6 +65,7 @@ model photos {
   collectionId    Int?
   categories      categories?  @relation(fields: [categoriesId], references: [id])
   categoriesId    Int?
+  exclusive       Boolean      @default(false)
 }
 
 model cart {
@@ -90,20 +93,23 @@ model categories {
 }
 
 model collection {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  description String?
-  parentId    Int?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  photos      photos[]
+  id                   Int           @id @default(autoincrement())
+  name                 String        @unique
+  description          String?
+  image                String?
+  parentId             Int?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  photos               photos[]
+  photographer         photographer? @relation(fields: [photographerPersonID], references: [personID])
+  photographerPersonID Int?
 }
 
 model privacypolicy {
-  id          String      @id @default("1")
-  text        String   @db.LongText
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default("1")
+  text      String   @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Account {
