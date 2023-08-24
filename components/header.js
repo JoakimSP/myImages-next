@@ -29,6 +29,7 @@ export default function Header() {
   }, [session])
 
   return (
+    
     <ErrorBoundary>
       <nav className="bg-custom-header-grey">
         <div className=" flex flex-wrap items-center justify-end md:justify-between mr-0  ml-12 p-4">

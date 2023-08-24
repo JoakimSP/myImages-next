@@ -36,6 +36,7 @@ export default function ShoppingCart({ photosInCart, session }) {
 
 
   return (
+    
     <div className="bg-custom-grey">
     <Header/>
 

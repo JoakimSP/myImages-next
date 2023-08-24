@@ -12,6 +12,7 @@ export default function Home({categories}) {
 
   return (
     <>
+    
     <Header />
     <div className='bg-custom-grey'>
       <Head>

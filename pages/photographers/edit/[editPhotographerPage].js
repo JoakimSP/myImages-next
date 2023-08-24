@@ -23,6 +23,7 @@ export default function EditPhotographerPage({ userdata }) {
 
   return (
     <>
+    
       <div className="bg-custom-grey min-h-screen">
         <Header />
         <div className=" min-h-screen flex flex-col justify-center items-center px-6 md:px-24">

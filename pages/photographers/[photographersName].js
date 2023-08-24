@@ -12,6 +12,7 @@ export default function photographersName({ photographer, photos }) {
 
   return (
     
+    
 <div className="bg-custom-grey">
     {/* Header */}
     <Header />

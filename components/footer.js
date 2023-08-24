@@ -4,6 +4,7 @@ import React from 'react';
 
 function Footer() {
     return (
+        
         <div className="bg-gradient-to-b from-gray-950">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                 <div className="md:flex md:justify-between">

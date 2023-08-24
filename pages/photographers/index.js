@@ -8,6 +8,7 @@ import Footer from "@/components/footer";
 
 export default function index({ photographers }) {
   return (
+    
     <div className="bg-custom-grey">
     <Header />
 
