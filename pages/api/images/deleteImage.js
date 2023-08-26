@@ -1,6 +1,4 @@
 import prisma from "@/components/prisma"
-import fs from "fs"
-import path from "path"
 import { ref, deleteObject } from "firebase/storage";
 import { storage } from "@/components/firebase";
 const logger = require('@/components/utils/logger')

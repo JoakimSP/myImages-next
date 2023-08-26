@@ -96,7 +96,7 @@ model collection {
   id                   Int           @id @default(autoincrement())
   name                 String        @unique
   description          String?
-  image                String?
+  image                String?       @db.VarChar(255)
   parentId             Int?
   createdAt            DateTime      @default(now())
   updatedAt            DateTime      @updatedAt

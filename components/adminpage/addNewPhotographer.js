@@ -1,8 +1,8 @@
-import InputField from "./utils/inputField";
+import InputField from "../utils/inputField";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import ErrorBoundary from "./errorBoundery";
-import { logErrorToApi } from "./utils/logErrorToApi";
+import ErrorBoundary from "../errorBoundery";
+import { logErrorToApi } from "../utils/logErrorToApi";
 
 export default function AddNewPhotographer({ photographers }) {
   const [currentUsers, setCurrentUsers] = useState(photographers)

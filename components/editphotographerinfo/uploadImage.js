@@ -1,5 +1,5 @@
 import { storage } from "@/components/firebase";
-import { ref, uploadBytes, getDownloadURL, list } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import { useState } from "react"
 import UploadProfilePicture from "./uploadProfilePicture";
