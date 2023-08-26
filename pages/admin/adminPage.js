@@ -69,9 +69,21 @@ export async function getServerSideProps(context) {
 
   try {
 
-    const photographers = await prisma.photographer.findMany()
-    const categories = await prisma.categories.findMany()
-    const collections = await prisma.collection.findMany()
+    const photographers = await prisma.photographer.findMany({
+      orderBy: [
+       { lastName: 'asc'}
+      ]
+    })
+    const categories = await prisma.categories.findMany({
+      orderBy: [
+       { name: 'asc'}
+      ]
+    })
+    const collections = await prisma.collection.findMany({
+      orderBy: [
+       { name: 'asc'}
+      ]
+    })
     const policyText = await prisma.privacypolicy.findFirst({
       where: {
         id: "1"
