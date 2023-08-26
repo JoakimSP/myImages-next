@@ -67,7 +67,7 @@ export default function AddNewPhotographer({ photographers }) {
             <InputField label="Password" type="password" name="password" />
             <label htmlFor="role" className="block mb-2 text-gray-700 font-medium">Role</label>
             <select name="role" className="border rounded-md p-2 w-full focus:ring focus:ring-custom-grey-light focus:border-transparent mb-4">
-              <option value="user">user</option>
+              <option value="user">Photographer</option>
               <option value="admin">admin</option>
             </select>
 
