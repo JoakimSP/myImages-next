@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react"
 import { CartContext } from "@/context/cartProvider"
 import { useContext, useEffect, useState } from "react"
 import ErrorBoundary from "./errorBoundery"
+import Image from "next/image"
 
 
 
@@ -29,10 +30,18 @@ export default function Header() {
   }, [session])
 
   return (
-    
+
     <ErrorBoundary>
       <nav className="bg-custom-header-grey">
-        <div className=" flex flex-wrap items-center justify-end md:justify-between mr-0  ml-12 p-4">
+        <div className=" flex flex-wrap items-center justify-between md:justify-between mr-0  ml-12 p-4">
+
+          <Image
+            src={`/appContent/myimages-logo-white-1.svg`}
+            alt="Logo"
+            width={200}
+            height={200}
+            className="object-cover"
+          />
 
 
           <div className="flex items-center md:order-2">
@@ -62,10 +71,11 @@ export default function Header() {
           </div>
 
 
-          <div className={isMobileMenuOpen ? "items-center justify-between w-full md:flex md:w-auto md:order-1" : "hidden md:flex md:w-auto md:order-1"}>
+          <div className={isMobileMenuOpen ? "items-center justify-between w-full md:flex md:w-auto md:order-1" : "flex-1 ml-10 hidden md:flex md:w-auto md:order-1"}>
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border gap-5 border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
               <li><Link href="/" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Home</Link></li>
               <li><Link href="/photographers" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Photographers</Link></li>
+              <li><Link href="/#" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >How to use & Pricing</Link></li>
               {status === "authenticated" && session.provider !== "google" && (
                 <li><Link href="/photographers/edit/editPhotographerPage" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0" >Edit your Page</Link></li>
               )}
