@@ -24,8 +24,8 @@ export default function AddNewCategory({ categories, collections, photographers 
     });
 
     if (response.ok) {
-      toast("Created new Categorie")
       setCurrentCat((prev) => [...prev, stateData])
+      toast("Created new Categorie")
     }
     else {
       toast.warn("Could not add categorie")
@@ -36,6 +36,7 @@ export default function AddNewCategory({ categories, collections, photographers 
 
   const handleDeleteCategorie = async (e) => {
     if (window.confirm("Are you sure you want to delete this categorie?")) {
+      setCurrentCat(prev => prev.filter(category => category.id != e.currentTarget.value));
       const response = await fetch("../api/application/deleteCategory", {
         method: "POST",
         headers: {
@@ -45,6 +46,7 @@ export default function AddNewCategory({ categories, collections, photographers 
       });
 
       if (response.ok) {
+        
         toast.warn("deleted category")
 
       }

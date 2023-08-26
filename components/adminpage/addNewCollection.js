@@ -73,6 +73,7 @@ export default function AddNewCollection({ collections, photographers }) {
     const handleDeleteCollections = async (e) => {
 
         if (window.confirm("Are you sure you want to delete this collection?")) {
+            setCurrentCol(prev => prev.filter(col => col.id != e.currentTarget.value));
             const response = await fetch("../api/application/collections/deleteCollection", {
                 method: "POST",
                 headers: {
