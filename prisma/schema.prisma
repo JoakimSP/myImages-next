@@ -14,7 +14,7 @@ model images {
 }
 
 model photographer {
-  personID       Int               @id @unique @default(autoincrement())
+  personID       String            @id @unique @default(cuid())
   user           String            @unique @default("") @db.VarChar(255)
   profilepicture String            @default("") @db.VarChar(255)
   firstName      String            @default("") @db.VarChar(255)
@@ -28,7 +28,7 @@ model photographer {
 }
 
 model photographerinfo {
-  personID        Int          @id @unique(map: "photographerInfo_personID_key") @default(autoincrement())
+  personID        String          @id @unique(map: "photographerInfo_personID_key") @default(cuid())
   country         String?      @db.VarChar(255)
   city            String?      @db.VarChar(255)
   about           String?      @db.VarChar(255)
@@ -41,8 +41,8 @@ model photographerinfo {
 }
 
 model photos {
-  id              Int          @id @default(autoincrement())
-  personID        Int
+  id              String          @id @default(cuid())
+  personID        String
   title           String?
   description     String?
   filename        String
@@ -62,9 +62,9 @@ model photos {
   privacy         Boolean      @default(true)
   photographer    photographer @relation(fields: [personID], references: [personID])
   collection      collection?  @relation(fields: [collectionId], references: [id])
-  collectionId    Int?
+  collectionId    String?
   categories      categories?  @relation(fields: [categoriesId], references: [id])
-  categoriesId    Int?
+  categoriesId    String?
   exclusive       Boolean      @default(false)
 }
 
@@ -75,7 +75,7 @@ model cart {
 }
 
 model receipt {
-  id           String @id
+  id           String @id @default(cuid())
   photosID     String
   sessionEmail String
   dateAdded    String
@@ -83,7 +83,7 @@ model receipt {
 }
 
 model categories {
-  id          Int      @id @default(autoincrement())
+  id          String      @id @default(cuid())
   name        String   @unique
   description String?
   parentId    Int?
@@ -93,7 +93,7 @@ model categories {
 }
 
 model collection {
-  id                   Int           @id @default(autoincrement())
+  id                   String           @id @default(cuid())
   name                 String        @unique
   description          String?
   image                String?       @db.VarChar(255)
@@ -102,7 +102,7 @@ model collection {
   updatedAt            DateTime      @updatedAt
   photos               photos[]
   photographer         photographer? @relation(fields: [photographerPersonID], references: [personID])
-  photographerPersonID Int?
+  photographerPersonID String?
 }
 
 model privacypolicy {

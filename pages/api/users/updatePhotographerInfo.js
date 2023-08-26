@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     try {
         const result = await prisma.photographerinfo.update({
             where: {
-                personID: parseInt(personID)
+                personID: personID
             },
             data: updateData
         })
