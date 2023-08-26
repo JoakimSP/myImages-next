@@ -27,10 +27,10 @@ export default function Support() {
 
 
     return (
-        <>
+        <div className="bg-custom-grey h-full">
         <Header/>
-            <div className="w-full h-96 flex items-center">
-                <div data-accordion="collapse" className="flex flex-col border-4 m-auto w-3/4 bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white">
+            <div className=" w-full flex items-center py-72">
+                <div data-accordion="collapse" className="flex flex-col h-full border-4 m-auto w-3/4 bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white">
                     <h2>
                         <button onClick={() => toggleShowHidden(1)} type="button" className="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800" data-accordion-target="#accordion-color-body-1" aria-expanded="true" aria-controls="accordion-color-body-1">
                             <span>What is My Images?</span>
@@ -78,6 +78,6 @@ export default function Support() {
                 </div>
             </div>
             <Footer/>
-        </>
+        </div>
     )
 }

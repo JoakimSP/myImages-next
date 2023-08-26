@@ -21,17 +21,16 @@ export default function index({ photographers }) {
             {photographers.map(photographer => {
                 return (
                   <Link key={photographer.personID} href={`./photographers/${photographer.user}`}>
-                  <div className='flex flex-col items-center justify-center cursor-pointer transform transition-transform duration-300 hover:scale-105 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl bg-white'>
+                  <div className='flex flex-col flex-wrap items-center justify-end h-96 cursor-pointer transform transition-transform duration-300 hover:scale-105 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl bg-white'>
                       
                       <Image
                           src={photographer.profilepicture}
                           alt="photographer"
-                          width="300"
-                          height="300"
-                          className="object-cover max-h-80"
+                          fill
+                          className="object-cover max-h-80 "
                       />
                       
-                      <div className='px-6 py-4'>
+                      <div className='px-6 pt-14'>
                           <div className='font-semibold text-xl text-center text-gray-800 mb-2'>
                               {photographer.user}
                           </div>
