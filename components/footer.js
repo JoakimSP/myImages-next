@@ -4,15 +4,11 @@ import React from 'react';
 
 function Footer() {
     return (
-        
+
         <div className="bg-gradient-to-b from-gray-950">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                 <div className="md:flex md:justify-between">
-                    <div className="mb-6 md:mb-0">
-                        <Link href="/" className="flex items-center">
-                            <Image src={'appContent/myimages-logo-white-1.svg'} width={300} height={300} className="h-8 mr-3" alt="Myimages Logo" />
-                        </Link>
-                    </div>
+                    
                     <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                         <div>
                             <h2 className="mb-6 text-sm font-semibold uppercase text-white">Resources</h2>
@@ -23,21 +19,10 @@ function Footer() {
                             </ul>
                         </div>
                         <div>
-                            <h2 className="mb-6 text-sm font-semibold uppercase text-white">Follow us</h2>
-                            <ul className="text-gray-500 dark:text-gray-400 font-medium">
-                                <li className="mb-4">
-                                    <Link href="https://sv-se.facebook.com/people/SP-Production-AB/100068198587073/" className="hover:underline">Facebook</Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
                             <h2 className="mb-6 text-sm font-semibold uppercase text-white">Legal</h2>
                             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                 <li className="mb-4">
                                     <Link href="/information/privacyPolicy" className="hover:underline">Privacy Policy</Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="hover:underline">Terms &amp; Conditions</Link>
                                 </li>
                             </ul>
                         </div>
@@ -49,6 +34,11 @@ function Footer() {
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <div className="mb-6 md:mb-0">
+                        <Link href="/" className="flex items-center">
+                            <Image src={'appContent/myimages-logo-white-1.svg'} width={300} height={300} className="h-8 mr-3" alt="Myimages Logo" />
+                        </Link>
                     </div>
                 </div>
                 <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
