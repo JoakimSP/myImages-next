@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import prisma from "@/components/prisma";
 import AddNewPhotographer from "@/components/adminpage/addNewPhotographer";
 import AddNewCategory from "@/components/adminpage/addNewCategory";
-import AddNewCollection from "@/components/adminpage/addNewCollection";
 const logger = require('@/components/utils/logger')
 import Header from "@/components/header";
 import EditPrivacyPolicy from "@/components/adminpage/editPrivacyPolicy";
@@ -10,20 +9,29 @@ import Footer from "@/components/footer";
 
 export default function AdminPage({ photographers, categories, policyText, collections }) {
 
-  const [activeView, setActiveView] = useState('photographers');
+  const [activeView, setActiveView] = useState();
+  useEffect(() => {
+    setActiveView(typeof window !== 'undefined' ? localStorage.getItem('activeView') || 'photographers' : 'photographers');
+  }, []);
+
 
   const renderActiveView = () => {
     switch (activeView) {
       case 'photographers':
         return <AddNewPhotographer photographers={photographers} />;
       case 'categories':
-        return <AddNewCategory categories={categories} collections={collections} photographers={photographers} />;  
+        return <AddNewCategory categories={categories} collections={collections} photographers={photographers}/>;  
       case 'privacy':
         return <EditPrivacyPolicy text={policyText} />;
       default:
         return null;
     }
   }
+
+  const changeActiveView = (newView) => {
+    setActiveView(newView);
+    localStorage.setItem('activeView', newView);
+  };
 
   return (
     <div className="bg-custom-grey">
@@ -33,7 +41,7 @@ export default function AdminPage({ photographers, categories, policyText, colle
           <ul className="text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex">
             <li className="w-full">
               <p
-                onClick={() => setActiveView('photographers')}
+                onClick={() => changeActiveView('photographers')}
                 className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'photographers' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
               >
                 photographers
@@ -41,7 +49,7 @@ export default function AdminPage({ photographers, categories, policyText, colle
             </li>
             <li className="w-full">
               <p
-                onClick={() => setActiveView('categories')}
+                onClick={() => changeActiveView('categories')}
                 className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'categories' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
               >
                 photosettings
@@ -49,7 +57,7 @@ export default function AdminPage({ photographers, categories, policyText, colle
             </li>
             <li className="w-full">
               <p
-                onClick={() => setActiveView('privacy')}
+                onClick={() => changeActiveView('privacy')}
                 className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'privacy' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
               >
                 Privacy
@@ -92,7 +100,6 @@ export async function getServerSideProps(context) {
         text: true
       }
     });
-
 
     return {
       props: {

@@ -1,10 +1,10 @@
 import InputField from "../utils/inputField";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import ErrorBoundary from "../errorBoundery";
+import ErrorBoundary from "@/components/errorBoundery";
 import AddNewCollection from "./addNewCollection";
 
-export default function AddNewCategory({ categories, collections, photographers }) {
+export default function AddNewCategory({ categories, collections, photographers}) {
   const [currentCat, setCurrentCat] = useState(categories)
 
   async function handleCreateNewCategory(e) {
@@ -26,6 +26,7 @@ export default function AddNewCategory({ categories, collections, photographers 
     if (response.ok) {
       setCurrentCat((prev) => [...prev, stateData])
       toast("Created new Categorie")
+      window.location.reload()
     }
     else {
       toast.warn("Could not add categorie")
@@ -48,6 +49,7 @@ export default function AddNewCategory({ categories, collections, photographers 
       if (response.ok) {
         
         toast.warn("deleted category")
+        window.location.reload()
 
       }
       else {
@@ -59,7 +61,7 @@ export default function AddNewCategory({ categories, collections, photographers 
   }
   return (
     <>
-    <AddNewCollection collections={collections} photographers={photographers} />
+    <AddNewCollection collections={collections} photographers={photographers}/>
       <ErrorBoundary>
         <div className="text-center py-8 w-full">
           <h1 className="text-5xl text-white font-bold">Create New Categorie</h1>
@@ -97,3 +99,4 @@ export default function AddNewCategory({ categories, collections, photographers 
     </>
   )
 }
+

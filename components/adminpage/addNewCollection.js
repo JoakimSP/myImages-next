@@ -1,11 +1,11 @@
-import InputField from "../utils/inputField";
+import InputField from "../../components/utils/inputField";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import ErrorBoundary from "../errorBoundery";
+import ErrorBoundary from "../../components/errorBoundery";
 import { storage } from "@/components/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
-import { logErrorToApi } from "../utils/logErrorToApi";
+import { logErrorToApi } from "../../components/utils/logErrorToApi";
 
 export default function AddNewCollection({ collections, photographers }) {
     const [currentCol, setCurrentCol] = useState(collections)
@@ -53,6 +53,7 @@ export default function AddNewCollection({ collections, photographers }) {
             if (response.ok) {
                 toast("Created new Collection")
                 setCurrentCol((prev) => [...prev, stateData])
+                window.location.reload()
             }
             else {
                 toast.warn("Could not add collection")
@@ -75,6 +76,7 @@ export default function AddNewCollection({ collections, photographers }) {
     }
 
     const handleDeleteCollections = async (e) => {
+        e.preventDefault();
 
         if (window.confirm("Are you sure you want to delete this collection?")) {
             setCurrentCol(prev => prev.filter(col => col.id != e.currentTarget.value));
@@ -88,6 +90,7 @@ export default function AddNewCollection({ collections, photographers }) {
 
             if (response.ok) {
                 toast.warn("deleted collection")
+                window.location.reload()
 
             }
             else {
