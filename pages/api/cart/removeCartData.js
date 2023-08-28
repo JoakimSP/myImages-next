@@ -10,7 +10,7 @@ export default async function handler(req, res) {
      try {
         const result = await prisma.cart.deleteMany({
             where: {
-                photoID : parseInt(id),
+                photoID : id,
                 sessionEmail: userEmail
             }
         }) 

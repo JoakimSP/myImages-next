@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     try {
        await prisma.categories.delete({
        where: {
-        id: parseInt(id)
+        id: id
        }
        })
 

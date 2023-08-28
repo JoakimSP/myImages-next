@@ -6,27 +6,27 @@ import { storage } from "@/components/firebase";
 export default async function handler(req, res) {
 
     const { id } = req.body
+    console.log(id)
 
     try {
-      const collection = await prisma.collection.findUnique({
+      const collection = await prisma.collection.findFirst({
        where: {
-        id: parseInt(id)
+        id: id
        }
        })
-       console.log(collection.image)
 
        const storageRef = await ref(storage, `${collection.image}`)
        await deleteObject(storageRef)
 
        await prisma.collection.delete({
         where: {
-         id: parseInt(id)
+         id: id
         }
         })
 
        res.status(200).json({ message: ' category deleted' })
     } catch (error) {
-        logger.logger.log('error', {
+        logger.log('error', {
             message: error.message,
             stack: error.stack
         })

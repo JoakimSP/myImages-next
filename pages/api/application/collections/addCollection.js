@@ -11,11 +11,7 @@ export default async function handler(req, res) {
                 name: name,
                 description: description,
                 image: image,
-                photographer: { // Use photographer instead of photographerPersonID
-                    connect: {
-                        personID: parseInt(photographerID) // Make sure the ID is an integer
-                    }
-                }
+                photographerPersonID: photographerID
             }
         })
 

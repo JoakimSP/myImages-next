@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
     const photos = await prisma.photos.findMany({
         where: {
-            id: { in: parseToInt }
+            id: { in: photoIdsToArray }
         }
     });
 
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
         await prisma.photos.updateMany({
             where : {
-                id: {in: parseToInt}
+                id: {in: photoIdsToArray}
             },
             data: {
                 countDownloaded: {increment: 1}
