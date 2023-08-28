@@ -70,7 +70,7 @@ model photos {
 
 model cart {
   id           String @id @default(cuid())
-  photoID      Int
+  photoID      String
   sessionEmail String
 }
 
