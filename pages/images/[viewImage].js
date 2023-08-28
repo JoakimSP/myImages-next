@@ -18,6 +18,7 @@ export default function ViewImage(props) {
         session
     } = props
 
+
     const { cart, addToCart } = useContext(CartContext)
 
 
@@ -83,19 +84,22 @@ export default function ViewImage(props) {
                             onClick={() => handleAddToCart(photo.id)}
                         >Add to cart
                         </button>
-                        {photographer?.personID === photo.personID &&
-
-                            <>
-                                <EditPhoto photo={photo} />
-                                <div>
-                                    <button className="ml-4 mt-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
-                                </div>
-                            </>
+                        {
+                            (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
+                                <>
+                                    <EditPhoto photo={photo} />
+                                    <div>
+                                        <button className="ml-4 mt-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
+                                    </div>
+                                </>
+                            ) : (
+                                <div></div>
+                            )
                         }
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
 
     )
