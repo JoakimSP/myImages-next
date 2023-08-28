@@ -5,6 +5,7 @@ import ErrorBoundary from "../errorBoundery";
 import { storage } from "@/components/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
+import { logErrorToApi } from "../utils/logErrorToApi";
 
 export default function AddNewCollection({ collections, photographers }) {
     const [currentCol, setCurrentCol] = useState(collections)
@@ -61,7 +62,10 @@ export default function AddNewCollection({ collections, photographers }) {
 
         } catch (error) {
 
-            console.error("Error uploading image: ", error);
+            logErrorToApi({
+                message: error.message,
+                stack: error.stack
+            })
         }
 
 

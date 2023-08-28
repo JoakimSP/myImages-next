@@ -1,4 +1,5 @@
 import prisma from "@/components/prisma"
+const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res) {
 
@@ -26,6 +27,10 @@ export default async function handler(req, res) {
 
 
     } catch (error) {
+        logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+        })
         console.log(error)
         res.status(500).json({ Error: error })
     }

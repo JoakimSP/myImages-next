@@ -1,4 +1,5 @@
 import prisma from "@/components/prisma"
+const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res) {
 
@@ -13,6 +14,10 @@ export default async function handler(req, res) {
 
        res.status(200).json({ message: 'New category added' })
     } catch (error) {
+        logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+        })
         res.status(500).json({Error: error})
     }
 

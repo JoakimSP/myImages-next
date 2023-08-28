@@ -14,7 +14,10 @@ export default async function handler(req, res) {
 
        res.status(200).json({ message: ' category deleted' })
     } catch (error) {
-       console.log(error)
+        logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+        })
         res.status(500).json({Error: error})
     }
 
