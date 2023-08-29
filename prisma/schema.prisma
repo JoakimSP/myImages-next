@@ -28,7 +28,7 @@ model photographer {
 }
 
 model photographerinfo {
-  personID        String          @id @unique(map: "photographerInfo_personID_key") @default(cuid())
+  personID        String       @id @unique(map: "photographerInfo_personID_key") @default(cuid())
   country         String?      @db.VarChar(255)
   city            String?      @db.VarChar(255)
   about           String?      @db.VarChar(255)
@@ -41,7 +41,7 @@ model photographerinfo {
 }
 
 model photos {
-  id              String          @id @default(cuid())
+  id              String       @id @default(cuid())
   personID        String
   title           String?
   description     String?
@@ -83,7 +83,7 @@ model receipt {
 }
 
 model categories {
-  id          String      @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String   @unique
   description String?
   parentId    Int?
@@ -93,16 +93,25 @@ model categories {
 }
 
 model collection {
-  id                   String           @id @default(cuid())
-  name                 String        @unique
-  description          String?
-  image                String?       @db.VarChar(255)
-  parentId             Int?
-  createdAt            DateTime      @default(now())
-  updatedAt            DateTime      @updatedAt
-  photos               photos[]
-  photographer         photographer? @relation(fields: [photographerPersonID], references: [personID])
-  photographerPersonID String?
+  id                    String               @id @default(cuid())
+  name                  String               @unique
+  description           String?
+  image                 String?              @db.VarChar(255)
+  parentId              Int?
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  photos                photos[]
+  photographer          photographer?        @relation(fields: [photographerPersonID], references: [personID])
+  photographerPersonID  String?
+  featuredcollections   featuredcollections? @relation(fields: [featuredcollectionsId], references: [id])
+  featuredcollectionsId String?
+}
+
+model featuredcollections {
+  id         String       @id @default(cuid())
+  collection collection[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 }
 
 model privacypolicy {
