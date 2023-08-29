@@ -1,9 +1,9 @@
 import Link from "next/link"
-import LoginPage from "./login"
+import LoginPage from "@/components/login"
 import { useSession } from "next-auth/react"
 import { CartContext } from "@/context/cartProvider"
 import { useContext, useEffect, useState } from "react"
-import ErrorBoundary from "./errorBoundery"
+import ErrorBoundary from "@/components/errorBoundery"
 import Image from "next/image"
 
 

@@ -3,6 +3,7 @@ import prisma from "@/components/prisma";
 import { useRouter } from "next/router";
 const logger = require('@/components/utils/logger')
 import { logErrorToApi } from "@/components/utils/logErrorToApi";
+import Layout from "@/components/layout/layout";
 
 export default function Index({ photosInCart, email }) {
 const router = useRouter()
@@ -10,62 +11,65 @@ const router = useRouter()
     return total + parseInt(photo.price)
   }, 0)
   return (
-    <PayPalScriptProvider options={{ "client-id": "AUpZeEpRpA5n0Af8j2ykd8anE-EM21A6HYKXGsIVYUF2aybDkK-GqCvn-ROcJtleeCl3_refQOXqvLsd", currency: "EUR" }}>
-      <PayPalButtons
-        createOrder={(data, actions) => {
-          return actions.order
-            .create({
-              purchase_units: [
-                {
-                  amount: {
-                    value: sumOfCart,
+    <Layout>
+      <div className="bg-custom-grey">
+        <PayPalScriptProvider options={{ "client-id": "AUpZeEpRpA5n0Af8j2ykd8anE-EM21A6HYKXGsIVYUF2aybDkK-GqCvn-ROcJtleeCl3_refQOXqvLsd", currency: "EUR" }}>
+          <PayPalButtons className="py-80" 
+            createOrder={(data, actions) => {
+              return actions.order
+                .create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: sumOfCart,
+                      },
+                    },
+                  ],
+                })
+                .then((orderId) => {
+                  // Your code here after create the order
+                  return orderId;
+                });
+            }}
+            onApprove={function (data, actions) {
+              return actions.order.capture().then(async function (details) {
+                data = {
+                  details,
+                  email,
+                  photosInCart,
+                  sumOfCart
+                }
+               try {
+                 const result = await fetch('/../api/cart/createOrder', {
+                  method: "POST",
+                  credentials: "include",
+                  headers : {
+                    "Content-type" : "application/json"
                   },
-                },
-              ],
-            })
-            .then((orderId) => {
-              // Your code here after create the order
-              return orderId;
-            });
-        }}
-        onApprove={function (data, actions) {
-          return actions.order.capture().then(async function (details) {
-            data = {
-              details,
-              email,
-              photosInCart,
-              sumOfCart
-            }
-           try {
-             const result = await fetch('/../api/cart/createOrder', {
-              method: "POST",
-              credentials: "include",
-              headers : {
-                "Content-type" : "application/json"
-              },
-              body: JSON.stringify(data)
-             })
-
-             if(result){
-              router.push({
-                pathname: '/checkout',
-                query: { 
-                  sumOfCart }
-            })
-             }
-             else{
-              throw new Error({error: "Cant accsess createorder"})
-             }
-           } catch (error) {
-            logErrorToApi({
-              message: error.message,
-              stack: error.stack
-          })
-           }
-          });
-        }}
-      />
-    </PayPalScriptProvider>
+                  body: JSON.stringify(data)
+                 })
+                 if(result){
+                  router.push({
+                    pathname: '/checkout',
+                    query: {
+                      sumOfCart }
+                })
+                 }
+                 else{
+                  throw new Error({error: "Cant accsess createorder"})
+                 }
+               } catch (error) {
+                logErrorToApi({
+                  message: error.message,
+                  stack: error.stack
+              })
+               }
+              });
+            }}
+          />
+        </PayPalScriptProvider>
+      </div>
+      </Layout>
   )
 }
 

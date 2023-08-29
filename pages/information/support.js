@@ -1,6 +1,6 @@
-import Header from "@/components/header"
+import Layout from "@/components/layout/layout"
 import { useState } from "react"
-import Footer from "@/components/footer";
+
 
 export default function Support() {
     const [first, setFirst] = useState("hidden")
@@ -27,8 +27,9 @@ export default function Support() {
 
 
     return (
+        <Layout>
         <div className="bg-custom-grey h-full">
-        <Header/>
+    
             <div className=" w-full flex items-center py-72">
                 <div data-accordion="collapse" className="flex flex-col h-full border-4 m-auto w-3/4 bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white">
                     <h2>
@@ -77,7 +78,8 @@ export default function Support() {
                     </div>
                 </div>
             </div>
-            <Footer/>
+          
         </div>
+        </Layout>
     )
 }

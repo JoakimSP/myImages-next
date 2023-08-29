@@ -1,19 +1,17 @@
 import Head from 'next/head'
-import Header from '@/components/header'
 import ShowImagesNext from '@/components/showImages'
 import SearchBar from '@/components/searchbar'
 import Image from "next/image";
 import ErrorBoundary from '@/components/errorBoundery';
 import prisma from '@/components/prisma';
-import Footer from '@/components/footer';
+import Layout from '@/components/layout/layout';
+
 
 
 export default function Home({categories}) {
 
   return (
-    <>
-
-    <Header />
+    <Layout>
     <div className='bg-custom-grey'>
       <Head>
         <title>My images</title>
@@ -32,15 +30,19 @@ export default function Home({categories}) {
           className="object-cover w-full"
         />
         
-        <SearchBar categories={categories} />
+        <SearchBar categories={categories}/>
         
       </div>
+
+      <div className='w-full h-96'>
+      <h1 className='text-7xl text-center text-white'>Featured Collections</h1>
+      </div>
+      
       <ErrorBoundary>
      <ShowImagesNext/>
      </ErrorBoundary>
-     <Footer/>
     </div>
-    </>
+    </Layout>
   )
 }
 
@@ -52,8 +54,6 @@ export default function Home({categories}) {
         name: true,
       },
     })
-
-    console.log(categories)
 
     return {
       props : {categories}

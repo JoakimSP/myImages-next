@@ -3,11 +3,10 @@ import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
 import Link from "next/link"
 import Image from "next/image"
-import Header from "@/components/header"
-import { signIn } from "next-auth/react"
+import Layout from "@/components/layout/layout"
 import { getSession } from "next-auth/react"
 const logger = require('@/components/utils/logger')
-import Footer from "@/components/footer";
+
 
 export default function ShoppingCart({ photosInCart, session }) {
   const { removeFromCart } = useContext(CartContext)
@@ -36,9 +35,9 @@ export default function ShoppingCart({ photosInCart, session }) {
 
 
   return (
-    
+    <Layout>
     <div className="bg-custom-grey">
-    <Header/>
+
 
     <div className="p-8  dark:bg-gray-900 min-h-screen">
         <h1 className="text-center text-3xl font-semibold mb-10 text-gray-800">Your Cart</h1>
@@ -79,8 +78,8 @@ export default function ShoppingCart({ photosInCart, session }) {
         </div>
     }
     </div>
-    <Footer/>
 </div>
+</Layout>
 
   )
 }

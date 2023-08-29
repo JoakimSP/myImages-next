@@ -1,16 +1,16 @@
 import Link from "next/link"
-import Header from "@/components/header"
 import prisma from "@/components/prisma"
 import Image from "next/image"
 const logger = require('@/components/utils/logger')
-import Footer from "@/components/footer";
+import Layout from "@/components/layout/layout"
+
 
 
 export default function index({ photographers }) {
   return (
-    
+    <Layout>
     <div className="bg-custom-grey">
-    <Header />
+ 
 
     <div className='min-h-screen py-10'>
         {/* Title */}
@@ -44,9 +44,8 @@ export default function index({ photographers }) {
             })}
         </div>
     </div>
-    <Footer/>
 </div>
-
+</Layout>
   )
 }
 

@@ -5,7 +5,7 @@ import { getSession } from 'next-auth/react';
 import prisma from '@/components/prisma';
 import { CartContext } from "@/context/cartProvider"
 import ErrorBoundary from '@/components/errorBoundery';
-import Footer from '@/components/footer';
+import Layout from '@/components/layout/layout';
 
 export default function Index({lastReceipt}) {
   const { clearCart } = useContext(CartContext)
@@ -32,7 +32,7 @@ export default function Index({lastReceipt}) {
   }
 
   return (
-    <>
+    <Layout>
       <ErrorBoundary>
       <div>
         <h1>Thank you for your payment!</h1>
@@ -43,8 +43,7 @@ export default function Index({lastReceipt}) {
         <button onClick={handleDownloadImage}>Here is your link to download the image</button>
       </div>
       </ErrorBoundary>
-      <Footer/>
-    </>
+    </Layout>
   )
 }
 

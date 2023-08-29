@@ -1,6 +1,5 @@
 import Image from "next/image"
 import { getSession, signIn } from "next-auth/react"
-import Header from "@/components/header"
 import formatCurrency from "@/components/utils/formatCurrency"
 import router from "next/router"
 import { useContext, useState, useEffect } from "react"
@@ -8,7 +7,8 @@ import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
 import EditPhoto from "@/components/editPhoto"
 const logger = require('@/components/utils/logger')
-import Footer from "@/components/footer"
+import Layout from "@/components/layout/layout"
+
 
 export default function ViewImage(props) {
     const {
@@ -61,47 +61,48 @@ export default function ViewImage(props) {
     }
 
     return (
-        <div className="bg-custom-grey">
-            <Header />
-            <div className="flex flex-auto justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 ">
+        <Layout>
+            <div className="bg-custom-grey">
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start mb-6">
-                    <div className="col-span-2">
-                        <h1 className="text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
-                        <Image
-                            src={img}
-                            width={800}
-                            height={600}
-                            alt={`#`}
-                            onContextMenu={(e) => e.preventDefault()}
-                        />
-                    </div>
-                    <div className="space-y-6 flex-shrink">
-                        <p className="text-xl font-semibold">{formatCurrency(photo.price)}</p>
-                        <p className="text-base">{photo.description}</p>
-                        <button
-                            className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
-                            onClick={() => handleAddToCart(photo.id)}
-                        >Add to cart
-                        </button>
-                        {
-                            (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
-                                <>
-                                    <EditPhoto photo={photo} />
-                                    <div>
-                                        <button className="ml-4 mt-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
-                                    </div>
-                                </>
-                            ) : (
-                                <div></div>
-                            )
-                        }
+                <div className="flex flex-auto justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 ">
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start mb-6">
+                        <div className="col-span-2">
+                            <h1 className="text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
+                            <Image
+                                src={img}
+                                width={800}
+                                height={600}
+                                alt={`#`}
+                                onContextMenu={(e) => e.preventDefault()}
+                            />
+                        </div>
+                        <div className="space-y-6 flex-shrink">
+                            <p className="text-xl font-semibold">{formatCurrency(photo.price)}</p>
+                            <p className="text-base">{photo.description}</p>
+                            <button
+                                className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
+                                onClick={() => handleAddToCart(photo.id)}
+                            >Add to cart
+                            </button>
+                            {
+                                (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
+                                    <>
+                                        <EditPhoto photo={photo} />
+                                        <div>
+                                            <button className="ml-4 mt-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div></div>
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-            <Footer />
-        </div>
 
+            </div>
+        </Layout>
     )
 }
 

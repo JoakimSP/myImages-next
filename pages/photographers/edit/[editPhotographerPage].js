@@ -1,10 +1,9 @@
 import { getSession } from "next-auth/react"
 import prisma from "@/components/prisma";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import UploadImage from "@/components/editphotographerinfo/uploadImage";
 import HandleUpdateInfo from "@/components/editphotographerinfo/handleUpdateInfo";
 import { useState } from "react";
+import Layout from "@/components/layout/layout";
 
 
 export default function EditPhotographerPage({ userdata }) {
@@ -22,10 +21,9 @@ export default function EditPhotographerPage({ userdata }) {
   }
 
   return (
-    <>
+    <Layout>
     
       <div className="bg-custom-grey min-h-screen">
-        <Header />
         <div className=" min-h-screen flex flex-col justify-center items-center px-6 md:px-24">
           <div className="mb-auto my-3">
             <ul className="text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex">
@@ -49,14 +47,9 @@ export default function EditPhotographerPage({ userdata }) {
           </div>
           <div className="flex w-full justify-center pb-44">{renderActiveView()}</div>
         </div>
-
-
-
-
-        <Footer />
       </div>
 
-    </>
+    </Layout>
   )
 }
 

@@ -3,9 +3,9 @@ import prisma from "@/components/prisma";
 import AddNewPhotographer from "@/components/adminpage/addNewPhotographer";
 import AddNewCategory from "@/components/adminpage/addNewCategory";
 const logger = require('@/components/utils/logger')
-import Header from "@/components/header";
 import EditPrivacyPolicy from "@/components/adminpage/editPrivacyPolicy";
-import Footer from "@/components/footer";
+import Layout from "@/components/layout/layout";
+
 
 export default function AdminPage({ photographers, categories, policyText, collections }) {
 
@@ -34,8 +34,8 @@ export default function AdminPage({ photographers, categories, policyText, colle
   };
 
   return (
+    <Layout>
     <div className="bg-custom-grey">
-      <Header />
       <div className=" min-h-screen flex flex-col justify-center items-center px-6 md:px-24">
         <div className="mb-auto my-3">
           <ul className="text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex">
@@ -67,8 +67,8 @@ export default function AdminPage({ photographers, categories, policyText, colle
         </div>
         <div className="flex flex-col pb-44">{renderActiveView()}</div>
       </div>
-      <Footer />
     </div>
+    </Layout>
   );
 }
 

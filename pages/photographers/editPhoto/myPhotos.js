@@ -2,14 +2,13 @@ import { getSession } from "next-auth/react"
 import prisma from "@/components/prisma"
 import showImages from "@/components/showImages"
 const logger = require('@/components/utils/logger')
-import Footer from "@/components/footer";
 
 export default function FileName({ photos }) {
 
     return (
         <>
             <div>{showImages(photos)}</div>
-            <Footer/>
+
         </>
     )
 }

@@ -1,10 +1,9 @@
 import prisma from "@/components/prisma"
-import Header from "@/components/header"
 import Image from "next/image"
 import Link from "next/link"
 import { ShowPhotographerImage } from "@/components/showImages"
 const logger = require('@/components/utils/logger')
-import Footer from "@/components/footer";
+import Layout from "@/components/layout/layout"
 
 
 export default function photographersName({ photographer, photos }) {
@@ -12,10 +11,9 @@ export default function photographersName({ photographer, photos }) {
 
   return (
     
-    
+    <Layout>
 <div className="bg-custom-grey">
     {/* Header */}
-    <Header />
     <div className=" min-h-screen flex flex-col"> 
     {/* Main Profile Section */}
     <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: "url('/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG')" }}>
@@ -54,8 +52,9 @@ export default function photographersName({ photographer, photos }) {
     </section>
 
 </div>
-<Footer/>
+
 </div>
+</Layout>
 // Assuming you have a component to handle individual bio details to reduce repetition.
 
 
