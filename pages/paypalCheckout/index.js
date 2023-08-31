@@ -6,15 +6,16 @@ import { logErrorToApi } from "@/components/utils/logErrorToApi";
 import Layout from "@/components/layout/layout";
 
 export default function Index({ photosInCart, email }) {
-const router = useRouter()
+  const router = useRouter()
   const sumOfCart = photosInCart.reduce((total, photo) => {
     return total + parseInt(photo.price)
   }, 0)
   return (
     <Layout>
-      <div className="bg-custom-grey">
-        <PayPalScriptProvider options={{ "client-id": "AUpZeEpRpA5n0Af8j2ykd8anE-EM21A6HYKXGsIVYUF2aybDkK-GqCvn-ROcJtleeCl3_refQOXqvLsd", currency: "EUR" }}>
-          <PayPalButtons className="py-80" 
+
+      <PayPalScriptProvider options={{ "client-id": "AUpZeEpRpA5n0Af8j2ykd8anE-EM21A6HYKXGsIVYUF2aybDkK-GqCvn-ROcJtleeCl3_refQOXqvLsd", currency: "EUR" }}>
+        <div className="relative lg:p-96 lg:ml-32 mt-48 md:mt-0">
+          <PayPalButtons
             createOrder={(data, actions) => {
               return actions.order
                 .create({
@@ -39,37 +40,40 @@ const router = useRouter()
                   photosInCart,
                   sumOfCart
                 }
-               try {
-                 const result = await fetch('/../api/cart/createOrder', {
-                  method: "POST",
-                  credentials: "include",
-                  headers : {
-                    "Content-type" : "application/json"
-                  },
-                  body: JSON.stringify(data)
-                 })
-                 if(result){
-                  router.push({
-                    pathname: '/checkout',
-                    query: {
-                      sumOfCart }
-                })
-                 }
-                 else{
-                  throw new Error({error: "Cant accsess createorder"})
-                 }
-               } catch (error) {
-                logErrorToApi({
-                  message: error.message,
-                  stack: error.stack
-              })
-               }
+                try {
+                  const result = await fetch('/../api/cart/createOrder', {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                      "Content-type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                  })
+                  if (result) {
+                    router.push({
+                      pathname: '/checkout',
+                      query: {
+                        sumOfCart
+                      }
+                    })
+                  }
+                  else {
+                    throw new Error({ error: "Cant accsess createorder" })
+                  }
+                } catch (error) {
+                  logErrorToApi({
+                    message: error.message,
+                    stack: error.stack
+                  })
+                }
               });
             }}
           />
-        </PayPalScriptProvider>
-      </div>
-      </Layout>
+        </div>
+      </PayPalScriptProvider>
+
+
+    </Layout>
   )
 }
 
@@ -91,32 +95,32 @@ export async function getServerSideProps() {
     if (!photosInCart) {
       return {
         props: {
-          photosInCart : null,
-           email : null
+          photosInCart: null,
+          email: null
         }
       }
     }
 
     return {
-      props: { 
+      props: {
         photosInCart,
-        email : cartData[0].sessionEmail
+        email: cartData[0].sessionEmail
       }
     }
   } catch (error) {
     logger.logger.log('error', {
       message: error.message,
       stack: error.stack
-  })
+    })
     return {
       props: {
-        photosInCart : null,
-         email : null
+        photosInCart: null,
+        email: null
       }
     }
   } finally {
     await prisma.$disconnect()
   }
 
- 
+
 }
