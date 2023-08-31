@@ -6,10 +6,15 @@ import { storage } from "@/components/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import { logErrorToApi } from "../../components/utils/logErrorToApi";
+import Editcollection from "./editcollection";
 
 export default function AddNewCollection({ collections, photographers }) {
     const [currentCol, setCurrentCol] = useState(collections)
     const [imageUpload, setImageUpload] = useState()
+    const [activeView, setActiveView] = useState();
+
+
+
 
     async function handleCreateNewCollections(e) {
         e.preventDefault();
@@ -100,14 +105,18 @@ export default function AddNewCollection({ collections, photographers }) {
         }
     }
 
-    const handleEditCollection = async (e) => {
-        console.log(e.currentTarget.id)
 
-       
+
+    const handleEditCollectionView = (e) => {
+        setActiveView(e.currentTarget.id)
     }
     return (
-        <>
-        {handleEditCollection}
+        <div className={`relative`}>
+            {activeView &&
+              <div className={`absolute  w-full h-full flex justify-center items-center z-10 transform transition-all duration-500 ease-out ${activeView ? "backdrop-blur-sm opacity-100 scale-100" : "opacity-0 scale-0"}`}>
+              <Editcollection collections={collections} setActiveView={setActiveView} id={activeView} photographers={photographers} />
+          </div>
+            }
             <ErrorBoundary>
                 <div className="text-center py-8 w-full">
                     <h1 className="text-5xl text-white font-bold">Create New Collection</h1>
@@ -126,9 +135,7 @@ export default function AddNewCollection({ collections, photographers }) {
                             type="file"
                         />
 
-                        <div className="mt-4 flex justify-center">
-                            <button className="py-2 px-6 bg-custom-grey text-white font-semibold rounded-md hover:bg-opacity-90 transition-all duration-300">Submit</button>
-                        </div>
+
                         <div>
                             <h3 className="font-bold text-center my-8">Assign collection to a photographer</h3>
                             <ul>
@@ -136,13 +143,15 @@ export default function AddNewCollection({ collections, photographers }) {
                                     return (
                                         <li key={user.personID} className="flex justify-between">
                                             {user.user}
-                                            <input type={"radio"} value={user.personID} name="user" className="w-4 h-4" required/>
+                                            <input type={"radio"} value={user.personID} name="user" className="w-4 h-4" required />
                                         </li>
                                     )
                                 })}
                             </ul>
                         </div>
-
+                        <div className="mt-4 flex justify-center">
+                            <button className="py-2 px-6 bg-custom-grey text-white font-semibold rounded-md hover:bg-opacity-90 transition-all duration-300">Submit</button>
+                        </div>
                     </form>
 
                     <div className="flex-1 bg-gray-800 shadow-xl rounded-xl px-10 py-6">
@@ -150,7 +159,7 @@ export default function AddNewCollection({ collections, photographers }) {
                         <ul>
                             {currentCol.map((collection) => (
                                 <li key={collection.id} className="flex items-center justify-between mb-2 text-lg text-gray-400 hover:text-gray-300 transition-all duration-200">
-                                    <button id={collection.id} onClick={handleEditCollection}><span className="mr-2">{collection.name}</span></button>
+                                    <button id={collection.id} onClick={handleEditCollectionView}><span className="mr-2">{collection.name}</span></button>
                                     <button onClick={handleDeleteCollections} className="bg-red-500 rounded p-1 transform active:scale-95 transition-transform duration-100" value={collection.id}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" className="w-4 h-4">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -164,6 +173,6 @@ export default function AddNewCollection({ collections, photographers }) {
                     </div>
                 </div>
             </ErrorBoundary>
-        </>
+        </div>
     )
 }
