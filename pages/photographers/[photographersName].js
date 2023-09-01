@@ -4,6 +4,7 @@ import Link from "next/link"
 import { ShowPhotographerImage } from "@/components/showImages"
 const logger = require('@/components/utils/logger')
 import Layout from "@/components/layout/layout"
+import ShowPhotographerCollection from "@/components/showcollection"
 
 
 export default function photographersName({ photographer, photos }) {
@@ -48,7 +49,7 @@ export default function photographersName({ photographer, photos }) {
     {/* Signature Collections Section */}
     <section className="py-12 px-6 md:px-24 bg-custom-grey">
         <h4 className="text-4xl text-white mb-10 font-semibold text-center">{photographer.firstName}&apos;s Signature Collections</h4>
-        {ShowPhotographerImage(info.personID)}
+        <ShowPhotographerCollection photographer={photographer}/>
     </section>
 
 </div>
@@ -82,6 +83,7 @@ export async function getStaticProps(context) {
       },
       include: {
         info: true,
+        collection: true
       }
     })
 
@@ -93,7 +95,7 @@ export async function getStaticProps(context) {
     prisma.$disconnect()
     return {
       props: {
-        photographer,
+        photographer: JSON.parse(JSON.stringify(photographer)),
         photos
       },
       revalidate: 60,
