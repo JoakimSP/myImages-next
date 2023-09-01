@@ -8,8 +8,12 @@ export default async function handler(req, res){
         category,
         price,
         photoID,
-        tags
+        tags,
+        categoriesId,
+        collectionId
     } = req.body
+
+   
 
     try {
         const result = await prisma.photos.update({
@@ -21,7 +25,9 @@ export default async function handler(req, res){
                 description: description,
                 tags: tags,
                 category: category,
-                price: parseInt(price), 
+                price: parseInt(price),
+                categoriesId: categoriesId,
+                collectionId: collectionId
             }
         })
         res.status(200).json({message: "PhotoData updated"})

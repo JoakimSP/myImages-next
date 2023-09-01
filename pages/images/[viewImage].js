@@ -15,7 +15,9 @@ export default function ViewImage(props) {
         img,
         photographer,
         photo,
-        session
+        session,
+        categories,
+        collections
     } = props
 
 
@@ -88,7 +90,7 @@ export default function ViewImage(props) {
                             {
                                 (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
                                     <>
-                                        <EditPhoto photo={photo} />
+                                        <EditPhoto photo={photo} collections={collections} categories={categories} />
                                         <div>
                                             <button className="ml-4 mt-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
                                         </div>
@@ -114,6 +116,19 @@ export async function getServerSideProps(context) {
     let photo;
 
     try {
+        const collections = await prisma.collection.findMany({
+            select : {
+                id: true,
+                name: true,
+            }
+        })
+        const categories = await prisma.categories.findMany({
+            select : {
+                id: true,
+                name: true,
+            }
+        })
+
         photo = await prisma.photos.findFirst({
             where: { url: img },
         });
@@ -143,7 +158,7 @@ export async function getServerSideProps(context) {
         // Check if session and session.user exist before trying to access the email
         const userEmail = session && session.user ? session.user.email : null;
 
-        props = { img, photo, session: userEmail };
+        props = { img, photo, session: userEmail, collections, categories };
 
         if (photo && session) {
             const photographer = await prisma.photographer.findUnique({
