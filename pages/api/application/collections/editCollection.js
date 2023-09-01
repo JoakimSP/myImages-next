@@ -5,7 +5,7 @@ import { storage } from "@/components/firebase";
 
 export default async function handler(req, res) {
 
-    const { name, description, image, photographerID, id, imageDelete } = req.body
+    const { name, description, image, photographerID, id, imageDelete, subtitle } = req.body
     console.log(imageDelete)
 
     try {
@@ -17,7 +17,8 @@ export default async function handler(req, res) {
                 name: name,
                 description: description,
                 image: image,
-                photographerPersonID: photographerID
+                photographerPersonID: photographerID,
+                subtitle: subtitle
             }
         })
         const storageRef = await ref(storage, imageDelete)

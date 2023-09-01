@@ -6,7 +6,7 @@ import { storage } from "@/components/firebase";
 export default async function handler(req, res) {
 
     const { id } = req.body
-    console.log(id)
+
 
     try {
       const collection = await prisma.collection.findFirst({
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         id: id
        }
        })
-
+       console.log(collection.image)
        const storageRef = await ref(storage, `${collection.image}`)
        await deleteObject(storageRef)
 

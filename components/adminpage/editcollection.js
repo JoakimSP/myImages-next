@@ -40,7 +40,8 @@ export default function Editcollection({ collections, setActiveView, id, photogr
                 image: url,
                 photographerID: e.target.user.value,
                 id: id,
-                imageDelete: currentCol[0].image
+                imageDelete: currentCol[0].image,
+                subtitle: e.target.subtitle.value
 
             }
 
@@ -85,6 +86,7 @@ export default function Editcollection({ collections, setActiveView, id, photogr
                                 <form onSubmit={handleUpdateCollection}>
                                     <InputField label="name" type="text" name="name" placeholder={col.name} required/>
                                     <InputField label="description" type="text" name="description" placeholder={col.description} required />
+                                    <InputField label="subtitle" type="text" name="subtitle" placeholder={col.subtitle} required />
                                     <input
                                         onChange={(e) => { setImageUpload(e.target.files[0]) }}
                                         className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"

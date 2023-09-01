@@ -43,7 +43,8 @@ export default function AddNewCollection({ collections, photographers }) {
                 name: e.target.name.value,
                 description: e.target.description.value,
                 image: url,
-                photographerID: e.target.user.value
+                photographerID: e.target.user.value,
+                subtitle : e.target.subtitle.value
 
             }
 
@@ -127,6 +128,7 @@ export default function AddNewCollection({ collections, photographers }) {
                     <form onSubmit={handleCreateNewCollections} className="flex-1 bg-white shadow-xl rounded-xl px-10 py-8">
                         <InputField label="name" type="text" name="name" />
                         <InputField label="description" type="text" name="description" />
+                        <InputField label="subtitle" type="text" name="subtitle" />
                         <input
                             onChange={(e) => { setImageUpload(e.target.files[0]) }}
                             className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"

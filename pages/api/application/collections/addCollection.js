@@ -3,7 +3,7 @@ const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res) {
 
-    const { name, description, image, photographerID } = req.body
+    const { name, description, image, photographerID, subtitle } = req.body
 
     try {
         const response = await prisma.collection.create({
@@ -11,7 +11,8 @@ export default async function handler(req, res) {
                 name: name,
                 description: description,
                 image: image,
-                photographerPersonID: photographerID
+                photographerPersonID: photographerID,
+                subtitle: subtitle
             }
         })
 
