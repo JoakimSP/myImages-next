@@ -95,11 +95,13 @@ model categories {
 model collection {
   id                    String               @id @default(cuid())
   name                  String               @unique
+  subtitle              String?
   description           String?
   image                 String?              @db.VarChar(255)
   parentId              Int?
   createdAt             DateTime             @default(now())
   updatedAt             DateTime             @updatedAt
+  countViewd            Int?                 @default(0)
   photos                photos[]
   photographer          photographer?        @relation(fields: [photographerPersonID], references: [personID])
   photographerPersonID  String?
