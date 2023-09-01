@@ -30,6 +30,7 @@ export default function ViewCollections({ collection }) {
                                 fill={true}
                                 className="object-cover w-full"
                                 sizes="(max-width: 768px)"
+                                key={photo.id}
                             />
                         )
                     })}
