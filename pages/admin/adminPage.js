@@ -5,9 +5,10 @@ import AddNewCategory from "@/components/adminpage/addNewCategory";
 const logger = require('@/components/utils/logger')
 import EditPrivacyPolicy from "@/components/adminpage/editPrivacyPolicy";
 import Layout from "@/components/layout/layout";
+import AddNewCollection from "@/components/adminpage/addNewCollection";
 
 
-export default function AdminPage({ photographers, categories, policyText, collections }) {
+export default function AdminPage({ photographers, categories, policyText, collections, featuredcol }) {
 
   const [activeView, setActiveView] = useState();
   useEffect(() => {
@@ -23,6 +24,8 @@ export default function AdminPage({ photographers, categories, policyText, colle
         return <AddNewCategory categories={categories} collections={collections} photographers={photographers}/>;  
       case 'privacy':
         return <EditPrivacyPolicy text={policyText} />;
+      case 'collections':
+        return <AddNewCollection collections={collections} photographers={photographers} featuredcol={featuredcol} />;
       default:
         return null;
     }
@@ -63,6 +66,14 @@ export default function AdminPage({ photographers, categories, policyText, colle
                 Privacy
               </p>
             </li>
+            <li className="w-full">
+              <p
+                onClick={() => changeActiveView('collections')}
+                className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'privacy' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
+              >
+                collections
+              </p>
+            </li>
           </ul>
         </div>
         <div className="flex flex-col pb-44">{renderActiveView()}</div>
@@ -92,6 +103,14 @@ export async function getServerSideProps(context) {
        { name: 'asc'}
       ]
     })
+    const featuredcol = await prisma.featuredcollections.findFirst({
+      where : {
+        id: "1"
+      },
+      select: {
+        collection: true
+      }
+    })
     const policyText = await prisma.privacypolicy.findFirst({
       where: {
         id: "1"
@@ -100,17 +119,19 @@ export async function getServerSideProps(context) {
         text: true
       }
     });
-
+    
     return {
       props: {
         photographers,
         categories: JSON.parse(JSON.stringify(categories)),
         policyText,
-        collections: JSON.parse(JSON.stringify(collections))
+        collections: JSON.parse(JSON.stringify(collections)),
+        featuredcol: JSON.parse(JSON.stringify(featuredcol))
       }
     }
 
   } catch (error) {
+    console.log(error)
     logger.logger.log('error', {
       message: error.message,
       stack: error.stack
@@ -120,7 +141,8 @@ export async function getServerSideProps(context) {
         photographers: [],
         categories: [],
         policyText: null,
-        collections: []
+        collections: [],
+        featuredcol: []
       }
     }
   } finally {
