@@ -3,8 +3,8 @@ const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res) {
 
-    const { name, description, image, photographerID, subtitle } = req.body
-
+    const { name, description, image, photographerID, subtitle, isFeaturedcol } = req.body
+    console.log(isFeaturedcol)
     try {
         const response = await prisma.collection.create({
             data: {
@@ -15,6 +15,29 @@ export default async function handler(req, res) {
                 subtitle: subtitle
             }
         })
+
+        try {
+            if (isFeaturedcol) {
+                await prisma.featuredcollections.update({
+                    where: {
+                        id: "1"
+                    },
+                    data: {
+                        collection: {
+                            connect: {
+                                id: response.id
+                            }
+                        }
+                    }
+                }) 
+            }
+        } catch (error) {
+            logger.logger.log('error', {
+                message: error.message,
+                stack: error.stack
+            })
+            console.log(error)
+        }
 
 
 

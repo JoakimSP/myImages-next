@@ -7,8 +7,9 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import { logErrorToApi } from "../../components/utils/logErrorToApi";
 import Editcollection from "./editcollection";
+import Featuredcollections from "./featuredcollections";
 
-export default function AddNewCollection({ collections, photographers }) {
+export default function AddNewCollection({ collections, photographers, featuredcol }) {
     const [currentCol, setCurrentCol] = useState(collections)
     const [imageUpload, setImageUpload] = useState()
     const [activeView, setActiveView] = useState();
@@ -44,7 +45,8 @@ export default function AddNewCollection({ collections, photographers }) {
                 description: e.target.description.value,
                 image: url,
                 photographerID: e.target.user.value,
-                subtitle : e.target.subtitle.value
+                subtitle : e.target.subtitle.value,
+                isFeaturedcol : e.target.featuredcol.checked
 
             }
 
@@ -136,6 +138,10 @@ export default function AddNewCollection({ collections, photographers }) {
                             id="collection_avatar"
                             type="file"
                         />
+                        <div className="flex justify-between my-8">
+                            <label>Featuredcollection?</label>
+                            <input type="checkbox" name="featuredcol" className="w-6 h-6"/>
+                        </div>
 
 
                         <div>
@@ -173,6 +179,7 @@ export default function AddNewCollection({ collections, photographers }) {
                             ))}
                         </ul>
                     </div>
+                    <Featuredcollections featuredcol={featuredcol}/>
                 </div>
             </ErrorBoundary>
         </div>
