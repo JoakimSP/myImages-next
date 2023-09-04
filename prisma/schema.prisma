@@ -110,7 +110,7 @@ model collection {
 }
 
 model featuredcollections {
-  id         String       @id @default(cuid())
+  id         String       @id @default("1")
   collection collection[]
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
