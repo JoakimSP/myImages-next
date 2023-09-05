@@ -81,7 +81,25 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                 {isMounted &&
                     <ErrorBoundary>
                         <Slider {...settings}>
-                            {featuredcol.collection.map((col) => {
+                        <div>
+            <h3>1</h3>
+          </div>
+          <div>
+            <h3>2</h3>
+          </div>
+          <div>
+            <h3>3</h3>
+          </div>
+          <div>
+            <h3>4</h3>
+          </div>
+          <div>
+            <h3>5</h3>
+          </div>
+          <div>
+            <h3>6</h3>
+          </div>
+                           {/*  {featuredcol.collection.map((col) => {
                                 return (
                                     <div key={col.id}>
                                         <Link href={`/collections/viewCollections?collectionID=${col.id}`}>
@@ -98,7 +116,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                                         </Link>
                                     </div>
                                 )
-                            })}
+                            })} */}
                         </Slider>
                     </ErrorBoundary>
                 }
