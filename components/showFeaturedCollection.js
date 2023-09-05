@@ -1,5 +1,9 @@
 import Image from "next/image";
-import Slider from "react-slick";
+import dynamic from 'next/dynamic';
+
+const Slider = dynamic(import('react-slick'), {
+  ssr: false,
+});
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
