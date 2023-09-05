@@ -1,114 +1,87 @@
+import { useState } from "react";
 import Image from "next/image";
-import dynamic from 'next/dynamic';
-import ErrorBoundary from "./errorBoundery";
-import Head from "next/head";
-/* import Slider from "react-slick"; */
-
-const Slider = dynamic(import('react-slick'), {
-    ssr: false,
-})
 import Link from "next/link";
-import { useState, useEffect } from "react";
-
-function Arrow(props) {
-    const { className, style, onClick } = props;
-    return (
-        <div
-            className={className}
-            style={{ ...style, display: "block", }}
-            onClick={onClick}
-        />
-    );
-}
 
 export default function ShowFeaturedCollection({ featuredcol }) {
-    const [isMounted, setIsMounted] = useState(false);
-console.log(featuredcol)
+    const [activeGroup, setActiveGroup] = useState(0);
+    const slides = featuredcol.collection.map(col => ({ image: col.image, id: col.id }));
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
-    const nextSlide = () => {
-        setCurrentIndex(prev => (prev + 4) % featuredcol.collection.length);
-    }
 
-    const prevSlide = () => {
-        setCurrentIndex(prev => (prev - 4 < 0 ? featuredcol.collection.length - 4 : prev - 4));
-    }
+    const slidesPerGroup = 3;
+    const totalGroups = Math.ceil(slides.length / slidesPerGroup);
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        nextArrow: <Arrow />,
-        prevArrow: <Arrow />,
-        initialSlide: 0,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true,
-                    dots: true
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    initialSlide: 2
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
+    const goToGroup = (index) => {
+        setActiveGroup(index);
     };
+
+    const goToPrevGroup = () => {
+        let index = activeGroup - 1;
+        if (index < 0) index = totalGroups - 1;
+        setActiveGroup(index);
+    };
+
+    const goToNextGroup = () => {
+        let index = (activeGroup + 1) % totalGroups;
+        setActiveGroup(index);
+    };
+
     return (
-        <>
-            <Head>
-                <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-                <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-            </Head>
-            <Image
-            src={featuredcol.collection[0].image}
-            alt="image"
-            width={300}
-            height={300}
-            />
-            <h1 className='text-7xl text-center text-white my-4'>Featured Collections</h1>
-            <div className='flex flex-col py-8 mx-8'>
-                {isMounted &&
-                    <ErrorBoundary>
-                        <Slider {...settings}>
-                          {featuredcol.collection.map((col) => {
-                                return (
-                                    <div key={col.id}>
-                                        <Link href={`/collections/viewCollections?collectionID=${col.id}`}>
-                                            <div className="group relative h-96">
-                                            <div className="object-cover w-full h-96 bg-cover" style={{ backgroundImage: `url(${col.image})` }}></div>
-
-
-
-                                            </div>
-                                            <div><h3 className="text-center text-3xl text-white">{col.name}</h3></div>
-                                        </Link>
-                                    </div>
-                                )
-                            })} 
-                        </Slider>
-                    </ErrorBoundary>
-                }
+        <div className="relative w-full overflow-hidden">
+          <div 
+                className="relative h-56 md:h-96 flex transition-transform duration-500 ease-in-out" 
+                style={{
+                    transform: `translateX(-${activeGroup * 100 / totalGroups}%)`,
+                    width: `${totalGroups * 100}%`
+                }}
+            >
+                {slides.map((slide, index) => (
+                    <div key={slide.id} className="w-1/3 mx-4 px-2 relative">
+                        <Link href={`/collections/viewCollections?collectionID=${slide.id}`}>
+                            <Image
+                                src={slide.image}
+                                alt={`Slide ${index + 1}`}
+                                fill={true}
+                                className="object-cover"
+                            />
+                        </Link>
+                    </div>
+                ))}
             </div>
-        </>
 
-    )
+            <div className="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+                {Array.from({ length: totalGroups }).map((_, index) => (
+                    <button
+                        key={index}
+                        type="button"
+                        className="w-3 h-3 rounded-full"
+                        aria-current={index === activeGroup}
+                        aria-label={`Slide group ${index + 1}`}
+                        onClick={() => goToGroup(index)}
+                    ></button>
+                ))}
+            </div>
+
+            <button
+                type="button"
+                className="absolute top-1/2 transform -translate-y-1/2 left-0 z-30 flex items-center justify-center h-12 px-4 cursor-pointer"
+                onClick={goToPrevGroup}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+
+            </button>
+
+            <button
+                type="button"
+                className="absolute top-1/2 transform -translate-y-1/2 right-0 z-30 flex items-center justify-center h-12 px-4 cursor-pointer"
+                onClick={goToNextGroup}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+
+            </button>
+        </div>
+    );
 }
