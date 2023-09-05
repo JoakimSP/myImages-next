@@ -1,9 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ref, listAll, getDownloadURL } from "firebase/storage";
-import { useState, useEffect } from "react";
-import { storage } from "./firebase";
-import ErrorBoundary from "./errorBoundery";
+
+
 
 export default function ShowPhotographerCollection({photographer}) {
  const { collection } = photographer
