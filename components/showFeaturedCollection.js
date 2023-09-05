@@ -1,5 +1,6 @@
 import Image from "next/image";
 import dynamic from 'next/dynamic';
+import ErrorBoundary from "./errorBoundery";
 
 const Slider = dynamic(import('react-slick'), {
   ssr: false,
@@ -74,6 +75,7 @@ export default function ShowFeaturedCollection({featuredcol}) {
     <h1 className='text-7xl text-center text-white my-4'>Featured Collections</h1>
     <div className='flex flex-col py-8 mx-8'>
     {isMounted &&
+    <ErrorBoundary>
       <Slider {...settings}>
         {featuredcol.collection.map((col) => {
           return (
@@ -94,6 +96,7 @@ export default function ShowFeaturedCollection({featuredcol}) {
           )
         })}
       </Slider>
+      </ErrorBoundary>
       }
     </div>
 </>
