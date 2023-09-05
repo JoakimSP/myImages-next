@@ -2,10 +2,11 @@ import Image from "next/image";
 import dynamic from 'next/dynamic';
 import ErrorBoundary from "./errorBoundery";
 import Head from "next/head";
+/* import Slider from "react-slick"; */
 
 const Slider = dynamic(import('react-slick'), {
     ssr: false,
-});
+})
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -22,7 +23,7 @@ function Arrow(props) {
 
 export default function ShowFeaturedCollection({ featuredcol }) {
     const [isMounted, setIsMounted] = useState(false);
-
+console.log(featuredcol)
 
     useEffect(() => {
         setIsMounted(true);
@@ -77,47 +78,32 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                 <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
                 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
             </Head>
+            <Image
+            src={featuredcol.collection[0].image}
+            alt="image"
+            width={300}
+            height={300}
+            />
             <h1 className='text-7xl text-center text-white my-4'>Featured Collections</h1>
             <div className='flex flex-col py-8 mx-8'>
                 {isMounted &&
                     <ErrorBoundary>
                         <Slider {...settings}>
-                        <div>
-            <h3>{featuredcol.collection[0].id}</h3>
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
-                           {/*  {featuredcol.collection.map((col) => {
+                          {featuredcol.collection.map((col) => {
                                 return (
                                     <div key={col.id}>
                                         <Link href={`/collections/viewCollections?collectionID=${col.id}`}>
                                             <div className="group relative h-96">
-                                                <Image
-                                                    src={col.image}
-                                                    alt="Collection image"
-                                                    fill={true}
-                                                    className="object-cover w-full"
-                                                    sizes="(max-width: 768px)"
-                                                />
+                                            <div className="object-cover w-full h-96 bg-cover" style={{ backgroundImage: `url(${col.image})` }}></div>
+
+
+
                                             </div>
                                             <div><h3 className="text-center text-3xl text-white">{col.name}</h3></div>
                                         </Link>
                                     </div>
                                 )
-                            })} */}
+                            })} 
                         </Slider>
                     </ErrorBoundary>
                 }
