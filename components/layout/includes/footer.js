@@ -38,7 +38,7 @@ function Footer() {
                         </div>
                         <div className="mb-6 md:mb-0">
                             <Link href="/" className="flex items-center">
-                                <Image src={'/appContent/myimages-logo-white-1.svg'} width={300} height={300} className="h-8 mr-3" alt="Myimages Logo" />
+                                <Image src={'/appcontent/myimages-logo-white-1.svg'} width={300} height={300} className="h-8 mr-3" alt="Myimages Logo" />
                             </Link>
                         </div>
                     </div>

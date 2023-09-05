@@ -36,7 +36,7 @@ export default function Header() {
         <div className=" flex flex-wrap items-center justify-between md:justify-between mr-0  ml-12 p-4">
 
           <Image
-            src={`/appContent/myimages-logo-white-1.svg`}
+            src={`/appcontent/myimages-logo-white-1.svg`}
             alt="Logo"
             width={200}
             height={200}
