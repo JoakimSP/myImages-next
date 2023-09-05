@@ -29,7 +29,7 @@ export default function photographersName({ photographer, photos }) {
     <section className="bg-white py-12 px-6 md:px-24">
         <div className="flex flex-wrap -mx-4">
             <div className="w-full lg:w-1/3 px-4 flex justify-center">
-                <Image src={"/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG"} alt="Image of photographer" width={300} height={300} className="rounded-full shadow-xl" />
+                <Image src={photographer.profilepicture} alt="Image of photographer" width={300} height={300} className="rounded-full shadow-xl" />
             </div>
             <div className="w-full lg:w-2/3 px-4 space-y-6">
                 <div className="space-y-3">
@@ -83,7 +83,8 @@ export async function getStaticProps(context) {
       },
       include: {
         info: true,
-        collection: true
+        collection: true,
+        
       }
     })
 
