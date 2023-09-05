@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Slider from "react-slick";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 function Arrow(props) {
     const { className, style, onClick } = props;
@@ -14,6 +15,11 @@ function Arrow(props) {
   }
 
 export default function ShowFeaturedCollection({featuredcol}) {
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
     const nextSlide = () => {
         setCurrentIndex(prev => (prev + 4) % featuredcol.collection.length);
       }
@@ -60,8 +66,10 @@ export default function ShowFeaturedCollection({featuredcol}) {
       };
   return (
     <>
+    
     <h1 className='text-7xl text-center text-white my-4'>Featured Collections</h1>
     <div className='flex flex-col py-8 mx-8'>
+    {isMounted &&
       <Slider {...settings}>
         {featuredcol.collection.map((col) => {
           return (
@@ -82,6 +90,7 @@ export default function ShowFeaturedCollection({featuredcol}) {
           )
         })}
       </Slider>
+      }
     </div>
 </>
 
