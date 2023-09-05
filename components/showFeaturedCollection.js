@@ -23,6 +23,7 @@ function Arrow(props) {
 export default function ShowFeaturedCollection({ featuredcol }) {
     const [isMounted, setIsMounted] = useState(false);
 
+
     useEffect(() => {
         setIsMounted(true);
     }, []);
@@ -82,7 +83,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                     <ErrorBoundary>
                         <Slider {...settings}>
                         <div>
-            <h3>1</h3>
+            <h3>{featuredcol.collection[0].id}</h3>
           </div>
           <div>
             <h3>2</h3>
