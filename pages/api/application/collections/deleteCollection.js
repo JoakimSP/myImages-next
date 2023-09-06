@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         id: id
        }
        })
-       console.log(collection.image)
+       
        const storageRef = await ref(storage, `${collection.image}`)
        await deleteObject(storageRef)
 

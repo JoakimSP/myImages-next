@@ -4,7 +4,7 @@ const logger = require('@/components/utils/logger')
 export default async function handler(req, res) {
 
     const { name, description, image, photographerID, subtitle, isFeaturedcol } = req.body
-    console.log(isFeaturedcol)
+    
     try {
         const response = await prisma.collection.create({
             data: {

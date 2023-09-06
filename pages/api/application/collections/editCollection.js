@@ -6,7 +6,7 @@ import { storage } from "@/components/firebase";
 export default async function handler(req, res) {
 
     const { name, description, image, photographerID, id, imageDelete, subtitle } = req.body
-    console.log(imageDelete)
+    
 
     try {
          await prisma.collection.update({
