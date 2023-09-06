@@ -40,10 +40,8 @@ export default function ShowFeaturedCollection({ featuredcol }) {
              }}
          >
              {slides.map((slide, index) => (
-                 <div className="flex flex-col w-full mx-2">
- 
- 
-                     <div key={slide.id} className="flex-1  px-2 relative flex flex-col">                      
+                 <div key={slide.id} className="flex flex-col w-full mx-2">
+                     <div  className="flex-1  px-2 relative flex flex-col">                      
                              <Link href={`/collections/viewCollections?collectionID=${slide.id}`}>
                                  <Image
                                      src={slide.image}
@@ -52,8 +50,6 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                                      className="object-cover w-full"
                                  />
                              </Link>
-                         
- 
                      </div>
                      <div className="h-12">
                              <h3 className="h-40 text-3xl text-center text-white">{slide.name}</h3>
