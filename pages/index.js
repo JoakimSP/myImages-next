@@ -36,6 +36,7 @@ export default function Home({ categories, featuredcol }) {
           <SearchBar categories={categories} />
         </div>
         <ShowFeaturedCollection featuredcol={featuredcol}/>
+        <ShowImagesNext/>
       </div>
     </Layout >
   )
