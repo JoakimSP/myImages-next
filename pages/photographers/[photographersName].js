@@ -8,7 +8,7 @@ import ShowPhotographerCollection from "@/components/showcollection"
 
 
 export default function photographersName({ photographer, photos }) {
-  const { info } = photographer
+  const { info, heropicture } = photographer
 
   return (
     
@@ -17,7 +17,7 @@ export default function photographersName({ photographer, photos }) {
     {/* Header */}
     <div className=" min-h-screen flex flex-col"> 
     {/* Main Profile Section */}
-    <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: "url('/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG')" }}>
+    <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: `url(${heropicture})` }}>
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white space-y-5">
             <h1 className="text-6xl font-bold">{photographer.firstName + " " + photographer.lastName}</h1>

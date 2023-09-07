@@ -1,53 +1,55 @@
 import { storage } from "@/components/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, listAll , deleteObject } from "firebase/storage";
 import { v4 } from "uuid";
 import { useState } from "react"
-import UploadProfilePicture from "./uploadProfilePicture";
-import UploadPhotographersHero from "./uploadPhotographersHero";
+import { toast } from "react-toastify";
 
-export default function UploadImage({ userdata }) {
+
+export default function UploadPhotographersHero({userdata}) {
     const [imageUpload, setImageUpload] = useState()
-
 
     const uploadImage = async () => {
         if (imageUpload == null) return;
         const imageName = imageUpload.name + v4();
 
-        const imageRefUser = ref(storage, `${userdata.personID}/${imageName}`);
-        const imageRef = ref(storage, `${imageName}`);
+        const imageRefUser = ref(storage, `${userdata.personID}/heropicture/${imageName}`);
+        const deleteRef = ref(storage, `${userdata.personID}/heropicture/`);
 
         try {
+            await listAll(deleteRef).then((res) => {
+                const promises = res.items.map((item) => deleteObject(item));
+                Promise.all(promises).then(() => {
+                     console.log("all files deleted")
+                }).catch((error) => {
+                     console.log(error)
+                });
+            });
+
             // Upload to user-specific directory
             await uploadBytes(imageRefUser, imageUpload);
 
             // Upload to general directory
-            await uploadBytes(imageRef, imageUpload);
+
 
             // Get the download URL
-            const url = await getDownloadURL(imageRef);
             const urlUser = await getDownloadURL(imageRefUser);
 
             // Pass URL to uploadData function
-            uploadImageData(url, urlUser);
-            window.alert("image uploaded");
+            uploadImageData(urlUser);
+            toast("image uploaded")
 
         } catch (error) {
 
             console.error("Error uploading image: ", error);
         }
     };
-    const uploadImageData = async (imageUrl, imageUrlUser) => {
-        const fileName = imageUpload.name + v4();
+    const uploadImageData = async (imageUrlUser) => {
         const photoInformation = {
-            personID: userdata.personID,
-            filename: fileName,
-            filetype: imageUpload.type,
-            filesize: imageUpload.size,
-            url: imageUrl,
-            urlUser: imageUrlUser
+            urlUser: imageUrlUser,
+            userdata: userdata
         }
 
-        const res = await fetch('../../api/images/storeImages', {
+        const res = await fetch('../../api/images/storeHeroPicture', {
             method: "POST",
             headers: {
                 'content-type': 'application/json'
@@ -56,13 +58,9 @@ export default function UploadImage({ userdata }) {
         })
     }
 
-    return (
 
-        
-        <div className="grid grid-cols-2">
-            <UploadPhotographersHero userdata={userdata}/>
-            <UploadProfilePicture userdata={userdata} />
-            <h1 className="text-center text-4xl font-semibold text-gray-900 mt-12 mb-6 dark:text-white">Upload a photo</h1>
+  return (
+    <div><h1 className="text-center text-4xl font-semibold text-gray-900 mt-12 mb-6 dark:text-white">Upload a hero-picture for your page </h1>
             <div className="max-w-5xl mx-auto mt-12">
                 <div className="flex flex-col items-center space-y-6">
                     {/* Drop zone */}
@@ -99,5 +97,5 @@ export default function UploadImage({ userdata }) {
                 </div>
             </div>
         </div>
-    )
+  )
 }

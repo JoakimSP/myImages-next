@@ -17,6 +17,7 @@ model photographer {
   personID       String            @id @unique @default(cuid())
   user           String            @unique @default("") @db.VarChar(255)
   profilepicture String            @default("") @db.VarChar(255)
+  heropicture    String            @default("") @db.VarChar(255)
   firstName      String            @default("") @db.VarChar(255)
   lastName       String            @default("") @db.VarChar(255)
   email          String            @unique @default("") @db.VarChar(255)
