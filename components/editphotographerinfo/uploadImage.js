@@ -1,12 +1,13 @@
 import { storage } from "@/components/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, getMetadata } from "firebase/storage";
 import { v4 } from "uuid";
-import { useState } from "react"
+import { useRef, useState } from "react"
 import UploadProfilePicture from "./uploadProfilePicture";
 import UploadPhotographersHero from "./uploadPhotographersHero";
 
 export default function UploadImage({ userdata }) {
     const [imageUpload, setImageUpload] = useState()
+    const aspectImage = useRef()
 
 
     const uploadImage = async () => {
@@ -15,6 +16,7 @@ export default function UploadImage({ userdata }) {
 
         const imageRefUser = ref(storage, `${userdata.personID}/${imageName}`);
         const imageRef = ref(storage, `${imageName}`);
+
 
         try {
             // Upload to user-specific directory
@@ -27,16 +29,21 @@ export default function UploadImage({ userdata }) {
             const url = await getDownloadURL(imageRef);
             const urlUser = await getDownloadURL(imageRefUser);
 
-            // Pass URL to uploadData function
-            uploadImageData(url, urlUser);
-            window.alert("image uploaded");
+            const { width, height } = await renderImageTogetAspectRatio(url);
 
+            console.log(width, height);
+
+            // Pass URL to uploadData function
+            uploadImageData(url, urlUser, width, height);
+            window.alert("image uploaded");
         } catch (error) {
 
             console.error("Error uploading image: ", error);
         }
     };
-    const uploadImageData = async (imageUrl, imageUrlUser) => {
+    const uploadImageData = async (imageUrl, imageUrlUser, width, height) => {
+
+        console.log(width, height)
         const fileName = imageUpload.name + v4();
         const photoInformation = {
             personID: userdata.personID,
@@ -44,7 +51,10 @@ export default function UploadImage({ userdata }) {
             filetype: imageUpload.type,
             filesize: imageUpload.size,
             url: imageUrl,
-            urlUser: imageUrlUser
+            urlUser: imageUrlUser,
+            width: width,
+            height: height
+
         }
 
         const res = await fetch('../../api/images/storeImages', {
@@ -56,11 +66,28 @@ export default function UploadImage({ userdata }) {
         })
     }
 
+    const renderImageTogetAspectRatio = (url) => {
+        return new Promise((resolve) => {
+            aspectImage.current.onload = () => {
+                const width = aspectImage.current.naturalWidth;
+                const height = aspectImage.current.naturalHeight;
+    
+                console.log(width, height);
+                resolve({ width, height });
+            };
+    
+            aspectImage.current.src = url;
+        });
+    };
+    
+             
+            
+
     return (
 
-        
+
         <div className="grid grid-cols-2">
-            <UploadPhotographersHero userdata={userdata}/>
+            <UploadPhotographersHero userdata={userdata} />
             <UploadProfilePicture userdata={userdata} />
             <h1 className="text-center text-4xl font-semibold text-gray-900 mt-12 mb-6 dark:text-white">Upload a photo</h1>
             <div className="max-w-5xl mx-auto mt-12">
@@ -98,6 +125,7 @@ export default function UploadImage({ userdata }) {
                     </button>
                 </div>
             </div>
+            <img src="" alt="" ref={aspectImage} className="max-w-0 max-h-0"/>
         </div>
     )
 }

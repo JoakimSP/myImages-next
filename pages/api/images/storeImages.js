@@ -7,7 +7,9 @@ export default async function handler(req, res) {
     filetype,
     filesize,
     url,
-    urlUser
+    urlUser,
+    width,
+    height
   } = req.body
 
   try {
@@ -19,7 +21,9 @@ export default async function handler(req, res) {
         filetype: filetype,
         filesize: filesize,
         url: url,
-        urlUser: urlUser
+        urlUser: urlUser,
+        width: width,
+        height: height
       }
     })
     prisma.$disconnect()
