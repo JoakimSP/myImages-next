@@ -13,6 +13,9 @@ export default function ViewCollections({ collection }) {
             <div className='flex flex-col w-full h-screen' >
                 <div className="relative h-2/3">
                     <Image src={collection.image} alt={collection.name} fill={true} className={"object-cover"} />
+                    <div className='flex justify-center items-center absolute text-9xl z-10 text-white w-full h-full'>
+                        <h1 className='mb-44'>{collection.name}</h1>
+                    </div>
                 </div>
 
 
@@ -26,36 +29,29 @@ export default function ViewCollections({ collection }) {
                         </div>
                     </div>
                     {firstPhoto && firstPhoto.length > 0 && (
-                    <div className="flex-1 h-96 bg-custom-grey text-white p-4">
-                        <div className="relative w-full h-full">
-                            <Image src={firstPhoto[0].url} alt={collection.name} fill={true} className={"object-cover"} />
+                        <div className="flex-1 h-96 bg-custom-grey text-white pt-4 pr-4">
+                            <div className="relative w-full h-full">
+                                <Image src={firstPhoto[0].url} alt={collection.name} fill={true} className={"object-cover"} />
+                            </div>
                         </div>
-                    </div>
                     )}
                 </div>
             </div>
-            <div className='grid lg:grid-cols-4 md:grid-cols-2 gap-4 bg-custom-grey'>
-            {collection.photos && collection.photos.length > 0 && (
-    collection.photos.slice(1).map((photo, index) => {
-        counter++;
-        const isTwoItemRow = twoItemRow(counter);
-        if (isTwoItemRow) {
-            return (
-                <div className={`col-span-2 h-96 relative`} key={photo.id}>
-                    <Image src={photo.url} alt="image" fill={true} className="object-cover w-full" />
-                </div>
-            );
-        } else {
-            return (
-                <div className={`col-span-1 h-96 relative`} key={photo.id}>
-                    <Image src={photo.url} alt="image" fill={true} className="object-cover w-full" />
-                </div>
-            );
-        }
-    })
-)}
+            <div className='w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey'>
+                {collection.photos && collection.photos.length > 0 && (
+                    collection.photos.slice(1).map((photo, index) => {
 
-</div>
+                        return (
+                            
+                                <Image key={photo.id} src={photo.url} alt="image" width={photo.width} height={photo.height}/>
+                            
+                        );
+
+
+                    })
+                )}
+
+            </div>
 
         </Layout >
     )
