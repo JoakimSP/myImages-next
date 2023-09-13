@@ -65,7 +65,7 @@ export default function ShowImagesNext({photos}) {
 // 
   return (
     <ErrorBoundary>
-      <div className="w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5">
+      <div className="w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey">
         {photos.map((photo, index) => {
             return (
               <Link  key={index} href={`/images/viewimage?img=${encodeURIComponent(photo.url)}`}>
