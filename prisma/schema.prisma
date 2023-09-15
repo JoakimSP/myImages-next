@@ -60,6 +60,8 @@ model photos {
   countViewd      Int?         @default(0)
   countDownloaded Int?         @default(0)
   price           Int?         @default(100)
+  pricesmall      Int?         @default(100)
+  pricemedium     Int?         @default(100)
   privacy         Boolean      @default(true)
   photographer    photographer @relation(fields: [personID], references: [personID])
   collection      collection?  @relation(fields: [collectionId], references: [id])
@@ -67,6 +69,7 @@ model photos {
   categories      categories?  @relation(fields: [categoriesId], references: [id])
   categoriesId    String?
   exclusive       Boolean      @default(false)
+  active          Boolean      @default(true)
 }
 
 model cart {

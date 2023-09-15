@@ -7,11 +7,14 @@ export default async function handler(req, res){
         description,
         category,
         price,
+        priceSmall,
+        priceMedium,
         photoID,
         tags,
         categoriesId,
         collectionId
     } = req.body
+
 
    
 
@@ -26,12 +29,15 @@ export default async function handler(req, res){
                 tags: tags,
                 category: category,
                 price: parseInt(price),
+                pricesmall: parseInt(priceSmall),
+                pricemedium: parseInt(priceMedium),
                 categoriesId: categoriesId,
                 collectionId: collectionId
             }
         })
         res.status(200).json({message: "PhotoData updated"})
     } catch (error) {
+        console.log(error)
         logger.logger.log('error', {
             message: error.message,
             stack: error.stack
