@@ -6,7 +6,7 @@ import 'react-tagsinput/react-tagsinput.css'
 import { useState } from "react"
 
 export default function EditPhoto({ photo, categories, collections }) {
-    const [tags, setTags] = useState(photo.tags)
+    const [tags, setTags] = useState(photo.tags || [])
 
     const handleUpdateTags = (newTags) => {
         setTags(newTags);
@@ -15,7 +15,7 @@ export default function EditPhoto({ photo, categories, collections }) {
     async function HandleUpdateInfo(e) {
         e.preventDefault()
         console.log(e.target[3].value)
-       
+
         let catValue
         /* let exclusiveValue */
 
@@ -36,7 +36,7 @@ export default function EditPhoto({ photo, categories, collections }) {
             photoID: photo.id,
             categoriesId: e.target[5].value,
             collectionId: e.target[6].value,
-            
+
 
         }
 
@@ -84,7 +84,7 @@ export default function EditPhoto({ photo, categories, collections }) {
                     <input id="price" type="number" min="0" name="priceSmall" className="w-full p-2 border rounded" defaultValue={photo.pricesmall} placeholder={photo.pricesmall} required />
                 </div>
                 <div className="space-y-2">
-                    
+
                     <div>
                         <div>
                             <legend className="font-semibold">Category</legend>
@@ -117,7 +117,7 @@ export default function EditPhoto({ photo, categories, collections }) {
                     <TagsInput value={tags} onChange={handleUpdateTags} onlyUnique />
                 </div>
                 <div>
-                    <input type="submit" value="Submit" className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700"/>
+                    <input type="submit" value="Submit" className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700" />
                 </div>
             </form>
         </ErrorBoundary>
