@@ -31,7 +31,7 @@ export default function UploadImage({ userdata }) {
 
             const { width, height } = await renderImageTogetAspectRatio(url);
 
-            console.log(width, height);
+            
 
             // Pass URL to uploadData function
             uploadImageData(url, urlUser, width, height);
@@ -43,7 +43,7 @@ export default function UploadImage({ userdata }) {
     };
     const uploadImageData = async (imageUrl, imageUrlUser, width, height) => {
 
-        console.log(width, height)
+        
         const fileName = imageUpload.name + v4();
         const photoInformation = {
             personID: userdata.personID,
@@ -72,7 +72,7 @@ export default function UploadImage({ userdata }) {
                 const width = aspectImage.current.naturalWidth;
                 const height = aspectImage.current.naturalHeight;
     
-                console.log(width, height);
+                
                 resolve({ width, height });
             };
     
@@ -89,8 +89,9 @@ export default function UploadImage({ userdata }) {
         <div className="grid grid-cols-2">
             <UploadPhotographersHero userdata={userdata} />
             <UploadProfilePicture userdata={userdata} />
-            <h1 className="text-center text-4xl font-semibold text-gray-900 mt-12 mb-6 dark:text-white">Upload a photo</h1>
+            
             <div className="max-w-5xl mx-auto mt-12">
+            <h1 className="text-center text-4xl font-semibold text-white mt-12 mb-6 dark:text-white">Upload a photo</h1>
                 <div className="flex flex-col items-center space-y-6">
                     {/* Drop zone */}
                     <div

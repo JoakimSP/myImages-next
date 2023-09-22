@@ -60,8 +60,9 @@ export default function UploadProfilePicture({userdata}) {
 
 
   return (
-    <div><h1 className="text-center text-4xl font-semibold text-gray-900 mt-12 mb-6 dark:text-white">Upload a Profile picture</h1>
+    <div>
             <div className="max-w-5xl mx-auto mt-12">
+            <h1 className="text-center text-4xl font-semibold text-white mt-12 mb-6 dark:text-white">Upload a Profile picture</h1>
                 <div className="flex flex-col items-center space-y-6">
                     {/* Drop zone */}
                     <div
