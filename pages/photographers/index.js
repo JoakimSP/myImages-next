@@ -14,7 +14,10 @@ export default function index({ photographers }) {
 
     <div className='min-h-screen py-10'>
         {/* Title */}
-        <h1 className="text-center text-4xl font-semibold text-gray-900 pt-12 mb-6 dark:text-white">Our Photographers</h1>
+        <h1 className="mb-5 text-white text-center text-4xl font-bold md:text-6xl">Our Photographers</h1>
+        <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg text-white">
+        Explore our showcase of talented photographers. Delve into their portfolios, learn about their expertise, and select the perfect match for your needs.
+            </div>
         
         {/* Grid of Photographers */}
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 lg:px-24'>
