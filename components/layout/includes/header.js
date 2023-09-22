@@ -14,6 +14,7 @@ export default function Header() {
   const [isAllowed, setIsAllowed] = useState(false)
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(prev => !prev);
   };
@@ -22,7 +23,7 @@ export default function Header() {
   //Fetch photographers from getAllPhotographers API
 
   useEffect(() => {
-    if (session && session.user.email === "jocke@live.se" || session && session.user.email === "Pernilla@test.se") {
+    if (session && session.user.email === "jocke@live.se" || session && session.user.email === "Pernilla@test.se" || session && session.user.email === "test@test" ) {
       setIsAllowed(true)
     } else {
       setIsAllowed(false)
@@ -75,7 +76,7 @@ export default function Header() {
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border gap-5 border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
               <li><Link href="/" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Home</Link></li>
               <li><Link href="/photographers" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Photographers</Link></li>
-              <li><Link href="/#" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >How to use & Pricing</Link></li>
+              <li><Link href="/information/howToAndPricing" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >How to use & Pricing</Link></li>
               {status === "authenticated" && session.provider !== "google" && (
                 <li><Link href="/photographers/edit/editPhotographerPage" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0" >Edit your Page</Link></li>
               )}
