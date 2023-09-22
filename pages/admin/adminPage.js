@@ -21,7 +21,7 @@ export default function AdminPage({ photographers, categories, policyText, colle
       case 'photographers':
         return <AddNewPhotographer photographers={photographers} />;
       case 'categories':
-        return <AddNewCategory categories={categories} collections={collections} photographers={photographers}/>;  
+        return <AddNewCategory categories={categories} collections={collections} photographers={photographers} />;
       case 'privacy':
         return <EditPrivacyPolicy text={policyText} />;
       case 'collections':
@@ -38,47 +38,48 @@ export default function AdminPage({ photographers, categories, policyText, colle
 
   return (
     <Layout>
-    <div className="bg-custom-grey">
-      <div className=" min-h-screen flex flex-col justify-center items-center px-6 md:px-24">
-        <div className="mb-auto my-3">
-          <ul className="text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex">
-            <li className="w-full">
-              <p
-                onClick={() => changeActiveView('photographers')}
-                className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'photographers' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
-              >
-                photographers
-              </p>
-            </li>
-            <li className="w-full">
-              <p
-                onClick={() => changeActiveView('categories')}
-                className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'categories' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
-              >
-                photosettings
-              </p>
-            </li>
-            <li className="w-full">
-              <p
-                onClick={() => changeActiveView('privacy')}
-                className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'privacy' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
-              >
-                Privacy
-              </p>
-            </li>
-            <li className="w-full">
-              <p
-                onClick={() => changeActiveView('collections')}
-                className={`inline-block w-full p-4 focus:ring-4 focus:ring-blue-300 ${activeView === 'privacy' ? 'text-white bg-blue-600' : 'text-gray-500 bg-white hover:text-gray-700 hover:bg-gray-50'} focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
-              >
-                collections
-              </p>
-            </li>
-          </ul>
+      <div className="bg-custom-grey min-h-screen">
+        <div className="min-h-screen flex flex-col justify-center items-center px-6 md:px-24">
+          <div className="mb-auto my-3">
+            <ul className="flex space-x-1 md:space-x-2 bg-white p-2 rounded-lg shadow-lg">
+              <li className="flex-1">
+                <button
+                  onClick={() => changeActiveView('photographers')}
+                  className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'photographers' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                >
+                  Photographers
+                </button>
+              </li>
+              <li className="flex-1">
+                <button
+                  onClick={() => changeActiveView('categories')}
+                  className={`w-full whitespace-nowrap text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'categories' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                >
+                  Photo Settings
+                </button>
+              </li>
+              <li className="flex-1">
+                <button
+                  onClick={() => changeActiveView('privacy')}
+                  className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'privacy' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                >
+                  Privacy
+                </button>
+              </li>
+              <li className="flex-1">
+                <button
+                  onClick={() => changeActiveView('collections')}
+                  className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'collections' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                >
+                  Collections
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div className="flex flex-col pb-44">{renderActiveView()}</div>
         </div>
-        <div className="flex flex-col pb-44">{renderActiveView()}</div>
       </div>
-    </div>
+
     </Layout>
   );
 }
@@ -90,21 +91,21 @@ export async function getServerSideProps(context) {
 
     const photographers = await prisma.photographer.findMany({
       orderBy: [
-       { lastName: 'asc'}
+        { lastName: 'asc' }
       ]
     })
     const categories = await prisma.categories.findMany({
       orderBy: [
-       { name: 'asc'}
+        { name: 'asc' }
       ]
     })
     const collections = await prisma.collection.findMany({
       orderBy: [
-       { name: 'asc'}
+        { name: 'asc' }
       ]
     })
     const featuredcol = await prisma.featuredcollections.findFirst({
-      where : {
+      where: {
         id: "1"
       },
       select: {
@@ -119,7 +120,7 @@ export async function getServerSideProps(context) {
         text: true
       }
     });
-    
+
     return {
       props: {
         photographers,
