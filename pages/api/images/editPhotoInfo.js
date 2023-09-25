@@ -12,9 +12,9 @@ export default async function handler(req, res){
         photoID,
         tags,
         categoriesId,
-        collectionId
+        collectionId,
+        exclusive
     } = req.body
-
 
    
 
@@ -32,7 +32,8 @@ export default async function handler(req, res){
                 pricesmall: parseInt(priceSmall),
                 pricemedium: parseInt(priceMedium),
                 categoriesId: categoriesId,
-                collectionId: collectionId
+                collectionId: collectionId,
+                exclusive: exclusive
             }
         })
         res.status(200).json({message: "PhotoData updated"})
