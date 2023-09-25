@@ -14,15 +14,6 @@ export default function EditPhoto({ photo, categories, collections }) {
 
     async function HandleUpdateInfo(e) {
         e.preventDefault()
-        console.log(e.target[3].value)
-
-        let catValue
-        /* let exclusiveValue */
-
-        /*  if(e.target[7].checked){
-             exclusiveValue = e.target[7].value
-             console.log(exclusiveValue)
-         } */
 
 
 
