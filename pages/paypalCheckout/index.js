@@ -4,12 +4,14 @@ import { useRouter } from "next/router";
 const logger = require('@/components/utils/logger')
 import { logErrorToApi } from "@/components/utils/logErrorToApi";
 import Layout from "@/components/layout/layout";
+import { getSession } from 'next-auth/react';
 
-export default function Index({ photosInCart, email }) {
+export default function Index({ cartData, email }) {
   const router = useRouter()
-  const sumOfCart = photosInCart.reduce((total, photo) => {
-    return total + parseInt(photo.price)
+  const sumOfCart = cartData.reduce((total, photo) => {
+    return total + parseInt(photo.priceoption)
   }, 0)
+console.log(cartData)
   return (
     <Layout>
 
@@ -37,9 +39,10 @@ export default function Index({ photosInCart, email }) {
                 data = {
                   details,
                   email,
-                  photosInCart,
+                  cartData,
                   sumOfCart
                 }
+                
                 try {
                   const result = await fetch('/../api/cart/createOrder', {
                     method: "POST",
@@ -53,7 +56,8 @@ export default function Index({ photosInCart, email }) {
                     router.push({
                       pathname: '/checkout',
                       query: {
-                        sumOfCart
+                        sumOfCart,
+                        cartData : JSON.stringify(cartData)
                       }
                     })
                   }
@@ -78,24 +82,18 @@ export default function Index({ photosInCart, email }) {
 }
 
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
 
   try {
-    const cartData = await prisma.cart.findMany()
-    const photoIDsInCart = cartData.map(item => item.photoID);
-
-    const photosInCart = await prisma.photos.findMany({
-      where: {
-        id: {
-          in: photoIDsInCart
-        }
-      }
+    const cartData = await prisma.cart.findMany({
+      where: { sessionEmail: session.user.email }
     })
 
-    if (!photosInCart) {
+    if (!cartData) {
       return {
         props: {
-          photosInCart: null,
+          cartData: null,
           email: null
         }
       }
@@ -103,8 +101,8 @@ export async function getServerSideProps() {
 
     return {
       props: {
-        photosInCart,
-        email: cartData[0].sessionEmail
+        cartData,
+        email: session.user.email
       }
     }
   } catch (error) {
@@ -114,7 +112,7 @@ export async function getServerSideProps() {
     })
     return {
       props: {
-        photosInCart: null,
+        cartData: null,
         email: null
       }
     }

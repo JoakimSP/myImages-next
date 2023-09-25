@@ -4,15 +4,16 @@ import { storage } from "@/components/firebase";
 import archiver from "archiver";
 
 export default async function handler(req, res) {
-    const photoIdsArray = JSON.parse(decodeURIComponent(req.query.receiptId));
-    const photoIdsToArray = photoIdsArray[0].split(",");
-    const parseToInt = photoIdsToArray.map(element => {
-        return Number.parseInt(element);
+    console.log(req.query)
+    const photoIdsArray = JSON.parse(decodeURIComponent(req.query.cartData));
+
+    const photosId = photoIdsArray.map(cartItem => {
+        return cartItem.photoID
     });
 
     const photos = await prisma.photos.findMany({
         where: {
-            id: { in: photoIdsToArray }
+            id: { in: photosId }
         }
     });
 
@@ -24,7 +25,7 @@ export default async function handler(req, res) {
 
         await prisma.photos.updateMany({
             where : {
-                id: {in: photoIdsToArray}
+                id: {in: photosId}
             },
             data: {
                 countDownloaded: {increment: 1}

@@ -16,13 +16,11 @@ export default function Index({lastReceipt}) {
       setSumOfCart(router.query.sumOfCart);
     }
   }, [router]);
-  
 
   async function handleDownloadImage(e){
     e.preventDefault()
-    const photosID = lastReceipt.map(photo => photo.photosID);
     if(lastReceipt){                                                        
-      window.open(`/api/images/downloadImage?receiptId=${encodeURIComponent(JSON.stringify(photosID))}`, '_blank');
+      window.open(`/api/images/downloadImage?cartData=${encodeURIComponent(JSON.stringify(lastReceipt[0].cartData))}`, '_blank');
 
     }
     clearCart()
@@ -51,12 +49,17 @@ export default function Index({lastReceipt}) {
 export async function getServerSideProps(context) {
   const session = await getSession(context)
 
+  const parsedCartData = JSON.parse(context.query.cartData || "[]");
+
+
 
     const result = await prisma.receipt.findMany({
       where: {
         sessionEmail: session.user.email
       }
     })
+
+ 
 
     
 
@@ -70,7 +73,7 @@ export async function getServerSideProps(context) {
     })
 
     const lastReceipt = filterReceipt.slice(-1)
-
+    console.log(lastReceipt[0].cartData)
     prisma.$disconnect()
     return {
       props: {

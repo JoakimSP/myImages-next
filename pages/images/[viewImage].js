@@ -2,7 +2,7 @@ import Image from "next/image"
 import { getSession, signIn } from "next-auth/react"
 import formatCurrency from "@/components/utils/formatCurrency"
 import router from "next/router"
-import { useContext, useState, useEffect } from "react"
+import { useContext, useState } from "react"
 import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
 import EditPhoto from "@/components/editPhoto"
@@ -20,18 +20,24 @@ export default function ViewImage(props) {
         collections
     } = props
 
-
+    const [priceOption, setPriceOption] = useState()
     const { cart, addToCart } = useContext(CartContext)
 
-
+    const choosePriceOption = (e) => {
+        setPriceOption(e.target.value)
+    }
 
     async function handleAddToCart(id) {
         if (!session) {
             return signIn()
         }
+
         const data = {
             id,
-            session
+            session,
+            priceOption,
+            title: photo.title,
+            url: photo.url
         }
         const result = await fetch('/api/cart/storeCartData', {
             method: 'POST',
@@ -65,12 +71,11 @@ export default function ViewImage(props) {
     return (
         <Layout>
             <div className="bg-custom-grey">
+                <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">
+                    <h1 className="text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
 
-                <div className="flex flex-auto justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 ">
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start mb-6">
-                        <div className="col-span-2">
-                            <h1 className="text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
+                    <div className="flex flex-wrap -mx-6">
+                        <div className="w-full md:w-2/3 px-6">
                             <Image
                                 src={img}
                                 width={800}
@@ -78,32 +83,42 @@ export default function ViewImage(props) {
                                 alt={`#`}
                                 onContextMenu={(e) => e.preventDefault()}
                             />
-                        </div>
-                        <div className="space-y-6 flex-shrink">
-                            <p className="text-xl font-semibold">{formatCurrency(photo.price)}</p>
-                            <p className="text-base">{photo.description}</p>
-                            <button
-                                className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
-                                onClick={() => handleAddToCart(photo.id)}
-                            >Add to cart
-                            </button>
+                            <p className="text-base mt-6">{photo.description}</p>
                             {
                                 (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
                                     <>
                                         <EditPhoto photo={photo} collections={collections} categories={categories} />
-                                        <div>
-                                            <button className="ml-4 mt-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
+                                        <div className="mt-4">
+                                            <button className="ml-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
                                         </div>
                                     </>
-                                ) : (
-                                    <div></div>
-                                )
+                                ) : null
                             }
+                        </div>
+
+                        <div className="w-full md:w-1/3 px-6 mt-6 md:mt-0">
+                            <div className="border-4 rounded-md bg-white shadow-xl p-6 overflow-hidden">
+                                {[{ label: 'Small', value: 'pricesmall' }, { label: 'Medium', value: 'pricemedium' }, { label: 'Large', value: 'price' }].map((option, index) => (
+                                    <div className="flex justify-between items-center border-b-2 px-4 py-3 mb-3" key={index}>
+                                        <span className="flex gap-4 items-center">
+                                            <input type={"radio"} value={photo[option.value]} onChange={choosePriceOption} name="priceChoice" className="focus:ring focus:ring-custom-grey-light" />
+                                            <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{option.label}</p>
+                                        </span>
+                                        <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{formatCurrency(photo[option.value])}</p>
+                                    </div>
+                                ))}
+                                <button
+                                    className="w-full py-2 px-4 mt-6 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700 transition-all duration-300"
+                                    onClick={() => handleAddToCart(photo.id)}
+                                >
+                                    Add to cart
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+
         </Layout>
     )
 }
@@ -117,13 +132,13 @@ export async function getServerSideProps(context) {
 
     try {
         const collections = await prisma.collection.findMany({
-            select : {
+            select: {
                 id: true,
                 name: true,
             }
         })
         const categories = await prisma.categories.findMany({
-            select : {
+            select: {
                 id: true,
                 name: true,
             }

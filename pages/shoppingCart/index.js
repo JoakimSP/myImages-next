@@ -8,7 +8,7 @@ import { getSession } from "next-auth/react"
 const logger = require('@/components/utils/logger')
 
 
-export default function ShoppingCart({ photosInCart, session }) {
+export default function ShoppingCart({ photosInCart, session, currentUserCart }) {
   const { removeFromCart } = useContext(CartContext)
   const {email} = session.user
 
@@ -44,7 +44,7 @@ export default function ShoppingCart({ photosInCart, session }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" >
             {
-                Object.values(photosInCart).map((photo) => (
+                currentUserCart.map((photo) => (
                     <div key={photo.id} className="rounded-lg shadow-md overflow-hidden bg-white group">
                         <Link className="block relative h-60" href={`/images/viewimage?img=${encodeURIComponent(photo.url)}`}>
                                 <Image
@@ -57,14 +57,15 @@ export default function ShoppingCart({ photosInCart, session }) {
 
                         <div className="p-4">
                             <p className="mb-4 font-medium text-gray-800">{photo.title}</p>
+                            <p className="mb-4 font-medium text-gray-800">{photo.priceoption}</p>
                             <button 
-                                onClick={() => { handleRemoveFromCart(photo.id, email) }} 
+                                onClick={() => { handleRemoveFromCart(photo.photoID, email) }} 
                                 className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded focus:outline-none transition-colors duration-300"
                             >
                                 Remove
                             </button>
                         </div>
-                    </div>
+                    </div>               
                 ))
             }
         </div>
@@ -106,7 +107,7 @@ export async function getServerSideProps(context) {
 
    
     return {
-      props: { photosInCart, session }
+      props: { photosInCart, session, currentUserCart }
     }
 
   } catch (error) {

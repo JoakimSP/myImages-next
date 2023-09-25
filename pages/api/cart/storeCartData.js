@@ -4,7 +4,10 @@ const logger = require('@/components/utils/logger')
 export default async function handler(req, res) {
     const {
         id,
-        session
+        session,
+        priceOption,
+        title,
+        url
     } = req.body
     
      if (!session) {
@@ -12,11 +15,15 @@ export default async function handler(req, res) {
         return;
     }
 
+
     try {
         const result = await prisma.cart.create({
             data: {
                 photoID : id,
-                sessionEmail: session
+                sessionEmail: session,
+                priceoption: parseInt(priceOption),
+                title: title,
+                url, url
             }
         })
         res.status(200).json({message: "Added to cart"})

@@ -3,9 +3,9 @@ const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res) {
 
-    const { email, photosInCart, sumOfCart } = req.body
+    const { email, cartData, sumOfCart } = req.body
     const { id } = req.body.details
-const photoIDsInCart = photosInCart.map(item => item.id);
+const photoIDsInCart = cartData.map(item => item.photoID);
 const photosIDString = photoIDsInCart.join(',');
 
 
@@ -14,7 +14,7 @@ const photosIDString = photoIDsInCart.join(',');
             data: {
                 id: id,
                 sessionEmail: email,
-                photosID: photosIDString,
+                cartData: cartData,
                 dateAdded: Date.now().toString(),
                 price: sumOfCart
             }

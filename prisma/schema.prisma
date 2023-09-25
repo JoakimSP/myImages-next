@@ -73,14 +73,17 @@ model photos {
 }
 
 model cart {
-  id           String @id @default(cuid())
+  id           String  @id @default(cuid())
   photoID      String
   sessionEmail String
+  priceoption  Int?    @default(1)
+  url          String  @db.VarChar(250)
+  title        String?
 }
 
 model receipt {
   id           String @id @default(cuid())
-  photosID     String
+  cartData     Json
   sessionEmail String
   dateAdded    String
   price        Int
@@ -125,6 +128,23 @@ model privacypolicy {
   text      String   @db.LongText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model pricingpage {
+  id                 String   @id @default("1")
+  title              String?  @db.VarChar(255)
+  subtitle           String?  @db.VarChar(255)
+  imageleft          String?  @db.VarChar(255)
+  imagelefttitle     String?  @db.VarChar(255)
+  imageleftsubtitle  String?  @db.VarChar(255)
+  imageleftprice     String?  @db.VarChar(255)
+  imageright         String?  @db.VarChar(255)
+  imagerighttitle    String?  @db.VarChar(255)
+  imagerightsubtitle String?  @db.VarChar(255)
+  imagerightprice    String?  @db.VarChar(255)
+  footertext         String?  @db.VarChar(255)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 model Account {
