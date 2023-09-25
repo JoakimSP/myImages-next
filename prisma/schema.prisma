@@ -83,7 +83,7 @@ model cart {
 
 model receipt {
   id           String @id @default(cuid())
-  cartData     Json
+  cartData     Json?
   sessionEmail String
   dateAdded    String
   price        Int
