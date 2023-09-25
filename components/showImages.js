@@ -9,7 +9,7 @@ export function ShowPhotographerImage(photographer) {
   const [imageList, setImageList] = useState([])
   const imageListRef = ref(storage, `${photographer}`);
 
-  console.log(photographer)
+ 
 
   useEffect(() => {
     listAll(imageListRef).then((res) => {
@@ -49,7 +49,7 @@ export default function ShowImagesNext({photos}) {
  /*  const [imageList, setImageList] = useState([]);
   const imageListRef = ref(storage, "/"); */
 
-  console.log(photos)
+ 
 
 /*   useEffect(() => {
     listAll(imageListRef).then((res) => {
