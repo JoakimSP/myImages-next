@@ -77,7 +77,7 @@ model cart {
   photoID      String
   sessionEmail String
   priceoption  Int?    @default(1)
-  url          String  @db.VarChar(250)
+  url          String?  @db.VarChar(250)
   title        String?
 }
 
