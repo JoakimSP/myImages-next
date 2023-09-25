@@ -6,6 +6,7 @@ const logger = require('@/components/utils/logger')
 import EditPrivacyPolicy from "@/components/adminpage/editPrivacyPolicy";
 import Layout from "@/components/layout/layout";
 import AddNewCollection from "@/components/adminpage/addNewCollection";
+import EditPricePage from "@/components/adminpage/editPricePage";
 
 
 export default function AdminPage({ photographers, categories, policyText, collections, featuredcol }) {
@@ -26,6 +27,8 @@ export default function AdminPage({ photographers, categories, policyText, colle
         return <EditPrivacyPolicy text={policyText} />;
       case 'collections':
         return <AddNewCollection collections={collections} photographers={photographers} featuredcol={featuredcol} />;
+      case 'pricing':
+        return <EditPricePage/>;
       default:
         return null;
     }
@@ -72,6 +75,14 @@ export default function AdminPage({ photographers, categories, policyText, colle
                   className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'collections' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
                 >
                   Collections
+                </button>
+              </li>
+              <li className="flex-1">
+                <button
+                  onClick={() => changeActiveView('pricing')}
+                  className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'collections' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                >
+                  pricing
                 </button>
               </li>
             </ul>
