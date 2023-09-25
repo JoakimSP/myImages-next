@@ -40,7 +40,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
              }}
          >
              {slides.map((slide, index) => (
-                 <div key={slide.id} className="flex flex-col w-full mx-2">
+                 <div key={slide.id} className="flex flex-col w-full mx-2 relative">
                      <div  className="flex-1  px-2 relative flex flex-col">                      
                              <Link href={`/collections/viewCollections?collectionID=${slide.id}`}>
                                  <Image
@@ -48,6 +48,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                                      alt={`Slide ${index + 1}`}
                                      fill={true}
                                      className="object-cover w-full"
+                                     sizes="(max-width: 768px)"
                                  />
                              </Link>
                      </div>
