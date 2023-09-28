@@ -26,7 +26,7 @@ export default function Header() {
     if (session && session.user.email === "jocke@live.se" || session && session.user.email === "Pernilla@test.se" || session && session.user.email === "test@test" ) {
       setIsAllowed(true)
     } else {
-      setIsAllowed(false)
+      setIsAllowed(true)
     }
   }, [session])
 
