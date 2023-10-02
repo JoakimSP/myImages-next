@@ -45,39 +45,56 @@ export function ShowPhotographerImage(photographer) {
 }
 
 
-export default function ShowImagesNext({photos}) {
- /*  const [imageList, setImageList] = useState([]);
-  const imageListRef = ref(storage, "/"); */
+export default function ShowImagesNext({ photos }) {
+  const [images, setImages] = useState([]);
 
-  console.log(photos)
+  useEffect(() => {
+    const filepaths = photos.map(photo => photo.filepath);
 
-/*   useEffect(() => {
-    listAll(imageListRef).then((res) => {
-      const promises = res.items.map((item) => getDownloadURL(item));
-      Promise.all(promises).then((urls) => {
-        setImageList(urls);
+    async function fetchImages() {
+      const response = await fetch('/api/testReadImage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ paths: filepaths }),
+
       });
-    });
-  }, []); */
 
+      if (response.ok) {
+        const imagesBase64 = await response.json();
+        const urls = filepaths.map(filepath => {
+          const base64 = imagesBase64[filepath];
+          if (base64) {
+            return `data:image/png;base64,${base64}`; // Assuming all images are PNGs.
+          }
+          return null;
+        }).filter(Boolean);
+        setImages(urls);
+      } else {
+        console.error('Failed to fetch images.');
+      }
+    }
 
+    fetchImages();
+  }, [photos]);
+  if (images.length === 0) return <p>Loading...</p>;
 
-// 
   return (
     <ErrorBoundary>
       <div className="w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey">
-        {photos.map((photo, index) => {
-            return (
-              <Link  key={index} href={`/images/viewimage?img=${encodeURIComponent(photo.url)}`}>
+        {photos.map((photoObj, index) => {
+          return (
+            <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(photoObj.filepath)}`}>
               <Image
-                src={photo.url}
+                src={images[index]}
                 alt="image"
-                width={photo.width}
-                height={photo.height}
+                width={photoObj.width}
+                height={photoObj.height}
                 className="my-5"
-              />         
-              </Link>
-            );
+              />
+            </Link>
+          );
         })}
       </div>
     </ErrorBoundary>
