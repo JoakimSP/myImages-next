@@ -5,7 +5,6 @@ import Image from "next/image";
 import prisma from '@/components/prisma';
 import Layout from '@/components/layout/layout';
 import ShowFeaturedCollection from '@/components/showFeaturedCollection';
-
 import React from "react";
 
 
@@ -35,7 +34,9 @@ export default function Home({ categories, featuredcol, photos }) {
 
           <SearchBar categories={categories} />
         </div>
+        {featuredcol &&
         <ShowFeaturedCollection featuredcol={featuredcol}/>
+        }
         <ShowImagesNext photos={photos}/>
       </div>
     </Layout >
@@ -60,7 +61,11 @@ export async function getServerSideProps() {
     }
   })
 
-  const photos = await prisma.photos.findMany()
+  const photos = await prisma.photos.findMany({
+    where : {
+      size : "small"
+    }
+  })
 
   return {
     props: { categories, featuredcol: JSON.parse(JSON.stringify(featuredcollections)), photos }
