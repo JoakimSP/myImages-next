@@ -4,7 +4,6 @@ import SearchBar from "@/components/searchbar"
 import ShowImagesNext from "@/components/showImages"
 
 export default function Index({ filterdImages, categories }) {
-    console.log(filterdImages)
 
     return (
         <Layout>

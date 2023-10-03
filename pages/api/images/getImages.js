@@ -1,4 +1,27 @@
-import fs from 'fs/promises';
+import fs from 'fs';
+
+export default function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).end();
+  }
+
+  const imagePaths = req.body.paths;
+  const imagesBase64 = {};
+
+  imagePaths.forEach(filepath => {
+    if (fs.existsSync(filepath)) {
+      const imageBuffer = fs.readFileSync(filepath);
+      imagesBase64[filepath] = imageBuffer.toString('base64');
+    }
+  });
+
+  res.json(imagesBase64);
+}
+
+
+
+
+/* import fs from 'fs/promises';
 import path from 'path';
 const logger = require('@/components/utils/logger')
 
@@ -26,4 +49,4 @@ export default async function handler(req, res) {
       })
         res.status(500).json({ error: 'Error reading directory' });
       }
-  }
+  } */

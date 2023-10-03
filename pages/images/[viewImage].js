@@ -20,14 +20,13 @@ export default function ViewImage(props) {
         collections
     } = props
 
-    console.log(props)
     const [imageUrl, setImageUrl] = useState(null);
     const { cart, addToCart } = useContext(CartContext)
 
     useEffect(() => {
         async function fetchImage() {
             try {
-                const response = await fetch(`/api/viewImage?name=${img}`);
+                const response = await fetch(`/api/images/viewImage?name=${img}`);
 
                 if (response.ok) {
                     const blob = await response.blob();

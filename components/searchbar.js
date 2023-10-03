@@ -31,7 +31,6 @@ function SearchBar({ categories }) {
   }, []); 
   const HandleSearch = (e) => {
     e.preventDefault()
-    console.log(e.target.searchDropdown.value)
     router.push(`/searchPage?searchPhrase=${e.target.searchDropdown.value}&categorie=${categorie}`)
 
   }

@@ -52,7 +52,7 @@ export default function ShowImagesNext({ photos }) {
     const filepaths = photos.map(photo => photo.filepath);
 
     async function fetchImages() {
-      const response = await fetch('/api/testReadImage', {
+      const response = await fetch('/api/images/getImages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

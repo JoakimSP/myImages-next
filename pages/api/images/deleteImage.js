@@ -5,21 +5,14 @@ const logger = require('@/components/utils/logger')
 
 export default async function handler(req, res) {
     const {
-        personID,  // Seems unused, you can remove it if you don't need
-        id,       // Seems unused, you can remove it if you don't need
         filename,
-        filepath  // Seems unused, you can remove it if you don't need
     } = req.body;
 
-    console.log(req.body);
-
     try {
-        console.log("Initiating delete");
         const pathToDirectory = join(process.cwd(), "images", filename);
 
         if (existsSync(pathToDirectory)) {
             rmSync(pathToDirectory, { recursive : true});
-            console.log("File deleted");
         } else {
             console.log("File does not exist");
         }
@@ -29,7 +22,6 @@ export default async function handler(req, res) {
                 filename: filename
             }
         });
-        console.log(deletePhoto);
 
         if(deletePhoto) {
             res.status(200).json({ message: "Delete image" });

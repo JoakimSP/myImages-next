@@ -27,7 +27,7 @@ export default function UploadImage({ userdata }) {
         });
 
         try {
-            const res = await fetch('/api/testUpload', {
+            const res = await fetch('/api/images/storeImages', {
                 method: 'POST',
                 body: formData
             });

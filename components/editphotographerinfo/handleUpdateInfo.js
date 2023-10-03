@@ -9,7 +9,7 @@ export default function HandleUpdateInfo({ userdata }) {
     async function HandleUpdateInfo(e) {
         e.preventDefault()
 
-        console.log("Status")
+
         const newUserInformation = {
             personID: e.target[0].value,
             country: e.target[1].value,

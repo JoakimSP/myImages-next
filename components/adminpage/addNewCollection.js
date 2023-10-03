@@ -166,7 +166,7 @@ export default function AddNewCollection({ collections, photographers, featuredc
                         <h2 className="text-3xl text-white font-bold mb-6">Current collections</h2>
                         <ul>
                             {currentCol.map((collection) => (
-                                <li key={collection.id} className="flex items-center justify-between mb-2 text-lg text-gray-400 hover:text-gray-300 transition-all duration-200">
+                                <li key={collection.id} className="flex items-center flex-wrap justify-between mb-2 text-lg text-gray-400 hover:text-gray-300 transition-all duration-200">
                                     <button id={collection.id} onClick={handleEditCollectionView}><span className="mr-2">{collection.name}</span></button>
                                     <button onClick={handleDeleteCollections} className="bg-red-500 rounded p-1 transform active:scale-95 transition-transform duration-100" value={collection.id}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" className="w-4 h-4">
