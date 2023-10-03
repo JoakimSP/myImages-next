@@ -20,8 +20,32 @@ export default function ViewImage(props) {
         collections
     } = props
 
-
+    console.log(props)
+    const [imageUrl, setImageUrl] = useState(null);
     const { cart, addToCart } = useContext(CartContext)
+
+    useEffect(() => {
+        async function fetchImage() {
+            try {
+                const response = await fetch(`/api/viewImage?name=${img}`);
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const localImageUrl = URL.createObjectURL(blob);
+                    setImageUrl(localImageUrl);
+                } else {
+                    console.error('Failed to fetch image. Status:', response.status);
+                }
+            } catch (error) {
+                console.error('There was an error fetching the image:', error);
+            }
+
+        }
+
+        fetchImage();
+    }, []);
+
+    if (!imageUrl) return <p>Loading...</p>;
 
 
 
@@ -72,11 +96,11 @@ export default function ViewImage(props) {
                         <div className="col-span-2">
                             <h1 className="text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
                             <Image
-                                src={img}
+                                src={imageUrl}
                                 width={800}
                                 height={600}
                                 alt={`#`}
-                                onContextMenu={(e) => e.preventDefault()}
+
                             />
                         </div>
                         <div className="space-y-6 flex-shrink">
@@ -117,43 +141,29 @@ export async function getServerSideProps(context) {
 
     try {
         const collections = await prisma.collection.findMany({
-            select : {
+            select: {
                 id: true,
                 name: true,
             }
         })
         const categories = await prisma.categories.findMany({
-            select : {
+            select: {
                 id: true,
                 name: true,
             }
         })
 
         photo = await prisma.photos.findFirst({
-            where: { url: img },
+            where: {
+                filepath: img,
+                size: "small"
+            },
         });
-        // Switch to check if the user clicked an image from the photographers page or homepage.
-        // Firebase storage contains duplicate images, but the database has URLs for both.
 
-        switch (true) {
-            case Boolean(photo):
-                await prisma.photos.update({
-                    where: { id: photo.id },
-                    data: { countViewd: { increment: 1 } },
-                });
-                break;
-            default:
-                photo = await prisma.photos.findFirst({
-                    where: { urlUser: img },
-                });
-                if (photo) {
-                    await prisma.photos.update({
-                        where: { id: photo.id },
-                        data: { countViewd: { increment: 1 } },
-                    });
-                }
-
-        }
+        await prisma.photos.update({
+            where: { id: photo.id, },
+            data: { countViewd: { increment: 1 } },
+        });
 
         // Check if session and session.user exist before trying to access the email
         const userEmail = session && session.user ? session.user.email : null;
