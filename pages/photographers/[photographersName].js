@@ -5,10 +5,30 @@ import { ShowPhotographerImage } from "@/components/showImages"
 const logger = require('@/components/utils/logger')
 import Layout from "@/components/layout/layout"
 import ShowPhotographerCollection from "@/components/showcollection"
+import { useState, useEffect } from "react"
 
 
 export default function photographersName({ photographer, photos }) {
-  const { info, heropicture } = photographer
+  const { info, heropicture, personID } = photographer
+
+  const [imageUrls, setImageUrls] = useState([]);
+
+  useEffect(() => {
+    async function fetchImages() {
+      try {
+        const response = await fetch(`/api/images/getHeroAndProfilePic?profilepicture=${photographer.profilepicture}&heropicture=${photographer.heropicture}`);
+        const data = await response.json();
+  
+        setImageUrls({
+          profileImage: data.profileImage,
+          heroImage: data.heroImage
+        });
+      } catch (error) {
+        console.error('There was an error fetching the images:', error);
+      }
+    }
+    fetchImages();
+  }, [photographer]);
 
   return (
     
@@ -17,7 +37,7 @@ export default function photographersName({ photographer, photos }) {
     {/* Header */}
     <div className=" min-h-screen flex flex-col"> 
     {/* Main Profile Section */}
-    <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: `url(${heropicture})` }}>
+    <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: `url(${imageUrls.heroImage})` }}>
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white space-y-5">
             <h1 className="text-6xl font-bold">{photographer.firstName + " " + photographer.lastName}</h1>
@@ -29,7 +49,7 @@ export default function photographersName({ photographer, photos }) {
     <section className="bg-white py-12 px-6 md:px-24">
         <div className="flex flex-wrap -mx-4">
             <div className="w-full lg:w-1/3 px-4 flex justify-center">
-                <Image src={photographer.profilepicture} alt="Image of photographer" width={300} height={300} className="rounded-full shadow-xl" />
+                <Image src={imageUrls.profileImage } alt="Image of photographer" width={300} height={300} className="rounded-full shadow-xl" />
             </div>
             <div className="w-full lg:w-2/3 px-4 space-y-6">
                 <div className="space-y-3">
@@ -51,7 +71,7 @@ export default function photographersName({ photographer, photos }) {
         <h4 className="text-4xl text-white mb-10 font-semibold text-center">{photographer.firstName}&apos;s Signature Collections</h4>
         <ShowPhotographerCollection photographer={photographer}/>
     </section>
-
+    <div className="border-t-8 h-auto w-auto">{ShowPhotographerImage(personID)}</div>
 </div>
 
 </div>
