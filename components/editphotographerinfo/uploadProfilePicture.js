@@ -1,68 +1,55 @@
-import { storage } from "@/components/firebase";
-import { ref, uploadBytes, getDownloadURL, listAll , deleteObject } from "firebase/storage";
-import { v4 } from "uuid";
 import { useState } from "react"
 import { toast } from "react-toastify";
 
 
-export default function UploadProfilePicture({userdata}) {
+export default function UploadProfilePicture({ userdata }) {
     const [imageUpload, setImageUpload] = useState()
 
     const uploadImage = async () => {
         if (imageUpload == null) return;
-        const imageName = imageUpload.name + v4();
 
-        const imageRefUser = ref(storage, `${userdata.personID}/profilepicture/${imageName}`);
-        const deleteRef = ref(storage, `${userdata.personID}/profilepicture/`);
+        const formData = new FormData();
+        formData.append('image', imageUpload);
+        formData.append('userdata', JSON.stringify(userdata));
 
         try {
-            await listAll(deleteRef).then((res) => {
-                const promises = res.items.map((item) => deleteObject(item));
-                Promise.all(promises).then(() => {
-                     console.log("all files deleted")
-                }).catch((error) => {
-                     console.log(error)
-                });
+            const res = await fetch('/api/images/storeProfilePicture', {
+                method: 'POST',
+                body: formData,
             });
 
-            // Upload to user-specific directory
-            await uploadBytes(imageRefUser, imageUpload);
-
-            // Upload to general directory
 
 
-            // Get the download URL
-            const urlUser = await getDownloadURL(imageRefUser);
-
-            // Pass URL to uploadData function
-            uploadImageData(urlUser);
-            toast("image uploaded")
-
+            if (res.ok) {
+                // The image path is returned in data.filePath
+                // You can use it further as required.
+                toast('Image uploaded');
+            }
         } catch (error) {
-
-            console.error("Error uploading image: ", error);
+            console.error('Error uploading image: ', error);
         }
     };
-    const uploadImageData = async (imageUrlUser) => {
-        const photoInformation = {
-            urlUser: imageUrlUser,
-            userdata: userdata
-        }
 
-        const res = await fetch('../../api/images/storeProfilePicture', {
-            method: "POST",
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(photoInformation)
-        })
-    }
+    /*     const uploadImageData = async (imagePath) => {
+            const photoInformation = {
+                imagePath: imagePath,
+                userdata: userdata
+            }
+    
+            const res = await fetch('../../api/images/storeProfilePicture', {
+                method: "POST",
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(photoInformation)
+            })
+        } */
 
 
-  return (
-    <div>
+    return (
+        <div>
             <div className="max-w-5xl mx-auto mt-12">
-            <h1 className="text-center text-4xl font-semibold text-white mt-12 mb-6 dark:text-white">Upload a Profile picture</h1>
+                <h1 className="text-center text-4xl font-semibold text-white mt-12 mb-6 dark:text-white">Upload a Profile picture</h1>
                 <div className="flex flex-col items-center space-y-6">
                     {/* Drop zone */}
                     <div
@@ -86,6 +73,7 @@ export default function UploadProfilePicture({userdata}) {
                         aria-describedby="user_avatar_help"
                         id="user_avatar"
                         type="file"
+                        name="image"
                     />
 
                     {/* Upload Button */}
@@ -98,5 +86,5 @@ export default function UploadProfilePicture({userdata}) {
                 </div>
             </div>
         </div>
-  )
+    )
 }
