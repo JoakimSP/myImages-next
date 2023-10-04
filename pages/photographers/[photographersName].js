@@ -8,9 +8,8 @@ import ShowPhotographerCollection from "@/components/showcollection"
 import { useState, useEffect } from "react"
 
 
-export default function photographersName({ photographer, photos }) {
+export default function PhotographersName({ photographer, photos }) {
   const { info, heropicture, personID } = photographer
-
   const [imageUrls, setImageUrls] = useState([]);
 
   useEffect(() => {
