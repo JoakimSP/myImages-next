@@ -7,7 +7,6 @@ import Layout from "@/components/layout/layout"
 import ShowPhotographerCollection from "@/components/showcollection"
 import { useState, useEffect } from "react"
 
-
 export default function PhotographersName({ photographer, photos }) {
   const { info, heropicture, personID } = photographer
   const [imageUrls, setImageUrls] = useState([]);
@@ -36,7 +35,7 @@ export default function PhotographersName({ photographer, photos }) {
     {/* Header */}
     <div className=" min-h-screen flex flex-col"> 
     {/* Main Profile Section */}
-    <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: `url(${imageUrls.heroImage})` }}>
+    <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: imageUrls.heroImage ? `url(${imageUrls.heroImage})` : 'none' }}>
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white space-y-5">
             <h1 className="text-6xl font-bold">{photographer.firstName + " " + photographer.lastName}</h1>
@@ -48,7 +47,10 @@ export default function PhotographersName({ photographer, photos }) {
     <section className="bg-white py-12 px-6 md:px-24">
         <div className="flex flex-wrap -mx-4">
             <div className="w-full lg:w-1/3 px-4 flex justify-center">
-                <Image src={imageUrls.profileImage } alt="Image of photographer" width={300} height={300} className="rounded-full shadow-xl" />
+            {imageUrls.profileImage ? 
+              <Image src={imageUrls.profileImage} alt="Image of photographer" width={300} height={300} className="rounded-full shadow-xl" />
+              : <div className="rounded-full shadow-xl bg-gray-200" style={{ width: 300, height: 300 }}></div>  // Placeholder in case the image is missing
+            }
             </div>
             <div className="w-full lg:w-2/3 px-4 space-y-6">
                 <div className="space-y-3">
