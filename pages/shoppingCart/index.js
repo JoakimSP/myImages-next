@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
 import Link from "next/link"
@@ -11,6 +11,39 @@ const logger = require('@/components/utils/logger')
 export default function ShoppingCart({ photosInCart, session }) {
   const { removeFromCart } = useContext(CartContext)
   const {email} = session.user
+  const [images, setImages] = useState([]);
+  console.log(photosInCart)
+
+  useEffect(() => {
+    const filepaths = photosInCart.map(photo => photo.filepath);
+
+    async function fetchImages() {
+      const response = await fetch('/api/images/getImages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ paths: filepaths }),
+
+      });
+
+      if (response.ok) {
+        const imagesBase64 = await response.json();
+        const urls = filepaths.map(filepath => {
+          const base64 = imagesBase64[filepath];
+          if (base64) {
+            return `data:image/png;base64,${base64}`; // Assuming all images are PNGs.
+          }
+          return null;
+        }).filter(Boolean);
+        setImages(urls);
+      } else {
+        console.error('Failed to fetch images.');
+      }
+    }
+
+    fetchImages();
+  }, [photosInCart]);
 
   async function handleRemoveFromCart(id, userEmail) {
     removeFromCart(id)
@@ -44,11 +77,11 @@ export default function ShoppingCart({ photosInCart, session }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" >
             {
-                Object.values(photosInCart).map((photo) => (
+                photosInCart.map((photo, index) => (
                     <div key={photo.id} className="rounded-lg shadow-md overflow-hidden bg-white group">
                         <Link className="block relative h-60" href={`/images/viewimage?img=${encodeURIComponent(photo.url)}`}>
                                 <Image
-                                    src={photo.url}
+                                    src={images[index]}
                                     alt="image"
                                     fill
                                     className="object-cover w-full transition-transform duration-300 group-hover:scale-105"
