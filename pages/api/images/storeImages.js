@@ -97,8 +97,8 @@ handler.post(async (req, res) => {
 
         });
 
-        // Optional: Remove the original uploaded image to free up space
-        unlinkSync(file.path);
+        
+        
       }
       prisma.$disconnect()
       res.status(200).json({ message: "Images uploaded", files: req.files });
@@ -109,8 +109,8 @@ handler.post(async (req, res) => {
 
 async function processAndStoreImage(image, size, resizeWidth, resizeHeight, personID, filename, filetype, filesize, imageMetadata) {
   const outputPath = resizeWidth ?
-    join(image.destination, `${resizeWidth}-${image.filename}`) :
-    join(image.destination, `${resizeHeight}-${image.filename}`);
+    join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
+    join(image.destination, `${resizeHeight}-${image.filename}.JPG`);
 
   await sharp(image.path).resize(resizeWidth, resizeHeight).toFile(outputPath);
 
