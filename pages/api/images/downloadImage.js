@@ -1,6 +1,5 @@
 import prisma from "@/components/prisma";
-import { ref, getStream } from "firebase/storage";
-import { storage } from "@/components/firebase";
+import fs from "fs";
 import archiver from "archiver";
 
 export default async function handler(req, res) {
@@ -45,9 +44,9 @@ export default async function handler(req, res) {
 
         // Append each image to the zip
         for(let photo of photos) {
-            const storageRef = ref(storage, photo.url);
-            const stream = getStream(storageRef);
-            archive.append(stream, { name: `${photo.id}.jpg` });  // Saving each image as its id for simplicity
+            // Read the image from the local filesystem using its filepath
+            const image = fs.createReadStream(photo.filepath);
+            archive.append(image, { name: `${photo.id}.jpg` });  // Saving each image as its id for simplicity
         }
 
         // Finalize the archive once you've appended all the photos
