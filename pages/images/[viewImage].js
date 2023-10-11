@@ -2,7 +2,7 @@ import Image from "next/image"
 import { getSession, signIn } from "next-auth/react"
 import formatCurrency from "@/components/utils/formatCurrency"
 import router from "next/router"
-import { useContext, useState, useEffect } from "react"
+import { useContext} from "react"
 import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
 import EditPhoto from "@/components/editPhoto"
@@ -20,42 +20,20 @@ export default function ViewImage(props) {
         collections
     } = props
 
-    const [imageUrl, setImageUrl] = useState(null);
     const { cart, addToCart } = useContext(CartContext)
-
-    useEffect(() => {
-        async function fetchImage() {
-            try {
-                const response = await fetch(`/api/images/viewImage?name=${img}`);
-
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const localImageUrl = URL.createObjectURL(blob);
-                    setImageUrl(localImageUrl);
-                } else {
-                    console.error('Failed to fetch image. Status:', response.status);
-                }
-            } catch (error) {
-                console.error('There was an error fetching the image:', error);
-            }
-
-        }
-
-        fetchImage();
-    }, []);
-
-    if (!imageUrl) return <p>Loading...</p>;
-
 
 
     async function handleAddToCart(id) {
         if (!session) {
             return signIn()
         }
+        
         const data = {
             id,
             session
         }
+
+        console.log(data)
         const result = await fetch('/api/cart/storeCartData', {
             method: 'POST',
             headers: {
@@ -95,7 +73,7 @@ export default function ViewImage(props) {
                         <div className="col-span-2">
                             <h1 className="text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
                             <Image
-                                src={imageUrl}
+                                src={`/api/images/viewImage?name=${img}`}
                                 width={800}
                                 height={600}
                                 alt={`#`}
