@@ -4,12 +4,13 @@ import UploadProfilePicture from "./uploadProfilePicture";
 import UploadPhotographersHero from "./uploadPhotographersHero";
 import { toast } from "react-toastify";
 
-export default function UploadImage({ userdata }) {
+export default function UploadImage({ userdata, setIsLoading }) {
     const [imagesUpload, setImagesUpload] = useState([])
     const aspectImage = useRef()
 
     const uploadImage = async () => {
         if (!imagesUpload.length) return;
+        setIsLoading(true); 
 
         const formData = new FormData();
         imagesUpload.forEach((image, index) => {
@@ -42,6 +43,7 @@ export default function UploadImage({ userdata }) {
             toast("Error uploading image");
             console.error(error);
         }
+        setIsLoading(false); 
     };
 
 
@@ -53,7 +55,7 @@ export default function UploadImage({ userdata }) {
 
         <div className="grid grid-cols-2">
             <UploadPhotographersHero userdata={userdata} />
-            <UploadProfilePicture userdata={userdata} />
+            <UploadProfilePicture userdata={userdata} />        
 
             <div className="max-w-5xl mx-auto mt-12">
                 <h1 className="text-center text-4xl font-semibold text-white mt-12 mb-6 dark:text-white">Upload a photo</h1>
