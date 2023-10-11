@@ -3,6 +3,7 @@ import { useRef, useState } from "react"
 import UploadProfilePicture from "./uploadProfilePicture";
 import UploadPhotographersHero from "./uploadPhotographersHero";
 import { toast } from "react-toastify";
+const logger = require('@/components/utils/logger')
 
 export default function UploadImage({ userdata, setIsLoading }) {
     const [imagesUpload, setImagesUpload] = useState([])
@@ -42,6 +43,10 @@ export default function UploadImage({ userdata, setIsLoading }) {
         } catch (error) {
             toast("Error uploading image");
             console.error(error);
+            logger.logger.log('error', {
+                message: error.message,
+                stack: error.stack
+              })
         }
         setIsLoading(false); 
     };
