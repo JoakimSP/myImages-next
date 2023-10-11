@@ -2,27 +2,28 @@
 
 export default function LoadingScreen({randomFactIndex}) {
     const funFacts = [
-        "Did you know the world's largest photograph was taken with a 6ft tall camera and measures 31x111 feet?",
+        "Did you know the world&apos;s largest photograph was taken with a 6ft tall camera and measures 31x111 feet?",
         "The first-ever color photograph was taken in 1861 by a physicist named James Clerk Maxwell.",
         "The most expensive camera ever sold was a rare 1923 Leica camera, auctioned for a staggering $2.8 million.",
-        "The term 'megapixel' was first used way back in 1984.",
+        "The term &apos;megapixel&apos; was first used way back in 1984.",
         "The first digital camera was created in 1975 by an engineer at Eastman Kodak. It weighed 8 pounds!",
-        "There are about 60 trillion photos stored on Facebook's servers.",
-        "The most viewed photograph in history is the Windows XP's default wallpaper named 'Bliss'.",
-        "The word 'photography' originates from the Greek words 'photos' (light) and 'graphé' (drawing) - drawing with light.",
+        "There are about 60 trillion photos stored on Facebook&apos;s servers.",
+        "The most viewed photograph in history is the Windows XP&apos;s default wallpaper named &apos;Bliss&apos;.",
+        "The word &apos;photography&apos; originates from the Greek words &apos;photos&apos; (light) and &apos;graphé&apos; (drawing) - drawing with light.",
         "The camera obscura, an ancestor of the modern camera, has been known and used for over 2,000 years.",
         "The first photo of a person was taken in 1838 and it required an exposure time of 10 minutes!",
-        "Kodak's first camera came with the slogan: 'You press the button, we do the rest.'",
-        "In 1827, Joseph Nicephore Niepce took the world's first photograph, but it took 8 hours of exposure time.",
+        "Kodak&apos;s first camera came with the slogan: &apos;You press the button, we do the rest.&apos;",
+        "In 1827, Joseph Nicephore Niepce took the world&apos;s first photograph, but it took 8 hours of exposure time.",
         "The largest collection of cameras is owned by Dilish Parekh of Mumbai, India. He has collected over 4,500 antique cameras.",
         "The first photo of the Moon was taken in 1851, while the first full photograph of our Earth from space was taken in 1966.",
         "A single raw image file from the Hubble telescope can be more than 60 MB in size.",
         "The first commercial digital camera available to the public was the Casio QV-10 in 1995.",
         "A photographer named Alan McFadyen tried for six years, taking 720,000 photos, to get the perfect shot of a kingfisher diving straight into the water without causing a splash. He succeeded in 2015.",
         "The famous National Geographic cover of an Afghan girl in 1985 was taken on Kodachrome film using a Nikon FM2 camera.",
-        "Photojournalist Robert Capa's iconic image from D-Day, titled 'The Magnificent Eleven', are the only surviving images of the first wave of the Normandy landing. The rest were destroyed by accident in a photo lab.",
+        "Photojournalist Robert Capa&apos;s iconic image from D-Day, titled &apos;The Magnificent Eleven&apos;, are the only surviving images of the first wave of the Normandy landing. The rest were destroyed by accident in a photo lab.",
         "The first selfie can be traced back to 1839 when Robert Cornelius took a photo of himself. It required him to sit still for 10 minutes!"
     ];
+    
     
 
     const randomFact = funFacts[randomFactIndex];
