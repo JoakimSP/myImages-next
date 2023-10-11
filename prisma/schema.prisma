@@ -101,6 +101,7 @@ model collection {
   subtitle              String?
   description           String?
   image                 String?              @db.VarChar(255)
+  imagefolder           String?              @db.VarChar(255)
   parentId              Int?
   createdAt             DateTime             @default(now())
   updatedAt             DateTime             @updatedAt
