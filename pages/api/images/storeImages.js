@@ -1,10 +1,11 @@
-import { mkdirSync, unlinkSync } from 'fs';
+import { mkdirSync } from 'fs';
 import { join } from 'path';
 import prisma from '@/components/prisma';
 import multer from 'multer';
 import nextConnect from 'next-connect';
 import sharp from 'sharp';
 import { getSession } from 'next-auth/react';
+import { logger } from "@/components/utils/logger"
 
 
 //turn of nextjs request object parser
@@ -50,7 +51,10 @@ handler.post(async (req, res) => {
   await new Promise((resolve, reject) => {
     upload.array("image[]")(req, res, async (err) => {
       if (err) {
-        console.log(err)
+        logger.logger.log('error', {
+          message: error.message,
+          stack: error.stack
+      })
         reject(err);
         return res.status(500).json({ error: "Image upload failed", details: err.message });
       }
