@@ -1,9 +1,6 @@
 import InputField from "../utils/inputField";
 import { useState } from "react";
-import { ref, getDownloadURL, deleteObject, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
-import { v4 } from "uuid";
-import { storage } from "../firebase";
 import { logErrorToApi } from "../utils/logErrorToApi";
 
 export default function Editcollection({ collections, setActiveView, id, photographers }) {
@@ -13,108 +10,97 @@ export default function Editcollection({ collections, setActiveView, id, photogr
 
     const handleUpdateCollection = async (e) => {
         e.preventDefault();
-        let isUnique = true
+
+        let isUnique = true;
 
         collections.map((item) => {
             if (item.name == e.target.name.value) {
-                return isUnique = false
+                return isUnique = false;
             }
-            return isUnique = true
-        })
+            return isUnique = true;
+        });
 
-        if (!isUnique) { return toast.error("A collection with that name already exists") }
-
-        const imageName = imageUpload.name  + v4();
-        const imageRef = await ref(storage, `collections/${imageName}`);
-       /*  const stateData = {
-            name: e.target.name.value
-        } */
-
+        if (!isUnique) { return toast.error("A collection with that name already exists"); }
 
         try {
-            await uploadBytes(imageRef, imageUpload);
-            const url = await getDownloadURL(imageRef);
-            const data = {
-                name: e.target.name.value,
-                description: e.target.description.value,
-                image: url,
-                photographerID: e.target.user.value,
-                id: id,
-                imageDelete: currentCol[0].image,
-                subtitle: e.target.subtitle.value
-
+            const formData = new FormData(); // Create a new FormData object
+            formData.append('name', e.target.name.value);
+            formData.append('description', e.target.description.value);
+            formData.append('photographerID', e.target.user.value);
+            formData.append('id', id);
+            formData.append('subtitle', e.target.subtitle.value);
+            formData.append('isFeaturedcol', e.target.featuredcol.checked);
+            if (imageUpload) {
+                formData.append('image', imageUpload);
             }
 
             const response = await fetch("../api/application/collections/editCollection", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
+                body: formData, // Use formData here
             });
 
             if (response.ok) {
-                toast("Created new Collection")
-               /*  setCurrentCol((prev) => [...prev, stateData]) */
+                toast("Updated Collection");
+            } else {
+                toast.warn("Could not update collection");
             }
-            else {
-                toast.warn("Could not add collection")
-            }
-
-
 
         } catch (error) {
-
+            console.log(error)
             logErrorToApi({
                 message: error.message,
                 stack: error.stack
-            })
+            });
         }
-
-    }
+    };
 
     const renderView = () => {
         for (let col of collections) {
             if (col.id === id) {
                 return (
-               
-                        <>
-                            <div className="flex-1">
-                                <h3 className="text-center text-2xl">{col.name}</h3>
-                            </div>
-                            <div className="flex-1">
-                                <form onSubmit={handleUpdateCollection}>
-                                    <InputField label="name" type="text" name="name" placeholder={col.name} required/>
-                                    <InputField label="description" type="text" name="description" placeholder={col.description} required />
-                                    <InputField label="subtitle" type="text" name="subtitle" placeholder={col.subtitle} required />
-                                    <input
-                                        onChange={(e) => { setImageUpload(e.target.files[0]) }}
-                                        className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                        aria-describedby="collection_avatar_help"
-                                        id="collection_avatar"
-                                        type="file"
-                                        required
-                                    />
-                                    
-                                    <div>
-                                        <h3 className="font-bold text-center my-8">Assign collection to a photographer</h3>
-                                        <ul>
-                                            {photographers.map((user) => {
-                                                return (
-                                                    <li key={user.personID} className="flex justify-between">
-                                                        {user.user}
-                                                        <input type={"radio"} value={user.personID} name="user" className="w-4 h-4" required />
-                                                    </li>
-                                                )
-                                            })}
-                                        </ul>
-                                    </div>
-                                    <div className="mt-4 flex justify-center">
-                                        <button className="py-2 px-6 bg-custom-grey text-white font-semibold rounded-md hover:bg-opacity-90 transition-all duration-300">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </>
+
+                    <>
+                        <div className="flex-1">
+                            <h3 className="text-center text-2xl">{col.name}</h3>
+                        </div>
+                        <div className="flex-1">
+                            <form onSubmit={handleUpdateCollection} encType="multipart/form-data" method="post">
+                                <InputField label="name" type="text" name="name" defaultValue={col.name} placeholder={col.name} required />
+                                <InputField label="description" type="text" name="description" defaultValue={col.description} placeholder={col.description} required />
+                                <InputField label="subtitle" type="text" name="subtitle" defaultValue={col.subtitle} placeholder={col.subtitle} required />
+                                <input
+                                    onChange={(e) => { setImageUpload(e.target.files[0]) }}
+                                    className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                    aria-describedby="collection_avatar_help"
+                                    id="collection_avatar"
+                                    type="file"
+                                    name="image"
+                                    required
+                                />
+                                <div className="flex justify-between my-8">
+                                    <label>Featuredcollection?</label>
+                                    <input type="checkbox" name="featuredcol" className="w-6 h-6" />
+                                </div>
+
+                                <div>
+                                    <h3 className="font-bold text-center my-8">Assign collection to a photographer</h3>
+                                    <ul>
+                                        {photographers.map((user) => {
+                                            return (
+                                                <li key={user.personID} className="flex justify-between">
+                                                    {user.user}
+                                                    <input type={"radio"} value={user.personID} name="user" className="w-4 h-4" required />
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
+                                <div className="mt-4 flex justify-center">
+                                    <button className="py-2 px-6 bg-custom-grey text-white font-semibold rounded-md hover:bg-opacity-90 transition-all duration-300">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </>
                 )
             }
         }
