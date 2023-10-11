@@ -49,14 +49,18 @@ handler.use(async (req, res, next) => {
 
 handler.post(async (req, res) => {
   await new Promise((resolve, reject) => {
-    upload.array("image[]")(req, res, async (err) => {
-      if (err) {
+    upload.array("image[]")(req, res, async (error) => {
+      if (error) {
         logger.logger.log('error', {
           message: error.message,
           stack: error.stack
       })
-        reject(err);
-        return res.status(500).json({ error: "Image upload failed", details: err.message });
+        reject(error);
+        logger.logger.log('error', {
+          message: error.message,
+          stack: error.stack
+      })
+        return res.status(500).json({ error: "Image upload failed", details: error.message });
       }
       resolve()
 

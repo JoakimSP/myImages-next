@@ -36,9 +36,6 @@ export default function UploadImage({ userdata, setIsLoading }) {
 
             if (res.ok) {
                 toast("Image is uploaded");
-            } else {
-                toast("Error uploading image");
-                console.error("Error status:", res.status);
             }
         } catch (error) {
             toast("Error uploading image");
