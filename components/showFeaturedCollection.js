@@ -8,7 +8,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
 
 
 
-    const slides = featuredcol.collection.map(col => ({ image: col.image, id: col.id, name: col.name }));
+    const slides = featuredcol.collection.map(col => ({ image: col.imagepathrelative, id: col.id, name: col.name }));
     const slidesPerGroup = 3;
     const totalGroups = Math.ceil(slides.length / slidesPerGroup);
 

@@ -11,12 +11,12 @@ export const config = {
 };
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb){
-        const dir = join(process.cwd(),'images','collections', file.originalname);
+    destination: function (req, file, cb) {
+        const dir = join(process.cwd(), 'images', 'collections', file.originalname);
         fs.mkdirSync(dir, { recursive: true });
         cb(null, dir);
     },
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
@@ -34,7 +34,8 @@ export default async function handler(req, res) {
         }
 
         const { name, description, photographerID, subtitle, isFeaturedcol } = req.body;
-        const imagePath = `/images/collections/${req.file.originalname}/${req.file.filename}`;
+        const imagePathRelative = `/images/collections/${req.file.originalname}/${req.file.filename}`;
+        const imagePath = join(process.cwd(), "images", "collections", req.file.originalname, req.file.filename);
         const imageFolderPath = `/images/collections/${req.file.originalname}`;
         console.log(isFeaturedcol)
 
@@ -44,8 +45,9 @@ export default async function handler(req, res) {
                 data: {
                     name,
                     description,
-                    image: imagePath,
-                    imagefolder: imageFolderPath,
+                    imagepathrelative: imagePathRelative,
+                    imagepath: imagePath,
+                    imagepathfolder: imageFolderPath,
                     photographerPersonID: photographerID,
                     subtitle,
                 }

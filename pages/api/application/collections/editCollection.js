@@ -43,8 +43,9 @@ handler.use(upload);
                 rmSync(oldImageFolder, { recursive: true });
             }
         }
-        const imagePath = `/images/collections/${req.file.originalname}/${req.file.filename}`;
-        const imageFolder = `/images/collections/${req.file.originalname}`;
+        const imagePathRelative = `/images/collections/${req.file.originalname}/${req.file.filename}`;
+        const imagePath = join(process.cwd(), "images", "collections", req.file.originalname, req.file.filename);
+        const imageFolderPath = `/images/collections/${req.file.originalname}`;
         await prisma.collection.update({
             where: {
                 id: id
@@ -52,8 +53,9 @@ handler.use(upload);
             data: {
                 name: name,
                 description: description,
-                image: imagePath,
-                imagefolder: imageFolder,
+                imagepathrelative: imagePathRelative,
+                imagepath: imagePath,
+                imagepathfolder: imageFolderPath,
                 photographerPersonID: photographerID,
                 subtitle: subtitle
             }
