@@ -80,7 +80,6 @@ export default function ViewCollections({ collection }) {
             <div className='w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey'>
                 {collection.photos && collection.photos.length > 0 && (
                     collection.photos.slice(1).map((photo, index) => {
-                        console.log(photo.file)
                         return (
 
                             <Image key={photo.id} src={`/api/images/viewImage?name=${photo.filepath}`} alt="image" width={photo.width} height={photo.height} />
@@ -122,7 +121,6 @@ export async function getServerSideProps(context) {
 
         if (collection) {
             props = { collection }
-            console.log("second try", collection)
         }
 
     } catch (error) {
