@@ -2,14 +2,14 @@ const logger = require('@/components/utils/logger')
 import prisma from '@/components/prisma';
 import Layout from '@/components/layout/layout';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 
 export default function ViewCollections({ collection }) {
     const [images, setImages] = useState([]);
 
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (collection.photos == null) {
             return
         }
@@ -41,12 +41,13 @@ export default function ViewCollections({ collection }) {
         }
 
         fetchImages();
-    }, [collection]);
-    if (images.length === 0) return <p>Loading...</p>
+    }, [collection]); */
+    /* if (images.length === 0) return <p>Loading...</p> */
 
     const twoItemRow = (index) => (index - 1) % 5 === 2 || (index - 1) % 5 === 3;
     let counter = 0
     const firstPhoto = collection.photos.slice(0, 1)
+    console.log(collection.photos)
 
     return (
         <Layout>
