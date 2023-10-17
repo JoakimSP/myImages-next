@@ -98,6 +98,7 @@ handler.post(async (req, res) => {
             filetype: filetype,
             filesize: filesize,
             filepath: originalPath,
+            folderpath: file.destination,
             size: 'original',
             width: imageMetadata.width,
             height: imageMetadata.height
@@ -128,8 +129,9 @@ async function processAndStoreImage(image, size, resizeWidth, resizeHeight, pers
       filename: filename,
       filetype: filetype,
       filesize: filesize,
-      filepath: outputPath,  // Single filepath column in the database
-      size: size,  // Store the size value ("small", "medium", etc.)
+      filepath: outputPath, 
+      folderpath: image.destination,
+      size: size, 
       width: imageMetadata.width,
       height: imageMetadata.height
     }
