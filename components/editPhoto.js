@@ -5,8 +5,10 @@ import TagsInput from "react-tagsinput"
 import 'react-tagsinput/react-tagsinput.css'
 import { useState } from "react"
 
-export default function EditPhoto({ photo, categories, collections }) {
+export default function EditPhoto({ photo, categories, collections, photoCopies }) {
     const [tags, setTags] = useState(photo.tags || [])
+    const photoCopiesId = photoCopies.map(copy => ({ id: copy.id, size: copy.size}));
+    console.log(collections)
 
     const handleUpdateTags = (newTags) => {
         setTags(newTags);
@@ -20,14 +22,16 @@ export default function EditPhoto({ photo, categories, collections }) {
 
         const newPhotoInformation = {
             title: e.target.title.value,
+            filename: photo.filename,
             description: e.target.description.value,
-            price: e.target.priceLarge.value,
-            priceMedium: e.target.priceMedium.value,
-            priceSmall: e.target.priceSmall.value,
+            priceOriginal: e.target.priceoriginal.value,
+            priceLarge: e.target.pricelarge.value,
+            priceMedium: e.target.pricemedium.value,
+            priceSmall: e.target.pricesmall.value,
             tags: tags,
-            photoID: photo.id,
-            categoriesId: e.target[5].value,
-            collectionId: e.target[6].value,
+            photoID: photoCopiesId,
+            categoriesId: e.target.categories.value,
+            collectionId: e.target.collections.value,
 
 
         }
@@ -63,18 +67,12 @@ export default function EditPhoto({ photo, categories, collections }) {
                     <label className="block mb-2" htmlFor="description">Description</label>
                     <input id="description" type="text" name="description" className="w-full p-2 border rounded" defaultValue={photo.description} placeholder={photo.description} required />
                 </div>
-                <div>
-                    <label className="block mb-2" htmlFor="price">Price large</label>
-                    <input id="price" type="number" min="0" name="priceLarge" className="w-full p-2 border rounded" defaultValue={photo.price} placeholder={photo.price} required />
+                {photoCopies.map((copy, index) => {
+                    return (<div>
+                    <label className="block mb-2" htmlFor="price">Price {copy.size}</label>
+                    <input id="price" type="number" min="0" name={`price${copy.size}`} className="w-full p-2 border rounded" defaultValue={copy.price} placeholder={copy.price} required />
                 </div>
-                <div>
-                    <label className="block mb-2" htmlFor="price">Price medium</label>
-                    <input id="price" type="number" min="0" name="priceMedium" className="w-full p-2 border rounded" defaultValue={photo.pricemedium} placeholder={photo.pricemedium} required />
-                </div>
-                <div>
-                    <label className="block mb-2" htmlFor="price">Price small</label>
-                    <input id="price" type="number" min="0" name="priceSmall" className="w-full p-2 border rounded" defaultValue={photo.pricesmall} placeholder={photo.pricesmall} required />
-                </div>
+                )})}
                 <div className="space-y-2">
 
                     <div>
