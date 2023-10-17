@@ -68,7 +68,7 @@ export default function EditPhoto({ photo, categories, collections, photoCopies 
                     <input id="description" type="text" name="description" className="w-full p-2 border rounded" defaultValue={photo.description} placeholder={photo.description} required />
                 </div>
                 {photoCopies.map((copy, index) => {
-                    return (<div>
+                    return (<div key={index}>
                     <label className="block mb-2" htmlFor="price">Price {copy.size}</label>
                     <input id="price" type="number" min="0" name={`price${copy.size}`} className="w-full p-2 border rounded" defaultValue={copy.price} placeholder={copy.price} required />
                 </div>
