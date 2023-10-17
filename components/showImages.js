@@ -85,7 +85,7 @@ export default function ShowImagesNext({ photos }) {
       <div className="w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey">
         {photos.map((photoObj, index) => {
           return (
-            <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(photoObj.filepath)}`}>
+            <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(photoObj.filepath)}&folderpath=${photoObj.folderpath}`}>
               <Image
                 src={images[index]}
                 alt="image"
