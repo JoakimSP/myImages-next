@@ -2,7 +2,7 @@ import Image from "next/image"
 import { getSession, signIn } from "next-auth/react"
 import formatCurrency from "@/components/utils/formatCurrency"
 import router from "next/router"
-import { useContext} from "react"
+import { useContext, useState } from "react"
 import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
 import EditPhoto from "@/components/editPhoto"
@@ -11,29 +11,37 @@ import Layout from "@/components/layout/layout"
 
 
 export default function ViewImage(props) {
+
     const {
         img,
         photographer,
         photo,
+        photoCopies,
         session,
         categories,
         collections
     } = props
-
+    const [priceOption, setPriceOption] = useState()
     const { cart, addToCart } = useContext(CartContext)
+
+console.log(photoCopies)
+    const choosePriceOption = (option) => {
+        console.log(option)
+        setPriceOption(option)
+    }
 
 
     async function handleAddToCart(id) {
         if (!session) {
             return signIn()
         }
-        
+
         const data = {
-            id,
-            session
+            session,
+            priceOption,
+            filename: photo.filename,
         }
 
-        console.log(data)
         const result = await fetch('/api/cart/storeCartData', {
             method: 'POST',
             headers: {
@@ -66,52 +74,62 @@ export default function ViewImage(props) {
     return (
         <Layout>
             <div className="bg-custom-grey">
+                <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">
+                    <h1 className="text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
 
-                <div className="flex flex-auto justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 ">
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start mb-6">
-                        <div className="col-span-2">
-                            <h1 className="text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
+                    <div className="flex flex-wrap -mx-6">
+                        <div className="w-full md:w-2/3 px-6">
                             <Image
                                 src={`/api/images/viewImage?name=${img}`}
                                 width={800}
                                 height={600}
                                 alt={`#`}
-
+                                onContextMenu={(e) => e.preventDefault()}
                             />
-                        </div>
-                        <div className="space-y-6 flex-shrink">
-                            <p className="text-xl font-semibold">{formatCurrency(photo.price)}</p>
-                            <p className="text-base">{photo.description}</p>
-                            <button
-                                className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
-                                onClick={() => handleAddToCart(photo.id)}
-                            >Add to cart
-                            </button>
+                            <p className="text-base mt-6">{photo.description}</p>
                             {
                                 (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
                                     <>
-                                        <EditPhoto photo={photo} collections={collections} categories={categories} />
-                                        <div>
-                                            <button className="ml-4 mt-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
+                                        <EditPhoto photo={photo} collections={collections} categories={categories} photoCopies={photoCopies} />
+                                        <div className="mt-4">
+                                            <button className="ml-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
                                         </div>
                                     </>
-                                ) : (
-                                    <div></div>
-                                )
+                                ) : null
                             }
+                        </div>
+
+                        <div className="w-full md:w-1/3 px-6 mt-6 md:mt-0">
+                            <div className="border-4 rounded-md bg-white shadow-xl p-6 overflow-hidden">
+                                {photoCopies.map((copy, index) => (
+                                    <div className="flex justify-between items-center border-b-2 px-4 py-3 mb-3" key={index}>
+                                        <span className="flex gap-4 items-center">
+                                            <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy.price)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light" />
+                                            <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{copy.size}</p>
+                                        </span>
+                                        <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{formatCurrency(copy.price)}</p>
+                                    </div>
+                                ))}
+                                <button
+                                    className="w-full py-2 px-4 mt-6 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700 transition-all duration-300"
+                                    onClick={() => handleAddToCart(photo.id)}
+                                >
+                                    Add to cart
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+
         </Layout>
     )
 }
 
 export async function getServerSideProps(context) {
-    const { img } = context.query;
+    const { img, folderpath } = context.query;
     const session = await getSession(context);
+    console.log(folderpath)
 
     let props = {};
     let photo;
@@ -123,6 +141,7 @@ export async function getServerSideProps(context) {
                 name: true,
             }
         })
+        console.log(collections)
         const categories = await prisma.categories.findMany({
             select: {
                 id: true,
@@ -136,16 +155,21 @@ export async function getServerSideProps(context) {
                 size: "small"
             },
         });
+      const photoCopies = await prisma.photos.findMany({
+            where: {
+                folderpath: folderpath,
+            },
+        });
 
         await prisma.photos.update({
             where: { id: photo.id, },
             data: { countViewd: { increment: 1 } },
         });
 
-        // Check if session and session.user exist before trying to access the email
+
         const userEmail = session && session.user ? session.user.email : null;
 
-        props = { img, photo, session: userEmail, collections, categories };
+        props = { img, photo, session: userEmail, collections, categories, photoCopies };
 
         if (photo && session) {
             const photographer = await prisma.photographer.findUnique({
