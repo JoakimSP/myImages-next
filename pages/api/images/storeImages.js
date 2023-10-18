@@ -49,7 +49,7 @@ handler.use(async (req, res, next) => {
 
 handler.post(async (req, res) => {
   try {
-
+    logger.logger.log('test', 'initialize');
 
     await new Promise((resolve, reject) => {
       upload.array("image[]")(req, res, async (error) => {
@@ -123,7 +123,7 @@ handler.post(async (req, res) => {
 
 async function processAndStoreImage(image, size, resizeWidth, resizeHeight, personID, filename, filetype, filesize, imageMetadata) {
 try {
-  
+  logger.logger.log('test', 'process');
   const outputPath = resizeWidth ?
     join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
     join(image.destination, `${resizeHeight}-${image.filename}.JPG`);
