@@ -48,75 +48,82 @@ handler.use(async (req, res, next) => {
 
 
 handler.post(async (req, res) => {
-  await new Promise((resolve, reject) => {
-    upload.array("image[]")(req, res, async (error) => {
-      if (error) {
-        logger.logger.log('error', {
-          message: error.message,
-          stack: error.stack
-      })
-        reject(error);
-        logger.logger.log('error', {
-          message: error.message,
-          stack: error.stack
-      })
-        return res.status(500).json({ error: "Image upload failed", details: error.message });
-      }
-      resolve()
+  try {
 
-      const files = req.files;
-      const photoInformationArray = req.body.photoInformation;
 
-      for (let i = 0; i < files.length; i++) {
-        const parsedPhotoInformation = JSON.parse(photoInformationArray[i]);
-        const file = files[i]
-        const {
-          personID,
-          filename,
-          filetype,
-          filesize
-        } = parsedPhotoInformation
-        const imageMetadata = await sharp(file.path).metadata();
-
-        if (imageMetadata.width >= imageMetadata.height) {
-          await processAndStoreImage(file, 'small', 1000, null, personID, filename, filetype, filesize, imageMetadata);
-          await processAndStoreImage(file, 'medium', 2400, null, personID, filename, filetype, filesize, imageMetadata);
-          await processAndStoreImage(file, 'large', 4000, null, personID, filename, filetype, filesize, imageMetadata);
-        } else {
-          await processAndStoreImage(file, 'small', null, 1000, personID, filename, filetype, filesize, imageMetadata);
-          await processAndStoreImage(file, 'medium', null, 2760, personID, filename, filetype, filesize, imageMetadata);
-          await processAndStoreImage(file, 'large', null, 5520, personID, filename, filetype, filesize, imageMetadata);
+    await new Promise((resolve, reject) => {
+      upload.array("image[]")(req, res, async (error) => {
+        if (error) {
+          logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+          })
+          reject(error);
+          return res.status(500).json({ error: "Image upload failed", details: error.message });
         }
+        resolve()
 
-        // Store the original
-        const originalPath = join(file.destination, `${file.filename}.tiff`);
-        await sharp(file.path).toFile(originalPath);
-        await prisma.photos.create({
-          data: {
-            personID: personID,
-            filename: filename,
-            filetype: filetype,
-            filesize: filesize,
-            filepath: originalPath,
-            folderpath: file.destination,
-            size: 'original',
-            width: imageMetadata.width,
-            height: imageMetadata.height
+        const files = req.files;
+        const photoInformationArray = req.body.photoInformation;
+
+        for (let i = 0; i < files.length; i++) {
+          const parsedPhotoInformation = JSON.parse(photoInformationArray[i]);
+          const file = files[i]
+          const {
+            personID,
+            filename,
+            filetype,
+            filesize
+          } = parsedPhotoInformation
+          const imageMetadata = await sharp(file.path).metadata();
+
+          if (imageMetadata.width >= imageMetadata.height) {
+            await processAndStoreImage(file, 'small', 1000, null, personID, filename, filetype, filesize, imageMetadata);
+            await processAndStoreImage(file, 'medium', 2400, null, personID, filename, filetype, filesize, imageMetadata);
+            await processAndStoreImage(file, 'large', 4000, null, personID, filename, filetype, filesize, imageMetadata);
+          } else {
+            await processAndStoreImage(file, 'small', null, 1000, personID, filename, filetype, filesize, imageMetadata);
+            await processAndStoreImage(file, 'medium', null, 2760, personID, filename, filetype, filesize, imageMetadata);
+            await processAndStoreImage(file, 'large', null, 5520, personID, filename, filetype, filesize, imageMetadata);
           }
 
-        });
+          // Store the original
+          const originalPath = join(file.destination, `${file.filename}.tiff`);
+          await sharp(file.path).toFile(originalPath);
+          await prisma.photos.create({
+            data: {
+              personID: personID,
+              filename: filename,
+              filetype: filetype,
+              filesize: filesize,
+              filepath: originalPath,
+              folderpath: file.destination,
+              size: 'original',
+              width: imageMetadata.width,
+              height: imageMetadata.height
+            }
 
-        
-        
-      }
-      prisma.$disconnect()
-      res.status(200).json({ message: "Images uploaded", files: req.files });
+          });
+
+
+
+        }
+        prisma.$disconnect()
+        res.status(200).json({ message: "Images uploaded", files: req.files });
+      })
     })
-  })
-
+  } catch (error) {
+    logger.logger.log('error', {
+      message: `Error processing/storing image: ${error.message}`,
+      stack: error.stack
+    });
+    throw error;
+  }
 })
 
 async function processAndStoreImage(image, size, resizeWidth, resizeHeight, personID, filename, filetype, filesize, imageMetadata) {
+try {
+  
   const outputPath = resizeWidth ?
     join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
     join(image.destination, `${resizeHeight}-${image.filename}.JPG`);
@@ -129,13 +136,20 @@ async function processAndStoreImage(image, size, resizeWidth, resizeHeight, pers
       filename: filename,
       filetype: filetype,
       filesize: filesize,
-      filepath: outputPath, 
+      filepath: outputPath,
       folderpath: image.destination,
-      size: size, 
+      size: size,
       width: imageMetadata.width,
       height: imageMetadata.height
     }
   });
+} catch (error) {
+  logger.logger.log('error', {
+    message: `Error processing/storing image: ${error.message}`,
+    stack: error.stack
+  });
+  throw error;
+}
 }
 
 export default handler;
