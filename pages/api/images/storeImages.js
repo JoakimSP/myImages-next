@@ -5,7 +5,7 @@ import multer from 'multer';
 import nextConnect from 'next-connect';
 import sharp from 'sharp';
 import { getSession } from 'next-auth/react';
-import { logger } from "@/components/utils/logger"
+const logger = require('@/components/utils/logger')
 
 
 //turn of nextjs request object parser
@@ -48,21 +48,24 @@ handler.use(async (req, res, next) => {
 
 
 handler.post(async (req, res) => {
-  try {
-    logger.logger.log('test', 'initialize');
 
     await new Promise((resolve, reject) => {
       upload.array("image[]")(req, res, async (error) => {
         if (error) {
+          console.log(error)
           logger.logger.log('error', {
             message: error.message,
             stack: error.stack
           })
           reject(error);
+          logger.logger.log('error', {
+            message: error.message,
+            stack: error.stack
+        })
           return res.status(500).json({ error: "Image upload failed", details: error.message });
         }
         resolve()
-
+        console.log('initialize 2')
         const files = req.files;
         const photoInformationArray = req.body.photoInformation;
 
@@ -86,7 +89,7 @@ handler.post(async (req, res) => {
             await processAndStoreImage(file, 'medium', null, 2760, personID, filename, filetype, filesize, imageMetadata);
             await processAndStoreImage(file, 'large', null, 5520, personID, filename, filetype, filesize, imageMetadata);
           }
-
+          console.log('initialize 3')
           // Store the original
           const originalPath = join(file.destination, `${file.filename}.tiff`);
           await sharp(file.path).toFile(originalPath);
@@ -112,18 +115,12 @@ handler.post(async (req, res) => {
         res.status(200).json({ message: "Images uploaded", files: req.files });
       })
     })
-  } catch (error) {
-    logger.logger.log('error', {
-      message: `Error processing/storing image: ${error.message}`,
-      stack: error.stack
-    });
-    throw error;
-  }
 })
 
 async function processAndStoreImage(image, size, resizeWidth, resizeHeight, personID, filename, filetype, filesize, imageMetadata) {
 try {
-  logger.logger.log('test', 'process');
+  
+
   const outputPath = resizeWidth ?
     join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
     join(image.destination, `${resizeHeight}-${image.filename}.JPG`);
@@ -145,10 +142,9 @@ try {
   });
 } catch (error) {
   logger.logger.log('error', {
-    message: `Error processing/storing image: ${error.message}`,
+    message: error.message,
     stack: error.stack
-  });
-  throw error;
+})
 }
 }
 
