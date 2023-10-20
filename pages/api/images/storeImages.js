@@ -30,7 +30,8 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: {
-    files: 10
+    files: 10,
+    fieldSize: 500000000
   }
 })
 
