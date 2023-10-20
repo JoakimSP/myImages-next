@@ -1,6 +1,9 @@
 const winston = require('winston');
 
 const customFormat = winston.format.printf(({ timestamp, level, message, ...metadata }) => {
+    if (typeof message !== 'string') {
+        return `${timestamp} [${level}] - ${JSON.stringify(metadata)}`;
+    }
     // Split the stack trace to extract filename and line number
     const stackLines = message.split('\n');
     const errorLine = stackLines[1] || '';  // Typically, the first line is the error message, and the second line has the file/line info.
@@ -21,4 +24,4 @@ const logger = winston.createLogger({
     ],
 });
 
-module.exports = {logger}
+module.exports = logger

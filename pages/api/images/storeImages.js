@@ -53,12 +53,12 @@ handler.post(async (req, res) => {
       upload.array("image[]")(req, res, async (error) => {
         if (error) {
           console.log(error)
-          logger.logger.log('error', {
+          logger.log('error', {
             message: error.message,
             stack: error.stack
           })
           reject(error);
-          logger.logger.log('error', {
+          logger.log('error', {
             message: error.message,
             stack: error.stack
         })
@@ -141,7 +141,7 @@ try {
     }
   });
 } catch (error) {
-  logger.logger.log('error', {
+  logger.log('error', {
     message: error.message,
     stack: error.stack
 })
