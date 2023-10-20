@@ -33,9 +33,12 @@ export default function UploadImage({ userdata, setIsLoading }) {
                 method: 'POST',
                 body: formData
             });
-
+            console.log(res)
             if (res.ok) {
                 toast("Image is uploaded");
+            }
+            else{
+                toast("Error uploading image");
             }
         } catch (error) {
             toast("Error uploading image");
