@@ -6,6 +6,7 @@ import Image from "next/image"
 import Layout from "@/components/layout/layout"
 import { getSession } from "next-auth/react"
 const logger = require('@/components/utils/logger')
+import formatCurrency from "@/components/utils/formatCurrency"
 
 
 export default function ShoppingCart({ photosInCart, session }) {
@@ -97,6 +98,7 @@ export default function ShoppingCart({ photosInCart, session }) {
                                 Remove
                             </button>
                         </div>
+                        <span className="m-6">{formatCurrency(photo.price)}</span>
                     </div>
                 ))
             }

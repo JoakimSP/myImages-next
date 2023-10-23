@@ -21,13 +21,19 @@ export default function ViewImage(props) {
         categories,
         collections
     } = props
-    const [priceOption, setPriceOption] = useState()
+    const [priceOption, setPriceOption] = useState({
+        size: null,
+        price: null
+    })
     const { cart, addToCart } = useContext(CartContext)
 
-console.log(photoCopies)
     const choosePriceOption = (option) => {
-        console.log(option)
-        setPriceOption(option)
+        setPriceOption({
+            size: option.size,
+            price: option.price
+        })
+
+        console.log(priceOption)
     }
 
 
@@ -104,7 +110,7 @@ console.log(photoCopies)
                                 {photoCopies.map((copy, index) => (
                                     <div className="flex justify-between items-center border-b-2 px-4 py-3 mb-3" key={index}>
                                         <span className="flex gap-4 items-center">
-                                            <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy.price)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light" />
+                                            <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light" />
                                             <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{copy.size}</p>
                                         </span>
                                         <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{formatCurrency(copy.price)}</p>
@@ -129,7 +135,7 @@ console.log(photoCopies)
 export async function getServerSideProps(context) {
     const { img, folderpath } = context.query;
     const session = await getSession(context);
-    console.log(folderpath)
+
 
     let props = {};
     let photo;
@@ -141,7 +147,7 @@ export async function getServerSideProps(context) {
                 name: true,
             }
         })
-        console.log(collections)
+
         const categories = await prisma.categories.findMany({
             select: {
                 id: true,
