@@ -68,6 +68,8 @@ model photos {
   categoriesId    String?
   exclusive       Boolean      @default(false)
   active          Boolean      @default(true)
+  Contact         Contact?     @relation(fields: [contactId], references: [id])
+  contactId       String?
 }
 
 model cart {
@@ -129,20 +131,35 @@ model privacypolicy {
 }
 
 model pricingpage {
-  id        String   @id @default("1")
-  title     String   @db.VarChar(255)
-  subtitle     String   @db.VarChar(255)
-  imageUrlLeft     String   @db.VarChar(255)
+  id                 String   @id @default("1")
+  title              String   @db.VarChar(255)
+  subtitle           String   @db.VarChar(255)
+  imageUrlLeft       String   @db.VarChar(255)
   imageTitleLeft     String   @db.VarChar(255)
-  imageSubTitleLeft     String   @db.VarChar(255)
+  imageSubTitleLeft  String   @db.VarChar(255)
   imagePriceLeft     String   @db.VarChar(255)
-  imageUrlRight     String   @db.VarChar(255)
+  imageUrlRight      String   @db.VarChar(255)
   imageTitleRight    String   @db.VarChar(255)
-  imageSubTitleRight     String   @db.VarChar(255)
-  imagePriceRight   String   @db.VarChar(255)
-  footerText String @db.VarChar(255)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  imageSubTitleRight String   @db.VarChar(255)
+  imagePriceRight    String   @db.VarChar(255)
+  footerText         String   @db.VarChar(255)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Contact {
+  id            String   @id @default(cuid())
+  firstName     String
+  lastName      String
+  emailAddress  String
+  businessPhone String
+  company       String
+  title         String
+  country       String
+  message       String   @db.LongText
+  photos        photos[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Account {
