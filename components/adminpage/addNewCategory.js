@@ -2,9 +2,11 @@ import InputField from "../utils/inputField";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import ErrorBoundary from "@/components/errorBoundery";
+import { useRouter } from "next/router";
 
 export default function AddNewCategory({ categories}) {
   const [currentCat, setCurrentCat] = useState(categories)
+  const router = useRouter()
 
   async function handleCreateNewCategory(e) {
     e.preventDefault();
@@ -25,7 +27,7 @@ export default function AddNewCategory({ categories}) {
     if (response.ok) {
       setCurrentCat((prev) => [...prev, stateData])
       toast("Created new Categorie")
-      window.location.reload()
+      router.reload()
     }
     else {
       toast.warn("Could not add categorie")
@@ -61,9 +63,17 @@ export default function AddNewCategory({ categories}) {
   return (
     <>
       <ErrorBoundary>
-        <div className="text-center py-8 w-full">
+        <div className="text-center pb-8 w-full">
           <h1 className="text-5xl text-white font-bold">Create New Categorie</h1>
         </div>
+        <p className="text-lg text-gray-400 mt-2 text-center">
+    <br />
+    1. You add categories here.
+    <br />
+    2. Photographers then use these categories to tag their photos.
+    <br />
+    3. When someone searches using these categories, photos with matching tags show up!
+</p>
 
 
         <div className="flex justify-between gap-8 w-full mb-8">

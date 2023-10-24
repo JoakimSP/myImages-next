@@ -127,7 +127,7 @@ export default function AddNewCollection({ collections, photographers, featuredc
                         </div>
                     </form>
                     <div className="flex-1 bg-gray-800 shadow-xl rounded-xl px-10 py-6">
-                        <h2 className="text-3xl text-white mb-8">Current collections</h2>
+                        <h2 className="text-3xl text-white font-bold mb-6">Current collections you've created</h2>
                         <ul>
                             {collections.map((col) => (
                                 <li key={col.id} className="flex justify-between my-4">
