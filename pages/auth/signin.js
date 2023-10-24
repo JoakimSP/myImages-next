@@ -1,22 +1,32 @@
 // pages/auth/signin.js
 import { signIn } from "next-auth/react";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 /* import { signIn, csrfToken } from "next-auth/react"; */
 
 export default function SignIn() {
+    const [errorMessage, setErrorMessage] = useState("");
     const email = useRef("");
     const pass = useRef("");
+    const router = useRouter()
 
     const onSubmit = async (e) => {
         e.preventDefault()
         const result = await signIn("credentials", {
             email: email.current,
             password: pass.current,
-            redirect: true,
+            redirect: false,
             callbackUrl: "/",
         });
+
+        if (result?.error) {
+            setErrorMessage("Incorrect email or password. Please try again.");
+        } else {
+            setErrorMessage(""); 
+            router.push("/")
+        }
     };
 
     return (
@@ -37,6 +47,7 @@ export default function SignIn() {
                     <div className="flex-1 flex flex-col justify-center mx-6 w-5/12 z-10">
                         <form>
                             {/* <!-- Email input --> */}
+                            {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
                             <div className="mb-6">
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Email Address
