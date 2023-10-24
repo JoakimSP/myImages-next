@@ -1,5 +1,6 @@
 import { useState } from "react";
 import InputField from "../utils/inputField";
+import { toast } from "react-toastify";
 
 export default function EditPricePage({ pricingInfo }) {
     const [formData, setFormData] = useState({
@@ -39,6 +40,7 @@ export default function EditPricePage({ pricingInfo }) {
             });
 
             if (response.ok) {
+                toast("Data was updated")
                 const data = await response.json();
                 console.log("Updated data:", data);
             } else {
