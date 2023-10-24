@@ -1,6 +1,6 @@
-import Link from "next/link"
+
 import { useSession, signIn, signOut } from "next-auth/react"
-import Image from "next/image"
+
 
 export default function LoginPage() {
     const { data: session } = useSession()
