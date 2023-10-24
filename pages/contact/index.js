@@ -53,7 +53,7 @@ export default function Index({ getPhotoInformation }) {
             <div className="m-48 p-8 bg-white rounded-lg shadow-xl">
                 <h1 className="text-2xl font-bold mb-6 text-center">Safeguard your original content with our market-hold feature</h1>
                 <p className="mb-4 text-sm text-gray-600">With our market-hold, gain peace of mind as we ensure the removal of your chosen image or video from our platform for your exclusive use. Enjoy flexible timeframes and complete buyout options. Remember, all our assets are royalty-free, allowing uninterrupted usage even after the market-hold period concludes.</p>
-                <p className="mb-4 text-sm text-blue-500">Reach out at +46155 20 56 00 within our working hours, or simply complete the form below. We're eager to assist you further.</p>
+                <p className="mb-4 text-sm text-blue-500">Reach out at +46155 20 56 00 within our working hours, or simply complete the form below. We&apos;re eager to assist you further.</p>
                 <form>
 
                     <div className="mb-4">
@@ -165,7 +165,7 @@ export default function Index({ getPhotoInformation }) {
                             <option>Congo, Democratic Republic of the</option>
                             <option>Congo, Republic of the</option>
                             <option>Costa Rica</option>
-                            <option>Cote d'Ivoire</option>
+                            <option>Cote d&apos;Ivoire</option>
                             <option>Croatia</option>
                             <option>Cuba</option>
                             <option>Cyprus</option>
