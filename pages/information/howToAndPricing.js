@@ -2,29 +2,41 @@ import React from 'react'
 import Layout from '@/components/layout/layout'
 import Link from 'next/link'
 import prisma from '@/components/prisma';
+import Image from 'next/image';
 
 export default function howToAndPricing({ pricingData }) {
     return (
         <Layout>
-            <div className="pt-4 text-white">
+            <div className="pt-4 text-white w-full h-full px-4 md:px-0 bg-custom-grey">
                 <h1 className="mb-5 text-center text-4xl font-bold md:text-6xl">
                     {pricingData.title}
                 </h1>
                 <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg">
                     {pricingData.subtitle}
                 </div>
-                <div className="mb-8 flex justify-center whitespace-nowrap">
-                    <Link className="border-b-4 border-white px-1.5 py-2.5 text-xl font-bold hover:border-blue-400 md:px-5" href="/sizes-and-pricing">
+                <div className="mb-8 flex justify-center space-x-4 whitespace-nowrap">
+                    <Link href="/sizes-and-pricing" className="border-b-4 border-white px-2 py-2.5 text-xl font-bold hover:border-blue-400 md:px-5">
+
                         Photos & Sizes
+
                     </Link>
-                    <Link className="px-1.5 py-2.5 text-xl font-bold text-gray-300 hover:border-b-4 hover:text-blue-400 md:px-5" href="/contact-for-exclusive-rights">
+                    <Link href="/contact-for-exclusive-rights" className="px-2 py-2.5 text-xl font-bold text-gray-300 hover:border-b-4 hover:text-blue-400 md:px-5">
+
                         Exclusive Rights
+
                     </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Image card 1 - Left Image */}
                     <div className="p-4 border rounded shadow-sm">
-                        <img className="w-full h-56 object-cover rounded-t" src={pricingData.imageUrlLeft} alt={pricingData.imageTitleLeft} />
+                        <div className='relative w-full h-96 overflow-hidden'>
+                            <Image
+                                className='object-cover w-full h-full'
+                                src={`/api/application/getPricingImages?imagePath=${pricingData.imageUrlLeft}`}
+                                alt={pricingData.imageTitleLeft}
+                                layout="fill"
+                            />
+                        </div>
                         <div className="p-4">
                             <h2 className="text-xl font-semibold mb-2">{pricingData.imageTitleLeft}</h2>
                             <p className="text-gray-400 mb-4">{pricingData.imageSubTitleLeft}</p>
@@ -33,7 +45,14 @@ export default function howToAndPricing({ pricingData }) {
                     </div>
                     {/* Image card 2 - Right Image */}
                     <div className="p-4 border rounded shadow-sm">
-                        <img className="w-full h-56 object-cover rounded-t" src={pricingData.imageUrlRight} alt={pricingData.imageTitleRight} />
+                        <div className='relative w-full h-96 overflow-hidden'>
+                            <Image
+                                className='object-cover w-full h-full'
+                                src={`/api/application/getPricingImages?imagePath=${pricingData.imageUrlRight}`}
+                                alt={pricingData.imageTitleRight}
+                                layout="fill"
+                            />
+                        </div>
                         <div className="p-4">
                             <h2 className="text-xl font-semibold mb-2">{pricingData.imageTitleRight}</h2>
                             <p className="text-gray-400 mb-4">{pricingData.imageSubTitleRight}</p>
@@ -42,15 +61,14 @@ export default function howToAndPricing({ pricingData }) {
                     </div>
                 </div>
                 <div className="text-center text-sm text-gray-400 mt-8">
-                    {pricingData.footerText} {/* Injecting the footer text */}
+                    {pricingData.footerText}
                     <br />
-                    For exclusive rights and custom inquiries, please <Link className="underline hover:text-blue-400 hover:no-underline" href="/contact" target="_blank" rel="noreferrer">contact us</Link>. All standard sizes come with a <Link className="underline hover:text-blue-400 hover:no-underline" href="/license#standard-license" target="_blank" rel="noreferrer">Standard License</Link>. Exclusive rights are negotiated separately.
+                    For exclusive rights and custom inquiries, please <Link className="underline hover:text-blue-400 hover:no-underline"  href="/contact">contact us</Link>. All standard sizes come with a <Link className="underline hover:text-blue-400 hover:no-underline" href="/license#standard-license">Standard License</Link>. Exclusive rights are negotiated separately.
                 </div>
             </div>
         </Layout>
     )
 }
-
 
 export async function getServerSideProps() {
     const pricingData = await prisma.pricingpage.findFirst({
