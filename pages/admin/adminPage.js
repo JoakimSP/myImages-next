@@ -7,9 +7,10 @@ import EditPrivacyPolicy from "@/components/adminpage/editPrivacyPolicy";
 import Layout from "@/components/layout/layout";
 import AddNewCollection from "@/components/adminpage/addNewCollection";
 import EditPricePage from "@/components/adminpage/editPricePage";
+import Mail from "@/components/adminpage/mail";
 
 
-export default function AdminPage({ photographers, categories, policyText, pricingInfo, collections, featuredcol }) {
+export default function AdminPage({ photographers, categories, policyText, pricingInfo, collections, featuredcol, contactMails }) {
 
   const [activeView, setActiveView] = useState();
   useEffect(() => {
@@ -29,6 +30,8 @@ export default function AdminPage({ photographers, categories, policyText, prici
         return <AddNewCollection collections={collections} photographers={photographers} featuredcol={featuredcol} />;
       case 'pricing':
         return <EditPricePage pricingInfo={pricingInfo} />;
+      case 'mail':
+        return <Mail contactMails={contactMails} />;
       default:
         return null;
     }
@@ -85,6 +88,14 @@ export default function AdminPage({ photographers, categories, policyText, prici
                   pricing
                 </button>
               </li>
+              <li className="flex-1">
+                <button
+                  onClick={() => changeActiveView('mail')}
+                  className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'collections' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                >
+                  Mail
+                </button>
+              </li>
             </ul>
           </div>
           <div className="flex flex-col pb-44">{renderActiveView()}</div>
@@ -131,6 +142,20 @@ export async function getServerSideProps(context) {
         text: true
       }
     });
+
+    const contactMails = await prisma.contact.findMany({
+      select: {
+        firstName: true,
+        lastName: true,
+        emailAddress: true,
+        businessPhone: true,
+        company: true,
+        title: true,
+        country: true,
+        message: true,
+        photos: true,
+      }
+    })
     const pricingInfo = await prisma.pricingpage.findFirst({
       where: {
         id: "1"
@@ -154,7 +179,8 @@ export async function getServerSideProps(context) {
         policyText,
         pricingInfo,
         collections: JSON.parse(JSON.stringify(collections)),
-        featuredcol: JSON.parse(JSON.stringify(featuredcol))
+        featuredcol: JSON.parse(JSON.stringify(featuredcol)),
+        contactMails
       }
     }
 
