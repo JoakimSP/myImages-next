@@ -128,6 +128,23 @@ model privacypolicy {
   updatedAt DateTime @updatedAt
 }
 
+model pricingpage {
+  id        String   @id @default("1")
+  title     String   @db.VarChar(255)
+  subtitle     String   @db.VarChar(255)
+  imageUrlLeft     String   @db.VarChar(255)
+  imageTitleLeft     String   @db.VarChar(255)
+  imageSubTitleLeft     String   @db.VarChar(255)
+  imagePriceLeft     String   @db.VarChar(255)
+  imageUrlRight     String   @db.VarChar(255)
+  imageTitleRight    String   @db.VarChar(255)
+  imageSubTitleRight     String   @db.VarChar(255)
+  imagePriceRight   String   @db.VarChar(255)
+  footerText String @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String

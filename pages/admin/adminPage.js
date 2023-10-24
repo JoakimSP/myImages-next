@@ -9,7 +9,7 @@ import AddNewCollection from "@/components/adminpage/addNewCollection";
 import EditPricePage from "@/components/adminpage/editPricePage";
 
 
-export default function AdminPage({ photographers, categories, policyText, collections, featuredcol }) {
+export default function AdminPage({ photographers, categories, policyText, pricingInfo, collections, featuredcol }) {
 
   const [activeView, setActiveView] = useState();
   useEffect(() => {
@@ -27,8 +27,8 @@ export default function AdminPage({ photographers, categories, policyText, colle
         return <EditPrivacyPolicy text={policyText} />;
       case 'collections':
         return <AddNewCollection collections={collections} photographers={photographers} featuredcol={featuredcol} />;
-        case 'pricing':
-          return <EditPricePage/>;
+      case 'pricing':
+        return <EditPricePage pricingInfo={pricingInfo} />;
       default:
         return null;
     }
@@ -131,12 +131,28 @@ export async function getServerSideProps(context) {
         text: true
       }
     });
-
+    const pricingInfo = await prisma.pricingpage.findFirst({
+      where: {
+        id: "1"
+      },
+      select: {
+        title: true,
+        subtitle: true,
+        imageTitleLeft: true,
+        imageSubTitleLeft: true,
+        imagePriceLeft: true,
+        imageTitleRight: true,
+        imageSubTitleRight: true,
+        imagePriceRight: true,
+        footerText: true,
+      }
+    });
     return {
       props: {
         photographers,
         categories: JSON.parse(JSON.stringify(categories)),
         policyText,
+        pricingInfo,
         collections: JSON.parse(JSON.stringify(collections)),
         featuredcol: JSON.parse(JSON.stringify(featuredcol))
       }
@@ -144,7 +160,7 @@ export async function getServerSideProps(context) {
 
   } catch (error) {
     console.log(error)
-    logger.logger.log('error', {
+    logger.log('error', {
       message: error.message,
       stack: error.stack
     })
