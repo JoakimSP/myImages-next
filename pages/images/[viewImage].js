@@ -11,7 +11,6 @@ import Layout from "@/components/layout/layout"
 
 
 export default function ViewImage(props) {
-
     const {
         img,
         photographer,
@@ -21,6 +20,7 @@ export default function ViewImage(props) {
         categories,
         collections
     } = props
+    const [selectedOption, setSelectedOption] = useState(null);
     const [priceOption, setPriceOption] = useState({
         size: null,
         price: null
@@ -33,7 +33,7 @@ export default function ViewImage(props) {
             price: option.price
         })
 
-        console.log(priceOption)
+        setSelectedOption(option.size);
     }
 
 
@@ -77,6 +77,10 @@ export default function ViewImage(props) {
         }
     }
 
+    async function handleMarketFreeze(photoID) {
+        router.push(`/contact?photoID=${photoID}`)
+    }
+
     return (
         <Layout>
             <div className="bg-custom-grey">
@@ -108,20 +112,48 @@ export default function ViewImage(props) {
                         <div className="w-full md:w-1/3 px-6 mt-6 md:mt-0">
                             <div className="border-4 rounded-md bg-white shadow-xl p-6 overflow-hidden">
                                 {photoCopies.map((copy, index) => (
-                                    <div className="flex justify-between items-center border-b-2 px-4 py-3 mb-3" key={index}>
+                                    <div className="flex justify-between items-start border-b-2 px-4 py-3 mb-3" key={index}>
                                         <span className="flex gap-4 items-center">
-                                            <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light" />
-                                            <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{copy.size}</p>
+                                            <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light mt-2" />
+                                            {copy.size != "original" ?
+                                                <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{copy.size}</p>
+                                                :
+                                                <div>
+                                                    <p className="text-gray-600 font-semibold">Market freeze</p>
+                                                    <p className="text-gray-500 text-sm mt-2">Safeguard your artistic endeavors – this image will be excluded from our platform for the duration you require.</p>
+                                                </div>
+                                            }
                                         </span>
-                                        <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{formatCurrency(copy.price)}</p>
+                                        <div className="flex items-center max-w-xs">
+                                            {copy.size != "original" ?
+                                                <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden mt-2">{formatCurrency(copy.price)}</p>
+                                                :
+                                                <div className="flex items-center justify-end space-x-2">
+
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
                                 ))}
-                                <button
-                                    className="w-full py-2 px-4 mt-6 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700 transition-all duration-300"
-                                    onClick={() => handleAddToCart(photo.id)}
-                                >
-                                    Add to cart
-                                </button>
+
+
+                                {selectedOption !== "original" ? (
+                                    <button
+                                        className="w-full py-2 px-4 mt-6 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700 transition-all duration-300"
+                                        onClick={() => handleAddToCart(photo.id)}
+                                    >
+                                        Add to cart
+                                    </button>
+                                ) : (
+                                    <button
+                                        className="w-full py-2 px-4 mt-6 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700 transition-all duration-300"
+                                        onClick={() => handleMarketFreeze(photo.id)}
+                                        //TODO
+                                        //Add redirect to a contact form with the image information(id or something)
+                                    >
+                                        Contact Us
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -161,7 +193,7 @@ export async function getServerSideProps(context) {
                 size: "small"
             },
         });
-      const photoCopies = await prisma.photos.findMany({
+        const photoCopies = await prisma.photos.findMany({
             where: {
                 folderpath: folderpath,
             },
