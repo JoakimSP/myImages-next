@@ -3,7 +3,7 @@ import Footer from "./includes/footer"
 
 export default function Layout({children}) {
   return (
-    <div className="flex h-screen min-h-screen flex-col justify-between bg-custom-grey">
+    <div className="flex  min-h-screen flex-col justify-between bg-custom-grey">
         <Header/>
         <div className="mb-auto">{children}</div>
         <Footer/>
