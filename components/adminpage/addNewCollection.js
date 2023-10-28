@@ -5,8 +5,9 @@ import ErrorBoundary from "../../components/errorBoundery";
 import { logErrorToApi } from "../../components/utils/logErrorToApi";
 import Editcollection from "./editcollection";
 import Featuredcollections from "./featuredcollections";
+import EditExlusiveCollection from "./editExlusiveCollection";
 
-export default function AddNewCollection({ collections, photographers, featuredcol }) {
+export default function AddNewCollection({ collections, photographers, featuredcol, exclusiveCollection }) {
     const [currentCol, setCurrentCol] = useState(collections);
     const [imageUpload, setImageUpload] = useState();
     const [activeView, setActiveView] = useState();
@@ -142,6 +143,8 @@ export default function AddNewCollection({ collections, photographers, featuredc
                     </div>
                     <Featuredcollections featuredcol={featuredcol} />
                 </div>
+                  <EditExlusiveCollection collections={collections} photographers={photographers} exclusiveCollection={exclusiveCollection}/>              
+
             </ErrorBoundary>
         </div>
     );
