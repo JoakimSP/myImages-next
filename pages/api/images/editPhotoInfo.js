@@ -14,10 +14,11 @@ export default async function handler(req, res) {
         photoID,
         tags,
         categoriesId,
-        collectionId
+        collectionId,
+        isExclusive
     } = req.body
 
-    console.log(collectionId)
+    console.log(isExclusive)
 
     const idMap = {};
     photoID.forEach(item => {
@@ -76,10 +77,27 @@ export default async function handler(req, res) {
                 price: parseInt(priceOriginal),
             }
         })
+
+        if (isExclusive) {
+            await prisma.exclusivecollections.update({
+                where: {
+                    id: "1"
+                },
+                data: {
+                    photos: {
+                        connect: { id: idMap['small'] }
+                    }
+                }
+            });
+        }
+
+
+
+
         res.status(200).json({ message: "PhotoData updated" })
     } catch (error) {
         console.log(error)
-        logger.logger.log('error', {
+        logger.log('error', {
             message: error.message,
             stack: error.stack
         })
