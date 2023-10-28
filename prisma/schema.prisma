@@ -130,7 +130,7 @@ model exclusivecollections {
   id                    String        @id @default("1")
   title                 String
   subtitle              String
-  information           String?
+  information           String?       @db.LongText
   heroImagepathrelative String        @db.VarChar(255)
   heroImagepath         String        @db.VarChar(255)
   heroImagepathfolder   String        @db.VarChar(255)
