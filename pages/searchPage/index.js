@@ -25,7 +25,7 @@ export async function getServerSideProps(context) {
 
         if (categorie !== "All categories") {
             category = await prisma.categories.findFirst({
-                where: { name: categorie },
+                where: { name: categorie, size : "small" },
                 select: { id: true }
             });
 
@@ -35,11 +35,16 @@ export async function getServerSideProps(context) {
 
             photos = await prisma.photos.findMany({
                 where: {
-                    categoriesId: category.id
+                    categoriesId: category.id,
+                    size: "small"
                 }
             });
         } else {
-            photos = await prisma.photos.findMany();
+            photos = await prisma.photos.findMany({
+                where : {
+                    size : "small"
+                }
+            });
         }
 
         const filterCondition = image => 
