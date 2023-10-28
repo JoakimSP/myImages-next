@@ -14,18 +14,19 @@ model images {
 }
 
 model photographer {
-  personID       String            @id @unique @default(cuid())
-  user           String            @unique @default("") @db.VarChar(255)
-  profilepicture String            @default("") @db.VarChar(255)
-  heropicture    String            @default("") @db.VarChar(255)
-  firstName      String            @default("") @db.VarChar(255)
-  lastName       String            @default("") @db.VarChar(255)
-  email          String            @unique @default("") @db.VarChar(255)
-  password       String            @default("") @db.VarChar(255)
-  role           String            @default("user")
-  info           photographerinfo?
-  photos         photos[]
-  collection     collection[]
+  personID             String                 @id @unique @default(cuid())
+  user                 String                 @unique @default("") @db.VarChar(255)
+  profilepicture       String                 @default("") @db.VarChar(255)
+  heropicture          String                 @default("") @db.VarChar(255)
+  firstName            String                 @default("") @db.VarChar(255)
+  lastName             String                 @default("") @db.VarChar(255)
+  email                String                 @unique @default("") @db.VarChar(255)
+  password             String                 @default("") @db.VarChar(255)
+  role                 String                 @default("user")
+  info                 photographerinfo?
+  photos               photos[]
+  collection           collection[]
+  ExclusiveCollections exclusivecollections[]
 }
 
 model photographerinfo {
@@ -42,34 +43,36 @@ model photographerinfo {
 }
 
 model photos {
-  id              String       @id @default(cuid())
+  id              String                @id @default(cuid())
   personID        String
   title           String?
   description     String?
   filename        String
   filetype        String
   filesize        Int
-  filepath        String       @db.VarChar(250)
-  folderpath      String       @db.VarChar(250)
+  filepath        String                @db.VarChar(250)
+  folderpath      String                @db.VarChar(250)
   size            String
   dateTaken       DateTime?
   width           Int?
   height          Int?
   tags            Json?
   category        String?
-  countViewd      Int?         @default(0)
-  countDownloaded Int?         @default(0)
-  price           Int?         @default(100)
-  privacy         Boolean      @default(true)
-  photographer    photographer @relation(fields: [personID], references: [personID])
-  collection      collection?  @relation(fields: [collectionId], references: [id])
+  countViewd      Int?                  @default(0)
+  countDownloaded Int?                  @default(0)
+  price           Int?                  @default(100)
+  privacy         Boolean               @default(true)
+  photographer    photographer          @relation(fields: [personID], references: [personID])
+  collection      collection?           @relation(fields: [collectionId], references: [id])
   collectionId    String?
-  categories      categories?  @relation(fields: [categoriesId], references: [id])
+  categories      categories?           @relation(fields: [categoriesId], references: [id])
   categoriesId    String?
-  exclusive       Boolean      @default(false)
-  active          Boolean      @default(true)
-  Contact         Contact?     @relation(fields: [contactId], references: [id])
+  exclusive       Boolean               @default(false)
+  active          Boolean               @default(true)
+  Contact         contact?              @relation(fields: [contactId], references: [id])
   contactId       String?
+  Exclusive       exclusivecollections? @relation(fields: [exclusiveId], references: [id])
+  exclusiveId     String?
 }
 
 model cart {
@@ -123,6 +126,21 @@ model featuredcollections {
   updatedAt  DateTime     @updatedAt
 }
 
+model exclusivecollections {
+  id                    String        @id @default("1")
+  title                 String
+  subtitle              String
+  information           String?
+  heroImagepathrelative String        @db.VarChar(255)
+  heroImagepath         String        @db.VarChar(255)
+  heroImagepathfolder   String        @db.VarChar(255)
+  photos                photos[]
+  photographer          photographer? @relation(fields: [photographerPersonID], references: [personID])
+  photographerPersonID  String?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+}
+
 model privacypolicy {
   id        String   @id @default("1")
   text      String   @db.LongText
@@ -147,7 +165,7 @@ model pricingpage {
   updatedAt          DateTime @updatedAt
 }
 
-model Contact {
+model contact {
   id            String   @id @default(cuid())
   firstName     String
   lastName      String
