@@ -5,12 +5,12 @@ import Image from "next/image";
 import prisma from '@/components/prisma';
 import Layout from '@/components/layout/layout';
 import ShowFeaturedCollection from '@/components/showFeaturedCollection';
-import React from "react";
+import ShowExclusiveCollection from '@/components/showExclusiveCollection';
+import Link from 'next/link';
 
 
-export default function Home({ categories, featuredcol, photos }) {
+export default function Home({ categories, featuredcol, photos, exclusiveCollection }) {
 
-  
 
   return (
     <Layout>
@@ -24,6 +24,13 @@ export default function Home({ categories, featuredcol, photos }) {
 
 
         <div className="flex justify-center  items-center relative h-[42rem]  mb-11 bg-cover bg-center ">
+          <Image
+            src={`/appcontent/myimages-logo-white-1.svg`}
+            alt="Logo"
+            width={200}
+            height={200}
+            className="object-cover z-20 absolute top-0 left-0 m-4"
+          />
 
           <Image
             src={`/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG`}
@@ -35,9 +42,24 @@ export default function Home({ categories, featuredcol, photos }) {
           <SearchBar categories={categories} />
         </div>
         {featuredcol &&
-        <ShowFeaturedCollection featuredcol={featuredcol}/>
+          <ShowFeaturedCollection featuredcol={featuredcol} />
         }
-        <ShowImagesNext photos={photos}/>
+        <Link href={"/collections/exclusiveCollection"}>
+          <div className='relative h-full '>
+
+            <Image
+              src={`/api/images/getFeaturedColImages?imagePath=${exclusiveCollection.heroImagepathrelative}`}
+              alt="Exclusive collection"
+              width={1500}
+              height={1500}
+              className="object-cover w-full max-h-[800px]"
+            />
+            <div className="absolute top-1/2 md:top-1/4 left-1/2 md:left-1/4 transform -translate-x-1/2 -translate-y-1/2 z-10 text-center">
+              <h1 className="text-white text-7xl font-light mb-4">Exclusive Collection</h1>
+              <h3 className="text-white text-3xl font-light">Discover our big collection with exclusive user rights</h3>
+            </div>
+          </div>
+          </Link>
       </div>
     </Layout >
   )
@@ -61,13 +83,29 @@ export async function getServerSideProps() {
     }
   })
 
+  const exclusiveCollection = await prisma.exclusivecollections.findFirst({
+    where: {
+      id: "1"
+    },
+    select: {
+      title: true,
+      subtitle: true,
+      information: true,
+      heroImagepathrelative: true,
+      heroImagepath: true,
+      heroImagepathfolder: true,
+      photos: true,
+      photographerPersonID: true
+    }
+  })
+
   const photos = await prisma.photos.findMany({
-    where : {
-      size : "small"
+    where: {
+      size: "small"
     }
   })
 
   return {
-    props: { categories, featuredcol: JSON.parse(JSON.stringify(featuredcollections)), photos }
+    props: { categories, featuredcol: JSON.parse(JSON.stringify(featuredcollections)), photos, exclusiveCollection }
   }
 }
