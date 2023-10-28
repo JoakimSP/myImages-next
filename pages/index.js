@@ -5,7 +5,6 @@ import Image from "next/image";
 import prisma from '@/components/prisma';
 import Layout from '@/components/layout/layout';
 import ShowFeaturedCollection from '@/components/showFeaturedCollection';
-import ShowExclusiveCollection from '@/components/showExclusiveCollection';
 import Link from 'next/link';
 
 
