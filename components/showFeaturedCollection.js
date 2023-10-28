@@ -2,15 +2,27 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-
 export default function ShowFeaturedCollection({ featuredcol }) {
     const [activeGroup, setActiveGroup] = useState(0);
-
-
+    const [slidesPerGroup, setSlidesPerGroup] = useState(4); // Start with default of 4
 
     const slides = featuredcol.collection.map(col => ({ image: col.imagepathrelative, id: col.id, name: col.name }));
-    const slidesPerGroup = 3;
     const totalGroups = Math.ceil(slides.length / slidesPerGroup);
+
+    useEffect(() => {
+        const updateSlidesPerGroup = () => {
+            if (window.innerWidth < 640) {
+                setSlidesPerGroup(2);
+            } else {
+                setSlidesPerGroup(4);
+            }
+        };
+
+        updateSlidesPerGroup(); // Initial call
+        window.addEventListener('resize', updateSlidesPerGroup);
+        
+        return () => window.removeEventListener('resize', updateSlidesPerGroup);
+    }, []);
 
     const goToGroup = (index) => {
         setActiveGroup(index);
@@ -28,8 +40,6 @@ export default function ShowFeaturedCollection({ featuredcol }) {
     };
 
     return (
-
-
         <div className="relative w-full overflow-hidden">
             <h1 className="text-6xl text-center text-white mb-4">Featured collections</h1>
             <h3 className="text-3xl text-center text-white mb-4">Discover a wide range of diffrent collections of images to fit your needs.</h3>
@@ -42,7 +52,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
             >
                 {slides.map((slide, index) => (
                     <div key={slide.id} className="flex flex-col w-full mx-2">
-                        <div className="flex-1  px-2 relative flex flex-col">
+                        <div className="flex-1 px-2 relative flex flex-col">
                             <Link href={`/collections/viewCollections?collectionID=${slide.id}`}>
                                 <Image
                                     src={`/api/images/getFeaturedColImages?imagePath=${slide.image}`}
@@ -55,11 +65,9 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                         <div className="h-12">
                             <h3 className="h-40 text-3xl text-center text-white">{slide.name}</h3>
                         </div>
-
                     </div>
                 ))}
             </div>
-
             <div className="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
                 {Array.from({ length: totalGroups }).map((_, index) => (
                     <button
@@ -72,7 +80,6 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                     ></button>
                 ))}
             </div>
-
             <button
                 type="button"
                 className="absolute top-1/2 transform -translate-y-1/2 left-0 z-30 flex items-center justify-center h-12 px-4 cursor-pointer"
@@ -81,9 +88,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-
             </button>
-
             <button
                 type="button"
                 className="absolute top-1/2 transform -translate-y-1/2 right-0 z-30 flex items-center justify-center h-12 px-4 cursor-pointer"
@@ -92,9 +97,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-
             </button>
         </div>
     );
-
 }
