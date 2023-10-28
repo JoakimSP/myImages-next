@@ -7,7 +7,7 @@ export default function Featuredcollections({featuredcol}) {
     <div className="flex-1 bg-gray-800 shadow-xl rounded-xl px-10 py-6">
                         <h2 className="text-3xl text-white font-bold mb-6">Featured collections shown on the homescreen</h2>
                         <ul>
-                            {currentCol.map((collection) => (
+                            {currentCol?.map((collection) => (
                                 <li key={collection.id} className="flex items-center justify-between mb-2 text-lg text-gray-400 hover:text-gray-300 transition-all duration-200">
                                     <button id={collection.id}><span className="mr-2">{collection.name}</span></button>
                                    {/*  <button className="bg-red-500 rounded p-1 transform active:scale-95 transition-transform duration-100" value={collection.id}>
