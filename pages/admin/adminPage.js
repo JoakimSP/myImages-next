@@ -10,7 +10,7 @@ import EditPricePage from "@/components/adminpage/editPricePage";
 import Mail from "@/components/adminpage/mail";
 
 
-export default function AdminPage({ photographers, categories, policyText, pricingInfo, collections, featuredcol, contactMails }) {
+export default function AdminPage({ photographers, categories, policyText, pricingInfo, collections, featuredcol, contactMails, exclusiveCollection }) {
 
   const [activeView, setActiveView] = useState();
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function AdminPage({ photographers, categories, policyText, prici
       case 'privacy':
         return <EditPrivacyPolicy text={policyText} />;
       case 'collections':
-        return <AddNewCollection collections={collections} photographers={photographers} featuredcol={featuredcol} />;
+        return <AddNewCollection collections={collections} photographers={photographers} featuredcol={featuredcol} exclusiveCollection={exclusiveCollection} />;
       case 'pricing':
         return <EditPricePage pricingInfo={pricingInfo} />;
       case 'mail':
@@ -126,81 +126,98 @@ export async function getServerSideProps(context) {
         { name: 'asc' }
       ]
     })
-    const featuredcol = await prisma.featuredcollections.findFirst({
-      where: {
-        id: "1"
-      },
-      select: {
-        collection: true
-      }
-    })
-    const policyText = await prisma.privacypolicy.findFirst({
-      where: {
-        id: "1"
-      },
-      select: {
-        text: true
-      }
-    });
 
-    const contactMails = await prisma.contact.findMany({
-      select: {
-        firstName: true,
-        lastName: true,
-        emailAddress: true,
-        businessPhone: true,
-        company: true,
-        title: true,
-        country: true,
-        message: true,
-        photos: true,
-      }
-    })
-    const pricingInfo = await prisma.pricingpage.findFirst({
-      where: {
-        id: "1"
+    const exclusiveCollection = await prisma.exclusivecollections.findFirst({
+      where : {
+        id : "1"
       },
-      select: {
-        title: true,
-        subtitle: true,
-        imageTitleLeft: true,
-        imageSubTitleLeft: true,
-        imagePriceLeft: true,
-        imageTitleRight: true,
-        imageSubTitleRight: true,
-        imagePriceRight: true,
-        footerText: true,
-      }
-    });
-    return {
-      props: {
-        photographers,
-        categories: JSON.parse(JSON.stringify(categories)),
-        policyText,
-        pricingInfo,
-        collections: JSON.parse(JSON.stringify(collections)),
-        featuredcol: JSON.parse(JSON.stringify(featuredcol)),
-        contactMails
-      }
+      select : {
+      title: true,
+      subtitle: true,
+      information: true,
+      heroImagepathrelative: true,
+      heroImagepath: true,
+      heroImagepathfolder: true,
+      photos: true,
+      photographerPersonID: true
     }
-
-  } catch (error) {
-    console.log(error)
-    logger.log('error', {
-      message: error.message,
-      stack: error.stack
     })
-    return {
-      props: {
-        photographers: [],
-        categories: [],
-        policyText: null,
-        collections: [],
-        featuredcol: []
-      }
+  const featuredcol = await prisma.featuredcollections.findFirst({
+    where: {
+      id: "1"
+    },
+    select: {
+      collection: true
     }
-  } finally {
-    await prisma.$disconnect()
+  })
+  const policyText = await prisma.privacypolicy.findFirst({
+    where: {
+      id: "1"
+    },
+    select: {
+      text: true
+    }
+  });
+
+  const contactMails = await prisma.contact.findMany({
+    select: {
+      firstName: true,
+      lastName: true,
+      emailAddress: true,
+      businessPhone: true,
+      company: true,
+      title: true,
+      country: true,
+      message: true,
+      photos: true,
+    }
+  })
+  const pricingInfo = await prisma.pricingpage.findFirst({
+    where: {
+      id: "1"
+    },
+    select: {
+      title: true,
+      subtitle: true,
+      imageTitleLeft: true,
+      imageSubTitleLeft: true,
+      imagePriceLeft: true,
+      imageTitleRight: true,
+      imageSubTitleRight: true,
+      imagePriceRight: true,
+      footerText: true,
+    }
+  });
+  return {
+    props: {
+      photographers,
+      categories: JSON.parse(JSON.stringify(categories)),
+      policyText,
+      pricingInfo,
+      collections: JSON.parse(JSON.stringify(collections)),
+      featuredcol: JSON.parse(JSON.stringify(featuredcol)),
+      contactMails,
+      exclusiveCollection
+    }
   }
+
+} catch (error) {
+  console.log(error)
+  logger.log('error', {
+    message: error.message,
+    stack: error.stack
+  })
+  return {
+    props: {
+      photographers: [],
+      categories: [],
+      policyText: null,
+      collections: [],
+      featuredcol: []
+    }
+  }
+} finally {
+  await prisma.$disconnect()
+}
 
 }
