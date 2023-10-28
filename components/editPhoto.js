@@ -31,6 +31,7 @@ export default function EditPhoto({ photo, categories, collections, photoCopies 
             photoID: photoCopiesId,
             categoriesId: e.target.categories.value,
             collectionId: e.target.collections.value,
+            isExclusive : e.target.exclusive.checked
 
 
         }
