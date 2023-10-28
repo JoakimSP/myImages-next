@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 
-export default function exclusiveCollection({collection}) {
+export default function ExclusiveCollection({collection}) {
     const [images, setImages] = useState([]);
 
     const twoItemRow = (index) => (index - 1) % 5 === 2 || (index - 1) % 5 === 3;
@@ -31,13 +31,7 @@ export default function exclusiveCollection({collection}) {
                             <p className='text-lg'>{collection.information}</p>
                         </div>
                     </div>
-                    {/* {firstPhoto && firstPhoto.length > 0 && (
-                        <div className="flex-1 h-96 bg-custom-grey text-white pt-4 pr-4">
-                            <div className="relative w-full h-full">
-                                <Image src={`/api/images/viewImage?name=${firstPhoto[0].filepath}`} alt={collection.title} fill={true} className={"object-cover"} />
-                            </div>
-                        </div>
-                    )} */}
+                    
                 </div>
             </div>
             <div className='w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey'>
