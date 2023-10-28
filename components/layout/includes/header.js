@@ -36,14 +36,6 @@ export default function Header() {
       <nav className="bg-custom-header-grey">
         <div className=" flex flex-wrap items-center justify-between md:justify-between mr-0  ml-12 p-4">
 
-          <Image
-            src={`/appcontent/myimages-logo-white-1.svg`}
-            alt="Logo"
-            width={200}
-            height={200}
-            className="object-cover"
-          />
-
 
           <div className="flex items-center md:order-2">
 
