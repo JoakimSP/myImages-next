@@ -3,6 +3,7 @@ const logger = require('@/components/utils/logger')
 import prisma from '@/components/prisma';
 import Image from 'next/image';
 import { useState } from 'react';
+import Link from "next/link";
 
 
 export default function ExclusiveCollection({collection}) {
@@ -38,9 +39,9 @@ export default function ExclusiveCollection({collection}) {
                 {collection.photos && collection.photos.length > 0 && (
                     collection.photos.map((photo, index) => {
                         return (
-
+                            <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(photo.filepath)}&folderpath=${photo.folderpath}`}>
                             <Image key={photo.id} src={`/api/images/viewImage?name=${photo.filepath}`} alt="image" width={photo.width} height={photo.height} />
-
+                            </Link>
                         );
 
 
