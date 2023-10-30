@@ -66,7 +66,7 @@ handler.post(async (req, res) => {
           return res.status(500).json({ error: "Image upload failed", details: error.message });
         }
         resolve()
-        console.log('initialize 2')
+      
         const files = req.files;
         const photoInformationArray = req.body.photoInformation;
 
@@ -90,7 +90,7 @@ handler.post(async (req, res) => {
             await processAndStoreImage(file, 'medium', null, 2760, personID, filename, filetype, filesize, imageMetadata);
             await processAndStoreImage(file, 'large', null, 5520, personID, filename, filetype, filesize, imageMetadata);
           }
-          console.log('initialize 3')
+      
           // Store the original
           const originalPath = join(file.destination, `${file.filename}.tiff`);
           await sharp(file.path).toFile(originalPath);

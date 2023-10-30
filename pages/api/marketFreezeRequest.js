@@ -17,7 +17,7 @@ export default async function handle(req, res) {
     photo
     } = req.body;
 
-    console.log(req.body)
+
 
     const newContact = await prisma.contact.create({
       data: {

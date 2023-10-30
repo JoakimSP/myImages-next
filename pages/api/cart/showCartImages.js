@@ -6,7 +6,7 @@ export default function handler(req, res) {
     }
 
     const imagePath = req.query.id;
-    console.log(id)
+
 
     if (!fs.existsSync(id)) {
       console.log("Image not found:", id);

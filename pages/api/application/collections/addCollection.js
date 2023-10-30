@@ -37,7 +37,7 @@ export default async function handler(req, res) {
         const imagePathRelative = `/images/collections/${req.file.originalname}/${req.file.filename}`;
         const imagePath = join(process.cwd(), "images", "collections", req.file.originalname, req.file.filename);
         const imageFolderPath = `/images/collections/${req.file.originalname}`;
-        console.log(isFeaturedcol)
+  
 
 
         try {

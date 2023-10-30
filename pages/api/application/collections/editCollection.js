@@ -34,7 +34,7 @@ handler.use(upload);
 
     try {
         const collection = await prisma.collection.findUnique({ where: { id: id } });
-        console.log(collection)
+
 
         if (collection && collection.imagefolder) {
             const oldImageFolder = path.join(process.cwd(), collection.imagefolder);

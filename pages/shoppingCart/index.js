@@ -13,7 +13,7 @@ export default function ShoppingCart({ photosInCart, session }) {
   const { removeFromCart } = useContext(CartContext)
   const {email} = session.user
   const [images, setImages] = useState([]);
-  console.log(photosInCart)
+
 
   useEffect(() => {
     const filepaths = photosInCart.map(photo => photo.filepath);

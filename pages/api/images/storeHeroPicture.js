@@ -38,14 +38,14 @@ handler.use(async (req, res, next) => {
 });
 
 handler.post(async (req, res) => {
-  console.log("Initiate handler")
+
   await new Promise((resolve, reject) => {
     upload.single("image")(req, res, async (err) => {
       if (err) {
         reject(err);
         return res.status(500).json({ error: "Image upload failed", details: err.message });
       }
-      console.log("Step 2")
+
       resolve();
 
       const file = req.file;

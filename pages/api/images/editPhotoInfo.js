@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         isExclusive
     } = req.body
 
-    console.log(isExclusive)
+
 
     const idMap = {};
     photoID.forEach(item => {

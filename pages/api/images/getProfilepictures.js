@@ -7,7 +7,7 @@ export default function handler(req, res) {
     }
 
     const imagePath = req.query.profilePicturePath;
-    console.log(imagePath)
+
 
     if (!fs.existsSync(imagePath)) {
       console.log("Image not found at path:", imagePath);
