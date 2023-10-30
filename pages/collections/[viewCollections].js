@@ -3,6 +3,7 @@ import prisma from '@/components/prisma';
 import Layout from '@/components/layout/layout';
 import Image from 'next/image';
 import { useState } from 'react';
+import Link from 'next/link';
 
 
 export default function ViewCollections({ collection }) {
@@ -47,7 +48,7 @@ export default function ViewCollections({ collection }) {
     const twoItemRow = (index) => (index - 1) % 5 === 2 || (index - 1) % 5 === 3;
     let counter = 0
     const firstPhoto = collection.photos.slice(0, 1)
-    console.log(collection.photos)
+
 
     return (
         <Layout>
@@ -72,7 +73,9 @@ export default function ViewCollections({ collection }) {
                     {firstPhoto && firstPhoto.length > 0 && (
                         <div className="flex-1 h-96 bg-custom-grey text-white pt-4 pr-4">
                             <div className="relative w-full h-full">
-                                <Image src={`/api/images/viewImage?name=${firstPhoto[0].filepath}`} alt={collection.name} fill={true} className={"object-cover"} />
+                            <Link  href={`/images/viewimage?img=${encodeURIComponent(firstPhoto[0].filepath)}&folderpath=${firstPhoto[0].folderpath}`}>
+                                <Image src={`/api/images/viewImage?name=${firstPhoto[0].filepath}`} alt={collection.name} fill={true} className={"object-cover"}/>
+                                </Link> 
                             </div>
                         </div>
                     )}
@@ -82,9 +85,9 @@ export default function ViewCollections({ collection }) {
                 {collection.photos && collection.photos.length > 0 && (
                     collection.photos.slice(1).map((photo, index) => {
                         return (
-
-                            <Image key={photo.id} src={`/api/images/viewImage?name=${photo.filepath}`} alt="image" width={photo.width} height={photo.height} />
-
+                            <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(photo.filepath)}&folderpath=${photo.folderpath}`}>
+                                <Image key={photo.id} src={`/api/images/viewImage?name=${photo.filepath}`} alt="image" width={photo.width} height={photo.height} />
+                            </Link>
                         );
 
 
