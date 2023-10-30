@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export default function EditExlusiveCollection({ exclusiveCollection, photographers }) {
-  console.log(exclusiveCollection)
+
 
   const [formData, setFormData] = useState({
     title: '',
@@ -64,7 +64,7 @@ export default function EditExlusiveCollection({ exclusiveCollection, photograph
   };
 
   return (
-    <div className="max-w-lg mx-auto p-4 shadow-md mt-10 rounded-lg">
+    <div className="max-w-lg bg-slate-300 p-4 shadow-md mt-10 rounded-lg">
       <h2 className="text-2xl font-bold mb-6">Edit Exclusive Collection</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
