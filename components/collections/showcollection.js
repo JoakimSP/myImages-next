@@ -6,6 +6,7 @@ import Link from "next/link";
 export default function ShowPhotographerCollection({photographer}) {
  const { collection } = photographer
 
+
  
     
   return (
@@ -15,7 +16,7 @@ export default function ShowPhotographerCollection({photographer}) {
                 <Link key={col.id} href={`/collections/viewCollections?collectionID=${col.id}`}>
                     <div className="group relative h-96">
                         <Image
-                        src={col.image}
+                        src={`/api/images/getFeaturedColImages?imagePath=${col.imagepathrelative}`}
                         alt="Collection image"
                         fill={true}
                         className="object-cover w-full"
@@ -29,3 +30,4 @@ export default function ShowPhotographerCollection({photographer}) {
     </div>
   )
 }
+
