@@ -26,7 +26,7 @@ export default function Index({ getPhotoInformation }) {
 
     const handleMarketFreezeRequest = async (e) => {
         e.preventDefault();
-        console.log(formData)
+
         try {
             const response = await fetch("/api/marketFreezeRequest", {
                 method: "POST",
@@ -344,15 +344,27 @@ export default function Index({ getPhotoInformation }) {
 export async function getServerSideProps(context) {
     const { photoID } = context.query
 
-    const getPhotoInformation = await prisma.photos.findUnique({
-        where: {
-            id: photoID
-        }
-    })
+    if(photoID){
+        const getPhotoInformation = await prisma.photos.findUnique({
+            where: {
+                id: photoID
+            }
+        })
 
-    return {
-        props: {
-            getPhotoInformation
+        return {
+            props: {
+                getPhotoInformation
+            }
         }
     }
+
+  else {
+    return {
+        props: {
+            getPhotoInformation : {}
+        }
+    }
+  }
+
+   
 }
