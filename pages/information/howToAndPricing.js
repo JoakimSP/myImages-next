@@ -15,12 +15,12 @@ export default function howToAndPricing({ pricingData }) {
                     {pricingData.subtitle}
                 </div>
                 <div className="mb-8 flex justify-center space-x-4 whitespace-nowrap">
-                    <Link href="/sizes-and-pricing" className="border-b-4 border-white px-2 py-2.5 text-xl font-bold hover:border-blue-400 md:px-5">
+                    <Link href="/information/howToAndPricing" className="border-b-4 border-white px-2 py-2.5 text-xl font-bold hover:border-blue-400 md:px-5">
 
                         Photos & Sizes
 
                     </Link>
-                    <Link href="/contact-for-exclusive-rights" className="px-2 py-2.5 text-xl font-bold text-gray-300 hover:border-b-4 hover:text-blue-400 md:px-5">
+                    <Link href="/information/exclusiveRIghts" className="px-2 py-2.5 text-xl font-bold text-gray-300 hover:border-b-4 hover:text-blue-400 md:px-5">
 
                         Exclusive Rights
 
