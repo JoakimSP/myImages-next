@@ -69,6 +69,7 @@ export default function Header() {
               <li><Link href="/" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Home</Link></li>
               <li><Link href="/photographers" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Photographers</Link></li>
               <li><Link href="/information/howToAndPricing" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >How to use & Pricing</Link></li>
+              <li><Link href="/collections/browseCollections" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Collections</Link></li>
               {status === "authenticated" && session.provider !== "google" && (
                 <li><Link href="/photographers/edit/editPhotographerPage" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0" >Edit your Page</Link></li>
               )}
