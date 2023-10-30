@@ -21,7 +21,7 @@ export default function ExclusiveRights() {
                 </div>
                 <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg">
                     <ul className="list-decimal list-inside pl-5">
-                        <li>Absolute Originality: Every image sold is removed from our gallery forever. You won’t find it anywhere else, ensuring that the artwork you purchase remains one-of-a-kind.</li>
+                        <li>Absolute Originality: Every image sold is removed from our gallery forever. You won&apos;t find it anywhere else, ensuring that the artwork you purchase remains one-of-a-kind.</li>
                         <li>Premium Quality: Our professional photographers are masters of their craft, capturing moments in the highest resolution and perfect clarity.</li>
                         <li>Legally Protected: With our exclusive rights agreement, rest assured that the image you purchase is legally protected, ensuring its uniqueness remains intact.</li>
                         <li>Diverse Collection: From breathtaking landscapes and intimate portraits to the abstract and avant-garde, our gallery spans diverse themes and subjects.</li>
