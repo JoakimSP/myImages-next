@@ -4,7 +4,7 @@ import Link from "next/link"
 import { ShowPhotographerImage } from "@/components/showImages"
 const logger = require('@/components/utils/logger')
 import Layout from "@/components/layout/layout"
-import ShowPhotographerCollection from "@/components/showcollection"
+import ShowPhotographerCollection from "@/components/collections/showcollection"
 import { useState, useEffect } from "react"
 
 export default function PhotographersName({ photographer, photos }) {
