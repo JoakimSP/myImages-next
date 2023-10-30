@@ -9,7 +9,7 @@ export function ShowPhotographerImage(photographer) {
   const [imageList, setImageList] = useState([])
   const imageListRef = ref(storage, `${photographer}`);
 
-  console.log(photographer)
+
 
   useEffect(() => {
     listAll(imageListRef).then((res) => {
