@@ -9,7 +9,7 @@ export default function ExclusiveRights() {
                     Exclusive Photography: Own a Moment in Time
                 </h1>
                 <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg">
-                    Picture this: An image so distinct, it exists only for you. Every photograph tells a story, but when you purchase with us, that story is exclusively yours. Dive into our curated collection and discover photos that don't just capture a moment, but become solely a part of your narrative.
+                    Picture this: An image so distinct, it exists only for you. Every photograph tells a story, but when you purchase with us, that story is exclusively yours. Dive into our curated collection and discover photos that don&apos;t just capture a moment, but become solely a part of your narrative.
                 </div>
                 <div className="mb-8 flex justify-center space-x-4 whitespace-nowrap">
                     <Link href="/information/howToAndPricing" className="px-2 py-2.5 text-xl font-bold hover:border-b-4 hover:text-blue-400  md:px-5">
@@ -25,13 +25,13 @@ export default function ExclusiveRights() {
                         <li>Premium Quality: Our professional photographers are masters of their craft, capturing moments in the highest resolution and perfect clarity.</li>
                         <li>Legally Protected: With our exclusive rights agreement, rest assured that the image you purchase is legally protected, ensuring its uniqueness remains intact.</li>
                         <li>Diverse Collection: From breathtaking landscapes and intimate portraits to the abstract and avant-garde, our gallery spans diverse themes and subjects.</li>
-                        <li>Ready for Any Application: Whether it's for a major advertising campaign, the cover of your next bestseller, or a centerpiece in your living room, our images are versatile and ready to shine.</li>
+                        <li>Ready for Any Application: Whether it&apos;s for a major advertising campaign, the cover of your next bestseller, or a centerpiece in your living room, our images are versatile and ready to shine.</li>
                     </ul>
                     <p className="mt-5">
-                        Our mission is more than just selling photographs; it's about elevating your projects, brand, or spaces to a level of unmatched distinction. When you choose an exclusive photo from our collection, you're not just buying an image; you're investing in a vision, a sentiment, and a promise of unparalleled originality.
+                        Our mission is more than just selling photographs; it&apos;s about elevating your projects, brand, or spaces to a level of unmatched distinction. When you choose an exclusive photo from our collection, you&apos;re not just buying an image; you&apos;re investing in a vision, a sentiment, and a promise of unparalleled originality.
                     </p>
                     <p className="mt-5 font-bold">
-                        Our collection is ever-evolving, and once a photo is sold, it's gone forever. Don't miss the opportunity to be the sole owner of a moment in time. Browse our gallery and secure your exclusive image now.
+                        Our collection is ever-evolving, and once a photo is sold, it&apos;s gone forever. Don&apos;t miss the opportunity to be the sole owner of a moment in time. Browse our gallery and secure your exclusive image now.
                     </p>
                 </div>
                 <div className="text-center text-sm text-gray-400 mt-8">
