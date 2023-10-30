@@ -1,15 +1,14 @@
 import Head from 'next/head'
-import ShowImagesNext from '@/components/showImages'
 import SearchBar from '@/components/searchbar'
 import Image from "next/image";
 import prisma from '@/components/prisma';
 import Layout from '@/components/layout/layout';
-import ShowFeaturedCollection from '@/components/showFeaturedCollection';
+import ShowFeaturedCollection from '@/components/collections/showFeaturedCollection';
 import Link from 'next/link';
 
 
-export default function Home({ categories, featuredcol, photos, exclusiveCollection }) {
 
+export default function Home({ categories, featuredcol, photos, exclusiveCollection }) {
 
   return (
     <Layout>
@@ -45,13 +44,13 @@ export default function Home({ categories, featuredcol, photos, exclusiveCollect
         }
         <Link href={"/collections/exclusiveCollection"}>
           <div className='relative h-full '>
-
             <Image
               src={`/api/images/getFeaturedColImages?imagePath=${exclusiveCollection.heroImagepathrelative}`}
               alt="Exclusive collection"
               width={1500}
               height={1500}
               className="object-cover w-full max-h-[800px]"
+
             />
             <div className="absolute top-1/2 md:top-1/4 left-1/2 md:left-1/4 transform -translate-x-1/2 -translate-y-1/2 z-10 text-center">
               <h1 className="text-white text-7xl font-light mb-4">Exclusive Collection</h1>
