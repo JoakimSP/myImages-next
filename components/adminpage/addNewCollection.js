@@ -13,12 +13,13 @@ export default function AddNewCollection({ collections, photographers, featuredc
     const [activeView, setActiveView] = useState();
 
     function setImage(e) {
-        setImageUpload(e.target.value);
-        console.log(e.target.value);
+        setImageUpload(e.target.files[0]);
+        console.log(imageUpload);
     }
 
     async function handleCreateNewCollections(e) {
         e.preventDefault();
+        if(imageUpload.type == "image/tiff") return toast.error("Wrong image type");
         let isUnique = true;
 
         currentCol.map((item) => {
@@ -105,7 +106,8 @@ export default function AddNewCollection({ collections, photographers, featuredc
                         <InputField label="name" type="text" name="name" />
                         <InputField label="description" type="text" name="description" />
                         <InputField label="subtitle" type="text" name="subtitle" />
-                        <input onChange={setImage} className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="collection_avatar_help" type="file" name="collection_avatar" />
+                        <p className="text-sm text-blue-600 mt-2 mb-4">Please upload images in either JPG or PNG format.</p>
+                        <input onChange={setImage} className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" accept="image/png, image/jpeg" type="file" name="collection_avatar" />
                         <div className="flex justify-between my-8">
                             <label>Featuredcollection?</label>
                             <input type="checkbox" name="featuredcol" className="w-6 h-6" />
