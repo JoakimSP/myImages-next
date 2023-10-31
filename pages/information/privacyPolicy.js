@@ -38,7 +38,53 @@ export default function PrivacyPolicy({ text }) {
                         .custom-css h6{
                             font-weight: 500;
                             font-size: .67em;
-                        } 
+                        }
+                        .custom-css strong, .custom-css b {
+                            font-weight: bold;
+                        }
+                        
+                        .custom-css em, .custom-css i {
+                            font-style: italic;
+                        }
+                        
+                        .custom-css u {
+                            text-decoration: underline;
+                        }
+                        
+                        .custom-css a {
+                            color: blue;
+                            text-decoration: underline;
+                            transition: color 0.3s;
+                        }
+                        
+                        .custom-css a:hover {
+                            color: darkblue;
+                        }
+                        
+                        .custom-css ol {
+                            list-style-type: decimal;
+                            padding-left: 1em;
+                        }
+                        
+                        .custom-css ol li {
+                            margin-bottom: 0.5em;
+                        }
+                        
+                        .custom-css ul {
+                            list-style-type: disc;
+                            padding-left: 1em;
+                        }
+                        
+                        .custom-css ul li {
+                            margin-bottom: 0.5em;
+                        }
+                        
+                        .custom-css blockquote {
+                            border-left: 4px solid gray;
+                            padding-left: 1em;
+                            font-style: italic;
+                        }
+                        
                     `}</style>
                     <div className="custom-css" dangerouslySetInnerHTML={{ __html: text && text.text ? text.text : "" }}></div>
                 </div>
