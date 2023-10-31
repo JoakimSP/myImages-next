@@ -1,5 +1,5 @@
 import prisma from "@/components/prisma"
-import { logger } from "@/components/utils/logger"
+import logger from "@/components/utils/logger"
 
 export default async function handler(req, res) {
 
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
        res.status(200).json({ message: 'New text added' })
     } catch (error) {
-        logger.logger.log('error', {
+        logger.log('error', {
             message: error.message,
             stack: error.stack
         })

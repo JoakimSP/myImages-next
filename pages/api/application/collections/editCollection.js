@@ -29,39 +29,55 @@ const handler = nextConnect();
 handler.use(upload);
  
 
-  handler.post(async (req, res) => {
+handler.post(async (req, res) => {
     const { name, description, photographerID, id, subtitle, isFeaturedcol } = req.body;
 
+
     try {
-        const collection = await prisma.collection.findUnique({ where: { id: id } });
+        const collection = await prisma.collection.findFirst({ where: { id: id } });
 
+        let imagePathRelative;
+        let imagePath;
+        let imageFolderPath;
 
-        if (collection && collection.imagefolder) {
-            const oldImageFolder = path.join(process.cwd(), collection.imagefolder);
-
-            if (existsSync(oldImageFolder)) {
-                rmSync(oldImageFolder, { recursive: true });
+        if (req.file) {
+            if (collection && collection.imagefolder) {
+                const oldImageFolder = path.join(process.cwd(), collection.imagefolder);
+                if (existsSync(oldImageFolder)) {
+                    rmSync(oldImageFolder, { recursive: true });
+                }
             }
+
+            imagePathRelative = `/images/collections/${req.file.originalname}/${req.file.filename}`;
+            imagePath = join(process.cwd(), "images", "collections", req.file.originalname, req.file.filename);
+            imageFolderPath = `/images/collections/${req.file.originalname}`;
         }
-        const imagePathRelative = `/images/collections/${req.file.originalname}/${req.file.filename}`;
-        const imagePath = join(process.cwd(), "images", "collections", req.file.originalname, req.file.filename);
-        const imageFolderPath = `/images/collections/${req.file.originalname}`;
-        await prisma.collection.update({
+
+        const updateData = {
+            name: name,
+            description: description,
+            photographerPersonID: photographerID,
+            subtitle: subtitle,
+            imagepathrelative: imagePathRelative,
+            imagepath: imagePath,
+            imagepathfolder: imageFolderPath
+        };
+
+
+        if (!req.file) {
+            delete updateData.imagepathrelative;
+            delete updateData.imagepath;
+            delete updateData.imagepathfolder;
+        }
+   
+      const updateInfo =  await prisma.collection.update({
             where: {
                 id: id
             },
-            data: {
-                name: name,
-                description: description,
-                imagepathrelative: imagePathRelative,
-                imagepath: imagePath,
-                imagepathfolder: imageFolderPath,
-                photographerPersonID: photographerID,
-                subtitle: subtitle
-            }
+            data: updateData
         });
         
-        if (isFeaturedcol != "false") {
+        if (isFeaturedcol !== "false") {
             await prisma.featuredcollections.update({
                 where: { id: "1" },
                 data: {
@@ -80,10 +96,12 @@ handler.use(upload);
                 }
             });
         }
+
         res.status(200).json({ message: 'Collection updated' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ Error: error.message });
     }
 });
+
 export default handler;

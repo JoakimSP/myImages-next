@@ -102,7 +102,7 @@ model categories {
 
 model collection {
   id                    String               @id @default(cuid())
-  name                  String               @unique
+  name                  String               
   subtitle              String?
   description           String?
   imagepathrelative     String               @db.VarChar(255)

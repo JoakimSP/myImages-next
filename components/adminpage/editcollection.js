@@ -1,52 +1,68 @@
 import InputField from "../utils/inputField";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { logErrorToApi } from "../utils/logErrorToApi";
+import Router from "next/router";
 
 export default function Editcollection({ collections, setActiveView, id, photographers }) {
-    const [imageUpload, setImageUpload] = useState()
+    const [imageUpload, setImageUpload] = useState();
+    const [formData, setFormData] = useState({
+        name: "",
+        description: "",
+        subtitle: "",
+        photographerID: "",
+        isFeaturedcol: false,
+        id: ""
+    });
+    const currentCol = collections.find((col) => col.id == id);
 
-    const currentCol = collections.filter((col) => col.id == id)
+    useEffect(() => {
+        if (currentCol) {
+            setFormData({
+                name: currentCol.name,
+                description: currentCol.description,
+                subtitle: currentCol.subtitle,
+                photographerID: currentCol.photographerPersonID,
+                isFeaturedcol: currentCol.featuredcollectionsId === "1",
+                id: currentCol.id
+            });
+        }
+    }, [currentCol]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
     const handleUpdateCollection = async (e) => {
         e.preventDefault();
 
-        let isUnique = true;
-
-        collections.map((item) => {
-            if (item.name == e.target.name.value) {
-                return isUnique = false;
-            }
-            return isUnique = true;
-        });
-
-        if (!isUnique) { return toast.error("A collection with that name already exists"); }
-
         try {
-            const formData = new FormData(); // Create a new FormData object
-            formData.append('name', e.target.name.value);
-            formData.append('description', e.target.description.value);
-            formData.append('photographerID', e.target.user.value);
-            formData.append('id', id);
-            formData.append('subtitle', e.target.subtitle.value);
-            formData.append('isFeaturedcol', e.target.featuredcol.checked);
+            const postData = new FormData();
+            Object.keys(formData).forEach(key => {
+                postData.append(key, formData[key]);
+            });
             if (imageUpload) {
-                formData.append('image', imageUpload);
+                postData.append('image', imageUpload);
             }
 
             const response = await fetch("../api/application/collections/editCollection", {
                 method: "POST",
-                body: formData, // Use formData here
+                body: postData,
             });
 
             if (response.ok) {
                 toast("Updated Collection");
+                Router.reload()
             } else {
                 toast.warn("Could not update collection");
             }
 
         } catch (error) {
-            console.log(error)
+            console.log(error);
             logErrorToApi({
                 message: error.message,
                 stack: error.stack
@@ -65,9 +81,9 @@ export default function Editcollection({ collections, setActiveView, id, photogr
                         </div>
                         <div className="flex-1">
                             <form onSubmit={handleUpdateCollection} encType="multipart/form-data" method="post">
-                                <InputField label="name" type="text" name="name" defaultValue={col.name} placeholder={col.name} required />
-                                <InputField label="description" type="text" name="description" defaultValue={col.description} placeholder={col.description} required />
-                                <InputField label="subtitle" type="text" name="subtitle" defaultValue={col.subtitle} placeholder={col.subtitle} required />
+                                <InputField label="name" type="text" name="name" value={formData.name} onChange={handleInputChange}  required />
+                                <InputField label="description" type="text" name="description" value={formData.description} onChange={handleInputChange}  required />
+                                <InputField label="subtitle" type="text" name="subtitle" value={formData.subtitle} onChange={handleInputChange}   required />
                                 <input
                                     onChange={(e) => { setImageUpload(e.target.files[0]) }}
                                     className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -75,24 +91,32 @@ export default function Editcollection({ collections, setActiveView, id, photogr
                                     id="collection_avatar"
                                     type="file"
                                     name="image"
-                                    required
                                 />
                                 <div className="flex justify-between my-8">
                                     <label>Featuredcollection?</label>
-                                    <input type="checkbox" name="featuredcol" className="w-6 h-6" />
+                                    <input
+                                        type="checkbox"
+                                        name="isFeaturedcol"
+                                        className="w-6 h-6"
+                                        checked={formData.isFeaturedcol}
+                                        onChange={e => setFormData(prevState => ({
+                                            ...prevState,
+                                            isFeaturedcol: e.target.checked
+                                        }))}
+                                    />
                                 </div>
 
                                 <div>
                                     <h3 className="font-bold text-center my-8">Assign collection to a photographer</h3>
                                     <ul>
-                                        {photographers.map((user) => {
-                                            return (
-                                                <li key={user.personID} className="flex justify-between">
-                                                    {user.user}
-                                                    <input type={"radio"} value={user.personID} name="user" className="w-4 h-4" required />
-                                                </li>
-                                            )
-                                        })}
+                                        <select value={formData.photographerID} onChange={handleInputChange} name="photographerID">
+                                            <option value="">Select a photographer</option>
+                                            {photographers.map((user) => {
+                                                return (
+                                                    <option key={user.id} value={user.personID}>{user.firstName}</option>
+                                                )
+                                            })}
+                                        </select>
                                     </ul>
                                 </div>
                                 <div className="mt-4 flex justify-center">
