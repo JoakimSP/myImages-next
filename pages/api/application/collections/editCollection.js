@@ -30,8 +30,7 @@ handler.use(upload);
  
 
 handler.post(async (req, res) => {
-    const { name, description, photographerID, id, subtitle, isFeaturedcol } = req.body;
-
+    const { name, description, photographerID, id, subtitle, isFeaturedcol, previusImageFolder } = req.body;
 
     try {
         const collection = await prisma.collection.findFirst({ where: { id: id } });
@@ -42,7 +41,7 @@ handler.post(async (req, res) => {
 
         if (req.file) {
             if (collection && collection.imagefolder) {
-                const oldImageFolder = path.join(process.cwd(), collection.imagefolder);
+                const oldImageFolder = path.join(process.cwd(), previusImageFolder);
                 if (existsSync(oldImageFolder)) {
                     rmSync(oldImageFolder, { recursive: true });
                 }
