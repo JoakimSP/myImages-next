@@ -10,7 +10,8 @@ export default function UploadImage({ userdata, setIsLoading }) {
     const aspectImage = useRef()
 
     const uploadImage = async () => {
-        if (!imagesUpload.length) return;
+        if(imagesUpload.type != "image/tiff") return toast.error("Wrong image type")
+        if (!imagesUpload.length) return toast.warning("Select an image")
         setIsLoading(true); 
 
         const formData = new FormData();
@@ -64,6 +65,7 @@ export default function UploadImage({ userdata, setIsLoading }) {
 
             <div className="max-w-5xl mx-auto mt-12">
                 <h1 className="text-center text-4xl font-semibold text-white mt-12 mb-6 dark:text-white">Upload a photo</h1>
+                <p>At the moment, only .tiff files are allowed</p>
                 <div className="flex flex-col items-center space-y-6">
                     {/* Drop zone */}
                     <div
@@ -85,6 +87,7 @@ export default function UploadImage({ userdata, setIsLoading }) {
                         aria-describedby="user_avatar_help"
                         id="user_avatar"
                         type="file"
+                        accept=".tiff" 
                         multiple
                     />
 
