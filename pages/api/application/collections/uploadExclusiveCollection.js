@@ -32,8 +32,8 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage }).single('heroImage');
-
 export default async (req, res) => {
+  console.log("initilize")
   if (req.method !== 'POST') {
     return res.status(405).end();
   }
@@ -43,22 +43,25 @@ export default async (req, res) => {
       console.log(err);
       return res.status(500).json({ error: err.message });
     }
-    if (!req.file) {
-      return res.status(400).json({ error: 'No file was uploaded.' });
-    }
-    
-    // Get file extension from uploaded file
-    const fileExtension = path.extname(req.file.originalname);
-    const imagePathRelative = `/images/exclusive/exclusiveHeroImage${fileExtension}`;
-    const imagePath = path.join(process.cwd(), 'images', 'exclusive', `exclusiveHeroImage${fileExtension}`);
-    const imagePathFolder = path.join(process.cwd(), 'images', 'exclusive');
 
     const data = {
       ...req.body,
-      heroImagepathrelative: imagePathRelative,
-      heroImagepath: imagePath,
-      heroImagepathfolder: imagePathFolder,
     };
+console.log(data)
+    if (req.file) {
+      // Get file extension from uploaded file
+      const fileExtension = path.extname(req.file.originalname);
+      const imagePathRelative = `/images/exclusive/exclusiveHeroImage${fileExtension}`;
+      const imagePath = path.join(process.cwd(), 'images', 'exclusive', `exclusiveHeroImage${fileExtension}`);
+      const imagePathFolder = path.join(process.cwd(), 'images', 'exclusive');
+      
+      data.heroImagepathrelative = imagePathRelative;
+      data.heroImagepath = imagePath;
+      data.heroImagepathfolder = imagePathFolder;
+    }
+    else {
+      delete data.heroImage
+    }
 
     try {
       const result = await prisma.exclusivecollections.update({
