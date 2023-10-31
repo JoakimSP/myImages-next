@@ -12,9 +12,11 @@ export default function Editcollection({ collections, setActiveView, id, photogr
         subtitle: "",
         photographerID: "",
         isFeaturedcol: false,
-        id: ""
+        id: "",
+        previusImageFolder: ""
     });
     const currentCol = collections.find((col) => col.id == id);
+    console.log(currentCol)
 
     useEffect(() => {
         if (currentCol) {
@@ -24,7 +26,8 @@ export default function Editcollection({ collections, setActiveView, id, photogr
                 subtitle: currentCol.subtitle,
                 photographerID: currentCol.photographerPersonID,
                 isFeaturedcol: currentCol.featuredcollectionsId === "1",
-                id: currentCol.id
+                id: currentCol.id,
+                previusImageFolder: currentCol.imagepathfolder
             });
         }
     }, [currentCol]);
@@ -81,9 +84,10 @@ export default function Editcollection({ collections, setActiveView, id, photogr
                         </div>
                         <div className="flex-1">
                             <form onSubmit={handleUpdateCollection} encType="multipart/form-data" method="post">
-                                <InputField label="name" type="text" name="name" value={formData.name} onChange={handleInputChange}  required />
-                                <InputField label="description" type="text" name="description" value={formData.description} onChange={handleInputChange}  required />
-                                <InputField label="subtitle" type="text" name="subtitle" value={formData.subtitle} onChange={handleInputChange}   required />
+                                <InputField label="name" type="text" name="name" value={formData.name} onChange={handleInputChange} required />
+                                <InputField label="description" type="text" name="description" value={formData.description} onChange={handleInputChange} required />
+                                <InputField label="subtitle" type="text" name="subtitle" value={formData.subtitle} onChange={handleInputChange} required />
+                                <p className="text-sm text-blue-600 mt-2 mb-4">Please upload images in either JPG or PNG format.</p>
                                 <input
                                     onChange={(e) => { setImageUpload(e.target.files[0]) }}
                                     className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -91,6 +95,7 @@ export default function Editcollection({ collections, setActiveView, id, photogr
                                     id="collection_avatar"
                                     type="file"
                                     name="image"
+                                    accept="image/png, image/jpeg"
                                 />
                                 <div className="flex justify-between my-8">
                                     <label>Featuredcollection?</label>
