@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 export default function EditExlusiveCollection({ exclusiveCollection, photographers }) {
 
@@ -57,7 +58,7 @@ export default function EditExlusiveCollection({ exclusiveCollection, photograph
       }
 
       const result = await response.json();
-      console.log(result);
+      toast("Exclusive collection has been updated")
     } catch (error) {
       console.error("Error uploading collection:", error.message);
     }
@@ -97,12 +98,13 @@ export default function EditExlusiveCollection({ exclusiveCollection, photograph
           ></textarea>
         </div>
         <div className="mb-4">
+        <p className="text-sm text-blue-600 mt-2 mb-4">Please upload images in either JPG or PNG format.</p>
           <label className="block text-sm font-medium text-gray-600">Hero Image:</label>
           <input
             className="mt-1 p-2 w-full border rounded-md"
             type="file"
             name="heroImage"
-            accept="image/*"
+            accept="image/png, image/jpeg"
             onChange={handleChange}
           />
         </div>
