@@ -42,8 +42,8 @@ export default function Support() {
                         </h2>
                         <div className={`${first}`} aria-labelledby="accordion-color-heading-1">
                             <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                                <p className="mb-2 text-gray-500 dark:text-gray-400">To purchase an image, simply browse our collection, select the image you like, and click on the 'Purchase' button. Follow the prompts to complete your purchase.</p>
-                                <p className="text-gray-500 dark:text-gray-400">Make sure you've created an account and are logged in before proceeding with the purchase.</p>
+                                <p className="mb-2 text-gray-500 dark:text-gray-400">To purchase an image, simply browse our collection, select the image you like, and click on the price option and add to cart. Follow the prompts to complete your purchase.</p>
+                                <p className="text-gray-500 dark:text-gray-400">Make sure you&apos;ve created an account and are logged in before proceeding with the purchase.</p>
                             </div>
                         </div>
                         <h2 >
@@ -70,8 +70,8 @@ export default function Support() {
                         </h2>
                         <div className={`${third}`} aria-labelledby="accordion-color-heading-3">
                             <div className="p-5 border border-t-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                                <p className="mb-2 text-gray-500 dark:text-gray-400">We aim for 100% customer satisfaction. If you're not satisfied with the image you've purchased, contact our support team within 7 days of purchase, and we'll review your request.</p>
-                                <p className="text-gray-500 dark:text-gray-400">Refunds are granted on a case-by-case basis, and typically only if there's a technical issue with the image.</p>
+                                <p className="mb-2 text-gray-500 dark:text-gray-400">We aim for 100% customer satisfaction. If you&apos;re not satisfied with the image you&apos;ve purchased, contact our support team within 7 days of purchase, and we&apos;ll review your request.</p>
+                                <p className="text-gray-500 dark:text-gray-400">Refunds are granted on a case-by-case basis, and typically only if there&apos;s a technical issue with the image.</p>
                             </div>
                         </div>
                         <h2>
@@ -84,7 +84,7 @@ export default function Support() {
                         </h2>
                         <div className={`${third}`} aria-labelledby="accordion-color-heading-3">
                             <div className="p-5 border border-t-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                                <p className="mb-4 text-gray-700 dark:text-gray-400">Yes, we encourage users to contact us with any inquiries or concerns. Whether it's feedback, support requests, or general questions, our team is here to assist you.</p>
+                                <p className="mb-4 text-gray-700 dark:text-gray-400">Yes, we encourage users to contact us with any inquiries or concerns. Whether it&apos;s feedback, support requests, or general questions, our team is here to assist you.</p>
                                 <Link href="/contact" className="text-blue-600 hover:underline dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-800">click here to contact us</Link>
                             </div>
                         </div>
