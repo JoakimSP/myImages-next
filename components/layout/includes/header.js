@@ -11,25 +11,37 @@ import Image from "next/image"
 export default function Header() {
   const { data: session, status } = useSession()
   const { cart } = useContext(CartContext)
-  const [isAllowed, setIsAllowed] = useState(false)
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [photographers, setPhotographers] = useState([]);
+
+  let currentUserInfo = [];
 
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(prev => !prev);
   };
 
-  //TODO
-  //Fetch photographers from getAllPhotographers API
-
   useEffect(() => {
-    if (session && session.user.email === "jocke@live.se" || session && session.user.email === "Pernilla@test.se" || session && session.user.email === "test@test" ) {
-      setIsAllowed(true)
-    } else {
-      setIsAllowed(true)
+    async function fetchPhotographers() {
+      try {
+        const response = await fetch("/api/getAllPhotographers");
+        const data = await response.json();
+        setPhotographers(data);
+      } catch (error) {
+        console.error("Failed to fetch photographers:", error);
+      }
     }
-  }, [session])
 
+    fetchPhotographers();
+  }, []);
+
+  if (status == "loading") {
+    return <div>Loading...</div>
+  }
+
+  if (session && session.user) {
+    currentUserInfo = photographers.filter(user => user.email === session.user.email);
+  }
   return (
 
     <ErrorBoundary>
@@ -43,10 +55,10 @@ export default function Header() {
             <div className="flex items-center space-x-6">
               <LoginPage />
               <button className="flex items-center justify-center w-12 h-12 relative">
-                <Link href="/shoppingCart" >
+                <Link href={session ? "/shoppingCart" : "/auth/signin"}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" className="w-12 h-12" fill="white">
                     <path d="M96 0c11.5 0 21.4 8.19 23.6 19.51L121.1 32h420.7c20.3 0 36.5 20.25 30.8 40.66l-54 192.04c-3.9 13.8-16.5 23.3-30.8 23.3H170.7l9.2 48H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H159.1c-10.6 0-20.5-8.2-22.7-19.5L76.14 48H24C10.75 48 0 37.25 0 24S10.75 0 24 0h72zm32 464c0-26.5 21.5-48 48-48s48 21.5 48 48-21.5 48-48 48-48-21.5-48-48zm384 0c0 26.5-21.5 48-48 48s-48-21.5-48-48 21.5-48 48-48 48 21.5 48 48z" /></svg>
-                  {cart.length !== 0 &&
+                  {cart.length > 0 &&
                     <span className="absolute top-0 right-0 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                       {cart.length}
                     </span>}
@@ -70,10 +82,12 @@ export default function Header() {
               <li><Link href="/photographers" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Photographers</Link></li>
               <li><Link href="/information/howToAndPricing" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >How to use & Pricing</Link></li>
               <li><Link href="/collections/browseCollections" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Collections</Link></li>
-              {status === "authenticated" && session.provider !== "google" && (
-                <li><Link href="/photographers/edit/editPhotographerPage" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0" >Edit your Page</Link></li>
-              )}
-              {isAllowed && (
+              {
+                (currentUserInfo && (currentUserInfo[0]?.role == "admin" || currentUserInfo[0]?.role == "user")) && (
+                  <li><Link href="/photographers/edit/editPhotographerPage" className="block py-2 pl-3 pr-4 text-white rounded md:p-0" >Edit your Page</Link></li>
+                )
+              }
+              {currentUserInfo && currentUserInfo[0]?.role == "admin" && (
                 <li><Link href="/admin/adminPage" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Admin Page</Link></li>
               )}
             </ul>
