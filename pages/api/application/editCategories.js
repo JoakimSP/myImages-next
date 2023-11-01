@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
        res.status(200).json({ message: 'New category added' })
     } catch (error) {
-        logger.logger.log('error', {
+        logger.log('error', {
             message: error.message,
             stack: error.stack
         })
