@@ -85,7 +85,8 @@ export default function Editcollection({ collections, setActiveView, id, photogr
                         <div className="flex-1">
                             <form onSubmit={handleUpdateCollection} encType="multipart/form-data" method="post">
                                 <InputField label="name" type="text" name="name" value={formData.name} onChange={handleInputChange} required />
-                                <InputField label="description" type="text" name="description" value={formData.description} onChange={handleInputChange} required />
+                                <label htmlFor="description" className="block mb-2 text-gray-700 font-medium">description</label>
+                                <textarea className="border rounded-md p-2 w-full focus:ring focus:ring-custom-grey-light focus:border-transparent" type="textarea" name="description" value={formData.description} onChange={handleInputChange} required />
                                 <InputField label="subtitle" type="text" name="subtitle" value={formData.subtitle} onChange={handleInputChange} required />
                                 <p className="text-sm text-blue-600 mt-2 mb-4">Please upload images in either JPG or PNG format.</p>
                                 <input
