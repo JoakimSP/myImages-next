@@ -106,8 +106,9 @@ export default function AddNewCollection({ collections, photographers, featuredc
                         <InputField label="name" type="text" name="name" />
                         <InputField label="description" type="text" name="description" />
                         <InputField label="subtitle" type="text" name="subtitle" />
-                        <p className="text-sm text-blue-600 mt-2 mb-4">Please upload images in either JPG or PNG format.</p>
-                        <input onChange={setImage} className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" accept="image/png, image/jpeg" type="file" name="collection_avatar" />
+                        <h4 className="block mb-2 text-gray-700 font-medium">Hero image</h4>
+                        <p className="text-sm text-blue-600 mt-2 mb-">Please upload images in either JPG or PNG format.</p>
+                        <input onChange={setImage} className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" accept="image/png, image/jpeg" type="file" name="collection_avatar" title="Choose Hero image for collection" />
                         <div className="flex justify-between my-8">
                             <label>Featuredcollection?</label>
                             <input type="checkbox" name="featuredcol" className="w-6 h-6" />
