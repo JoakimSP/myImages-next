@@ -1,21 +1,27 @@
 import { v4 } from "uuid";
-import { useRef, useState } from "react"
+import { useRef, useState } from "react";
 import UploadProfilePicture from "./uploadProfilePicture";
 import UploadPhotographersHero from "./uploadPhotographersHero";
 import { toast } from "react-toastify";
 import { logErrorToApi } from "../utils/logErrorToApi";
 
 export default function UploadImage({ userdata, setIsLoading }) {
-    const [imagesUpload, setImagesUpload] = useState([])
-    const aspectImage = useRef()
+    const [imagesUpload, setImagesUpload] = useState([]);
+    const aspectImage = useRef();
 
     const uploadImage = async () => {
-        if(imagesUpload.type != "image/tiff") return toast.error("Wrong image type")
-        if (!imagesUpload.length) return toast.warning("Select an image")
+        // Check each image's type
+        for (let image of imagesUpload) {
+            if (image.type !== "image/tiff") {
+                return toast.error("Wrong image type");
+            }
+        }
+
+        if (!imagesUpload.length) return toast.warning("Select an image");
         setIsLoading(true); 
 
         const formData = new FormData();
-        imagesUpload.forEach((image, index) => {
+        imagesUpload.forEach((image) => {
             const imageName = v4() + image.name;
             formData.append(`image[]`, image, imageName);
 
@@ -34,11 +40,9 @@ export default function UploadImage({ userdata, setIsLoading }) {
                 method: 'POST',
                 body: formData
             });
-            console.log(res)
             if (res.ok) {
                 toast("Image is uploaded");
-            }
-            else{
+            } else {
                 toast("Error uploading image");
             }
         } catch (error) {
@@ -49,16 +53,11 @@ export default function UploadImage({ userdata, setIsLoading }) {
                 stack: error.stack
             });
         }
+
         setIsLoading(false); 
     };
 
-
-
-
-
     return (
-
-
         <div className="grid grid-cols-2">
             <UploadPhotographersHero userdata={userdata} />
             <UploadProfilePicture userdata={userdata} />        
@@ -71,18 +70,22 @@ export default function UploadImage({ userdata, setIsLoading }) {
                     <div
                         onDrop={(e) => {
                             e.preventDefault();
-                            const files = e.dataTransfer.files;
+                            const files = Array.from(e.dataTransfer.files);
                             setImagesUpload(prevImages => [...prevImages, ...files]);
                         }}
                         onDragOver={(e) => e.preventDefault()}
                         className="flex justify-center items-center w-60 h-60 border-dotted border-4 border-gray-400 hover:border-gray-600 cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800"
                     >
-                        <p className="text-gray-800 text-center dark:text-gray-300">{imagesUpload ? imagesUpload.name : "Drop image here"}</p>
+                        <p className="text-gray-800 text-center dark:text-gray-300">
+                            {imagesUpload.length > 0 ? `Added ${imagesUpload.length} images` : "Drop images here"}
+                        </p>
                     </div>
 
                     {/* File Input */}
                     <input
-                        onChange={(e) => { setImagesUpload([...e.target.files]) }}
+                        onChange={(e) => {
+                            setImagesUpload([...e.target.files]);
+                        }}
                         className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                         aria-describedby="user_avatar_help"
                         id="user_avatar"
@@ -102,5 +105,5 @@ export default function UploadImage({ userdata, setIsLoading }) {
             </div>
             <img src="" alt="" ref={aspectImage} className="max-w-0 max-h-0" />
         </div>
-    )
+    );
 }
