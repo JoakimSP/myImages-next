@@ -85,7 +85,7 @@ export default function ViewImage(props) {
         <Layout>
             <div className="bg-custom-grey">
                 <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">
-                    <h1 className="text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
+                    <h1 className="text-white text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
 
                     <div className="flex flex-wrap -mx-6">
                         <div className="w-full md:w-2/3 px-6">
@@ -96,7 +96,7 @@ export default function ViewImage(props) {
                                 alt={`#`}
                                 onContextMenu={(e) => e.preventDefault()}
                             />
-                            <p className="text-base mt-6">{photo.description}</p>
+                            <p className="text-base mt-6 text-white">{photo.description}</p>
                             {
                                 (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
                                     <>
