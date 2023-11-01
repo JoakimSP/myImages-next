@@ -86,11 +86,9 @@ export default function ViewCollections({ collection }) {
                     collection.photos.slice(1).map((photo, index) => {
                         return (
                             <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(photo.filepath)}&folderpath=${photo.folderpath}`}>
-                                <Image key={photo.id} src={`/api/images/viewImage?name=${photo.filepath}`} alt="image" width={photo.width} height={photo.height} />
+                                <Image key={photo.id} src={`/api/images/viewImage?name=${photo.filepath}`} alt="image" width={photo.width} height={photo.height} className="my-5" />
                             </Link>
                         );
-
-
                     })
                 )}
 
