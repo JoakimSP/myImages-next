@@ -104,7 +104,7 @@ model collection {
   id                    String               @id @default(cuid())
   name                  String               
   subtitle              String?
-  description           String?
+  description           String?              @db.LongText
   imagepathrelative     String               @db.VarChar(255)
   imagepath             String               @db.VarChar(255)
   imagepathfolder       String               @db.VarChar(255)
