@@ -55,23 +55,23 @@ export default function ViewCollections({ collection }) {
             <div className='flex flex-col w-full h-screen' >
                 <div className="relative h-2/3">
                     <Image src={`/api/images/viewImage?name=${collection.imagepath}`} alt={collection.name} fill={true} className={"object-cover"} />
-                    <div className='flex justify-center items-center absolute text-9xl z-10 text-white w-full h-full'>
-                        <h1 className='mb-44'>{collection.name}</h1>
+                    <div className='flex justify-center items-center absolute text-3xl md:text-9xl z-10 text-white w-full h-full'>
+                        <h1 className='mb-44 text-center'>{collection.name}</h1>
                     </div>
                 </div>
 
 
 
                 <div className='flex'>
-                    <div className="flex-1 h-96 bg-custom-grey text-white text-left p-4">
-                        <div className='p-12'>
-                            <h2 className='text-6xl'>{collection.name}</h2>
-                            <p className='text-3xl mb-8'>{collection.subtitle}</p>
+                    <div className="flex-1 h-96 bg-custom-grey text-white text-left p-4 overflow-hidden">
+                        <div className='p-2 md:p-12 overflow-hidden'>
+                            <h2 className='text-3xl md:text-6xl  '>{collection.name}</h2>
+                            <p className='text-xl mb-8'>{collection.subtitle}</p>
                             <p className='text-lg'>{collection.description}</p>
                         </div>
                     </div>
                     {firstPhoto && firstPhoto.length > 0 && (
-                        <div className="flex-1 h-96 bg-custom-grey text-white pt-4 pr-4">
+                        <div className="flex-1 h-96 bg-custom-grey text-white pt-4 pr-4 md:block hidden">
                             <div className="relative w-full h-full">
                             <Link  href={`/images/viewimage?img=${encodeURIComponent(firstPhoto[0].filepath)}&folderpath=${firstPhoto[0].folderpath}`}>
                                 <Image src={`/api/images/viewImage?name=${firstPhoto[0].filepath}`} alt={collection.name} fill={true} className={"object-cover"}/>
