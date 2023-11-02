@@ -36,7 +36,7 @@ export default function ViewImage(props) {
         setSelectedOption(option.size);
     }
 
-
+    console.log(photo)
     async function handleAddToCart(id) {
         if (!session) {
             return signIn()
@@ -112,8 +112,9 @@ export default function ViewImage(props) {
                         <div className="w-full md:w-1/3 px-6 mt-6 md:mt-0">
                             <div className="border-4 rounded-md bg-white shadow-xl p-6 overflow-hidden">
                                 {photoCopies.map((copy, index) => (
+
                                     <div className="flex justify-between items-start border-b-2 px-4 py-3 mb-3" key={index}>
-                                        <span className="flex gap-4 items-center">
+                                        <span className={`flex gap-4 items-center ${copy.size == "original" && !photo.exclusive ? 'hidden' : ''}`}>
                                             <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light mt-2" />
                                             {copy.size != "original" ?
                                                 <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{copy.size}</p>
@@ -128,7 +129,7 @@ export default function ViewImage(props) {
                                             {copy.size != "original" ?
                                                 <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden mt-2">{formatCurrency(copy.price)}</p>
                                                 :
-                                                <div className="flex items-center justify-end space-x-2">
+                                                <div className={`flex items-center justify-end space-x-2`}>
 
                                                 </div>
                                             }
@@ -148,8 +149,8 @@ export default function ViewImage(props) {
                                     <button
                                         className="w-full py-2 px-4 mt-6 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700 transition-all duration-300"
                                         onClick={() => handleMarketFreeze(photo.id)}
-                                        //TODO
-                                        //Add redirect to a contact form with the image information(id or something)
+                                    //TODO
+                                    //Add redirect to a contact form with the image information(id or something)
                                     >
                                         Contact Us
                                     </button>

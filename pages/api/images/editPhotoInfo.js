@@ -38,7 +38,8 @@ export default async function handler(req, res) {
                 category: category,
                 price: parseInt(priceSmall),
                 categoriesId: categoriesId,
-                collectionId: collectionId
+                collectionId: collectionId,
+                exclusive: isExclusive
             }
         })
         await prisma.photos.update({
