@@ -78,7 +78,7 @@ export default function ShowImagesNext({ photos }) {
 
     fetchImages();
   }, [photos]);
-  if (images.length === 0) return <p>Loading...</p>;
+  if (images.length === 0) return <p className="text-center text-6xl text-white font-thin">No images found</p>;
 
   return (
     <ErrorBoundary>
