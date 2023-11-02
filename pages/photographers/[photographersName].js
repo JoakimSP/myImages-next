@@ -38,7 +38,7 @@ export default function PhotographersName({ photographer, photos }) {
     <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: imageUrls.heroImage ? `url(${imageUrls.heroImage})` : 'none' }}>
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white space-y-5">
-            <h1 className="text-6xl font-bold">{photographer.firstName + " " + photographer.lastName}</h1>
+            <h1 className="text-6xl font-bold text-center">{photographer.firstName + " " + photographer.lastName}</h1>
             <p className="text-xl font-light text-center">Diving deep into the journey of {photographer.firstName}, a master behind the lens.</p>
         </div>
     </section>
