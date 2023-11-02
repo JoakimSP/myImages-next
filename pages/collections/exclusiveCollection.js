@@ -17,8 +17,8 @@ export default function ExclusiveCollection({collection}) {
         <div className='flex flex-col w-full h-screen' >
                 <div className="relative h-2/3">
                     <Image src={`/api/images/viewImage?name=${collection.heroImagepath}`} alt={collection.title} fill={true} className={"object-cover"} />
-                    <div className='flex justify-center items-center absolute text-9xl z-10 text-white w-full h-full'>
-                        <h1 className='mb-44'>{collection.title}</h1>
+                    <div className='flex justify-center items-center absolute text-3xl md:text-9xl z-10 text-white w-full h-full'>
+                        <h1 className='mb-44 text-center'>{collection.title}</h1>
                     </div>
                 </div>
 
