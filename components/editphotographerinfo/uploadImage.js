@@ -58,7 +58,7 @@ export default function UploadImage({ userdata, setIsLoading }) {
     };
 
     return (
-        <div className="grid grid-cols-2">
+        <div className="grid md:grid-cols-2 grid-cols-1">
             <UploadPhotographersHero userdata={userdata} />
             <UploadProfilePicture userdata={userdata} />        
 
