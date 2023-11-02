@@ -67,7 +67,7 @@ export default function HandleUpdateInfo({ userdata }) {
 
     return (
         <div className="flex-1 w-3/4">
-            <h1 className="text-center text-4xl font-semibold text-gray-900 pt-12 mb-6 dark:text-white">Photographer Info</h1>
+            <h1 className="text-center text-4xl font-semibold text-white pt-12 mb-6 dark:text-white">Photographer Info</h1>
 
             <form onSubmit={handleUpdateInfo} method='post'>
                 <div className="max-w-5xl mx-auto">
