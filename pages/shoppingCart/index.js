@@ -74,7 +74,7 @@ export default function ShoppingCart({ photosInCart, session }) {
 
 
     <div className="p-8  dark:bg-gray-900 min-h-screen">
-        <h1 className="text-center text-3xl font-semibold mb-10 text-gray-800">Your Cart</h1>
+        <h1 className="text-center text-3xl font-semibold mb-10 text-white">Your Cart</h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" >
             {
