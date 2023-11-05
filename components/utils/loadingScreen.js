@@ -30,7 +30,7 @@ export default function LoadingScreen({ randomFactIndex }) {
     console.log(randomFact)
 
     return (
-        <div className="absolute w-full h-[80rem] z-40">
+        <div className="fixed w-screen h-screen z-40">
             <div className="absolute w-full h-full bg-black opacity-60"></div>
             <div className="flex justify-center items-center flex-col absolute w-full h-full z-10">
                 <div className="flex flex-col justify-center items-center p-8 border-4 rounded-xl bg-slate-500">
