@@ -82,6 +82,7 @@ export default function Header() {
               <li><Link href="/photographers" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Photographers</Link></li>
               <li><Link href="/information/howToAndPricing" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >How to use & Pricing</Link></li>
               <li><Link href="/collections/browseCollections" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Collections</Link></li>
+              <li><Link href="/inspirationRoom" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Inspiration room</Link></li>
               {
                 (currentUserInfo && (currentUserInfo[0]?.role == "admin" || currentUserInfo[0]?.role == "user")) && (
                   <li><Link href="/photographers/edit/editPhotographerPage" className="block py-2 pl-3 pr-4 text-white rounded md:p-0" >Edit your Page</Link></li>
