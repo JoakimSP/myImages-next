@@ -50,103 +50,189 @@ handler.use(async (req, res, next) => {
 
 handler.post(async (req, res) => {
 
-    await new Promise((resolve, reject) => {
-      upload.array("image[]")(req, res, async (error) => {
-        if (error) {
-          console.log(error)
-          logger.log('error', {
-            message: error.message,
-            stack: error.stack
-          })
-          reject(error);
-          logger.log('error', {
-            message: error.message,
-            stack: error.stack
+  await new Promise((resolve, reject) => {
+    upload.array("image[]")(req, res, async (error) => {
+      if (error) {
+        console.log(error)
+        logger.log('error', {
+          message: error.message,
+          stack: error.stack
         })
-          return res.status(500).json({ error: "Image upload failed", details: error.message });
+        reject(error);
+        console.log(error)
+        logger.log('error', {
+          message: error.message,
+          stack: error.stack
+        })
+        return res.status(500).json({ error: "Image upload failed", details: error.message });
+      }
+      resolve()
+
+      const files = req.files;
+      const photoInformationArray = req.body.photoInformation;
+
+      console.log(photoInformationArray)
+
+      for (let i = 0; i < files.length; i++) {
+        const parsedPhotoInformation = JSON.parse(photoInformationArray[i]);
+        const file = files[i]
+        const {
+          personID,
+          filename,
+          filetype,
+          filesize,
+          title,
+          description,
+          exclusive,
+          collection,
+          category,
+          priceSmall,
+          priceMedium,
+          priceLarge,
+          tags
+        } = parsedPhotoInformation
+        const imageMetadata = await sharp(file.path).metadata();
+
+        if (imageMetadata.width >= imageMetadata.height) {
+          await processAndStoreSmallImage(file, 'small', 1000, null, personID, filename, filetype, filesize, imageMetadata, title, description, exclusive, collection, category, priceSmall, tags);
+          await processAndStoreImage(file, 'medium', 2400, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags);
+          await processAndStoreImage(file, 'large', 4000, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceLarge, tags);
+        } else {
+          await processAndStoreSmallImage(file, 'small', null, 1000, personID, filename, filetype, filesize, imageMetadata, title, description, exclusive, collection, category, priceSmall, tags);
+          await processAndStoreImage(file, 'medium', null, 2760, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags);
+          await processAndStoreImage(file, 'large', null, 5520, personID, filename, filetype, filesize, imageMetadata, title, description, priceLarge, tags);
         }
-        resolve()
-      
-        const files = req.files;
-        const photoInformationArray = req.body.photoInformation;
 
-        for (let i = 0; i < files.length; i++) {
-          const parsedPhotoInformation = JSON.parse(photoInformationArray[i]);
-          const file = files[i]
-          const {
-            personID,
-            filename,
-            filetype,
-            filesize
-          } = parsedPhotoInformation
-          const imageMetadata = await sharp(file.path).metadata();
-
-          if (imageMetadata.width >= imageMetadata.height) {
-            await processAndStoreImage(file, 'small', 1000, null, personID, filename, filetype, filesize, imageMetadata);
-            await processAndStoreImage(file, 'medium', 2400, null, personID, filename, filetype, filesize, imageMetadata);
-            await processAndStoreImage(file, 'large', 4000, null, personID, filename, filetype, filesize, imageMetadata);
-          } else {
-            await processAndStoreImage(file, 'small', null, 1000, personID, filename, filetype, filesize, imageMetadata);
-            await processAndStoreImage(file, 'medium', null, 2760, personID, filename, filetype, filesize, imageMetadata);
-            await processAndStoreImage(file, 'large', null, 5520, personID, filename, filetype, filesize, imageMetadata);
+        // Store the original
+        const originalPath = join(file.destination, `${file.filename}.tiff`);
+        await sharp(file.path).toFile(originalPath);
+        await prisma.photos.create({
+          data: {
+            personID: personID,
+            filename: filename,
+            filetype: filetype,
+            filesize: filesize,
+            filepath: originalPath,
+            folderpath: file.destination,
+            size: 'original',
+            width: imageMetadata.width,
+            height: imageMetadata.height,
+            title: title,
+            description: description,
+            tags: tags
           }
-      
-          // Store the original
-          const originalPath = join(file.destination, `${file.filename}.tiff`);
-          await sharp(file.path).toFile(originalPath);
-          await prisma.photos.create({
-            data: {
-              personID: personID,
-              filename: filename,
-              filetype: filetype,
-              filesize: filesize,
-              filepath: originalPath,
-              folderpath: file.destination,
-              size: 'original',
-              width: imageMetadata.width,
-              height: imageMetadata.height
-            }
 
-          });
+        });
 
 
 
-        }
-        prisma.$disconnect()
-        res.status(200).json({ message: "Images uploaded", files: req.files });
-      })
+      }
+      prisma.$disconnect()
+      res.status(200).json({ message: "Images uploaded", files: req.files });
     })
+  })
 })
 
-async function processAndStoreImage(image, size, resizeWidth, resizeHeight, personID, filename, filetype, filesize, imageMetadata) {
-try {
-  
+async function processAndStoreImage(image, size, resizeWidth, resizeHeight, personID, filename, filetype, filesize, imageMetadata, title, description, price, tags) {
+  try {
 
-  const outputPath = resizeWidth ?
-    join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
-    join(image.destination, `${resizeHeight}-${image.filename}.JPG`);
 
-  await sharp(image.path).resize(resizeWidth, resizeHeight).toFile(outputPath);
+    const outputPath = resizeWidth ?
+      join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
+      join(image.destination, `${resizeHeight}-${image.filename}.JPG`);
 
-  await prisma.photos.create({
-    data: {
-      personID: personID,
-      filename: filename,
-      filetype: filetype,
-      filesize: filesize,
-      filepath: outputPath,
-      folderpath: image.destination,
-      size: size,
-      width: imageMetadata.width,
-      height: imageMetadata.height
-    }
-  });
-} catch (error) {
-  logger.log('error', {
-    message: error.message,
-    stack: error.stack
-})
+    await sharp(image.path).resize(resizeWidth, resizeHeight).toFile(outputPath);
+
+    await prisma.photos.create({
+      data: {
+        personID: personID,
+        filename: filename,
+        filetype: filetype,
+        filesize: filesize,
+        filepath: outputPath,
+        folderpath: image.destination,
+        size: size,
+        width: imageMetadata.width,
+        height: imageMetadata.height,
+        title: title,
+        description: description,
+        price: parseInt(price),
+        tags: tags
+      }
+    });
+  } catch (error) {
+    console.log(error)
+    logger.log('error', {
+      message: error.message,
+      stack: error.stack
+    })
+  }
 }
+
+async function processAndStoreSmallImage(image,
+  size,
+  resizeWidth,
+  resizeHeight,
+  personID,
+  filename,
+  filetype,
+  filesize,
+  imageMetadata,
+  title,
+  description,
+  exclusive,
+  collection,
+  category,
+  price,
+  tags) {
+  try {
+
+
+    const outputPath = resizeWidth ?
+      join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
+      join(image.destination, `${resizeHeight}-${image.filename}.JPG`);
+
+    await sharp(image.path).resize(resizeWidth, resizeHeight).toFile(outputPath);
+
+    const photo = await prisma.photos.create({
+      data: {
+        personID: personID,
+        filename: filename,
+        filetype: filetype,
+        filesize: filesize,
+        filepath: outputPath,
+        folderpath: image.destination,
+        size: size,
+        width: imageMetadata.width,
+        height: imageMetadata.height,
+        title: title,
+        description: description,
+        collectionId: collection,
+        categoriesId: category,
+        price: parseInt(price),
+        tags: tags
+      }
+    });
+
+    if (exclusive == "on") {
+      await prisma.exclusivecollections.update({
+        where: {
+          id: "1"
+        },
+        data: {
+          photos: {
+            connect: { id: photo.id.toString() }
+          }
+        }
+      });
+    }
+  } catch (error) {
+    console.log(error)
+    logger.log('error', {
+      message: error.message,
+      stack: error.stack
+    })
+  }
 }
 
 export default handler;

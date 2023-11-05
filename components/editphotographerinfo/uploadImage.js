@@ -4,12 +4,37 @@ import UploadProfilePicture from "./uploadProfilePicture";
 import UploadPhotographersHero from "./uploadPhotographersHero";
 import { toast } from "react-toastify";
 import { logErrorToApi } from "../utils/logErrorToApi";
+import InputField from "../utils/inputField";
+import TagsInput from "react-tagsinput"
+import 'react-tagsinput/react-tagsinput.css'
 
-export default function UploadImage({ userdata, setIsLoading }) {
+export default function UploadImage({ userdata, setIsLoading, categories, collections }) {
     const [imagesUpload, setImagesUpload] = useState([]);
+    const [tags, setTags] = useState([])
     const aspectImage = useRef();
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        priceSmall: '',
+        priceMedium: '',
+        priceLarge: '',
+        exclusive: false,
+        category: categories[0]?.id,
+        collection: collections[0]?.id,
+    });
 
-    const uploadImage = async () => {
+    const handleUpdateTags = (newTags) => {
+        setTags(newTags);
+    };
+
+    const handleInputChange = (name, value) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value,
+        }));
+    };
+
+    const uploadImage = async (e) => {
         // Check each image's type
         for (let image of imagesUpload) {
             if (image.type !== "image/tiff") {
@@ -18,27 +43,42 @@ export default function UploadImage({ userdata, setIsLoading }) {
         }
 
         if (!imagesUpload.length) return toast.warning("Select an image");
-        setIsLoading(true); 
+         setIsLoading(true); 
+        if (!formData.title || !formData.description || !formData.priceSmall || !formData.priceMedium || !formData.priceLarge) {
+            toast.error("Please fill in all required fields.");
+            return; 
+        }
 
-        const formData = new FormData();
+        const requestFormData = new FormData();
         imagesUpload.forEach((image) => {
             const imageName = v4() + image.name;
-            formData.append(`image[]`, image, imageName);
+            requestFormData.append(`image[]`, image, imageName);
 
             const photoInformation = {
                 personID: userdata.personID,
                 filename: imageName,
                 filetype: image.type,
                 filesize: image.size,
+                title: formData.title,
+                description: formData.description,
+                priceSmall: formData.priceSmall,
+                priceMedium: formData.priceMedium,
+                priceLarge: formData.priceLarge,
+                exclusive: formData.exclusive,
+                category: formData.category,
+                collection: formData.collection,
+                tags: tags
             };
 
-            formData.append(`photoInformation[]`, JSON.stringify(photoInformation));
-        });
 
+
+            requestFormData.append(`photoInformation[]`, JSON.stringify(photoInformation));
+
+        });
         try {
             const res = await fetch('/api/images/storeImages', {
                 method: 'POST',
-                body: formData
+                body: requestFormData
             });
             if (res.ok) {
                 toast("Image is uploaded");
@@ -54,45 +94,77 @@ export default function UploadImage({ userdata, setIsLoading }) {
             });
         }
 
-        setIsLoading(false); 
+        setIsLoading(false);
     };
 
     return (
         <div className="grid md:grid-cols-2 grid-cols-1">
             <UploadPhotographersHero userdata={userdata} />
-            <UploadProfilePicture userdata={userdata} />        
-
+            <UploadProfilePicture userdata={userdata} />
             <div className="max-w-5xl mx-auto mt-12">
-                <h1 className="text-center text-4xl font-semibold text-white mt-12 mb-6 dark:text-white">Upload a photo</h1>
-                <p>At the moment, only .tiff files are allowed</p>
-                <div className="flex flex-col items-center space-y-6">
-                    {/* Drop zone */}
-                    <div
-                        onDrop={(e) => {
-                            e.preventDefault();
-                            const files = Array.from(e.dataTransfer.files);
-                            setImagesUpload(prevImages => [...prevImages, ...files]);
-                        }}
-                        onDragOver={(e) => e.preventDefault()}
-                        className="flex justify-center items-center w-60 h-60 border-dotted border-4 border-gray-400 hover:border-gray-600 cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800"
-                    >
-                        <p className="text-gray-800 text-center dark:text-gray-300">
-                            {imagesUpload.length > 0 ? `Added ${imagesUpload.length} images` : "Drop images here"}
-                        </p>
-                    </div>
-
-                    {/* File Input */}
-                    <input
-                        onChange={(e) => {
-                            setImagesUpload([...e.target.files]);
-                        }}
-                        className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                        aria-describedby="user_avatar_help"
-                        id="user_avatar"
-                        type="file"
-                        accept=".tiff" 
-                        multiple
-                    />
+                
+                    <h1 className="text-center text-4xl font-semibold text-white mt-12 mb-6 dark:text-white">Upload a photo</h1>
+                    <p>At the moment, only .tiff files are allowed</p>
+                    <div className="flex flex-col items-center space-y-6">
+                        {/* Drop zone */}
+                        <div
+                            onDrop={(e) => {
+                                e.preventDefault();
+                                const files = Array.from(e.dataTransfer.files);
+                                setImagesUpload(prevImages => [...prevImages, ...files]);
+                            }}
+                            onDragOver={(e) => e.preventDefault()}
+                            className="flex justify-center items-center w-60 h-60 border-dotted border-4 border-gray-400 hover:border-gray-600 cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800"
+                        >
+                            <p className="text-gray-800 text-center dark:text-gray-300">
+                                {imagesUpload.length > 0 ? `Added ${imagesUpload.length} images` : "Drop images here"}
+                            </p>
+                        </div>
+                        {/* File Input */}
+                        <input
+                            onChange={(e) => {
+                                setImagesUpload([...e.target.files]);
+                            }}
+                            className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            aria-describedby="user_avatar_help"
+                            id="user_avatar"
+                            type="file"
+                            accept=".tiff"
+                        />
+                
+                    
+                        <InputField type={"text"} label={"title"} name={"title"} onChange={(e) => handleInputChange('title', e.target.value)} required/>
+                        <InputField type={"text"} label={"description"} name={"description"} onChange={(e) => handleInputChange('description', e.target.value)} required />
+                        <InputField type={"number"} label={"price small"} name={"priceSmall"} onChange={(e) => handleInputChange('priceSmall', e.target.value)} required/>
+                        <InputField type={"number"} label={"price medium"} name={"priceMedium"} onChange={(e) => handleInputChange('priceMedium', e.target.value)}  required/>
+                        <InputField type={"number"} label={"price large"} name={"priceLarge"} onChange={(e) => handleInputChange('priceLarge', e.target.value)} required/>
+                        <div className="flex items-center space-x-2 mt-4">
+                            <input type="checkbox" name="exclusive" className="w-6 h-6" onChange={(e) => handleInputChange('exclusive', e.target.value)} />
+                            <label className="text-lg">Should the photo be exclusive?</label>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-lg mb-2">Category</label>
+                                <select name="categories" className="w-full p-2 border rounded" onChange={(e) => handleInputChange('category', e.target.value)} required>
+                                    {categories.map((cat) => (
+                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-lg mb-2">Collections</label>
+                                <select name="collections" className="w-full p-2 border rounded" onChange={(e) => handleInputChange('collection', e.target.value)} required>
+                                    {collections.map((col) => (
+                                        <option key={col.id} value={col.id}>{col.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="mt-4">
+                            <p className="text-blue-600 font-medium mb-1"><i className="info icon"></i> Tip: Type a tag and press Enter to queue it.</p>
+                            <TagsInput value={tags} onChange={handleUpdateTags} onlyUnique className="w-full p-2 border rounded" />
+                        </div>
+                    
 
                     {/* Upload Button */}
                     <button
@@ -103,7 +175,7 @@ export default function UploadImage({ userdata, setIsLoading }) {
                     </button>
                 </div>
             </div>
-            <img src="" alt="" ref={aspectImage} className="max-w-0 max-h-0" />
+            {/* <img src="" alt="" ref={aspectImage} className="max-w-0 max-h-0" />  */}  {/* To get the original size of the image */}
         </div>
     );
 }

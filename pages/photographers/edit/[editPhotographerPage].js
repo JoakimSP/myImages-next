@@ -7,7 +7,7 @@ import Layout from "@/components/layout/layout";
 import LoadingScreen from "@/components/utils/loadingScreen";
 
 
-export default function EditPhotographerPage({ userdata, randomFactIndex}) {
+export default function EditPhotographerPage({ userdata, randomFactIndex, categories, collections}) {
   const [activeView, setActiveView] = useState('photographers');
   const [isLoading, setIsLoading] = useState(false);
   const renderActiveView = () => {
@@ -15,7 +15,7 @@ export default function EditPhotographerPage({ userdata, randomFactIndex}) {
       case 'updateinfo':
         return <HandleUpdateInfo userdata={userdata} />;
       case 'uploadphoto':
-        return <UploadImage userdata={userdata} setIsLoading={setIsLoading} />;
+        return <UploadImage userdata={userdata} setIsLoading={setIsLoading} categories={categories} collections={collections}/>;
       default:
         return null;
     }
@@ -73,6 +73,29 @@ export async function getServerSideProps(context) {
     },
   })
 
+  const categories = await prisma.categories.findMany({
+    orderBy: [
+      { name: 'asc' }
+    ],
+    select : {
+      id : true,
+      name: true,
+      updatedAt : false,
+      createdAt : false,
+    }
+  })
+  const collections = await prisma.collection.findMany({
+    orderBy: [
+      { name: 'asc' }
+    ],
+    select : {
+      id : true,
+      name: true,
+      updatedAt : false,
+      createdAt : false,
+    }
+  })
+
   const randomIndex = Math.floor(Math.random() * 19);
   prisma.$disconnect()
 
@@ -80,7 +103,9 @@ export async function getServerSideProps(context) {
   return {
     props: {
       userdata,
-      randomFactIndex: randomIndex
+      randomFactIndex: randomIndex,
+      categories,
+      collections
     }
   }
 }
