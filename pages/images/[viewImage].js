@@ -36,7 +36,6 @@ export default function ViewImage(props) {
         setSelectedOption(option.size);
     }
 
-    console.log(photo)
     async function handleAddToCart(id) {
         if (!session) {
             return signIn()
@@ -84,6 +83,7 @@ export default function ViewImage(props) {
     return (
         <Layout>
             <div className="bg-custom-grey">
+                <button  className="inline-flex items-center m-4 px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" onClick={() => router.back()}>Go back</button>
                 <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">
                     <h1 className="text-white text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
 
