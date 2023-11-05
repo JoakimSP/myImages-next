@@ -9,6 +9,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
     const slides = featuredcol.collection.map(col => ({ image: col.imagepathrelative, id: col.id, name: col.name }));
     const totalGroups = Math.ceil(slides.length / slidesPerGroup);
 
+
     useEffect(() => {
         const updateSlidesPerGroup = () => {
             if (window.innerWidth < 640) {
@@ -20,7 +21,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
 
         updateSlidesPerGroup(); // Initial call
         window.addEventListener('resize', updateSlidesPerGroup);
-        
+
         return () => window.removeEventListener('resize', updateSlidesPerGroup);
     }, []);
 
@@ -82,21 +83,24 @@ export default function ShowFeaturedCollection({ featuredcol }) {
             </div>
             <button
                 type="button"
-                className="absolute top-1/2 transform -translate-y-1/2 left-0 z-30 flex items-center justify-center h-12 px-4 cursor-pointer"
+                className="absolute top-1/2 transform-translate-y-1/2 left-0 z-30 flex items-center justify-center m-1 h-7 w-7 md:h-10 md:w-10 pr-2 cursor-pointer bg-gray-300 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring transition ease-in duration-200"
                 onClick={goToPrevGroup}
             >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 md:w-10 md:h-10">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
+
             </button>
             <button
                 type="button"
-                className="absolute top-1/2 transform -translate-y-1/2 right-0 z-30 flex items-center justify-center h-12 px-4 cursor-pointer"
+                className="absolute top-1/2 transform-translate-y-1/2 right-0 z-30 flex items-center justify-center m-1 h-7 w-7 md:h-10 md:w-10 pl-1 cursor-pointer bg-gray-300 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring transition ease-in duration-200"
                 onClick={goToNextGroup}
             >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 md:w-10 md:h-10">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
+
+
             </button>
         </div>
     );
