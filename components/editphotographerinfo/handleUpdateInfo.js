@@ -7,6 +7,7 @@ export default function HandleUpdateInfo({ userdata }) {
     const { info } = userdata
     const router = useRouter()
     const [formData, setFormData] = useState({
+        personID: userdata.personID,
         country: "",
         city: "",
         about: "",
@@ -43,7 +44,6 @@ export default function HandleUpdateInfo({ userdata }) {
         e.preventDefault()
 
         const newUserInformation = {
-            personID: formData.personID,
             ...formData
         }
 
@@ -73,17 +73,7 @@ export default function HandleUpdateInfo({ userdata }) {
                 <div className="max-w-5xl mx-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8 bg-white rounded-lg shadow-md">
                         {
-                            Object.keys(formData).map((prop) => {
-                                if (prop === "personID") {
-                                    return (
-                                        <input
-                                            key={prop}
-                                            type="hidden"
-                                            name={prop}
-                                            value={userdata.personID}
-                                        />
-                                    )
-                                }
+                            Object.keys(formData).slice(1).map((prop) => {
                                 return (
                                     <FormInput
                                         key={prop}
@@ -95,22 +85,6 @@ export default function HandleUpdateInfo({ userdata }) {
                                 )
                             })
                         }
-                        {/* <div className="col-span-1 space-y-4 mt-4 lg:mt-0">
-                            {
-                                Object.keys(formData).map(prop => {
-                                    if (prop === "personID") {
-                                        return null; 
-                                    } else {
-                                        return (
-                                            <div key={prop} className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 py-2">
-                                                <span className="font-medium capitalize text-gray-700 dark:text-gray-300">{prop.replace(/([A-Z])/g, ' $1')}</span>
-                                                <span className="text-gray-900 dark:text-gray-400">{formData[prop]}</span>
-                                            </div>
-                                        );
-                                    }
-                                })
-                            }
-                        </div> */}
                     </div>
 
                     <div className="flex justify-center mt-6">
