@@ -32,7 +32,7 @@ export default function Index() {
                     {galleryImages.map((image, index) => (
                         <Link key={index} href={image.src}>
                             <div className="relative overflow-hidden rounded-lg shadow-lg h-96">
-                                <Image src={image.src} alt={image.alt} fill objectFit="cover" />
+                                <Image src={image.src} alt={image.alt} fill sizes="100vw 50vw 33vw" className="object-cover" />
                                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
                                     <p className="text-white text-lg">{image.context}</p>
                                 </div>

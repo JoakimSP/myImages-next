@@ -16,7 +16,7 @@ export default function ShowAllCollection({collections}) {
                               alt="Collection image"
                               fill={true}
                               className="object-cover w-full"
-                              sizes="(max-width: 768px)"
+                              sizes="(max-width: 768px) 50vw 33vw"
                                             />
                           </div>
                           <div><h3 className="text-center text-3xl text-white">{col.name}</h3></div>

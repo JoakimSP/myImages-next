@@ -34,7 +34,8 @@ export default function howToAndPricing({ pricingData }) {
                                 className='object-cover w-full h-full'
                                 src={`/api/application/getPricingImages?imagePath=${pricingData.imageUrlLeft}`}
                                 alt={pricingData.imageTitleLeft}
-                                layout="fill"
+                                fill={true}
+                                sizes="100vw 50vw"
                             />
                         </div>
                         <div className="p-4">
@@ -50,7 +51,8 @@ export default function howToAndPricing({ pricingData }) {
                                 className='object-cover w-full h-full'
                                 src={`/api/application/getPricingImages?imagePath=${pricingData.imageUrlRight}`}
                                 alt={pricingData.imageTitleRight}
-                                layout="fill"
+                                fill={true}
+                                sizes="100vw 50vw"   
                             />
                         </div>
                         <div className="p-4">
