@@ -78,7 +78,7 @@ export default function AddNewCategory({ categories}) {
 
         <div className="flex justify-between gap-8 w-full mb-8">
           <form onSubmit={handleCreateNewCategory} className="flex-1 bg-white shadow-xl rounded-xl px-10 py-8">
-            <InputField label="category" type="text" name="category" />
+            <InputField label="category" type="text" name="category" textColor={"black"}/>
 
             <div className="mt-4 flex justify-center">
               <button className="py-2 px-6 bg-custom-grey text-white font-semibold rounded-md hover:bg-opacity-90 transition-all duration-300">Submit</button>
