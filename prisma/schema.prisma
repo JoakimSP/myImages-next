@@ -112,6 +112,7 @@ model collection {
   createdAt             DateTime             @default(now())
   updatedAt             DateTime             @updatedAt
   countViewd            Int?                 @default(0)
+  sortOrder             Int?
   photos                photos[]
   photographer          photographer?        @relation(fields: [photographerPersonID], references: [personID])
   photographerPersonID  String?

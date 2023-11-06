@@ -30,7 +30,7 @@ handler.use(upload);
  
 
 handler.post(async (req, res) => {
-    const { name, description, photographerID, id, subtitle, isFeaturedcol, previusImageFolder } = req.body;
+    const { name, description, photographerID, id, subtitle, isFeaturedcol, previusImageFolder, sortOrder } = req.body;
 
     try {
         const collection = await prisma.collection.findFirst({ where: { id: id } });
@@ -59,7 +59,8 @@ handler.post(async (req, res) => {
             subtitle: subtitle,
             imagepathrelative: imagePathRelative,
             imagepath: imagePath,
-            imagepathfolder: imageFolderPath
+            imagepathfolder: imageFolderPath,
+            sortOrder: parseInt(sortOrder)
         };
 
 

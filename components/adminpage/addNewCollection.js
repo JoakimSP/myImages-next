@@ -19,7 +19,7 @@ export default function AddNewCollection({ collections, photographers, featuredc
 
     async function handleCreateNewCollections(e) {
         e.preventDefault();
-        if(imageUpload.type == "image/tiff") return toast.error("Wrong image type");
+        if (imageUpload.type == "image/tiff") return toast.error("Wrong image type");
         let isUnique = true;
 
         currentCol.map((item) => {
@@ -39,6 +39,7 @@ export default function AddNewCollection({ collections, photographers, featuredc
         formData.append('photographerID', e.target.user.value);
         formData.append('subtitle', e.target.subtitle.value);
         formData.append('isFeaturedcol', e.target.featuredcol.checked);
+        formData.append('featuredcolOrder', e.target.featuredcolOrder.value);
 
         try {
             const response = await fetch("../api/application/collections/addCollection", {
@@ -67,7 +68,7 @@ export default function AddNewCollection({ collections, photographers, featuredc
 
         if (window.confirm("Are you sure you want to delete this collection?")) {
             setCurrentCol(prev => prev.filter(col => col.id !== e.currentTarget.value));
-            
+
             const response = await fetch("../api/application/collections/deleteCollection", {
                 method: "POST",
                 headers: {
@@ -103,16 +104,30 @@ export default function AddNewCollection({ collections, photographers, featuredc
 
                 <div className="flex justify-between gap-8 w-full mb-8">
                     <form onSubmit={handleCreateNewCollections} method="post" encType="multipart/form-data" className="flex-1 bg-white shadow-xl rounded-xl px-10 py-8">
-                        <InputField label="name" type="text" name="name" />
-                        <InputField label="description" type="text" name="description" />
-                        <InputField label="subtitle" type="text" name="subtitle" />
-                        <h4 className="block mb-2 text-gray-700 font-medium">Hero image</h4>
+                        <InputField label="name" type="text" name="name" textColor={"black"} />
+                        <InputField label="description" type="text" name="description" textColor={"black"} />
+                        <InputField label="subtitle" type="text" name="subtitle" textColor={"black"} />
+                        <h4 className="block mb-2 text-gray-700 font-medium">Hero image/Thumbnail photo</h4>
                         <p className="text-sm text-blue-600 mt-2 mb-">Please upload images in either JPG or PNG format.</p>
                         <input onChange={setImage} className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" accept="image/png, image/jpeg" type="file" name="collection_avatar" title="Choose Hero image for collection" />
                         <div className="flex justify-between my-8">
                             <label>Featuredcollection?</label>
                             <input type="checkbox" name="featuredcol" className="w-6 h-6" />
                         </div>
+                        <div className="flex justify-between my-8">
+                            <label>Featuredcollection order</label>
+                            <input
+                                type="number"
+                                max={collections.length}
+                                min="1"
+                                defaultValue={1}
+                                name="featuredcolOrder"
+                                className="w-10 h-10 border border-black focus:border-indigo-500 rounded-md text-center text-lg transition ease-in-out duration-150"
+                                title="Choose how the featured collection should be sorted. number 1 will be the first collection, number 2 after that.."
+                            />
+
+                        </div>
+
                         <div>
                             <h3 className="font-bold text-center my-8">Assign collection to a photographer</h3>
                             <ul>
@@ -146,7 +161,7 @@ export default function AddNewCollection({ collections, photographers, featuredc
                     </div>
                     <Featuredcollections featuredcol={featuredcol} />
                 </div>
-                  <EditExlusiveCollection collections={collections} photographers={photographers} exclusiveCollection={exclusiveCollection}/>              
+                <EditExlusiveCollection collections={collections} photographers={photographers} exclusiveCollection={exclusiveCollection} />
 
             </ErrorBoundary>
         </div>

@@ -26,14 +26,14 @@ const upload = multer({ storage }).single('image');
 export default async function handler(req, res) {
     upload(req, res, async (err) => {
         if (err) {
-            logger.logger.log('error', {
+            logger.log('error', {
                 message: err.message,
                 stack: err.stack
             });
             return res.status(500).json({ Error: "File upload failed!" });
         }
 
-        const { name, description, photographerID, subtitle, isFeaturedcol } = req.body;
+        const { name, description, photographerID, subtitle, isFeaturedcol, featuredcolOrder } = req.body;
         const imagePathRelative = `/images/collections/${req.file.originalname}/${req.file.filename}`;
         const imagePath = join(process.cwd(), "images", "collections", req.file.originalname, req.file.filename);
         const imageFolderPath = `/images/collections/${req.file.originalname}`;
@@ -50,6 +50,7 @@ export default async function handler(req, res) {
                     imagepathfolder: imageFolderPath,
                     photographerPersonID: photographerID,
                     subtitle,
+                    sortOrder: parseInt(featuredcolOrder)
                 }
             });
 
@@ -67,7 +68,7 @@ export default async function handler(req, res) {
             res.status(200).json({ message: 'New collection added' });
 
         } catch (error) {
-            logger.logger.log('error', {
+            logger.log('error', {
                 message: error.message,
                 stack: error.stack
             });

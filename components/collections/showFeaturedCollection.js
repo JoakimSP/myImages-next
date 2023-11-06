@@ -6,9 +6,15 @@ export default function ShowFeaturedCollection({ featuredcol }) {
     const [activeGroup, setActiveGroup] = useState(0);
     const [slidesPerGroup, setSlidesPerGroup] = useState(4); // Start with default of 4
 
-    const slides = featuredcol.collection.map(col => ({ image: col.imagepathrelative, id: col.id, name: col.name }));
+    const slides = featuredcol.collection.map(col => ({
+        image: col.imagepathrelative,
+        id: col.id,
+        name: col.name,
+        sortOrder: col.sortOrder
+    }));
     const totalGroups = Math.ceil(slides.length / slidesPerGroup);
-
+    const sortedSlides = slides.sort((a, b) => {return a.sortOrder - b.sortOrder})
+    console.log(sortedSlides)
 
     useEffect(() => {
         const updateSlidesPerGroup = () => {
@@ -41,7 +47,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
     };
 
     return (
-        <div className="relative w-full overflow-hidden">
+        <div className="relative w-full overflow-hidden pb-14">
             <h1 className="text-6xl text-center text-white mb-4">Featured collections</h1>
             <h3 className="text-3xl text-center text-white mb-4">Discover a wide range of diffrent collections of images to fit your needs.</h3>
             <div
@@ -51,14 +57,15 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                     width: `${totalGroups * 100}%`
                 }}
             >
-                {slides.map((slide, index) => (
+                {sortedSlides.map((slide, index) => (
                     <div key={slide.id} className="flex flex-col w-full mx-2">
                         <div className="flex-1 px-2 relative flex flex-col">
-                            <Link href={`/collections/viewCollections?collectionID=${slide.id}`}>
+                            <Link className="relative w-full h-full" href={`/collections/viewCollections?collectionID=${slide.id}`}>
                                 <Image
                                     src={`/api/images/getFeaturedColImages?imagePath=${slide.image}`}
                                     alt={`Slide ${index + 1}`}
                                     fill={true}
+                                    sizes={"50vw, 25vw"}
                                     className="object-cover w-full"
                                 />
                             </Link>

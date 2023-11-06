@@ -13,7 +13,8 @@ export default function Editcollection({ collections, setActiveView, id, photogr
         photographerID: "",
         isFeaturedcol: false,
         id: "",
-        previusImageFolder: ""
+        previusImageFolder: "",
+        sortOrder: ""
     });
     const currentCol = collections.find((col) => col.id == id);
     console.log(currentCol)
@@ -27,7 +28,8 @@ export default function Editcollection({ collections, setActiveView, id, photogr
                 photographerID: currentCol.photographerPersonID,
                 isFeaturedcol: currentCol.featuredcollectionsId === "1",
                 id: currentCol.id,
-                previusImageFolder: currentCol.imagepathfolder
+                previusImageFolder: currentCol.imagepathfolder,
+                sortOrder: currentCol.sortOrder
             });
         }
     }, [currentCol]);
@@ -109,6 +111,22 @@ export default function Editcollection({ collections, setActiveView, id, photogr
                                             ...prevState,
                                             isFeaturedcol: e.target.checked
                                         }))}
+                                    />
+                                </div>
+                                <div className="flex justify-between my-8">
+                                    <label>Featuredcollection order</label>
+                                    <input
+                                        type="number"
+                                        max={collections.length}
+                                        min="1"
+                                        value={formData.sortOrder}
+                                        name="featuredcolOrder"
+                                        className="w-10 h-10 border border-black focus:border-indigo-500 rounded-md text-center text-lg transition ease-in-out duration-150"
+                                        onChange={e => setFormData(prevState => ({
+                                            ...prevState,
+                                            sortOrder: e.target.value
+                                        }))}
+                                        title="Choose how the featured collection should be sorted. number 1 will be the first collection, number 2 after that.."
                                     />
                                 </div>
 
