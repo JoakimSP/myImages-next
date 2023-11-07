@@ -67,9 +67,12 @@ export async function getServerSideProps(context) {
             props: { filterdImages, categories: categoriesAll }
         };
     } catch (error) {
+        const categoriesAll = await prisma.categories.findMany({
+            select: { id: true, name: true }
+        });
         console.error(error);
         return {
-            props: { filterdImages: [], categories: [] }
+            props: { filterdImages: [], categories: categoriesAll }
         };
     } finally {
         prisma.$disconnect();
