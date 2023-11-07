@@ -118,7 +118,7 @@ export default function AddNewCollection({ collections, photographers, featuredc
                             <label>Featuredcollection order</label>
                             <input
                                 type="number"
-                                max={collections.length}
+                                max={collections.length + 1}
                                 min="1"
                                 defaultValue={1}
                                 name="featuredcolOrder"
