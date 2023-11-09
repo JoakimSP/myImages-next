@@ -13,8 +13,8 @@ export default function Index({ getPhotoInformation }) {
         company: "",
         title: "",
         country: "",
-        message : "",
-        photo: getPhotoInformation
+        message: "",
+        photo: getPhotoInformation.id
     });
 
     const handleChange = (e) => {
@@ -328,9 +328,15 @@ export default function Index({ getPhotoInformation }) {
                         <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" value={formData.message} name="message" onChange={handleChange}></textarea>
                     </div>
                     <div className="mb-4 flex items-center">
-                        <input type="checkbox" className="mr-2" required/>
-                        <p className="text-xs text-gray-600">By submitting this form you are consenting to our <Link href="#" className="text-blue-500 underline">Privacy Policy</Link> and <Link href="#" className="text-blue-500 underline">Terms & Conditions</Link>.</p>
+                        <input type="checkbox" className="mr-2" required />
+                        <p className="text-xs text-gray-600">
+                            By submitting this form, you consent to our
+                            <Link href="#" className="text-blue-500 underline">Privacy Policy</Link> and
+                            <Link href="#" className="text-blue-500 underline">Terms & Conditions</Link>.
+                            Upon completion of your errand, all associated customer data will be deleted.
+                        </p>
                     </div>
+
                     <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleMarketFreezeRequest} type="submit">
                         Submit
                     </button>
@@ -344,7 +350,7 @@ export default function Index({ getPhotoInformation }) {
 export async function getServerSideProps(context) {
     const { photoID } = context.query
 
-    if(photoID){
+    if (photoID) {
         const getPhotoInformation = await prisma.photos.findUnique({
             where: {
                 id: photoID
@@ -358,13 +364,13 @@ export async function getServerSideProps(context) {
         }
     }
 
-  else {
-    return {
-        props: {
-            getPhotoInformation : {}
+    else {
+        return {
+            props: {
+                getPhotoInformation: {}
+            }
         }
     }
-  }
 
-   
+
 }
