@@ -28,6 +28,11 @@ export default function Index() {
         <Layout>
             <div className="container mx-auto px-4 py-8">
                 <h1 className="text-4xl font-bold text-center mb-10 text-white">Inspiration Rooms</h1>
+                <h3 className="text-xl lg:px-36 text-center mb-10 text-white">Find your inspiration for creating your personalized art work for your home or work place here.
+                    With our Exclusive Collection you can buy images for your own ownership of the image and
+                    have it exclusively only for you. This will give you the opportunity to have unique artwork on
+                    your walls.
+                    Be inspired!</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {galleryImages.map((image, index) => (
                         <Link key={index} href={image.src}>
