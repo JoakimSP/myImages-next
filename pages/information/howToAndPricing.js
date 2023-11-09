@@ -17,13 +17,11 @@ export default function howToAndPricing({ pricingData }) {
                 <div className="mb-8 flex justify-center space-x-4 whitespace-nowrap">
                     <Link href="/information/howToAndPricing" className="border-b-4 border-white px-2 py-2.5 text-xl font-bold hover:border-blue-400 md:px-5">
 
-                        Photos & Sizes
+                        Pricing Information
 
                     </Link>
                     <Link href="/information/exclusiveRIghts" className="px-2 py-2.5 text-xl font-bold text-gray-300 hover:border-b-4 hover:text-blue-400 md:px-5">
-
-                        Exclusive Rights
-
+                        How to use
                     </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -52,7 +50,7 @@ export default function howToAndPricing({ pricingData }) {
                                 src={`/api/application/getPricingImages?imagePath=${pricingData.imageUrlRight}`}
                                 alt={pricingData.imageTitleRight}
                                 fill={true}
-                                sizes="100vw 50vw"   
+                                sizes="100vw 50vw"
                             />
                         </div>
                         <div className="p-4">
@@ -64,8 +62,6 @@ export default function howToAndPricing({ pricingData }) {
                 </div>
                 <div className="text-center text-sm text-gray-400 mt-8">
                     {pricingData.footerText}
-                    <br />
-                    For exclusive rights and custom inquiries, please <Link className="underline hover:text-blue-400 hover:no-underline"  href="/contact">contact us</Link>. All standard sizes come with a <Link className="underline hover:text-blue-400 hover:no-underline" href="/license#standard-license">Standard License</Link>. Exclusive rights are negotiated separately.
                 </div>
             </div>
         </Layout>

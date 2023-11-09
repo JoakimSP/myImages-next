@@ -71,7 +71,7 @@ export default function EditPricePage({ pricingInfo }) {
                         <input type="file" name="imageleft" onChange={handleChange} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                     </div>
                     <InputField type="text" label="Image Title" name="imagelefttitle" value={formData.imagelefttitle} onChange={handleChange} />
-                    <InputField type="text" label="Image Subtitle" name="imageleftsubtitle" value={formData.imageleftsubtitle} onChange={handleChange} />
+                    <InputField as={"textarea"} type="text" label="Image Subtitle" name="imageleftsubtitle" value={formData.imageleftsubtitle} onChange={handleChange} />
                     <InputField type="text" label="Image Price" name="imageleftprice" value={formData.imageleftprice} onChange={handleChange} />
                 </div>
 
@@ -83,14 +83,13 @@ export default function EditPricePage({ pricingInfo }) {
                         <input type="file" name="imageright" onChange={handleChange} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                     </div>
                     <InputField type="text" label="Image Title" name="imagerighttitle" value={formData.imagerighttitle} onChange={handleChange} />
-                    <InputField type="text" label="Image Subtitle" name="imagerightsubtitle" value={formData.imagerightsubtitle} onChange={handleChange} />
+                    <InputField as={"textarea"} type="text" label="Image Subtitle" name="imagerightsubtitle" value={formData.imagerightsubtitle} onChange={handleChange} />
                     <InputField type="text" label="Image Price" name="imagerightprice" value={formData.imagerightprice} onChange={handleChange} />
                 </div>
-
                 {/* Footer Text - Placing it below the columns */}
                 <div className="w-full px-4 mt-6">
                     <h3 className="font-semibold mb-4 text-lg text-blue-600 border-b-2 pb-2">Footer Text</h3>
-                    <InputField type="textarea" label="Footer Text" name="footertext" value={formData.footertext} onChange={handleChange} />
+                    <InputField as={"textarea"} type="text" label="Footer Text" name="footertext" value={formData.footertext} onChange={handleChange} />
                 </div>
 
                 {/* Submit Button */}
