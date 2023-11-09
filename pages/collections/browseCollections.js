@@ -3,10 +3,15 @@ import prisma from "@/components/prisma"
 import Layout from "@/components/layout/layout"
 
 export default function BrowseCollections({ collections }) {
-    console.log(collections)
     return (
         <Layout>
-            <ShowAllCollection collections={collections} />
+            <div className="my-16">
+                <div className="my-16">
+                    <h1 className="text-white text-7xl text-center font-light mb-4">Browse Collections</h1>
+                    <h3 className="text-white text-3xl px-4 lg:px-36 text-center mb-4">Here you'll find all of our available Collections where we have gathered images in the same style and theme in pre selected Collections folders.</h3>
+                </div>
+                <ShowAllCollection collections={collections} />
+            </div>
         </Layout>
     )
 }
