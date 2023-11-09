@@ -14,7 +14,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
     }));
     const totalGroups = Math.ceil(slides.length / slidesPerGroup);
     const sortedSlides = slides.sort((a, b) => {return a.sortOrder - b.sortOrder})
-    console.log(sortedSlides)
+    console.log(featuredcol)
 
     useEffect(() => {
         const updateSlidesPerGroup = () => {
@@ -48,8 +48,8 @@ export default function ShowFeaturedCollection({ featuredcol }) {
 
     return (
         <div className="relative w-full overflow-hidden pb-14">
-            <h1 className="text-6xl text-center text-white mb-4">Featured collections</h1>
-            <h3 className="text-3xl text-center text-white mb-4">Discover a wide range of diffrent collections of images to fit your needs.</h3>
+            <h1 className="text-6xl text-center text-white mb-4">{featuredcol.title}</h1>
+            <h3 className="text-3xl text-center text-white mb-4">{featuredcol.subTitle}</h3>
             <div
                 className="relative h-56 md:h-96 flex transition-transform duration-500 ease-in-out"
                 style={{
