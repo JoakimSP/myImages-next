@@ -39,6 +39,7 @@ model photographerinfo {
   favoritePhoto   String?      @db.VarChar(255)
   photoPreference String?      @db.VarChar(255)
   careerStart     String?      @db.VarChar(255)
+  cardText        String?      @db.VarChar(255)
   photographer    photographer @relation(fields: [personID], references: [personID])
 }
 
@@ -102,7 +103,7 @@ model categories {
 
 model collection {
   id                    String               @id @default(cuid())
-  name                  String               
+  name                  String
   subtitle              String?
   description           String?              @db.LongText
   imagepathrelative     String               @db.VarChar(255)
@@ -123,6 +124,8 @@ model collection {
 model featuredcollections {
   id         String       @id @default("1")
   collection collection[]
+  title      String?      @db.VarChar(255)
+  subTitle   String?      @db.LongText
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 }
@@ -155,13 +158,13 @@ model pricingpage {
   subtitle           String   @db.VarChar(255)
   imageUrlLeft       String   @db.VarChar(255)
   imageTitleLeft     String   @db.VarChar(255)
-  imageSubTitleLeft  String   @db.VarChar(255)
+  imageSubTitleLeft  String   @db.LongText
   imagePriceLeft     String   @db.VarChar(255)
   imageUrlRight      String   @db.VarChar(255)
   imageTitleRight    String   @db.VarChar(255)
-  imageSubTitleRight String   @db.VarChar(255)
+  imageSubTitleRight String   @db.LongText
   imagePriceRight    String   @db.VarChar(255)
-  footerText         String   @db.VarChar(255)
+  footerText         String   @db.LongText
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 }
@@ -179,6 +182,14 @@ model contact {
   photos        photos[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model support {
+  id        String   @id @default(cuid())
+  question  String   @db.LongText
+  answer    String   @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Account {
