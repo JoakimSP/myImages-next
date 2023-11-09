@@ -11,7 +11,8 @@ export default async function handler(req, res) {
         lens,
         favoritePhoto,
         photoPreference,
-        careerStart
+        careerStart,
+        cardText
     } = req.body
 
 
