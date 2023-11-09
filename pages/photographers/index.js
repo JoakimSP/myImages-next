@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 export default function Index({ photographers }) {
   const [imageUrls, setImageUrls] = useState([]);
 
+  console.log(photographers)
+
   useEffect(() => {
     // Fetch image for each photographer
     photographers.forEach(async photographer => {
@@ -35,26 +37,24 @@ export default function Index({ photographers }) {
           <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg text-white">
             Explore our showcase of talented photographers. Delve into their portfolios, learn about their expertise, and select the perfect match for your needs.
           </div>
-        
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 lg:px-24'>
+          <div className='flex flex-wrap justify-center gap-6 px-4 lg:px-24'>
             {photographers.map(photographer => {
               const imageUrlObj = imageUrls.find(img => img.id === photographer.personID);
               return (
                 <Link key={photographer.personID} href={`./photographers/${photographer.user}`}>
-                  <div className='flex flex-col flex-wrap items-center justify-end h-96 cursor-pointer transform transition-transform duration-300 hover:scale-105 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl bg-white'>
+                  <div className='flex flex-1 flex-col flex-wrap items-center justify-end h-96 w-72 md:w-96 cursor-pointer transform transition-transform duration-300 hover:scale-105 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl bg-white max-w-sm'>
                     <Image
-                      src={imageUrlObj ? imageUrlObj.url : '/#'} // fallback to a default image if not loaded yet
+                      src={imageUrlObj ? imageUrlObj.url : '/#'}
                       alt="photographer"
                       fill={true}
-                      className="object-cover max-h-80 "
+                      className="object-cover max-h-80"
                     />
-                    
                     <div className='px-6 pt-14'>
                       <div className='font-semibold text-xl text-center text-gray-800 mb-2'>
                         {photographer.user}
                       </div>
                       <div className='text-center text-gray-600'>
-                        Short Bio or Tagline Here
+                        {photographer.info.cardText}
                       </div>
                     </div>
                   </div>
@@ -70,12 +70,16 @@ export default function Index({ photographers }) {
 
 export async function getServerSideProps() {
   try {
-    const photographers = await prisma.photographer.findMany();
+    const photographers = await prisma.photographer.findMany({
+      include : {
+        info: true
+      }
+    });
     return {
       props: { photographers }
     };
   } catch (error) {
-    logger.logger.log('error', {
+    logger.log('error', {
       message: error.message,
       stack: error.stack
     });
