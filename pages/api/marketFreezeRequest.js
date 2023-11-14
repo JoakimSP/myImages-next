@@ -4,9 +4,10 @@ export default async function handle(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).end(); // Method Not Allowed if not POST
   }
-
-  try {
-    const {firstName,
+  let data;
+  let newContact;
+  const {
+    firstName,
     lastName,
     emailAddress,
     businessPhone,
@@ -15,28 +16,39 @@ export default async function handle(req, res) {
     country,
     message,
     photo
-    } = req.body;
+  } = req.body;
 
+  try {
+    data = {
+      firstName: firstName,
+      lastName: lastName,
+      emailAddress: emailAddress,
+      businessPhone: businessPhone,
+      company: company,
+      title: title,
+      country: country,
+      message: message,
+    }
 
-
-    const newContact = await prisma.contact.create({
-      data: {
-        firstName: firstName,
-        lastName: lastName,
-        emailAddress: emailAddress,
-        businessPhone: businessPhone,
-        company: company,
-        title: title,
-        country: country,
-        message: message,
-        photos: {
-            connect : {
-                id : photo.id
+    if (photo) {
+      newContact = await prisma.contact.create({
+        data: {
+          ...data,
+          photos: {
+            connect: {
+              id: photo.id
             }
+          }
         }
-      }
-    });
-
+      });
+    }
+    else {
+      newContact = await prisma.contact.create({
+        data: {
+          ...data,
+        }
+      });
+    }
     return res.json(newContact);
 
   } catch (error) {
