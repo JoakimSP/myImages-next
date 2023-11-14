@@ -39,7 +39,7 @@ export default function ExclusiveCollection({collection}) {
                 {collection.photos && collection.photos.length > 0 && (
                     collection.photos.map((photo, index) => {
                         return (
-                            <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(photo.filepath)}&folderpath=${photo.folderpath}`}>
+                            <Link key={index} href={`/viewExclusiveImage/viewimage?img=${encodeURIComponent(photo.filepath)}&folderpath=${photo.folderpath}`}>
                             <Image key={photo.id} src={`/api/images/viewImage?name=${photo.filepath}`} alt="image" width={photo.width} height={photo.height} className="my-5"/>
                             </Link>
                         );
@@ -77,7 +77,7 @@ export async function getServerSideProps(context) {
         }
 
     } catch (error) {
-        logger.logger.log('error', {
+        logger.log('error', {
             message: error.message,
             stack: error.stack
 
