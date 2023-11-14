@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
 import Link from "next/link"
@@ -9,43 +9,10 @@ const logger = require('@/components/utils/logger')
 import formatCurrency from "@/components/utils/formatCurrency"
 
 
-export default function ShoppingCart({ photosInCart, session }) {
+export default function ShoppingCart({ photosInCart, session, cartData }) {
   const { removeFromCart } = useContext(CartContext)
   const {email} = session.user
-  const [images, setImages] = useState([]);
-
-
-  useEffect(() => {
-    const filepaths = photosInCart.map(photo => photo.filepath);
-
-    async function fetchImages() {
-      const response = await fetch('/api/images/getImages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ paths: filepaths }),
-
-      });
-
-      if (response.ok) {
-        const imagesBase64 = await response.json();
-        const urls = filepaths.map(filepath => {
-          const base64 = imagesBase64[filepath];
-          if (base64) {
-            return `data:image/png;base64,${base64}`; // Assuming all images are PNGs.
-          }
-          return null;
-        }).filter(Boolean);
-        setImages(urls);
-      } else {
-        console.error('Failed to fetch images.');
-      }
-    }
-
-    fetchImages();
-  }, [photosInCart]);
-
+ 
   async function handleRemoveFromCart(id, userEmail) {
     removeFromCart(id)
 
@@ -82,7 +49,7 @@ export default function ShoppingCart({ photosInCart, session }) {
                     <div key={photo.id} className="rounded-lg shadow-md overflow-hidden bg-white group">
                         <Link className="block relative h-60" href={`/images/viewimage?img=${encodeURIComponent(photo.url)}`}>
                                 <Image
-                                    src={images[index]}
+                                    src={`/api/images/viewImage?name=${cartData[index].thumbnail}`}
                                     alt="image"
                                     fill
                                     className="object-cover w-full transition-transform duration-300 group-hover:scale-105"
@@ -105,7 +72,7 @@ export default function ShoppingCart({ photosInCart, session }) {
         </div>
             {photosInCart != 0 &&
         <div className="mt-10 text-center">
-            <Link href={"/paypalCheckout"}>
+            <Link href={`/paypalCheckout?email=${email}`}>
                 <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-3 focus:outline-none transition-colors duration-300">
                     Checkout
                 </button>
@@ -123,8 +90,12 @@ export async function getServerSideProps(context) {
   const session = await getSession(context)
   try {
     
-    const cartData = await prisma.cart.findMany()
-    const currentUserCart = await cartData.filter(item => item.sessionEmail == session.user.email)
+    const cartData = await prisma.cart.findMany({
+      where : {
+        sessionEmail : session.user.email
+      }
+    })
+   const currentUserCart = await cartData.filter(item => item.sessionEmail == session.user.email)
 
     const photoIDsInCart = currentUserCart
     .map(item => item.photoID); // Extract all photoIDs from cartData */
@@ -138,14 +109,13 @@ export async function getServerSideProps(context) {
         }
       }
     })
-
    
     return {
-      props: { photosInCart, session }
+      props: { photosInCart, session, cartData }
     }
 
   } catch (error) {
-    logger.logger.log('error', {
+    logger.log('error', {
       message: error.message,
       stack: error.stack
   })
