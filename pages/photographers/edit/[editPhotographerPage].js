@@ -91,6 +91,7 @@ export async function getServerSideProps(context) {
     select : {
       id : true,
       name: true,
+      photographerPersonID: true,
       updatedAt : false,
       createdAt : false,
     }
