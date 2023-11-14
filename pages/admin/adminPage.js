@@ -52,7 +52,6 @@ export default function AdminPage({ photographers,
     setActiveView(newView);
     localStorage.setItem('activeView', newView);
   };
-
   return (
     <Layout>
       <div className="min-h-screen flex flex-col justify-start items-center px-6 md:px-24">
@@ -214,7 +213,7 @@ export async function getServerSideProps(context) {
       }
     })
 
-    console.log(supportText)
+   
     return {
       props: {
         photographers,

@@ -7,7 +7,7 @@ export default function handler(req, res) {
     const {error} = req.body
 
 
-    logger.logger.log('error', {
+    logger.log('error', {
         message: error.message,
         stack: error.stack
     })
