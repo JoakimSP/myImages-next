@@ -18,14 +18,22 @@ export default function ViewImage(props) {
         photoCopies,
         session,
         categories,
-        collections
+        collections,
     } = props
+
     const [selectedOption, setSelectedOption] = useState(null);
     const [priceOption, setPriceOption] = useState({
         size: null,
         price: null
     })
     const { cart, addToCart } = useContext(CartContext)
+
+    const filterdPhotoCopies = photoCopies.filter((photo) => {
+        return photo.size === "small" || photo.size === "medium" || photo.size === "large";;
+    })
+    const thumbNailPhoto = photoCopies.filter((photo) => {
+        return photo.size === "thumb"
+    })
 
     const choosePriceOption = (option) => {
         setPriceOption({
@@ -45,8 +53,9 @@ export default function ViewImage(props) {
             session,
             priceOption,
             filename: photo.filename,
+            thumbnail: thumbNailPhoto[0].filepath
         }
-
+    
         const result = await fetch('/api/cart/storeCartData', {
             method: 'POST',
             headers: {
@@ -111,8 +120,7 @@ export default function ViewImage(props) {
 
                         <div className="w-full md:w-1/3 px-6 mt-6 md:mt-0">
                             <div className="border-4 rounded-md bg-white shadow-xl p-6 overflow-hidden">
-                                {photoCopies.map((copy, index) => (
-
+                                {filterdPhotoCopies.map((copy, index) => (
                                     <div className="flex justify-between items-start border-b-2 px-4 py-3 mb-3" key={index}>
                                         <span className={`flex gap-4 items-center ${copy.size == "original" && !photo.exclusive ? 'hidden' : ''}`}>
                                             <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light mt-2" />
@@ -120,7 +128,7 @@ export default function ViewImage(props) {
                                                 <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{copy.size}</p>
                                                 :
                                                 <div>
-                                                    <p className="text-gray-600 font-semibold">Market freeze</p>
+                                                    <p className="text-gray-600 font-semibold">Exclusive</p>
                                                     <p className="text-gray-500 text-sm mt-2">Safeguard your artistic endeavors – this image will be excluded from our platform for the duration you require.</p>
                                                 </div>
                                             }
@@ -169,15 +177,17 @@ export async function getServerSideProps(context) {
     const { img, folderpath } = context.query;
     const session = await getSession(context);
 
-
+    
     let props = {};
     let photo;
-
+//TODO
+//return only the collections connected to the photographer
     try {
         const collections = await prisma.collection.findMany({
             select: {
                 id: true,
                 name: true,
+                photographerPersonID: true
             }
         })
 
@@ -191,7 +201,7 @@ export async function getServerSideProps(context) {
         photo = await prisma.photos.findFirst({
             where: {
                 filepath: img,
-                size: "small"
+                size: "small-wm"
             },
         });
         const photoCopies = await prisma.photos.findMany({
@@ -208,7 +218,7 @@ export async function getServerSideProps(context) {
 
         const userEmail = session && session.user ? session.user.email : null;
 
-        props = { img, photo, session: userEmail, collections, categories, photoCopies };
+        props = { img, photo, session: userEmail, collections, categories, photoCopies};
 
         if (photo && session) {
             const photographer = await prisma.photographer.findUnique({
@@ -218,10 +228,13 @@ export async function getServerSideProps(context) {
             if (photographer) {
                 props.photographer = photographer;
             }
+            if(photographer.role != "admin"){
+                const filterCollections = collections.filter(col => { return col.photographerPersonID == photographer.personID})
+                props.collections = filterCollections
+            }
         }
-
     } catch (error) {
-        logger.logger.log('error', {
+        logger.log('error', {
             message: error.message,
             stack: error.stack
         });
