@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import UploadProfilePicture from "./uploadProfilePicture";
 import UploadPhotographersHero from "./uploadPhotographersHero";
 import { toast } from "react-toastify";
@@ -11,7 +11,6 @@ import 'react-tagsinput/react-tagsinput.css'
 export default function UploadImage({ userdata, setIsLoading, categories, collections }) {
     const [imagesUpload, setImagesUpload] = useState([]);
     const [tags, setTags] = useState([])
-    const aspectImage = useRef();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -20,8 +19,14 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
         priceLarge: '',
         exclusive: false,
         category: categories[0]?.id,
-        collection: collections[0]?.id,
+        collection: "null",
     });
+
+    let filterCollections = collections;
+    if(userdata.role != "admin"){
+         filterCollections = collections.filter(col => {return col.photographerPersonID == userdata.personID})
+    }
+    
 
     const handleUpdateTags = (newTags) => {
         setTags(newTags);
@@ -42,13 +47,13 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
             }
         }
         if (!imagesUpload.length) return toast.warning("Select an image");
-        
+
         if (!formData.title || !formData.description || !formData.priceSmall || !formData.priceMedium || !formData.priceLarge) {
             toast.error("Please fill in all required fields.");
             return;
         }
         setIsLoading(true);
-        
+
         const requestFormData = new FormData();
         imagesUpload.forEach((image) => {
             const imageName = v4() + image.name;
@@ -157,7 +162,8 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
                             <div>
                                 <label className="block text-lg mb-2">Collections</label>
                                 <select name="collections" className="w-full p-2 border rounded" onChange={(e) => handleInputChange('collection', e.target.value)} required>
-                                    {collections.map((col) => (
+                                    <option key={"null"} value={"null"}>No collection</option>
+                                    {filterCollections.map((col) => (
                                         <option key={col.id} value={col.id}>{col.name}</option>
                                     ))}
                                 </select>
