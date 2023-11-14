@@ -33,7 +33,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single('heroImage');
 export default async (req, res) => {
-  console.log("initilize")
   if (req.method !== 'POST') {
     return res.status(405).end();
   }
@@ -47,7 +46,7 @@ export default async (req, res) => {
     const data = {
       ...req.body,
     };
-console.log(data)
+
     if (req.file) {
       // Get file extension from uploaded file
       const fileExtension = path.extname(req.file.originalname);

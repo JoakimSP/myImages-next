@@ -3,7 +3,7 @@ import prisma from "@/components/prisma";
 export default async function handler(req, res) {
 
     const {id} = JSON.parse(req.body)
-    console.log(id)
+  
 try {
     await prisma.contact.delete({
         where : {

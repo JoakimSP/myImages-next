@@ -8,8 +8,6 @@ export default async function handler(req, res) {
   try {
     const { question, answer } = JSON.parse(req.body);
 
-    console.log("djsdfas")
-    console.log(question, answer)
     if (!question || !answer) {
       return res.status(400).json({ message: 'Question and answer are required' });
     }
