@@ -14,7 +14,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
     }));
     const totalGroups = Math.ceil(slides.length / slidesPerGroup);
     const sortedSlides = slides.sort((a, b) => {return a.sortOrder - b.sortOrder})
-    console.log(featuredcol)
+
 
     useEffect(() => {
         const updateSlidesPerGroup = () => {
