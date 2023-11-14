@@ -46,13 +46,14 @@ export default async function handler(req, res) {
         for(let photo of photos) {
             // Read the image from the local filesystem using its filepath
             const image = fs.createReadStream(photo.filepath);
-            archive.append(image, { name: `${photo.id}.jpg` });  // Saving each image as its id for simplicity
+            archive.append(image, { name: `${photo.title}-${photo.size}.${photo.filetype}` });  // Saving each image as its id for simplicity
         }
 
         // Finalize the archive once you've appended all the photos
         archive.finalize();
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 }
