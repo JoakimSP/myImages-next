@@ -123,7 +123,7 @@ export async function getStaticProps(context) {
       revalidate: 60,
     }
   } catch (error) {
-    logger.logger.log('error', {
+    logger.log('error', {
       message: error.message,
       stack: error.stack
   })
@@ -148,7 +148,7 @@ export async function getStaticPaths() {
       fallback: 'blocking',
     };
   } catch (error) {
-    logger.logger.log('error', {
+    logger.log('error', {
       message: error.message,
       stack: error.stack
   })
