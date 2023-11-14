@@ -10,6 +10,8 @@ export default function Index({ photosInCart, email }) {
   const sumOfCart = photosInCart.reduce((total, photo) => {
     return total + parseInt(photo.price)
   }, 0)
+
+  console.log(photosInCart)
   return (
     <Layout>
 
@@ -78,10 +80,15 @@ export default function Index({ photosInCart, email }) {
 }
 
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+const {email} = context.query
 
   try {
-    const cartData = await prisma.cart.findMany()
+    const cartData = await prisma.cart.findMany({
+      where : {
+        sessionEmail : email
+      }
+    })
     const photoIDsInCart = cartData.map(item => item.photoID);
 
     const photosInCart = await prisma.photos.findMany({
@@ -108,7 +115,7 @@ export async function getServerSideProps() {
       }
     }
   } catch (error) {
-    logger.logger.log('error', {
+    logger.log('error', {
       message: error.message,
       stack: error.stack
     })
