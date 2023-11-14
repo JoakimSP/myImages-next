@@ -7,7 +7,6 @@ export default function handler(req, res) {
 
   const imagePaths = req.body.paths;
   const imagesBase64 = {};
-
   imagePaths.forEach(filepath => {
     if (fs.existsSync(filepath)) {
       const imageBuffer = fs.readFileSync(filepath);
@@ -15,5 +14,5 @@ export default function handler(req, res) {
     }
   });
 
-  res.json(imagesBase64);
+  res.status(200).json(imagesBase64);
 }
