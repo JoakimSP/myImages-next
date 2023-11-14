@@ -46,13 +46,20 @@ export function ShowPhotographerImage(photographer) {
 
 
 export default function ShowImagesNext({ photos }) {
-  const [images, setImages] = useState([]);
+  const [imageData, setImageData] = useState([]);
 
   useEffect(() => {
-    const filepaths = photos.map(photo => {
-      if(photo.size == "thumb"){
-        return photo.filepath
-      }
+    const thumbPhotos = photos.filter(photo => photo.size === "thumb");
+    const wmPhotos = photos.filter(photo => photo.size === "small-wm");
+
+    // Create a mapping between thumbnail filepaths and corresponding watermark filepaths
+    const photoMapping = thumbPhotos.map(thumbPhoto => {
+      const wmPhoto = wmPhotos.find(wm => wm.title === thumbPhoto.title && wm.personID === thumbPhoto.personID);
+      return {
+        thumb: thumbPhoto.filepath,
+        wm: wmPhoto ? wmPhoto.filepath : null,
+        wmFolderpath: wmPhoto ? wmPhoto.folderpath : null,
+      };
     });
 
     async function fetchImages() {
@@ -61,20 +68,17 @@ export default function ShowImagesNext({ photos }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ paths: filepaths }),
-
+        body: JSON.stringify({ paths: photoMapping.map(p => p.thumb) }),
       });
 
       if (response.ok) {
         const imagesBase64 = await response.json();
-        const urls = filepaths.map(filepath => {
-          const base64 = imagesBase64[filepath];
-          if (base64) {
-            return `data:image/png;base64,${base64}`; // Assuming all images are PNGs.
-          }
-          return null;
-        }).filter(Boolean);
-        setImages(urls);
+        const combinedData = photoMapping.map(p => ({
+          thumbSrc: `data:image/jpg;base64,${imagesBase64[p.thumb]}`, // Assuming all images are PNGs.
+          wmPath: p.wm,
+          wmFolderpath: p.wmFolderpath,
+        })).filter(p => p.wmPath && p.wmFolderpath); // Ensure both thumbnail and watermark data are present
+        setImageData(combinedData);
       } else {
         console.error('Failed to fetch images.');
       }
@@ -82,37 +86,24 @@ export default function ShowImagesNext({ photos }) {
 
     fetchImages();
   }, [photos]);
-  if (images.length === 0) return <p className="text-center text-6xl text-white font-thin">No images found</p>;
 
-  const thumbnailPhotos = photos.filter((photo) => {
-    if(photo.size == "thumb"){
-      return photo
-    }
-  })
-  const wmPhotos = photos.filter((photo) => {
-    if(photo.size == "small-wm"){
-      return photo
-    }
-  })
-
-
+  if (imageData.length === 0) return <p className="text-center text-6xl text-white font-thin">No images found</p>;
 
   return (
     <ErrorBoundary>
       <div className="w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey">
-        {thumbnailPhotos.map((photoObj, index) => {
-          return (
-            <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(wmPhotos[index].filepath)}&folderpath=${wmPhotos[index].folderpath}`}>
+        {imageData.map((data, index) => (
+          <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(data.wmPath)}&folderpath=${data.wmFolderpath}`}>
               <Image
-                src={images[index]}
+                src={data.thumbSrc}
                 alt="image"
-                width={photoObj.width}
-                height={photoObj.height}
+                width={200} // Set a fixed width or use a width from the photo object if available
+                height={200} // Set a fixed height or use a height from the photo object if available
                 className="my-5"
+                layout="responsive" // Ensure the image scales correctly within its container
               />
-            </Link>
-          );
-        })}
+          </Link>
+        ))}
       </div>
     </ErrorBoundary>
   )
