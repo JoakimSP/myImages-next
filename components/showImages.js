@@ -49,7 +49,11 @@ export default function ShowImagesNext({ photos }) {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    const filepaths = photos.map(photo => photo.filepath);
+    const filepaths = photos.map(photo => {
+      if(photo.size == "thumb"){
+        return photo.filepath
+      }
+    });
 
     async function fetchImages() {
       const response = await fetch('/api/images/getImages', {
@@ -80,12 +84,25 @@ export default function ShowImagesNext({ photos }) {
   }, [photos]);
   if (images.length === 0) return <p className="text-center text-6xl text-white font-thin">No images found</p>;
 
+  const thumbnailPhotos = photos.filter((photo) => {
+    if(photo.size == "thumb"){
+      return photo
+    }
+  })
+  const wmPhotos = photos.filter((photo) => {
+    if(photo.size == "small-wm"){
+      return photo
+    }
+  })
+
+
+
   return (
     <ErrorBoundary>
       <div className="w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey">
-        {photos.map((photoObj, index) => {
+        {thumbnailPhotos.map((photoObj, index) => {
           return (
-            <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(photoObj.filepath)}&folderpath=${photoObj.folderpath}`}>
+            <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(wmPhotos[index].filepath)}&folderpath=${wmPhotos[index].folderpath}`}>
               <Image
                 src={images[index]}
                 alt="image"
