@@ -4,7 +4,7 @@ import SearchBar from "@/components/searchbar"
 import ShowImagesNext from "@/components/showImages"
 
 export default function Index({ filterdImages, categories }) {
-
+console.log(filterdImages)
 
     return (
         <Layout>
@@ -20,7 +20,7 @@ export default function Index({ filterdImages, categories }) {
 export async function getServerSideProps(context) {
     const { searchPhrase, categorie } = context.query;
     let photos;
-
+console.log(categorie)
     try {
         let category;
 
@@ -36,16 +36,24 @@ export async function getServerSideProps(context) {
 
             photos = await prisma.photos.findMany({
                 where: {
-                    categoriesId: category.id,
-                    size: "small"
+                    OR: [
+                        { size: "thumb" },
+                        { size: "small-wm" }
+                    ],
+                    categoriesId: category.id
                 }
             });
+            
         } else {
             photos = await prisma.photos.findMany({
-                where : {
-                    size : "small"
+                where: {
+                    OR: [
+                        { size: "thumb" },
+                        { size: "small-wm" }
+                    ]
                 }
             });
+            
         }
 
         const filterCondition = image => 
