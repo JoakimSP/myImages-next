@@ -77,8 +77,9 @@ model photos {
 }
 
 model cart {
-  id           String @id @default(cuid())
+  id           String  @id @default(cuid())
   photoID      String
+  thumbnail    String?
   sessionEmail String
   priceoption  Int
 }
