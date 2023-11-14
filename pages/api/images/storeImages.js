@@ -1,4 +1,4 @@
-import { mkdirSync } from 'fs';
+import { mkdirSync, promises, readFile } from 'fs';
 import { join } from 'path';
 import prisma from '@/components/prisma';
 import multer from 'multer';
@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: {
-    files: 10,
+    files: 1,
     fieldSize: 500000000
   }
 })
@@ -51,7 +51,7 @@ handler.use(async (req, res, next) => {
 handler.post(async (req, res) => {
 
   await new Promise((resolve, reject) => {
-    upload.array("image[]")(req, res, async (error) => {
+    upload.single("image[]")(req, res, async (error) => {
       if (error) {
         console.log(error)
         logger.log('error', {
@@ -68,72 +68,66 @@ handler.post(async (req, res) => {
       }
       resolve()
 
-      const files = req.files;
       const photoInformationArray = req.body.photoInformation;
+      const parsedPhotoInformation = JSON.parse(photoInformationArray[0]);
+      const file = req.file;
+      const {
+        personID,
+        filename,
+        filetype,
+        filesize,
+        title,
+        description,
+        exclusive,
+        collection,
+        category,
+        priceSmall,
+        priceMedium,
+        priceLarge,
+        tags
+      } = parsedPhotoInformation
+      const imageMetadata = await sharp(file.path).metadata();
 
-      console.log(photoInformationArray)
+      if (imageMetadata.width >= imageMetadata.height) {
+        await processAndStoreImageWaterMark(file, 'small-wm', 1000, null, personID, filename, filetype, filesize, imageMetadata, title, description, exclusive, collection, category, priceSmall, tags);
+        await processAndStoreImage(file, 'thumb', 500, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
+        await processAndStoreImage(file, 'small', 1000, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
+        await processAndStoreImage(file, 'medium', 2400, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
+      } else {
+        await processAndStoreImageWaterMark(file, 'small-wm', null, 1000, personID, filename, filetype, filesize, imageMetadata, title, description, exclusive, collection, category, priceSmall, tags);
+        await processAndStoreImage(file, 'thumb', null, 500, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
+        await processAndStoreImage(file, 'small', null, 1000, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
+        await processAndStoreImage(file, 'medium', null, 2760, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
+      }
 
-      for (let i = 0; i < files.length; i++) {
-        const parsedPhotoInformation = JSON.parse(photoInformationArray[i]);
-        const file = files[i]
-        const {
-          personID,
-          filename,
-          filetype,
-          filesize,
-          title,
-          description,
-          exclusive,
-          collection,
-          category,
-          priceSmall,
-          priceMedium,
-          priceLarge,
-          tags
-        } = parsedPhotoInformation
-        const imageMetadata = await sharp(file.path).metadata();
+      // Store the large
+      const originalPath = join(file.destination, `${file.filename}`);
 
-        if (imageMetadata.width >= imageMetadata.height) {
-          await processAndStoreSmallImage(file, 'small', 1000, null, personID, filename, filetype, filesize, imageMetadata, title, description, exclusive, collection, category, priceSmall, tags);
-          await processAndStoreImage(file, 'medium', 2400, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags);
-          await processAndStoreImage(file, 'large', 4000, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceLarge, tags);
-        } else {
-          await processAndStoreSmallImage(file, 'small', null, 1000, personID, filename, filetype, filesize, imageMetadata, title, description, exclusive, collection, category, priceSmall, tags);
-          await processAndStoreImage(file, 'medium', null, 2760, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags);
-          await processAndStoreImage(file, 'large', null, 5520, personID, filename, filetype, filesize, imageMetadata, title, description, priceLarge, tags);
+      await prisma.photos.create({
+        data: {
+          personID: personID,
+          filename: filename,
+          filetype: "tiff",
+          filesize: filesize,
+          filepath: originalPath,
+          folderpath: file.destination,
+          size: 'large',
+          price: parseInt(priceLarge),
+          width: imageMetadata.width,
+          height: imageMetadata.height,
+          title: title,
+          description: description,
+          tags: tags
         }
 
-        // Store the original
-        const originalPath = join(file.destination, `${file.filename}.tiff`);
-        await sharp(file.path).toFile(originalPath);
-        await prisma.photos.create({
-          data: {
-            personID: personID,
-            filename: filename,
-            filetype: filetype,
-            filesize: filesize,
-            filepath: originalPath,
-            folderpath: file.destination,
-            size: 'original',
-            width: imageMetadata.width,
-            height: imageMetadata.height,
-            title: title,
-            description: description,
-            tags: tags
-          }
-
-        });
-
-
-
-      }
+      });
       prisma.$disconnect()
-      res.status(200).json({ message: "Images uploaded", files: req.files });
+      res.status(200).json({ message: "Images uploaded", file: req.file });
     })
   })
 })
 
-async function processAndStoreImage(image, size, resizeWidth, resizeHeight, personID, filename, filetype, filesize, imageMetadata, title, description, price, tags) {
+async function processAndStoreImage(image, size, resizeWidth, resizeHeight, personID, filename, filetype, filesize, imageMetadata, title, description, price, tags, category, collection) {
   try {
 
 
@@ -141,23 +135,32 @@ async function processAndStoreImage(image, size, resizeWidth, resizeHeight, pers
       join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
       join(image.destination, `${resizeHeight}-${image.filename}.JPG`);
 
-    await sharp(image.path).resize(resizeWidth, resizeHeight).toFile(outputPath);
+    await sharp(image.path).resize(resizeWidth, resizeHeight).jpeg({ quality: 100 }).toFile(outputPath);
+
+    let data = {
+      personID: personID,
+      filename: filename,
+      filetype: "jpg",
+      filesize: filesize,
+      filepath: outputPath,
+      folderpath: image.destination,
+      size: size,
+      width: imageMetadata.width,
+      height: imageMetadata.height,
+      title: title,
+      description: description,
+      price: parseInt(price),
+      tags: tags
+    }
+
+    if (size === "thumb") {
+      data.categoriesId = category
+      data.collectionId = collection
+    }
 
     await prisma.photos.create({
       data: {
-        personID: personID,
-        filename: filename,
-        filetype: filetype,
-        filesize: filesize,
-        filepath: outputPath,
-        folderpath: image.destination,
-        size: size,
-        width: imageMetadata.width,
-        height: imageMetadata.height,
-        title: title,
-        description: description,
-        price: parseInt(price),
-        tags: tags
+        ...data
       }
     });
   } catch (error) {
@@ -169,7 +172,10 @@ async function processAndStoreImage(image, size, resizeWidth, resizeHeight, pers
   }
 }
 
-async function processAndStoreSmallImage(image,
+
+
+async function processAndStoreImageWaterMark(
+  image,
   size,
   resizeWidth,
   resizeHeight,
@@ -186,35 +192,60 @@ async function processAndStoreSmallImage(image,
   price,
   tags) {
   try {
-
-
     const outputPath = resizeWidth ?
-      join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
-      join(image.destination, `${resizeHeight}-${image.filename}.JPG`);
+      join(image.destination, `wm-${image.filename}.JPG`) :
+      join(image.destination, `wm-${image.filename}.JPG`);
 
-    await sharp(image.path).resize(resizeWidth, resizeHeight).toFile(outputPath);
+    let imageSharp = sharp(image.path).resize(resizeWidth, resizeHeight).jpeg({ quality: 70 });
+    const watermarkBuffer = await promises.readFile('public/appcontent/myimages-logo-black-1-op-40.png');
+    const watermarkSharp = await sharp(watermarkBuffer)
+      .resize({
+        width: 400,
+        height: 400,
+        fit: sharp.fit.inside,
+        withoutEnlargement: true
+      })
+      .toBuffer();
+
+    imageSharp = imageSharp.composite([{
+      input: watermarkSharp,
+      blend: 'over',
+      gravity: 'southeast', // Position the watermark
+    }]);
+
+    await imageSharp.toFile(outputPath);
+
+    const photoData = {
+      personID: personID,
+      filename: filename,
+      filetype: "jpg",
+      filesize: filesize,
+      filepath: outputPath,
+      folderpath: image.destination,
+      size: size,
+      width: imageMetadata.width,
+      height: imageMetadata.height,
+      title: title,
+      description: description,
+      price: parseInt(price),
+      tags: tags,
+      collectionId: null,
+      exclusive: exclusive == "on" ? true : false
+    };
+
+    if (collection != "null") {
+      photoData.collectionId = collection;
+    }
+
+    if (category) {
+      photoData.categoriesId = category;
+    }
 
     const photo = await prisma.photos.create({
-      data: {
-        personID: personID,
-        filename: filename,
-        filetype: filetype,
-        filesize: filesize,
-        filepath: outputPath,
-        folderpath: image.destination,
-        size: size,
-        width: imageMetadata.width,
-        height: imageMetadata.height,
-        title: title,
-        description: description,
-        collectionId: collection,
-        categoriesId: category,
-        price: parseInt(price),
-        tags: tags
-      }
+      data: photoData
     });
 
-    if (exclusive == "on") {
+    if (exclusive == "on" && photo) {
       await prisma.exclusivecollections.update({
         where: {
           id: "1"
@@ -227,12 +258,13 @@ async function processAndStoreSmallImage(image,
       });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     logger.log('error', {
       message: error.message,
       stack: error.stack
-    })
+    });
   }
 }
+
 
 export default handler;
