@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 
 export default function Featuredcollections({ featuredcol }) {
     const [currentCol, setCurrentCol] = useState(featuredcol.collection)
-    console.log(featuredcol)
     async function handleRemove(id) {
 
         try {

@@ -17,7 +17,7 @@ export default function Editcollection({ collections, setActiveView, id, photogr
         sortOrder: ""
     });
     const currentCol = collections.find((col) => col.id == id);
-    console.log(currentCol)
+    
 
     useEffect(() => {
         if (currentCol) {

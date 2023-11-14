@@ -14,7 +14,7 @@ export default function AddNewCollection({ collections, photographers, featuredc
 
     function setImage(e) {
         setImageUpload(e.target.files[0]);
-        console.log(imageUpload);
+     
     }
 
     async function handleCreateNewCollections(e) {

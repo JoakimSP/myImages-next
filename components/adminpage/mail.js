@@ -3,10 +3,10 @@ import { toast } from 'react-toastify';
 
 export default function Mail({ contactMails }) {
   const [selectedMessage, setSelectedMessage] = useState(null);
-  console.log(contactMails)
+
 
   const handleRemove = async (id) => {
-    console.log(id)
+
    if(window.confirm("You're about the remove this from the database permanantly, Do you wish to continue?")) {
     
     const result = await fetch("/api/application/removeMail", {
