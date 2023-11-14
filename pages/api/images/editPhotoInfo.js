@@ -19,7 +19,6 @@ export default async function handler(req, res) {
     } = req.body
 
 
-
     const idMap = {};
     photoID.forEach(item => {
         idMap[item.size] = item.id;
@@ -27,6 +26,36 @@ export default async function handler(req, res) {
 
 
     try {
+
+        let data = {
+            title: title,
+            description: description,
+            tags: tags,
+            category: category,
+            categoriesId: categoriesId,
+            exclusive: isExclusive,
+            collectionId: null
+        }
+        if (collectionId != "null") {
+            data.collectionId = collectionId
+        }
+
+        await prisma.photos.update({
+            where: {
+                id: idMap['small-wm']
+            },
+            data: {
+                ...data
+            }
+        })
+        await prisma.photos.update({
+            where: {
+                id: idMap['thumb']
+            },
+            data: {
+                ...data
+            }
+        })
         await prisma.photos.update({
             where: {
                 id: idMap['small']
@@ -37,9 +66,6 @@ export default async function handler(req, res) {
                 tags: tags,
                 category: category,
                 price: parseInt(priceSmall),
-                categoriesId: categoriesId,
-                collectionId: collectionId,
-                exclusive: isExclusive
             }
         })
         await prisma.photos.update({
@@ -66,7 +92,7 @@ export default async function handler(req, res) {
                 price: parseInt(priceLarge),
             }
         })
-        await prisma.photos.update({
+        /* await prisma.photos.update({
             where: {
                 id: idMap['original']
             },
@@ -77,7 +103,7 @@ export default async function handler(req, res) {
                 category: category,
                 price: parseInt(priceOriginal),
             }
-        })
+        }) */
 
         if (isExclusive) {
             await prisma.exclusivecollections.update({
