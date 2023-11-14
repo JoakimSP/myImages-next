@@ -27,7 +27,7 @@ export default function LoadingScreen({ randomFactIndex }) {
 
 
     const randomFact = funFacts[randomFactIndex];
-    console.log(randomFact)
+  
 
     return (
         <div className="fixed w-screen h-screen z-40">
