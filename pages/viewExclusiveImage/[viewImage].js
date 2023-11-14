@@ -10,7 +10,7 @@ const logger = require('@/components/utils/logger')
 import Layout from "@/components/layout/layout"
 
 
-export default function index(props) {
+export default function Index(props) {
     const {
         img,
         photographer,
@@ -115,7 +115,7 @@ export default function index(props) {
                         <div className="w-full md:w-1/3 px-6 mt-6 md:mt-0">
                             <div className="border-4 rounded-md bg-white shadow-xl p-6 overflow-hidden">
                                 {filterdPhotoCopies.map((copy, index) => (
-                                    <div>
+                                    <div key={index}>
                                         {
                                             copy.size == "large" &&
                                             <div className="flex justify-between items-center border-b-2 px-4 py-3 mb-3" key={index}>
