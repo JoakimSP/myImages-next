@@ -6,6 +6,7 @@ export default async function handler(req, res) {
         session,
         priceOption,
         filename,
+        thumbnail
     } = req.body;
 
     if (!session) {
@@ -44,6 +45,7 @@ export default async function handler(req, res) {
                 photoID: selectedImage.id,
                 sessionEmail: session,
                 priceoption: parseInt(priceOption.price),
+                thumbnail: thumbnail
             },
         });
 
