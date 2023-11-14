@@ -23,7 +23,6 @@ export default function EditPhoto({ photo, categories, collections, photoCopies 
             title: e.target.title.value,
             filename: photo.filename,
             description: e.target.description.value,
-            priceOriginal: e.target.priceoriginal.value,
             priceLarge: e.target.pricelarge.value,
             priceMedium: e.target.pricemedium.value,
             priceSmall: e.target.pricesmall.value,
@@ -90,6 +89,7 @@ export default function EditPhoto({ photo, categories, collections, photoCopies 
                 <div>
                     <label className="block text-lg mb-2">Collections</label>
                     <select name="collections" defaultValue={photo.collectionId} className="w-full p-2 border rounded">
+                    <option key={"null"} value={"null"}>No collection</option>
                         {collections.map((col) => (
                             <option key={col.id} value={col.id}>{col.name}</option>
                         ))}
