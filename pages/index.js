@@ -5,7 +5,6 @@ import prisma from '@/components/prisma';
 import Layout from '@/components/layout/layout';
 import ShowFeaturedCollection from '@/components/collections/showFeaturedCollection';
 import Link from 'next/link';
-import ShowPhotographerCollection from "@/components/collections/showcollection";
 
 
 
@@ -60,7 +59,6 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
             </div>
           </div>
           </Link>
-        <ShowPhotographerCollection />
       </div>
     </Layout >
   )
