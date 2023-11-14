@@ -24,7 +24,7 @@ export default async function handler(req, res) {
         const createPhotographer = await prisma.photographer.create({ data: newUser })
     } catch (error) {
 
-        logger.logger.log('error', {
+        logger.log('error', {
             message: error.message,
             stack: error.stack
         })
