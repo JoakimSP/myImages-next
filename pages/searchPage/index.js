@@ -40,7 +40,8 @@ console.log(categorie)
                         { size: "thumb" },
                         { size: "small-wm" }
                     ],
-                    categoriesId: category.id
+                    categoriesId: category.id,
+                    exclusiveId: null
                 }
             });
             
@@ -50,7 +51,8 @@ console.log(categorie)
                     OR: [
                         { size: "thumb" },
                         { size: "small-wm" }
-                    ]
+                    ],
+                    exclusiveId: null
                 }
             });
             
