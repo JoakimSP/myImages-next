@@ -92,12 +92,12 @@ handler.post(async (req, res) => {
         await processAndStoreImageWaterMark(file, 'small-wm', 1000, null, personID, filename, filetype, filesize, imageMetadata, title, description, exclusive, collection, category, priceSmall, tags);
         await processAndStoreImage(file, 'thumb', 500, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
         await processAndStoreImage(file, 'small', 1000, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
-        await processAndStoreImage(file, 'medium', 2400, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
+        await processAndStoreImage(file, 'medium', 3550 , null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
       } else {
         await processAndStoreImageWaterMark(file, 'small-wm', null, 1000, personID, filename, filetype, filesize, imageMetadata, title, description, exclusive, collection, category, priceSmall, tags);
         await processAndStoreImage(file, 'thumb', null, 500, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
         await processAndStoreImage(file, 'small', null, 1000, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
-        await processAndStoreImage(file, 'medium', null, 2760, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
+        await processAndStoreImage(file, 'medium', null, 3550 , personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection);
       }
 
       // Store the large
@@ -135,7 +135,9 @@ async function processAndStoreImage(image, size, resizeWidth, resizeHeight, pers
       join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
       join(image.destination, `${resizeHeight}-${image.filename}.JPG`);
 
-    await sharp(image.path).resize(resizeWidth, resizeHeight).jpeg({ quality: 100 }).toFile(outputPath);
+     await sharp(image.path).resize(resizeWidth, resizeHeight).jpeg({ quality: 100 }).toFile(outputPath);
+
+     const imageMetadata = await sharp(outputPath).metadata();
 
     let data = {
       personID: personID,
@@ -163,6 +165,19 @@ async function processAndStoreImage(image, size, resizeWidth, resizeHeight, pers
         ...data
       }
     });
+
+    if (exclusive == "on" && photo && size === "thumb") {
+      await prisma.exclusivecollections.update({
+        where: {
+          id: "1"
+        },
+        data: {
+          photos: {
+            connect: { id: photo.id.toString() }
+          }
+        }
+      });
+    }
   } catch (error) {
     console.log(error)
     logger.log('error', {
@@ -214,6 +229,7 @@ async function processAndStoreImageWaterMark(
     }]);
 
     await imageSharp.toFile(outputPath);
+    const imageMetadata = await sharp(outputPath).metadata();
 
     const photoData = {
       personID: personID,
