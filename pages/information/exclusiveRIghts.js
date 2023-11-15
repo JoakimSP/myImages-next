@@ -1,24 +1,36 @@
 import Layout from "@/components/layout/layout"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function ExclusiveRights() {
     return (
         <Layout>
             <div className="pt-4 text-white w-full h-full px-4 md:px-0 bg-custom-grey">
-                <h1 className="mb-5 text-center text-4xl font-bold md:text-6xl">
-                    Exclusive Photography: Own a Moment in Time
-                </h1>
-                <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg">
-                    Picture this: An image so distinct, it exists only for you. Every photograph tells a story, but when you purchase with us, that story is exclusively yours. Dive into our curated collection and discover photos that don&apos;t just capture a moment, but become solely a part of your narrative.
+                <div className="relative h-96">
+                    <Image
+                        src={"/appcontent/46BD907A-83B4-490F-80F0-54E4293B5169.JPG"}
+                        alt="Exclusive right image"
+                        fill={true}
+                        className="object-cover"/>
+                    <div className="flex flex-col">
+                        <h1 className="mb-5 text-center text-4xl font-bold md:text-6xl z-10">
+                            Exclusive Photography: Own a Moment in Time
+                        </h1>
+                        <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg z-10">
+                            Picture this: An image so distinct, it exists only for you. Every photograph tells a story, but when you purchase with us, that story is exclusively yours. Dive into our curated collection and discover photos that don&apos;t just capture a moment, but become solely a part of your narrative.
+                        </div>
+                        <div className="mb-8 flex justify-center space-x-4 whitespace-nowrap z-10">
+                            <Link href="/information/howToAndPricing" className="z-10 px-2 py-2.5 text-xl font-bold hover:border-b-4 hover:text-blue-400  md:px-5">
+                                Photos & Sizes
+                            </Link>
+                            <Link href="/information/exclusiveRights" className="z-10 border-b-4 border-white px-2 py-2.5 text-xl font-bold text-gray-300 hover:border-b-4 hover:text-blue-400 md:px-5">
+                                How to use
+                            </Link>
+                        </div>
+                    </div>
                 </div>
-                <div className="mb-8 flex justify-center space-x-4 whitespace-nowrap">
-                    <Link href="/information/howToAndPricing" className="px-2 py-2.5 text-xl font-bold hover:border-b-4 hover:text-blue-400  md:px-5">
-                        Photos & Sizes
-                    </Link>
-                    <Link href="/information/exclusiveRights" className="border-b-4 border-white px-2 py-2.5 text-xl font-bold text-gray-300 hover:border-b-4 hover:text-blue-400 md:px-5">
-                        Exclusive Rights
-                    </Link>
-                </div>
+
+
                 <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg">
                     <ul className="list-decimal list-inside pl-5">
                         <li>Absolute Originality: Every image sold is removed from our gallery forever. You won&apos;t find it anywhere else, ensuring that the artwork you purchase remains one-of-a-kind.</li>
@@ -37,7 +49,6 @@ export default function ExclusiveRights() {
                 <div className="text-center text-sm text-gray-400 mt-8">
                     <p>Embrace the extraordinary, because some moments are too precious to be shared.</p>
                     <br />
-                    For exclusive rights and custom inquiries, please <Link className="underline hover:text-blue-400 hover:no-underline" href="/contact">contact us</Link>. All standard sizes come with a <Link className="underline hover:text-blue-400 hover:no-underline" href="/license#standard-license">Standard License</Link>. Exclusive rights are negotiated separately.
                 </div>
             </div>
         </Layout>
