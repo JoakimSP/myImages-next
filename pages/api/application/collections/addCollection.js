@@ -41,16 +41,24 @@ export default async function handler(req, res) {
 
 
         try {
+            let data = {
+                name,
+                description,
+                imagepathrelative: imagePathRelative,
+                imagepath: imagePath,
+                imagepathfolder: imageFolderPath,
+                photographerPersonID: photographerID,
+                subtitle,
+                
+            }
+
+            if(isFeaturedcol) {
+                data.sortOrder = parseInt(featuredcolOrder)
+            }
+
             const response = await prisma.collection.create({
                 data: {
-                    name,
-                    description,
-                    imagepathrelative: imagePathRelative,
-                    imagepath: imagePath,
-                    imagepathfolder: imageFolderPath,
-                    photographerPersonID: photographerID,
-                    subtitle,
-                    sortOrder: parseInt(featuredcolOrder)
+                    ...data
                 }
             });
 

@@ -60,8 +60,11 @@ handler.post(async (req, res) => {
             imagepathrelative: imagePathRelative,
             imagepath: imagePath,
             imagepathfolder: imageFolderPath,
-            sortOrder: parseInt(sortOrder)
         };
+
+        if(isFeaturedcol){
+            updateData.sortOrder = parseInt(sortOrder)
+        }
 
 
         if (!req.file) {
