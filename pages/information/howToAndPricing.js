@@ -27,15 +27,17 @@ export default function howToAndPricing({ pricingData }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Image card 1 - Left Image */}
                     <div className="p-4 border rounded shadow-sm">
-                        <div className='relative w-full h-96 overflow-hidden'>
-                            <Image
-                                className='object-cover w-full h-full'
-                                src={`/api/application/getPricingImages?imagePath=${pricingData.imageUrlLeft}`}
-                                alt={pricingData.imageTitleLeft}
-                                fill={true}
-                                sizes="100vw 50vw"
-                            />
-                        </div>
+                        <Link href={"/table"}>
+                            <div className='relative w-full h-96 overflow-hidden bg-white'>
+                                <Image
+                                    className='object-contain w-full h-full'
+                                    src={`/api/application/getPricingImages?imagePath=${pricingData.imageUrlLeft}`}
+                                    alt={pricingData.imageTitleLeft}
+                                    fill={true}
+                                    sizes="100vw 50vw"
+                                />
+                            </div>
+                        </Link>
                         <div className="p-4">
                             <h2 className="text-xl font-semibold mb-2">{pricingData.imageTitleLeft}</h2>
                             <p className="text-gray-400 mb-4">{pricingData.imageSubTitleLeft}</p>
