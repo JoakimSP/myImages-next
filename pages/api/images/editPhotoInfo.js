@@ -92,18 +92,6 @@ export default async function handler(req, res) {
                 price: parseInt(priceLarge),
             }
         })
-        /* await prisma.photos.update({
-            where: {
-                id: idMap['original']
-            },
-            data: {
-                title: title,
-                description: description,
-                tags: tags,
-                category: category,
-                price: parseInt(priceOriginal),
-            }
-        }) */
 
         if (isExclusive) {
             await prisma.exclusivecollections.update({
@@ -112,7 +100,21 @@ export default async function handler(req, res) {
                 },
                 data: {
                     photos: {
-                        connect: { id: idMap['small'] }
+                        connect: { id: idMap['thumb'] },
+                        connect: { id: idMap['small-wm'] },
+                    }
+                }
+            });
+        }
+        else {
+            await prisma.exclusivecollections.update({
+                where: {
+                    id: "1"
+                },
+                data: {
+                    photos: {
+                        disconnect: { id: idMap['thumb'] },
+                        disconnect: { id: idMap['small-wm'] },
                     }
                 }
             });
