@@ -5,17 +5,21 @@ import HandleUpdateInfo from "@/components/editphotographerinfo/handleUpdateInfo
 import { useState } from "react";
 import Layout from "@/components/layout/layout";
 import LoadingScreen from "@/components/utils/loadingScreen";
+import CreateCollection from "@/components/editphotographerinfo/createCollection";
 
 
-export default function EditPhotographerPage({ userdata, randomFactIndex, categories, collections}) {
+export default function EditPhotographerPage({ userdata, randomFactIndex, categories, collections }) {
   const [activeView, setActiveView] = useState('photographers');
   const [isLoading, setIsLoading] = useState(false);
+
   const renderActiveView = () => {
     switch (activeView) {
       case 'updateinfo':
         return <HandleUpdateInfo userdata={userdata} />;
       case 'uploadphoto':
-        return <UploadImage userdata={userdata} setIsLoading={setIsLoading} categories={categories} collections={collections}/>;
+        return <UploadImage userdata={userdata} setIsLoading={setIsLoading} categories={categories} collections={collections} />;
+      case 'createcollection':
+        return <CreateCollection collections={collections} photographer={userdata} />;
       default:
         return null;
     }
@@ -24,7 +28,7 @@ export default function EditPhotographerPage({ userdata, randomFactIndex, catego
   return (
     <>
       {isLoading &&
-        <LoadingScreen randomFactIndex={randomFactIndex}/>
+        <LoadingScreen randomFactIndex={randomFactIndex} />
       }
 
       <Layout>
@@ -47,6 +51,14 @@ export default function EditPhotographerPage({ userdata, randomFactIndex, catego
                     className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'uploadphoto' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
                   >
                     Upload
+                  </button>
+                </li>
+                <li className="flex-1">
+                  <button
+                    onClick={() => setActiveView('createcollection')}
+                    className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'uploadphoto' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                  >
+                    Collections
                   </button>
                 </li>
               </ul>
@@ -77,23 +89,28 @@ export async function getServerSideProps(context) {
     orderBy: [
       { name: 'asc' }
     ],
-    select : {
-      id : true,
+    select: {
+      id: true,
       name: true,
-      updatedAt : false,
-      createdAt : false,
+      updatedAt: false,
+      createdAt: false,
     }
   })
   const collections = await prisma.collection.findMany({
+    where: {
+      photographerPersonID: userdata.personID
+    },
     orderBy: [
       { name: 'asc' }
     ],
-    select : {
-      id : true,
+    select: {
+      id: true,
       name: true,
+      subtitle: true,
+      description: true,
       photographerPersonID: true,
-      updatedAt : false,
-      createdAt : false,
+      updatedAt: false,
+      createdAt: false,
     }
   })
 
