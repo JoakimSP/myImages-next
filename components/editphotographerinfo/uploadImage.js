@@ -104,8 +104,6 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
 
     const validateImage = (file) => {
         const MIN_SIZE_BYTES = 118 * 1048576; // 118 MB in bytes
-        const MIN_WIDTH = 4112;
-        const MIN_HEIGHT = 3604;
     
         return new Promise((resolve, reject) => {
             if (!imagesUpload.length) {
@@ -129,44 +127,7 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
                 reject(new Error("File size is too small, must be at least 118 MB."));
                 return;
             }
-    
-            // Use FileReader to read the image file
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const data = e.target.result;
-    
-                // Create an off-screen canvas
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-    
-                // Create an image to render the file on the canvas
-                const img = new Image();
-                img.onload = () => {
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
-    
-                    // Now that the image is drawn to the canvas, check dimensions
-                    if (canvas.width < MIN_WIDTH || canvas.height < MIN_HEIGHT) {
-                        reject(new Error(`Image dimensions are too small, must be at least ${MIN_WIDTH}x${MIN_HEIGHT}px.`));
-                    } else {
-                        resolve();
-                    }
-                };
-                img.onerror = () => {
-                    reject(new Error("There was a problem loading the image."));
-                };
-    
-                // Set the source of the image to the FileReader result
-                img.src = data;
-            };
-    
-            reader.onerror = () => {
-                reject(new Error("There was a problem reading the file."));
-            };
-    
-            // Read the file as a Data URL (base64 encoded)
-            reader.readAsDataURL(file);
+            resolve()
         });
     };
     
