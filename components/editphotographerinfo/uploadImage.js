@@ -41,18 +41,18 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
     };
 
     const uploadImage = async (e) => {
-        
+
 
         setIsLoading(true);
 
         // Validate the image
         try {
-            await validateImage(imagesUpload[0]); 
+            await validateImage(imagesUpload[0]);
         } catch (error) {
             toast.error(error.message);
             setIsLoading(false);
             return;
-        }  
+        }
 
         const requestFormData = new FormData();
         imagesUpload.forEach((image) => {
@@ -104,13 +104,13 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
 
     const validateImage = (file) => {
         const MIN_SIZE_BYTES = 118 * 1048576; // 118 MB in bytes
-    
+
         return new Promise((resolve, reject) => {
             if (!imagesUpload.length) {
                 reject(new Error("Select an image"));
                 return;
             }
-    
+
             // Ensure all form fields are filled out
             if (!formData.title || !formData.description || !formData.priceSmall || !formData.priceMedium || !formData.priceLarge) {
                 reject(new Error("Please fill in all required fields."));
@@ -121,7 +121,7 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
                 reject(new Error("Only .tiff files are allowed."));
                 return;
             }
-    
+
             // Check file size
             if (file.size < MIN_SIZE_BYTES) {
                 reject(new Error("File size is too small, must be at least 118 MB."));
@@ -130,7 +130,7 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
             resolve()
         });
     };
-    
+
 
     return (
         <div className="grid md:grid-cols-2 grid-cols-1">
@@ -139,7 +139,10 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
             <div className="max-w-5xl mx-auto mt-12">
 
                 <h1 className="text-center text-4xl font-semibold text-white mt-12 mb-6 dark:text-white">Upload a photo</h1>
-                <p className="text-center text-xl text-red-500">At the moment, only .tiff files are allowed, width a minimum dimension of </p>
+                <p className="text-center text-xl text-red-500 border-2 border-red-600 bg-white">
+                    Currently, we only accept <strong className="text-2xl">.tiff</strong> files. Please ensure that the largest dimension of your image is at least <strong className="text-2xl">4112 pixels</strong>.
+                </p>
+
                 <div className="grid grid-cols-2 items-center gap-6">
                     {/* Drop zone */}
                     <div className="flex flex-col justify-center items-center">
@@ -168,7 +171,7 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
                             accept=".tiff"
                         />
                         <InputField type={"text"} label={"title"} name={"title"} onChange={(e) => handleInputChange('title', e.target.value)} required />
-                        <InputField type={"text"} label={"description"} name={"description"} onChange={(e) => handleInputChange('description', e.target.value)} required />
+                        <InputField as={"textarea"} type={"text"} label={"description"} name={"description"} onChange={(e) => handleInputChange('description', e.target.value)} required />
                     </div>
 
                     <div className="flex flex-col justify-center">

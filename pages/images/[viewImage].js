@@ -107,7 +107,7 @@ export default function ViewImage(props) {
                                 alt={`#`}
                                 onContextMenu={(e) => e.preventDefault()}
                             />
-                            <p className="text-base mt-6 text-white">{photo.description}</p>
+                            <p className="text-base mt-6 text-white whitespace-pre-wrap">{photo.description}</p>
                             {
                                 (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
                                     <>

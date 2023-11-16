@@ -47,7 +47,7 @@ model photos {
   id              String                @id @default(cuid())
   personID        String
   title           String?
-  description     String?
+  description     String?               @db.LongText
   filename        String
   filetype        String
   filesize        Int
