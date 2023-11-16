@@ -5,7 +5,7 @@ import TagsInput from "react-tagsinput"
 import 'react-tagsinput/react-tagsinput.css'
 import { useState } from "react"
 
-export default function EditPhoto({ photo, categories, collections, photoCopies }) {
+export default function EditPhoto({ photo, categories, collections, photoCopies, photographer }) {
     const [tags, setTags] = useState(photo.tags || [])
     const photoCopiesId = photoCopies.map(copy => ({ id: copy.id, size: copy.size}));
 
@@ -96,8 +96,8 @@ export default function EditPhoto({ photo, categories, collections, photoCopies 
                     </select>
                 </div>
             </div>
-    
-            <div className="flex items-center space-x-2 mt-4">
+        
+            <div className={`flex items-center space-x-2 mt-4 ${photographer.role == "admin" ? "block" : "hidden"}`}>
                 <input type="checkbox" name="exclusive" className="w-6 h-6" />
                 <label className="text-lg">Should the photo be exclusive?</label>
             </div>

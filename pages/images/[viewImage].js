@@ -22,7 +22,7 @@ export default function ViewImage(props) {
         categories,
         collections,
     } = props
-    console.log(photoCopies)
+
     const [selectedOption, setSelectedOption] = useState(null);
     const [priceOption, setPriceOption] = useState({
         size: null,
@@ -94,7 +94,7 @@ export default function ViewImage(props) {
     return (
         <Layout>
             <div className="bg-custom-grey">
-            <GoBackButton/>
+                <GoBackButton />
                 <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">
                     <h1 className="text-white text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
 
@@ -111,7 +111,12 @@ export default function ViewImage(props) {
                             {
                                 (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
                                     <>
-                                        <EditPhoto photo={photo} collections={collections} categories={categories} photoCopies={photoCopies} />
+                                        <EditPhoto
+                                            photo={photo}
+                                            collections={collections}
+                                            categories={categories}
+                                            photoCopies={photoCopies}
+                                            photographer={photographer} />
                                         <div className="mt-4">
                                             <button className="ml-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
                                         </div>
