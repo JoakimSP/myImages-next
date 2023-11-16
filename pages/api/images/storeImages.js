@@ -76,7 +76,11 @@ handler.post(async (req, res) => {
   try {
     await validateDimensions(file.path, file.destination);
   } catch (error) {
-    console.error(error);
+    console.log(error)
+        logger.log('error', {
+          message: error.message,
+          stack: error.stack
+        })
     return res.status(400).json({ error: error.message });
   }
       const {
