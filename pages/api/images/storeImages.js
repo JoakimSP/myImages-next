@@ -6,6 +6,7 @@ import nextConnect from 'next-connect';
 import sharp from 'sharp';
 import { getSession } from 'next-auth/react';
 const logger = require('@/components/utils/logger')
+const validateDimensions = require('@/components/utils/storeImagesAPIfunctions/validateDimensions');
 
 
 //turn of nextjs request object parser
@@ -71,6 +72,13 @@ handler.post(async (req, res) => {
       const photoInformationArray = req.body.photoInformation;
       const parsedPhotoInformation = JSON.parse(photoInformationArray[0]);
       const file = req.file;
+
+  try {
+    await validateDimensions(file.path, file.destination);
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ error: error.message });
+  }
       const {
         personID,
         filename,
@@ -225,7 +233,8 @@ async function processAndStoreImageWaterMark(
     imageSharp = imageSharp.composite([{
       input: watermarkSharp,
       blend: 'over',
-      gravity: 'southeast', // Position the watermark
+      gravity: 'southeast', // Position the watermark,
+      
     }]);
 
     await imageSharp.toFile(outputPath);
