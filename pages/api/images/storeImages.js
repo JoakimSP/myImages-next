@@ -98,19 +98,154 @@ handler.post(async (req, res) => {
         priceLarge,
         tags
       } = parsedPhotoInformation
+
       const imageMetadata = await sharp(file.path).metadata();
 
       if (imageMetadata.width >= imageMetadata.height) {
-        await processAndStoreImageWaterMark(file, 'small-wm', 1000, null, personID, filename, filetype, filesize, imageMetadata, title, description, exclusive, collection, category, priceSmall, tags);
-        await processAndStoreImage(file, 'thumb', 500, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection, exclusive);
-        await processAndStoreImage(file, 'small', 1000, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection, exclusive);
-        await processAndStoreImage(file, 'medium', 3550, null, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection, exclusive);
-      } else {
-        await processAndStoreImageWaterMark(file, 'small-wm', null, 1000, personID, filename, filetype, filesize, imageMetadata, title, description, exclusive, collection, category, priceSmall, tags);
-        await processAndStoreImage(file, 'thumb', null, 500, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection, exclusive);
-        await processAndStoreImage(file, 'small', null, 1000, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection, exclusive);
-        await processAndStoreImage(file, 'medium', null, 3550, personID, filename, filetype, filesize, imageMetadata, title, description, priceMedium, tags, category, collection, exclusive);
-      }
+        await processAndStoreImageWaterMark({ 
+            image: file, 
+            size: 'small-wm', 
+            resizeWidth: 1000, 
+            resizeHeight: null, 
+            personID, 
+            filename, 
+            filetype, 
+            filesize, 
+            title, 
+            description, 
+            exclusive, 
+            collection, 
+            category, 
+            tags 
+        });
+    
+        await processAndStoreImage({ 
+            image: file, 
+            size: 'thumb', 
+            resizeWidth: 500, 
+            resizeHeight: null, 
+            personID, 
+            filename, 
+            filetype, 
+            filesize, 
+            title, 
+            description, 
+            price: null, 
+            tags, 
+            category, 
+            collection, 
+            exclusive 
+        });
+    
+        await processAndStoreImage({ 
+            image: file, 
+            size: 'small', 
+            resizeWidth: 1000, 
+            resizeHeight: null, 
+            personID, 
+            filename, 
+            filetype, 
+            filesize, 
+            title, 
+            description, 
+            price: priceSmall, 
+            tags, 
+            category, 
+            collection, 
+            exclusive 
+        });
+    
+        await processAndStoreImage({ 
+            image: file, 
+            size: 'medium', 
+            resizeWidth: 3550, 
+            resizeHeight: null, 
+            personID, 
+            filename, 
+            filetype, 
+            filesize, 
+            title, 
+            description, 
+            price: priceMedium, 
+            tags, 
+            category, 
+            collection, 
+            exclusive 
+        });
+    
+    } else {
+        await processAndStoreImageWaterMark({ 
+            image: file, 
+            size: 'small-wm', 
+            resizeWidth: null, 
+            resizeHeight: 1000, 
+            personID, 
+            filename, 
+            filetype, 
+            filesize, 
+            title, 
+            description, 
+            exclusive, 
+            collection, 
+            category, 
+            tags 
+        });
+    
+        await processAndStoreImage({ 
+            image: file, 
+            size: 'thumb', 
+            resizeWidth: null, 
+            resizeHeight: 500, 
+            personID, 
+            filename, 
+            filetype, 
+            filesize, 
+            title, 
+            description, 
+            price: null, 
+            tags, 
+            category, 
+            collection, 
+            exclusive 
+        });
+    
+        await processAndStoreImage({ 
+            image: file, 
+            size: 'small', 
+            resizeWidth: null, 
+            resizeHeight: 1000, 
+            personID, 
+            filename, 
+            filetype, 
+            filesize, 
+            title, 
+            description, 
+            price: priceSmall, 
+            tags, 
+            category, 
+            collection, 
+            exclusive 
+        });
+    
+        await processAndStoreImage({ 
+            image: file, 
+            size: 'medium', 
+            resizeWidth: null, 
+            resizeHeight: 3550, 
+            personID, 
+            filename, 
+            filetype, 
+            filesize, 
+            title, 
+            description, 
+            price: priceMedium, 
+            tags, 
+            category, 
+            collection, 
+            exclusive 
+        });
+    }
+    
 
       // Store the large
       const originalPath = join(file.destination, `${file.filename}`);
@@ -139,7 +274,7 @@ handler.post(async (req, res) => {
   })
 })
 
-async function processAndStoreImage(
+async function processAndStoreImage({
   image,
   size,
   resizeWidth,
@@ -148,16 +283,14 @@ async function processAndStoreImage(
   filename,
   filetype,
   filesize,
-  imageMetadata,
   title,
   description,
   price,
   tags,
   category,
   collection,
-  exclusive) {
+  exclusive}) {
   try {
-
 
     const outputPath = resizeWidth ?
       join(image.destination, `${resizeWidth}-${image.filename}.JPG`) :
@@ -168,25 +301,28 @@ async function processAndStoreImage(
     const imageMetadata = await sharp(outputPath).metadata();
 
     let data = {
-      personID: personID,
-      filename: filename,
+      personID,
+      filename,
       filetype: "jpg",
-      filesize: filesize,
+      filesize,
       filepath: outputPath,
       folderpath: image.destination,
-      size: size,
+      size,
       width: imageMetadata.width,
       height: imageMetadata.height,
-      title: title,
-      description: description,
+      title,
+      description,
       price: parseInt(price),
-      tags: tags,
+      tags,
     }
-    console.log(collection)
+
     if (size === "thumb") {
       data.categoriesId = category
-      data.collectionId = collection != "null" ? collection : null
+      if (collection != "null") {
+        data.collectionId = collection;
+      }
       data.exclusive = exclusive == "on" ? true : false
+      data.price = null
     }
     
 
@@ -219,7 +355,7 @@ async function processAndStoreImage(
 
 
 
-async function processAndStoreImageWaterMark(
+async function processAndStoreImageWaterMark({
   image,
   size,
   resizeWidth,
@@ -228,19 +364,17 @@ async function processAndStoreImageWaterMark(
   filename,
   filetype,
   filesize,
-  imageMetadata,
   title,
   description,
   exclusive,
   collection,
   category,
-  price,
-  tags) {
+  tags}) {
   try {
     const outputPath = resizeWidth ?
       join(image.destination, `wm-${image.filename}.JPG`) :
       join(image.destination, `wm-${image.filename}.JPG`);
-
+    
     let imageSharp = sharp(image.path).resize(resizeWidth, resizeHeight).jpeg({ quality: 70 });
     const watermarkBuffer = await promises.readFile('public/appcontent/myimages-logo-black-1-op-40.png');
     const watermarkSharp = await sharp(watermarkBuffer)
@@ -252,10 +386,14 @@ async function processAndStoreImageWaterMark(
       })
       .toBuffer();
 
+      await imageSharp.toFile(outputPath);
+      const firstImageMeta = await sharp(outputPath).metadata();
+
     imageSharp = imageSharp.composite([{
       input: watermarkSharp,
       blend: 'over',
-      gravity: 'southeast', // Position the watermark,
+      top: Math.round((firstImageMeta.height / 3) * 2),
+      left: Math.round(firstImageMeta.width - 410)
 
     }]);
 
@@ -263,19 +401,19 @@ async function processAndStoreImageWaterMark(
     const imageMetadata = await sharp(outputPath).metadata();
 
     const photoData = {
-      personID: personID,
-      filename: filename,
+      personID,
+      filename,
       filetype: "jpg",
-      filesize: filesize,
+      filesize,
       filepath: outputPath,
       folderpath: image.destination,
-      size: size,
+      size,
       width: imageMetadata.width,
       height: imageMetadata.height,
-      title: title,
-      description: description,
-      price: parseInt(price),
-      tags: tags,
+      title,
+      description,
+      tags,
+      price: null,
       collectionId: null,
       exclusive: exclusive == "on" ? true : false
     };
@@ -289,7 +427,7 @@ async function processAndStoreImageWaterMark(
     }
 
     const photo = await prisma.photos.create({
-      data: photoData
+      data: {...photoData}
     });
 
     if (exclusive == "on" && photo) {
