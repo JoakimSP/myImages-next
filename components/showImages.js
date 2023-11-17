@@ -48,7 +48,18 @@ export function ShowPhotographerImage(photographer) {
 export default function ShowImagesNext({ photos }) {
   const [imageData, setImageData] = useState([]);
 
-  useEffect(() => {
+  const groupedPhotos = photos.reduce((acc, photo) => {
+    const key = `${photo.title}-${photo.filename}`;
+    acc[key] = acc[key] || [];
+    acc[key].push(photo);
+    return acc;
+  }, {});
+
+  const firstPhotoKey = Object.keys(groupedPhotos)[0];
+  const firstPhotoThumb = groupedPhotos[firstPhotoKey]?.find(p => p.size === 'thumb');
+  const firstPhotoSmallWm = groupedPhotos[firstPhotoKey]?.find(p => p.size === 'small-wm');
+
+  /* useEffect(() => {
     const thumbPhotos = photos.filter(photo => photo.size === "thumb");
     const wmPhotos = photos.filter(photo => photo.size === "small-wm");
 
@@ -89,21 +100,27 @@ export default function ShowImagesNext({ photos }) {
 
   if (imageData.length === 0) return <p className="text-center text-6xl text-white font-thin">No images found</p>;
 
+  console.log(imageData)
+ */
   return (
     <ErrorBoundary>
       <div className="w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey">
-        {imageData.map((data, index) => (
-          <Link key={index} href={`/images/viewimage?img=${encodeURIComponent(data.wmPath)}&folderpath=${data.wmFolderpath}`}>
+        {Object.entries(groupedPhotos).map(([key, photoGroup], index) => {
+          if (index === 0) return null; // Skip the first photo, already displayed
+          const thumbPhoto = photoGroup.find(p => p.size === 'thumb');
+          const smallWmPhoto = photoGroup.find(p => p.size === 'small-wm');
+          return (
+            <Link key={key} href={`/images/viewimage?img=${encodeURIComponent(smallWmPhoto?.filepath)}&folderpath=${smallWmPhoto?.folderpath}`}>
               <Image
-                src={data.thumbSrc}
-                alt="image"
-                width={200} // Set a fixed width or use a width from the photo object if available
-                height={200} // Set a fixed height or use a height from the photo object if available
+                src={`/api/images/viewImage?name=${thumbPhoto?.filepath}`}
+                alt={thumbPhoto?.title || 'image'}
+                width={thumbPhoto?.width}
+                height={thumbPhoto?.height}
                 className="my-5"
-                layout="responsive" // Ensure the image scales correctly within its container
-              />
-          </Link>
-        ))}
+                layout='responsive' />
+            </Link>
+          );
+        })}
       </div>
     </ErrorBoundary>
   )
