@@ -99,7 +99,7 @@ export default function Index(props) {
                                 alt={`#`}
                                 onContextMenu={(e) => e.preventDefault()}
                             />
-                            <p className="text-base mt-6 text-white">{photo.description}</p>
+                            <p className="text-base mt-6 text-white whitespace-pre-wrap">{photo.description}</p>
                             {
                                 (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
                                     <>
@@ -151,7 +151,6 @@ export default function Index(props) {
 export async function getServerSideProps(context) {
     const { img, folderpath } = context.query;
     const session = await getSession(context);
-
 
     let props = {};
     let photo;
