@@ -1,5 +1,5 @@
 export function validateImage (file, formData)  {
-    const MIN_SIZE_BYTES = 118 * 1048576; // 118 MB in bytes
+    const MIN_SIZE_BYTES = 80 * 1048576; // 118 MB in bytes
 
     return new Promise((resolve, reject) => {
         if (!file) {
@@ -20,7 +20,7 @@ export function validateImage (file, formData)  {
 
         // Check file size
         if (file.size < MIN_SIZE_BYTES) {
-            reject(new Error("File size is too small, must be at least 118 MB."));
+            reject(new Error("File size is too small, must be at least 80 MB."));
             return;
         }
         resolve()
