@@ -72,7 +72,7 @@ export default function EditPricePage({ pricingInfo }) {
                     </div>
                     <InputField type="text" label="Image Title" name="imagelefttitle" value={formData.imagelefttitle} onChange={handleChange} />
                     <InputField as={"textarea"} type="text" label="Image Subtitle" name="imageleftsubtitle" value={formData.imageleftsubtitle} onChange={handleChange} />
-                    <InputField type="text" label="Image Price" name="imageleftprice" value={formData.imageleftprice} onChange={handleChange} />
+                    <InputField as={"textarea"} type="text" label="Image Price" name="imageleftprice" value={formData.imageleftprice} onChange={handleChange} />
                 </div>
 
                 {/* Image Right */}
@@ -84,7 +84,7 @@ export default function EditPricePage({ pricingInfo }) {
                     </div>
                     <InputField type="text" label="Image Title" name="imagerighttitle" value={formData.imagerighttitle} onChange={handleChange} />
                     <InputField as={"textarea"} type="text" label="Image Subtitle" name="imagerightsubtitle" value={formData.imagerightsubtitle} onChange={handleChange} />
-                    <InputField type="text" label="Image Price" name="imagerightprice" value={formData.imagerightprice} onChange={handleChange} />
+                    <InputField as={"textarea"} type="text" label="Image Price" name="imagerightprice" value={formData.imagerightprice} onChange={handleChange} />
                 </div>
                 {/* Footer Text - Placing it below the columns */}
                 <div className="w-full px-4 mt-6">

@@ -42,7 +42,7 @@ export default function ViewCollections({ collection }) {
                             <div className='p-2 md:p-12 overflow-hidden'>
                                 <h2 className='text-3xl md:text-6xl'>{collection.name}</h2>
                                 <p className='text-xl mb-8'>{collection.subtitle}</p>
-                                <p className='text-lg'>{collection.description}</p>
+                                <p className='text-lg whitespace-pre-wrap'>{collection.description}</p>
                             </div>
                         </div>
                         {firstPhotoThumb && (

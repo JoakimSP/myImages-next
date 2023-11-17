@@ -41,7 +41,7 @@ export default function howToAndPricing({ pricingData }) {
                         <div className="p-4">
                             <h2 className="text-xl font-semibold mb-2">{pricingData.imageTitleLeft}</h2>
                             <p className="text-gray-400 mb-4">{pricingData.imageSubTitleLeft}</p>
-                            <span className="text-lg font-bold">{pricingData.imagePriceLeft}</span>
+                            <span className="text-lg font-bold whitespace-pre-wrap">{pricingData.imagePriceLeft}</span>
                         </div>
                     </div>
                     {/* Image card 2 - Right Image */}
@@ -58,7 +58,7 @@ export default function howToAndPricing({ pricingData }) {
                         <div className="p-4">
                             <h2 className="text-xl font-semibold mb-2">{pricingData.imageTitleRight}</h2>
                             <p className="text-gray-400 mb-4">{pricingData.imageSubTitleRight}</p>
-                            <span className="text-lg font-bold">{pricingData.imagePriceRight}</span>
+                            <span className="text-lg font-bold whitespace-pre-wrap">{pricingData.imagePriceRight}</span>
                         </div>
                     </div>
                 </div>
