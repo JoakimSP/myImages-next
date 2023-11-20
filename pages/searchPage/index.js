@@ -20,7 +20,7 @@ console.log(filterdImages)
 export async function getServerSideProps(context) {
     const { searchPhrase, categorie } = context.query;
     let photos;
-console.log(categorie)
+
     try {
         let category;
 
@@ -41,7 +41,7 @@ console.log(categorie)
                         { size: "small-wm" }
                     ],
                     categoriesId: category.id,
-                    exclusiveId: null
+                    exclusive: false
                 }
             });
             
@@ -52,7 +52,7 @@ console.log(categorie)
                         { size: "thumb" },
                         { size: "small-wm" }
                     ],
-                    exclusiveId: null
+                    exclusive: false
                 }
             });
             
