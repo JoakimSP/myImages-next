@@ -103,7 +103,7 @@ export default function Index(props) {
                             {
                                 (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
                                     <>
-                                        <EditPhoto photo={photo} collections={collections} categories={categories} photoCopies={photoCopies} />
+                                        <EditPhoto photo={photo} collections={collections} categories={categories} photoCopies={photoCopies} photographer={photographer} />
                                         <div className="mt-4">
                                             <button className="ml-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
                                         </div>
@@ -201,6 +201,7 @@ export async function getServerSideProps(context) {
 
             if (photographer) {
                 props.photographer = photographer;
+                console.log(props.photographer)
             }
             if (photographer.role != "admin") {
                 const filterCollections = collections.filter(col => { return col.photographerPersonID == photographer.personID })

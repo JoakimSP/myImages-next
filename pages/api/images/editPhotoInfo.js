@@ -7,7 +7,6 @@ export default async function handler(req, res) {
         filename,
         description,
         category,
-        priceOriginal,
         priceLarge,
         priceSmall,
         priceMedium,
@@ -15,7 +14,7 @@ export default async function handler(req, res) {
         tags,
         categoriesId,
         collectionId,
-        isExclusive
+        isExclusive,
     } = req.body
 
 
@@ -24,7 +23,7 @@ export default async function handler(req, res) {
         idMap[item.size] = item.id;
     });
 
-
+console.log(idMap)
     try {
 
         let data = {

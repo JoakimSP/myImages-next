@@ -7,7 +7,9 @@ import { useState } from "react"
 
 export default function EditPhoto({ photo, categories, collections, photoCopies, photographer }) {
     const [tags, setTags] = useState(photo.tags || [])
-    const photoCopiesId = photoCopies.map(copy => ({ id: copy.id, size: copy.size}));
+    const photoCopiesfilter = photoCopies.filter(copy => copy.size !== "thumb" && copy.size !== "small-wm");
+    const photoCopiesPriceUI = photoCopiesfilter.map(copy => ({ id: copy.id, size: copy.size, price: copy.price}));
+     const photoCopiesId = photoCopies.map(copy => ({ id: copy.id, size: copy.size}));
 
     const handleUpdateTags = (newTags) => {
         setTags(newTags);
@@ -15,9 +17,6 @@ export default function EditPhoto({ photo, categories, collections, photoCopies,
 
     async function HandleUpdateInfo(e) {
         e.preventDefault()
-
-
-        let catValue
 
         const newPhotoInformation = {
             title: e.target.title.value,
@@ -30,7 +29,7 @@ export default function EditPhoto({ photo, categories, collections, photoCopies,
             photoID: photoCopiesId,
             categoriesId: e.target.categories.value,
             collectionId: e.target.collections.value,
-            isExclusive : e.target.exclusive.checked
+            isExclusive : e.target.exclusive.checked,
 
 
         }
@@ -69,8 +68,8 @@ export default function EditPhoto({ photo, categories, collections, photoCopies,
                 </div>
             </div>
     
-            {photoCopies.map((copy, index) => (
-                <div key={index} className="mb-4">
+            {photoCopiesPriceUI.map((copy, index) => (
+                <div key={index} className={`mb-4 ${copy.size == "thumb" || copy.size == "small-wm" ? "hidden" : "block"}`}>
                     <label className="block text-lg mb-2" htmlFor="price">Price {copy.size}</label>
                     <input id="price" type="number" min="0" name={`price${copy.size}`} className="w-full p-2 border rounded" defaultValue={copy.price} placeholder={copy.price} required />
                 </div>
@@ -99,7 +98,7 @@ export default function EditPhoto({ photo, categories, collections, photoCopies,
         
             <div className={`flex items-center space-x-2 mt-4 ${photographer.role == "admin" ? "block" : "hidden"}`}>
                 <input type="checkbox" name="exclusive" className="w-6 h-6" />
-                <label className="text-lg">Should the photo be exclusive?</label>
+                <label title="If you choose this, then the large price option will represent the exclusive price" className="text-lg">Should the photo be exclusive?</label>
             </div>
     
             <div className="mt-4">
