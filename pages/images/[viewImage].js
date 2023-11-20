@@ -2,7 +2,7 @@ import Image from "next/image"
 import { getSession, signIn } from "next-auth/react"
 import formatCurrency from "@/components/utils/formatCurrency"
 import router from "next/router"
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import { CartContext } from "@/context/cartProvider"
 import prisma from "@/components/prisma"
 import EditPhoto from "@/components/editPhoto"
@@ -10,6 +10,7 @@ const logger = require('@/components/utils/logger')
 import Layout from "@/components/layout/layout"
 import Link from "next/link"
 import GoBackButton from "@/components/utils/goBackButton"
+import { toast } from "react-toastify"
 
 
 export default function ViewImage(props) {
@@ -29,6 +30,7 @@ export default function ViewImage(props) {
         price: null
     })
     const { cart, addToCart } = useContext(CartContext)
+    
 
     const filterdPhotoCopies = photoCopies.filter((photo) => {
         return photo.size === "small" || photo.size === "medium" || photo.size === "large";;
@@ -47,9 +49,8 @@ export default function ViewImage(props) {
     }
 
     async function handleAddToCart(id) {
-        if (!session) {
-            return signIn()
-        }
+        if (!session) {return signIn()}
+        if (priceOption.price == null) {return toast.warn("Pick a size option")}
 
         const data = {
             session,

@@ -8,6 +8,7 @@ import prisma from "@/components/prisma"
 import EditPhoto from "@/components/editPhoto"
 const logger = require('@/components/utils/logger')
 import Layout from "@/components/layout/layout"
+import { toast } from "react-toastify"
 
 
 export default function Index(props) {
@@ -44,9 +45,8 @@ export default function Index(props) {
     }
 
     async function handleAddToCart(id) {
-        if (!session) {
-            return signIn()
-        }
+        if (!session) {return signIn()}
+        if (priceOption.price == null) {return toast.warn("Pick a sizeoption")}
 
         const data = {
             session,
