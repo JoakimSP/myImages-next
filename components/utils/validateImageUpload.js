@@ -1,5 +1,5 @@
 export function validateImage (file, formData)  {
-    const MIN_SIZE_BYTES = 80 * 1048576; // 118 MB in bytes
+    const MIN_SIZE_BYTES = 80 * 1048576; // 80 MB in bytes
 
     return new Promise((resolve, reject) => {
         if (!file) {
@@ -8,7 +8,7 @@ export function validateImage (file, formData)  {
         }
 
         // Ensure all form fields are filled out
-        if (!formData.title || !formData.description || !formData.priceSmall || !formData.priceMedium || !formData.priceLarge) {
+        if (!formData.title || !formData.description  || !formData.priceLarge) {
             reject(new Error("Please fill in all required fields."));
             return;
         }
