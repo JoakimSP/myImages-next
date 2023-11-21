@@ -28,8 +28,8 @@ export default function EditPhoto({ photo, categories, collections, photoCopies,
             priceSmall: e.target.pricesmall.value,
             tags: tags,
             photoID: photoCopiesId,
-            categoriesId: e.target.categories.value,
-            collectionId: e.target.collections.value,
+            categoriesId: e.target?.categories?.value || null,
+            collectionId: e.target?.collections?.value || null,
             isExclusive : e.target.exclusive.checked,
 
 
