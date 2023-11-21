@@ -5,6 +5,7 @@ import { CartContext } from "@/context/cartProvider"
 import { useContext, useEffect, useState } from "react"
 import ErrorBoundary from "@/components/errorBoundery"
 import Image from "next/image"
+import { useRouter } from "next/router"
 
 
 
@@ -13,8 +14,11 @@ export default function Header() {
   const { cart } = useContext(CartContext)
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [photographers, setPhotographers] = useState([]);
+  const router = useRouter();
 
   let currentUserInfo = [];
+ 
+  const isActive = (pathname) => router.pathname === pathname;
 
 
   const toggleMobileMenu = () => {
@@ -78,18 +82,18 @@ export default function Header() {
 
           <div className={isMobileMenuOpen ? "items-center justify-between w-full md:flex md:w-auto md:order-1" : "flex-1 ml-10 hidden md:flex md:w-auto md:order-1"}>
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border gap-5 border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
-              <li><Link href="/" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Home</Link></li>
-              <li><Link href="/photographers" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Photographers</Link></li>
-              <li><Link href="/information/howToAndPricing" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >How to use & Pricing</Link></li>
-              <li><Link href="/collections/browseCollections" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Collections</Link></li>
-              <li><Link href="/inspirationRoom" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Inspiration room</Link></li>
+              <li><Link href="/" className={`block py-2 pl-3 pr-4 rounded md:p-0 ${isActive('/') ? 'text-blue-500' : 'text-white'}`} >Home</Link></li>
+              <li><Link href="/photographers" className={`block py-2 pl-3 pr-4 rounded md:p-0 ${isActive('/photographers') ? 'text-blue-500' : 'text-white'}`}>Photographers</Link></li>
+              <li><Link href="/information/howToAndPricing" className={`block py-2 pl-3 pr-4 rounded md:p-0 ${isActive('/information/howToAndPricing') ? 'text-blue-500' : 'text-white'}`} >How to use & Pricing</Link></li>
+              <li><Link href="/collections/browseCollections" className={`block py-2 pl-3 pr-4 rounded md:p-0 ${isActive('/collections/browseCollections') ? 'text-blue-500' : 'text-white'}`} >Collections</Link></li>
+              <li><Link href="/inspirationRoom" className={`block py-2 pl-3 pr-4 rounded md:p-0 ${isActive('/inspirationRoom') ? 'text-blue-500' : 'text-white'}`} >Inspiration room</Link></li>
               {
                 (currentUserInfo && (currentUserInfo[0]?.role == "admin" || currentUserInfo[0]?.role == "user")) && (
-                  <li><Link href="/photographers/edit/editPhotographerPage" className="block py-2 pl-3 pr-4 text-white rounded md:p-0" >Edit your Page</Link></li>
+                  <li><Link href="/photographers/edit/editPhotographerPage" className={`block py-2 pl-3 pr-4 rounded md:p-0 ${isActive('/photographers/edit/[editPhotographerPage]') ? 'text-blue-500' : 'text-white'}`} >Edit your Page</Link></li>
                 )
               }
               {currentUserInfo && currentUserInfo[0]?.role == "admin" && (
-                <li><Link href="/admin/adminPage" className="block py-2 pl-3 pr-4 text-white rounded   md:p-0 " >Admin Page</Link></li>
+                <li><Link href="/admin/adminPage" className={`block py-2 pl-3 pr-4 rounded md:p-0 ${isActive('/admin/adminPage') ? 'text-blue-500' : 'text-white'}`} >Admin Page</Link></li>
               )}
             </ul>
           </div>
