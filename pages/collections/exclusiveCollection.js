@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function ExclusiveCollection({ collection, photos }) {
     const [images, setImages] = useState([]);
-console.log(photos)
+
  
 
     const groupedPhotos = photos.reduce((acc, photo) => {
@@ -71,7 +71,6 @@ export async function getServerSideProps(context) {
     const { collectionID } = context.query;
 
     let collection;
-    /*  let photos; */
     let props = {}
     try {
         collection = await prisma.exclusivecollections.findUnique({
@@ -88,32 +87,25 @@ export async function getServerSideProps(context) {
         });
         if (collection && collection.photos) {
             const folderpaths = collection.photos.map(photo => photo.folderpath);
-            console.log(folderpaths)
             const photos = await prisma.photos.findMany({
                 where: {
-                    AND: [ // Use the AND logical operator
+                    AND: [ 
                         {
                             folderpath: {
                                 in: folderpaths
                             },
                         },
                         {
-                            OR: [ // Use the OR logical operator
+                            OR: [ 
                                 { size: "thumb" },
                                 { size: "small-wm" }
                             ]
                         }
-                    ]
+                    ],
+                    active : true
                 }
             });
-            /* const imageMap = {};
-            photos.forEach(photo => {
-                if (!imageMap[photo.folderpath]) {
-                    imageMap[photo.folderpath] = {};
-                }
-                imageMap[photo.folderpath][photo.size] = photo;
-            }); */
-            console.log(collection)
+
             props = { collection, photos };
         }
 
