@@ -59,54 +59,10 @@ export default function ShowImagesNext({ photos }) {
   const firstPhotoThumb = groupedPhotos[firstPhotoKey]?.find(p => p.size === 'thumb');
   const firstPhotoSmallWm = groupedPhotos[firstPhotoKey]?.find(p => p.size === 'small-wm');
 
-  /* useEffect(() => {
-    const thumbPhotos = photos.filter(photo => photo.size === "thumb");
-    const wmPhotos = photos.filter(photo => photo.size === "small-wm");
-
-    // Create a mapping between thumbnail filepaths and corresponding watermark filepaths
-    const photoMapping = thumbPhotos.map(thumbPhoto => {
-      const wmPhoto = wmPhotos.find(wm => wm.title === thumbPhoto.title && wm.personID === thumbPhoto.personID);
-      return {
-        thumb: thumbPhoto.filepath,
-        wm: wmPhoto ? wmPhoto.filepath : null,
-        wmFolderpath: wmPhoto ? wmPhoto.folderpath : null,
-      };
-    });
-
-    async function fetchImages() {
-      const response = await fetch('/api/images/getImages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ paths: photoMapping.map(p => p.thumb) }),
-      });
-
-      if (response.ok) {
-        const imagesBase64 = await response.json();
-        const combinedData = photoMapping.map(p => ({
-          thumbSrc: `data:image/jpg;base64,${imagesBase64[p.thumb]}`, // Assuming all images are PNGs.
-          wmPath: p.wm,
-          wmFolderpath: p.wmFolderpath,
-        })).filter(p => p.wmPath && p.wmFolderpath); // Ensure both thumbnail and watermark data are present
-        setImageData(combinedData);
-      } else {
-        console.error('Failed to fetch images.');
-      }
-    }
-
-    fetchImages();
-  }, [photos]);
-
-  if (imageData.length === 0) return <p className="text-center text-6xl text-white font-thin">No images found</p>;
-
-  console.log(imageData)
- */
   return (
     <ErrorBoundary>
       <div className="w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey">
         {Object.entries(groupedPhotos).map(([key, photoGroup], index) => {
-          if (index === 0) return null; // Skip the first photo, already displayed
           const thumbPhoto = photoGroup.find(p => p.size === 'thumb');
           const smallWmPhoto = photoGroup.find(p => p.size === 'small-wm');
           return (
