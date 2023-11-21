@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         idMap[item.size] = item.id;
     });
 
-console.log(idMap)
+
     try {
 
         let data = {

@@ -11,7 +11,6 @@ export default function Index({ photosInCart, email }) {
     return total + parseInt(photo.price)
   }, 0)
 
-  console.log(photosInCart)
   return (
     <Layout>
 

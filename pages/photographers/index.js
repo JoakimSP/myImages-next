@@ -8,8 +8,6 @@ import { useEffect, useState } from "react";
 export default function Index({ photographers }) {
   const [imageUrls, setImageUrls] = useState([]);
 
-  console.log(photographers)
-
   useEffect(() => {
     // Fetch image for each photographer
     photographers.forEach(async photographer => {

@@ -15,8 +15,6 @@ export default function Updatecollection({ collections, setActiveView, id, photo
         previusImageFolder: "",
     });
     const currentCol = collections.find((col) => col.id == id);
-
-    console.log(currentCol)
     
 
     useEffect(() => {
