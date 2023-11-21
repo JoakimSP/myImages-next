@@ -68,7 +68,7 @@ export default function ViewCollections({ collection }) {
                                             alt={thumbPhoto?.title || 'image'}
                                             width={thumbPhoto?.width}
                                             height={thumbPhoto?.height}
-                                            className="my-5"
+                                            className="mb-5"
                                             layout='responsive' />
                                 </Link>
                             );
