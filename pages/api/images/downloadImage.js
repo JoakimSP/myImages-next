@@ -1,13 +1,16 @@
 import prisma from "@/components/prisma";
 import fs from "fs";
 import archiver from "archiver";
+const deActivateExclusiveImages = require('@/components/utils/downloadImageAPIfunctions/deActiveateExclusiveImage')
+const logger = require('@/components/utils/logger')
+
 
 export default async function handler(req, res) {
     const photoIdsArray = JSON.parse(decodeURIComponent(req.query.receiptId));
     const photoIdsToArray = photoIdsArray[0].split(",");
-    const parseToInt = photoIdsToArray.map(element => {
+    /* const parseToInt = photoIdsToArray.map(element => {
         return Number.parseInt(element);
-    });
+    }); */
 
     const photos = await prisma.photos.findMany({
         where: {
@@ -15,11 +18,14 @@ export default async function handler(req, res) {
         }
     });
 
+    await deActivateExclusiveImages(photos)
+    
     try {
         if (photos.length === 0) {
             res.status(404).json({ message: "No photos found" });
             return;
         }
+
 
         await prisma.photos.updateMany({
             where : {
