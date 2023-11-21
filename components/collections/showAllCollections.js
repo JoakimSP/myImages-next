@@ -5,7 +5,6 @@ export default function ShowAllCollection({collections}) {
        
     return (
       <div>
-        <h1 className="text-white text-7xl text-center font-light mb-4">Browse Collections</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mx-12">
               {collections.map((col) => {
                   return (
@@ -17,6 +16,7 @@ export default function ShowAllCollection({collections}) {
                               fill={true}
                               className="object-cover w-full"
                               sizes="(max-width: 768px) 50vw 33vw"
+                              quality={30}
                                             />
                           </div>
                           <div><h3 className="text-center text-3xl text-white">{col.name}</h3></div>
