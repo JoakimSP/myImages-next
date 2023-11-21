@@ -45,8 +45,8 @@ export default function Index(props) {
     }
 
     async function handleAddToCart(id) {
-        if (!session) {return signIn()}
-        if (priceOption.price == null) {return toast.warn("Pick a sizeoption")}
+        if (!session) { return signIn() }
+        if (priceOption.price == null) { return toast.warn("Pick a sizeoption") }
 
         const data = {
             session,
@@ -85,7 +85,7 @@ export default function Index(props) {
 
     return (
         <Layout>
-            <div className="bg-custom-grey">
+            <div className="bg-custom-grey mb-10">
                 <button className="inline-flex items-center m-4 px-4 py-2 border border-transparent text-base font-medium rounded-md text-black bg-white hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" onClick={() => router.back()}>Go back</button>
                 <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">
                     <h1 className="text-white text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
@@ -103,7 +103,12 @@ export default function Index(props) {
                             {
                                 (photographer?.personID === photo.personID || photographer?.role === "admin") ? (
                                     <>
-                                        <EditPhoto photo={photo} collections={collections} categories={categories} photoCopies={photoCopies} photographer={photographer} />
+                                        <EditPhoto
+                                            photo={photo}
+                                            collections={collections}
+                                            categories={categories}
+                                            photoCopies={photoCopies}
+                                            photographer={photographer} />
                                         <div className="mt-4">
                                             <button className="ml-4 py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700" onClick={handleDeleteImage}>Delete image</button>
                                         </div>
@@ -121,9 +126,13 @@ export default function Index(props) {
                                             <div className="flex justify-between items-center border-b-2 px-4 py-3 mb-3" key={index}>
                                                 <span className={`flex gap-4 items-center`}>
                                                     <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light mt-2" />
-                                                    <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{copy.size}</p>
+                                                    <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">{copy.size}</p>
                                                 </span>
-                                                
+                                                <div className={`${priceOption.size == copy.size ? "block" : "hidden"}`}>
+                                                    <p className="text-gray-600 font-semibold"></p>
+                                                    <p className="text-gray-500 text-sm mt-2 break-normal">{copy.width}px / {copy.height}px   -{copy.filetype}</p>
+                                                </div>
+
                                                 <div className="flex items-center max-w-xs">
                                                     <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden mt-2">{formatCurrency(copy.price)}</p>
                                                 </div>
@@ -132,12 +141,12 @@ export default function Index(props) {
                                     </div>
                                 ))}
 
-                                    <button
-                                        className="w-full py-2 px-4 mt-6 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700 transition-all duration-300"
-                                        onClick={() => handleAddToCart(photo.id)}
-                                    >
-                                        Add to cart
-                                    </button>
+                                <button
+                                    className="w-full py-2 px-4 mt-6 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700 transition-all duration-300"
+                                    onClick={() => handleAddToCart(photo.id)}
+                                >
+                                    Add to cart
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -201,7 +210,6 @@ export async function getServerSideProps(context) {
 
             if (photographer) {
                 props.photographer = photographer;
-                console.log(props.photographer)
             }
             if (photographer.role != "admin") {
                 const filterCollections = collections.filter(col => { return col.photographerPersonID == photographer.personID })

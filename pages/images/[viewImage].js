@@ -94,7 +94,7 @@ export default function ViewImage(props) {
 
     return (
         <Layout>
-            <div className="bg-custom-grey">
+            <div className="bg-custom-grey mb-10">
                 <GoBackButton />
                 <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">
                     <h1 className="text-white text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
@@ -132,12 +132,11 @@ export default function ViewImage(props) {
                                     <div className="flex justify-between items-start border-b-2 px-4 py-3 mb-3" key={index}>
                                         <span className={`flex gap-4 items-center ${copy.size == "original" && !photo.exclusive ? 'hidden' : ''}`}>
                                             <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light mt-2" />
-                                            <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs">{copy.size}</p>
+                                            <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">{copy.size}</p>
                                             <div className={`${priceOption.size == copy.size ? "block" : "hidden"}`}>
                                                 <p className="text-gray-600 font-semibold"></p>
-                                                <p className="text-gray-500 text-sm mt-2">{copy.width}px/{copy.height}px   -{copy.filetype}</p>
+                                                <p className="text-gray-500 text-sm mt-2 break-normal">{copy.width}px / {copy.height}px   -{copy.filetype}</p>
                                             </div>
-
                                         </span>
                                         <div className="flex items-center max-w-xs">
                                             <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden mt-2">{formatCurrency(copy.price)}</p>
