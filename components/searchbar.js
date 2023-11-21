@@ -5,10 +5,10 @@ import { useRouter } from "next/router";
 function SearchBar({ categories }) {
   const [categorie, setCategorie] = useState("All categories");
   const router = useRouter();
-
+  console.log(categorie)
   const HandleSearch = (e) => {
     e.preventDefault();
-    router.push(`/searchPage?searchPhrase=${e.target.searchDropdown.value}&categorie=${categorie}`);
+    router.push(`/searchPage?searchPhrase=${e.target.searchDropdown.value}&categorie=${encodeURIComponent(categorie)}`);
   };
 
   return (

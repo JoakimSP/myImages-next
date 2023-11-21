@@ -4,7 +4,6 @@ import SearchBar from "@/components/searchbar"
 import ShowImagesNext from "@/components/showImages"
 
 export default function Index({ filterdImages, categories }) {
-console.log(filterdImages)
 
     return (
         <Layout>
@@ -23,17 +22,15 @@ export async function getServerSideProps(context) {
 
     try {
         let category;
-
         if (categorie !== "All categories") {
             category = await prisma.categories.findFirst({
-                where: { name: categorie },
+                where: { name: decodeURIComponent(categorie) },
                 select: { id: true }
             });
 
             if (!category) {
                 throw new Error(`Category: ${categorie} not found.`);
             }
-
             photos = await prisma.photos.findMany({
                 where: {
                     OR: [
