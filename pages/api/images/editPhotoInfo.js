@@ -17,6 +17,10 @@ export default async function handler(req, res) {
         isExclusive,
     } = req.body
 
+    let priceS = priceSmall ? parseInt(priceSmall) : null
+    let priceM = priceMedium ? parseInt(priceMedium) : null
+    let priceL = priceLarge ? parseInt(priceLarge) : null
+
 
     const idMap = {};
     photoID.forEach(item => {
@@ -55,30 +59,33 @@ export default async function handler(req, res) {
                 ...data
             }
         })
-        await prisma.photos.update({
-            where: {
-                id: idMap['small']
-            },
-            data: {
-                title: title,
-                description: description,
-                tags: tags,
-                category: category,
-                price: parseInt(priceSmall),
-            }
-        })
-        await prisma.photos.update({
-            where: {
-                id: idMap['medium']
-            },
-            data: {
-                title: title,
-                description: description,
-                tags: tags,
-                category: category,
-                price: parseInt(priceMedium),
-            }
-        })
+        if(!isExclusive){
+            await prisma.photos.update({
+                where: {
+                    id: idMap['small']
+                },
+                data: {
+                    title: title,
+                    description: description,
+                    tags: tags,
+                    category: category,
+                    price: priceS,
+                }
+            })
+            await prisma.photos.update({
+                where: {
+                    id: idMap['medium']
+                },
+                data: {
+                    title: title,
+                    description: description,
+                    tags: tags,
+                    category: category,
+                    price: priceM,
+                }
+            })
+        }
+        
         await prisma.photos.update({
             where: {
                 id: idMap['large']
@@ -88,7 +95,7 @@ export default async function handler(req, res) {
                 description: description,
                 tags: tags,
                 category: category,
-                price: parseInt(priceLarge),
+                price: priceL,
             }
         })
 
