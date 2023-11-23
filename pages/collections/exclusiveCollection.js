@@ -39,7 +39,7 @@ export default function ExclusiveCollection({ collection, photos }) {
                         <div className='p-12'>
                             <h2 className='text-2xl md:text-6xl'>{collection.title}</h2>
                             <p className='text-lg md:text-3xl mb-8'>{collection.subtitle}</p>
-                            <p className='text-base md:text-lg'>{collection.information}</p>
+                            <p className='text-base md:text-lg whitespace-pre-wrap'>{collection.information}</p>
                         </div>
                     </div>
                 </div>
