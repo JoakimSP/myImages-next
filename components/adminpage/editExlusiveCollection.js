@@ -104,7 +104,7 @@ console.log(exclusiveCollection)
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">Subtitle homepage:</label>
-          <input 
+          <textarea 
             className="mt-1 p-2 w-full border rounded-md" 
             type="text" 
             name="homepageSubTitle" 
