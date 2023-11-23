@@ -123,20 +123,21 @@ export default function Index(props) {
                                     <div key={index}>
                                         {
                                             copy.size == "large" &&
-                                            <div className="flex justify-between items-center border-b-2 px-4 py-3 mb-3" key={index}>
-                                                <span className={`flex gap-4 items-center`}>
-                                                    <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light mt-2" />
-                                                    <p className="text-gray-600 whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">{copy.size}</p>
-                                                </span>
+                                            <div className="flex justify-between items-start border-b-2 px-4 py-3 mb-3" key={index}>
+                                            <div>
+                                                <div className={`flex gap-4 items-center ${copy.size == "original" && !photo.exclusive ? 'hidden' : ''}`}>
+                                                    <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light h-4 w-4" />
+                                                    <p className="text-black font-semibold whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">{copy.size}</p>
+                                                </div>
                                                 <div className={`${priceOption.size == copy.size ? "block" : "hidden"}`}>
                                                     <p className="text-gray-600 font-semibold"></p>
-                                                    <p className="text-gray-500 text-sm mt-2 break-normal">{copy.width}px / {copy.height}px   -{copy.filetype}</p>
-                                                </div>
-
-                                                <div className="flex items-center max-w-xs">
-                                                    <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden mt-2">{formatCurrency(copy.price)}</p>
+                                                    <p className="text-gray-500 text-sm mt-2 break-normal">{copy.width}px / {copy.height}px -{copy.filetype}</p>
                                                 </div>
                                             </div>
+                                            <div className="flex items-center max-w-xs">
+                                                <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden mt-2">{formatCurrency(copy.price)}</p>
+                                            </div>
+                                        </div>
                                         }
                                     </div>
                                 ))}
