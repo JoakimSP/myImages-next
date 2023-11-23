@@ -54,8 +54,8 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
 
             />
             <div className="absolute top-1/2 md:top-1/4 left-1/2 md:left-1/4 transform -translate-x-1/2 -translate-y-1/2 z-10 text-center">
-              <h1 className="text-white text-7xl font-light mb-4">Exclusive Collection</h1>
-              <h3 className="text-white text-3xl font-light">Discover our big collection with exclusive user rights</h3>
+              <h1 className="text-white text-7xl font-light mb-4">{exclusiveCollection.homepageTitle}</h1>
+              <h3 className="text-white text-3xl font-light">{exclusiveCollection.homepageSubTitle}</h3>
             </div>
           </div>
           </Link>
@@ -91,6 +91,8 @@ export async function getServerSideProps() {
     select: {
       title: true,
       subtitle: true,
+      homepageTitle: true,
+      homepageSubTitle: true,
       information: true,
       heroImagepathrelative: true,
       heroImagepath: true,
