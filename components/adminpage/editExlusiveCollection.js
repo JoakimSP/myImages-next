@@ -7,6 +7,8 @@ export default function EditExlusiveCollection({ exclusiveCollection, photograph
   const [formData, setFormData] = useState({
     title: '',
     subtitle: '',
+    homepageTitle: '',
+    homepageSubTitle: '',
     information: '',
     heroImage: null,
     photographerPersonID: ''
@@ -17,13 +19,15 @@ export default function EditExlusiveCollection({ exclusiveCollection, photograph
       setFormData({
         title: exclusiveCollection.title || '',
         subtitle: exclusiveCollection.subtitle || '',
+        homepageTitle: exclusiveCollection.homepageTitle || '',
+        homepageSubTitle: exclusiveCollection.homepageSubTitle || '',
         information: exclusiveCollection.information || '',
         heroImage: null, // Keep this as null because it's a file input
         photographerPersonID: exclusiveCollection.photographerPersonID || ''
       });
     }
   }, [exclusiveCollection]);
-
+console.log(exclusiveCollection)
   const handleChange = (e) => {
     if (e.target.name === 'heroImage') {
       setFormData({
@@ -85,6 +89,26 @@ export default function EditExlusiveCollection({ exclusiveCollection, photograph
             type="text" 
             name="subtitle" 
             value={formData.subtitle}
+            onChange={handleChange} 
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600">Title hompage:</label>
+          <input 
+            className="mt-1 p-2 w-full border rounded-md" 
+            type="text" 
+            name="homepageTitle" 
+            value={formData.homepageTitle}
+            onChange={handleChange} 
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600">Subtitle homepage:</label>
+          <input 
+            className="mt-1 p-2 w-full border rounded-md" 
+            type="text" 
+            name="homepageSubTitle" 
+            value={formData.homepageSubTitle}
             onChange={handleChange} 
           />
         </div>
