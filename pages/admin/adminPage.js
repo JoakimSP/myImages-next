@@ -148,6 +148,8 @@ export async function getServerSideProps(context) {
       select: {
         title: true,
         subtitle: true,
+        homepageTitle: true,
+        homepageSubTitle: true,
         information: true,
         heroImagepathrelative: true,
         heroImagepath: true,
