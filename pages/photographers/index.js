@@ -5,7 +5,7 @@ const logger = require('@/components/utils/logger');
 import Layout from "@/components/layout/layout";
 import { useEffect, useState } from "react";
 
-export default function Index({ photographers }) {
+export default function Index({ photographers, photographersPage }) {
   const [imageUrls, setImageUrls] = useState([]);
 
   useEffect(() => {
@@ -31,9 +31,9 @@ export default function Index({ photographers }) {
     <Layout>
       <div className="bg-custom-grey">
         <div className='min-h-screen py-10'>
-          <h1 className="mb-5 text-white text-center text-4xl font-bold md:text-6xl">Our Photographers</h1>
+          <h1 className="mb-5 text-white text-center text-4xl font-bold md:text-6xl">{photographersPage.title}</h1>
           <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg text-white">
-            Explore our showcase of talented photographers. Delve into their portfolios, learn about their expertise, and select the perfect match for your needs.
+           {photographersPage.subtitle}
           </div>
           <div className='flex flex-wrap justify-center gap-6 px-4 lg:px-24'>
             {photographers.map(photographer => {
@@ -73,15 +73,25 @@ export async function getServerSideProps() {
         info: true
       }
     });
+
+    const photographersPage = await prisma.photographerPage.findFirst({
+      where: {
+        id: "1"
+      },
+      select: {
+        title: true,
+        subtitle: true
+      }
+    })
     return {
-      props: { photographers }
+      props: { photographers, photographersPage }
     };
   } catch (error) {
     logger.log('error', {
       message: error.message,
       stack: error.stack
     });
-    return { props: { photographers: [] } }; // return an empty list if there's an error
+    return { props: { photographers: [], photographersPage: [] } }; // return an empty list if there's an error
   } finally {
     await prisma.$disconnect();
   }
