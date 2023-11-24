@@ -10,7 +10,7 @@ import { useState, useEffect } from "react"
 export default function PhotographersName({ photographer, photos }) {
   const { info, heropicture, personID } = photographer
   const [imageUrls, setImageUrls] = useState([]);
-
+console.log(photographer)
   useEffect(() => {
     async function fetchImages() {
       try {
@@ -39,7 +39,7 @@ export default function PhotographersName({ photographer, photos }) {
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white space-y-5">
             <h1 className="text-6xl font-bold text-center">{photographer.firstName + " " + photographer.lastName}</h1>
-            <p className="text-xl font-light text-center">Diving deep into the journey of {photographer.firstName}, a master behind the lens.</p>
+            <p className="text-xl font-light text-center">{photographer.info.heroText}</p>
         </div>
     </section>
 
