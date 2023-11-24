@@ -70,7 +70,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                                 />
                             </Link>
                         </div>
-                        <div className="h-12">
+                        <div className="h-12 pt-6">
                             <h3 className="h-40 text-3xl text-center text-white">{slide.name}</h3>
                         </div>
                     </div>

@@ -23,7 +23,7 @@ export default function ShowPhotographerCollection({photographer}) {
                         sizes="(max-width: 768px)"
                                       />
                     </div>
-                    <div><h3 className="text-center text-3xl text-white">{col.name}</h3></div>
+                    <div className="pt-6"><h3 className="text-center text-3xl text-white">{col.name}</h3></div>
                 </Link>
             )
         })} 
