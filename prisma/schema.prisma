@@ -40,6 +40,7 @@ model photographerinfo {
   photoPreference String?      @db.VarChar(255)
   careerStart     String?      @db.VarChar(255)
   cardText        String?      @db.VarChar(255)
+  heroText        String?      @db.LongText
   photographer    photographer @relation(fields: [personID], references: [personID])
 }
 
@@ -151,6 +152,14 @@ model exclusivecollections {
 model privacypolicy {
   id        String   @id @default("1")
   text      String   @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model photographerPage {
+  id        String   @id @default("1")
+  title     String   @db.LongText
+  subtitle  String   @db.LongText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
