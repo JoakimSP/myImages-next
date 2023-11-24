@@ -30,7 +30,7 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
             className="object-cover z-20 absolute top-0 left-0 m-4 w-auto h-auto max-h-[200px] max-w-[200px]"
           />
 
-          <div className='flex flex-col justify-start items-center w-screen h-full pt-36 absolute z-20 text-center'>
+          <div className='flex flex-col justify-start items-center w-screen h-full pt-36 absolute text-center'>
             <h1 className=' text-white text-3xl md:text-7xl font-light whitespace-pre-wrap z-20'>Welcome to myImages.se</h1>
             <h1 className='  text-white text-lg md:text-3xl font-light  whitespace-pre-wrap z-20'> Your market place for high res images</h1>
           </div>
