@@ -37,7 +37,7 @@ export default function ViewCollections({ collection }) {
                     </div>
                 </div>
                 {/* Collection Description and First Photo */}
-                <div className='flex flex-col md:flex-row h-auto justify-center items-center py-28 px-4'>
+                <div className='flex flex-col md:flex-row h-auto justify-center items-center py-16 px-4'>
                     <div className="flex-1 bg-custom-grey text-white text-left overflow-hidden flex flex-col justify-center items-center">
                         <div className='overflow-hidden max-w-[600px] text-center md:text-start '>
                             <h2 className='text-3xl md:text-6xl'>{collection.name}</h2>
