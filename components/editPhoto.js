@@ -65,7 +65,7 @@ export default function EditPhoto({ photo, categories, collections, photoCopies,
                 </div>
                 <div>
                     <label className="block text-lg mb-2" htmlFor="description">Description</label>
-                    <input id="description" type="text" name="description" className="w-full p-2 border rounded" defaultValue={photo.description} placeholder={photo.description} required />
+                    <textarea id="description" type="text" name="description" className="w-full p-2 border rounded" defaultValue={photo.description} placeholder={photo.description} required />
                 </div>
             </div>
     
