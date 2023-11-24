@@ -16,7 +16,8 @@ export default function HandleUpdateInfo({ userdata }) {
         favoritePhoto: "",
         photoPreference: "",
         careerStart: "",
-        cardText: ""
+        cardText: "",
+        heroText: ""
     })
 
     useEffect(() => {
@@ -30,7 +31,8 @@ export default function HandleUpdateInfo({ userdata }) {
             favoritePhoto: info.favoritePhoto || "",
             photoPreference: info.photoPreference || "",
             careerStart: info.careerStart || "",
-            cardText: info.cardText || ""
+            cardText: info.cardText || "",
+            heroText: info.heroText || ""
         })
     }, [info])
 
