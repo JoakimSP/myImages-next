@@ -9,6 +9,7 @@ import AddNewCollection from "@/components/adminpage/addNewCollection";
 import EditPricePage from "@/components/adminpage/editPricePage";
 import Mail from "@/components/adminpage/mail";
 import EditSupport from "@/components/adminpage/EditSupport";
+import EditPhotographPage from "@/components/adminpage/editPhotographPage";
 
 
 export default function AdminPage({ photographers,
@@ -19,18 +20,20 @@ export default function AdminPage({ photographers,
   featuredcol,
   contactMails,
   exclusiveCollection,
-  supportText }) {
+  supportText,
+  photographersPage }) {
 
   const [activeView, setActiveView] = useState();
   useEffect(() => {
     setActiveView(typeof window !== 'undefined' ? localStorage.getItem('activeView') || 'photographers' : 'photographers');
   }, []);
 
-
   const renderActiveView = () => {
     switch (activeView) {
       case 'photographers':
         return <AddNewPhotographer photographers={photographers} />;
+      case 'photographersPage':
+        return <EditPhotographPage photographersPage={photographersPage} />;
       case 'categories':
         return <AddNewCategory categories={categories} collections={collections} photographers={photographers} />;
       case 'privacy':
@@ -62,6 +65,14 @@ export default function AdminPage({ photographers,
               className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'photographers' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
             >
               Photographers
+            </button>
+          </li>
+          <li className="flex-1">
+            <button
+              onClick={() => changeActiveView('photographersPage')}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'photographers' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+            >
+              PhotographersPage
             </button>
           </li>
           <li className="flex-1">
@@ -177,6 +188,17 @@ export async function getServerSideProps(context) {
       }
     });
 
+    const photographersPage = await prisma.photographerPage.findFirst({
+      where : {
+        id: "1"
+      },
+      select: {
+        title: true,
+        subtitle: true
+      }
+    })
+
+console.log(photographersPage)
     const contactMails = await prisma.contact.findMany({
       select: {
         id: true,
@@ -226,7 +248,8 @@ export async function getServerSideProps(context) {
         featuredcol: JSON.parse(JSON.stringify(featuredcol)),
         contactMails,
         exclusiveCollection,
-        supportText: JSON.parse(JSON.stringify(supportText))
+        supportText: JSON.parse(JSON.stringify(supportText)),
+        photographersPage
       }
     }
 
@@ -246,7 +269,8 @@ export async function getServerSideProps(context) {
         contactMails: [],
         exclusiveCollection: [],
         supportText: [],
-        pricingInfo: []
+        pricingInfo: [],
+        photographersPage: [],
       }
     }
   } finally {
