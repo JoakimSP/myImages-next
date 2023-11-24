@@ -2,7 +2,7 @@ import { promises as fsPromises, rmSync, existsSync } from 'fs';
 import sharp from 'sharp';
 const logger = require('@/components/utils/logger')
 
-const MIN_PIXEL = 4112;
+const MIN_PIXEL = 3260;
 
    async function validateDimensions(filePath, folderpath) {
   try {
