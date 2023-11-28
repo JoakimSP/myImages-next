@@ -85,13 +85,16 @@ model cart {
   priceoption  Int
 }
 
-model receipt {
-  id           String @id @default(cuid())
+model Receipt {
+  id           String   @default(cuid())
+  index        Int      @id @default(autoincrement()) @unique
   photosID     String
   sessionEmail String
+  downloaded   Boolean  @default(false)
   dateAdded    String
   price        Int
 }
+
 
 model categories {
   id          String   @id @default(cuid())
