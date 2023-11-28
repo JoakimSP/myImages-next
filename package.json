@@ -28,6 +28,7 @@
     "next": "13.2.4",
     "next-auth": "^4.21.1",
     "next-connect": "^0.13.0",
+    "pdfkit": "^0.14.0",
     "postcss": "^8.4.24",
     "prisma": "^4.12.0",
     "raw-body": "^2.5.2",
