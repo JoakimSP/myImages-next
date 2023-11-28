@@ -19,15 +19,15 @@ export default function Index({ lastReceipt, photos }) {
   }, [router]);
   async function handleDownloadImage(e) {
     e.preventDefault()
-    const photosID = lastReceipt.map(photo => photo.photosID);
+    /* const photosID = lastReceipt.map(photo => photo.photosID); */
     if (lastReceipt) {
-      window.open(`/api/images/downloadImage?receiptId=${encodeURIComponent(JSON.stringify(photosID))}`, '_blank');
+      window.open(`/api/images/downloadImage?receipt=${encodeURIComponent(JSON.stringify(lastReceipt))}`, '_blank');
 
     }
     clearCart()
-    setTimeout(() => {
+   /*  setTimeout(() => {
       router.push("/")
-    }, 5000);
+    }, 5000); */
   }
   console.log(photos)
   return (
@@ -114,7 +114,6 @@ export async function getServerSideProps(context) {
       },
     },
   })
-
 
   prisma.$disconnect()
   return {
