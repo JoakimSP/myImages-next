@@ -1,17 +1,27 @@
 import prisma from "@/components/prisma";
 import fs from "fs";
 import archiver from "archiver";
+import PDFDocument from 'pdfkit';
+const addReceiptInformation = require('@/components/utils/downloadImageAPIfunctions/addReceiptInformation')
 const deActivateExclusiveImages = require('@/components/utils/downloadImageAPIfunctions/deActiveateExclusiveImage')
-const logger = require('@/components/utils/logger')
-
 
 export default async function handler(req, res) {
-    const photoIdsArray = JSON.parse(decodeURIComponent(req.query.receiptId));
-    const photoIdsToArray = photoIdsArray[0].split(",");
-    /* const parseToInt = photoIdsToArray.map(element => {
-        return Number.parseInt(element);
-    }); */
+    const receiptString = decodeURIComponent(req.query.receipt);
+    const receipt = JSON.parse(receiptString);
 
+    // Fetch the receipt from the database
+    const receiptDB = await prisma.receipt.findFirst({
+        where: {
+            id: receipt[0].id
+        },
+    });
+
+    // Check if the receipt has already been downloaded
+    if (receiptDB.downloaded) {
+        return res.status(404).json({ message: "not allowed" });
+    }
+
+    const photoIdsToArray = receipt[0].photosID.split(",");
     const photos = await prisma.photos.findMany({
         where: {
             id: { in: photoIdsToArray }
@@ -19,47 +29,81 @@ export default async function handler(req, res) {
     });
 
     await deActivateExclusiveImages(photos)
-    
-    try {
-        if (photos.length === 0) {
-            res.status(404).json({ message: "No photos found" });
-            return;
-        }
 
+    // Update the download count for the photos
+    await prisma.photos.updateMany({
+        where: {
+            id: { in: photoIdsToArray },
+        },
+        data: {
+            countDownloaded: { increment: 1 },
+        },
+    });
 
-        await prisma.photos.updateMany({
-            where : {
-                id: {in: photoIdsToArray}
-            },
-            data: {
-                countDownloaded: {increment: 1}
-            }
-        })
+    // Update the downloaded status of the receipt
+    await prisma.receipt.update({
+        where: {
+            index: receipt[0].index
+        },
+        data: {
+            downloaded: true,
+        },
+    });
 
-        // Create a zip archive using Archiver
-        const archive = archiver('zip', {
-            zlib: { level: 9 } // Sets the compression level.
-        });
+    // Create an archive
+    const archive = archiver('zip', {
+        zlib: { level: 9 },
+    });
 
-        // Pipe the archive data to the response
-        archive.pipe(res);
+    // Pipe the archive data to the response
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', 'attachment; filename=photos.zip');
+    archive.pipe(res);
 
-        // Set headers
-        res.setHeader('Content-Type', 'application/zip');
-        res.setHeader('Content-Disposition', 'attachment; filename=photos.zip');
+    // Append each image to the archive
+    photos.forEach(photo => {
+        const image = fs.createReadStream(photo.filepath);
+        archive.append(image, { name: `${photo.title}-${photo.size}.${photo.filetype}` });
+    });
 
-        // Append each image to the zip
-        for(let photo of photos) {
-            // Read the image from the local filesystem using its filepath
-            const image = fs.createReadStream(photo.filepath);
-            archive.append(image, { name: `${photo.title}-${photo.size}.${photo.filetype}` });  // Saving each image as its id for simplicity
-        }
-
-        // Finalize the archive once you've appended all the photos
-        archive.finalize();
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: error.message });
+    // Create a temporary directory for the receipt PDF
+    const receiptDir = './receipts';
+    if (!fs.existsSync(receiptDir)) {
+        fs.mkdirSync(receiptDir, { recursive: true });
     }
+
+    const receiptFilename = `${receiptDB.id}.pdf`;
+    const receiptPath = `${receiptDir}/${receiptFilename}`;
+    // Create a PDF document
+    const doc = new PDFDocument();
+    const stream = fs.createWriteStream(receiptPath);
+    doc.pipe(stream);
+
+    //Style PDF document
+    const styledDocFile = await addReceiptInformation(doc, receipt, photos)
+
+    styledDocFile.end();
+
+    // Append the PDF to the archive after it's fully written
+    stream.on('finish', () => {
+        archive.append(fs.createReadStream(receiptPath), { name: receiptFilename });
+        archive.finalize();
+    });
+
+    // Handle errors
+    stream.on('error', error => {
+        console.error('Error generating PDF:', error);
+        res.status(500).json({ message: 'Error generating PDF' });
+        res.end();
+    });
+
+    archive.on('error', error => {
+        console.error('Archive error:', error);
+        res.status(500).json({ message: 'Error creating zip archive' });
+        res.end();
+    });
+
+    archive.on('finish', () => {
+        res.end();
+    });
 }
