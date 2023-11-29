@@ -15,10 +15,6 @@ export const config = {
 export default async function handler(req, res) {
 
     try {
-        
-    
-
-
     const receiptString = decodeURIComponent(req.query.receipt);
     const receipt = JSON.parse(receiptString);
 
@@ -80,7 +76,7 @@ export default async function handler(req, res) {
     }
     
 
-    // Create a temporary directory for the receipt PDF
+  /*    // Create a PDF document
     const receiptDir = './receipts';
     if (!fs.existsSync(receiptDir)) {
         fs.mkdirSync(receiptDir, { recursive: true });
@@ -88,7 +84,7 @@ export default async function handler(req, res) {
 
     const receiptFilename = `${receiptDB.id}.pdf`;
     const receiptPath = `${receiptDir}/${receiptFilename}`;
-    // Create a PDF document
+  
     const doc = new PDFDocument();
     const stream = fs.createWriteStream(receiptPath);
     doc.pipe(stream);
@@ -96,11 +92,11 @@ export default async function handler(req, res) {
     //Style PDF document
     const styledDocFile = await addReceiptInformation(doc, receipt, photos)
 
-    styledDocFile.end();
+    styledDocFile.end(); */
 
     // Append the PDF to the archive after it's fully written
     stream.on('finish', () => {
-        archive.append(fs.createReadStream(receiptPath), { name: receiptFilename });
+      /*   archive.append(fs.createReadStream(receiptPath), { name: receiptFilename }); */
         archive.finalize();
     });
 
