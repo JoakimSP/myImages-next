@@ -5,7 +5,15 @@ import PDFDocument from 'pdfkit';
 const addReceiptInformation = require('@/components/utils/downloadImageAPIfunctions/addReceiptInformation')
 const deActivateExclusiveImages = require('@/components/utils/downloadImageAPIfunctions/deActiveateExclusiveImage')
 
+export const config = {
+    api: {
+      responseLimit: false,
+    },
+  }
+
 export default async function handler(req, res) {
+
+
     const receiptString = decodeURIComponent(req.query.receipt);
     const receipt = JSON.parse(receiptString);
 
