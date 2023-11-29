@@ -95,13 +95,13 @@ export default async function handler(req, res) {
     styledDocFile.end(); */
 
     // Append the PDF to the archive after it's fully written
-    stream.on('finish', () => {
-      /*   archive.append(fs.createReadStream(receiptPath), { name: receiptFilename }); */
-        archive.finalize();
-    });
-
+   /*  stream.on('finish', () => {
+        archive.append(fs.createReadStream(receiptPath), { name: receiptFilename });
+         archive.finalize(); 
+    }); */
+    archive.finalize();
     // Handle errors
-    stream.on('error', error => {
+   /*  stream.on('error', error => {
         console.log(error);
         logger.log('error', {
           message: error.message,
@@ -110,7 +110,7 @@ export default async function handler(req, res) {
         console.error('Error generating PDF:', error);
         res.status(500).json({ message: 'Error generating PDF' });
         res.end();
-    });
+    }); */
 
     archive.on('error', error => {
         console.log(error);
