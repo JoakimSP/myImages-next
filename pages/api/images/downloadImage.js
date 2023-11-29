@@ -4,6 +4,7 @@ import archiver from "archiver";
 import PDFDocument from 'pdfkit';
 const addReceiptInformation = require('@/components/utils/downloadImageAPIfunctions/addReceiptInformation')
 const deActivateExclusiveImages = require('@/components/utils/downloadImageAPIfunctions/deActiveateExclusiveImage')
+const logger = require('@/components/utils/logger')
 
 export const config = {
     api: {
@@ -12,6 +13,10 @@ export const config = {
   }
 
 export default async function handler(req, res) {
+
+    try {
+        
+    
 
 
     const receiptString = decodeURIComponent(req.query.receipt);
@@ -69,10 +74,11 @@ export default async function handler(req, res) {
     archive.pipe(res);
 
     // Append each image to the archive
-    photos.forEach(photo => {
+    for (const photo of photos) {
         const image = fs.createReadStream(photo.filepath);
-        archive.append(image, { name: `${photo.title}-${photo.size}.${photo.filetype}` });
-    });
+         archive.append(image, { name: `${photo.title}-${photo.size}.${photo.filetype}` });
+    }
+    
 
     // Create a temporary directory for the receipt PDF
     const receiptDir = './receipts';
@@ -100,12 +106,22 @@ export default async function handler(req, res) {
 
     // Handle errors
     stream.on('error', error => {
+        console.log(error);
+        logger.log('error', {
+          message: error.message,
+          stack: error.stack
+        });
         console.error('Error generating PDF:', error);
         res.status(500).json({ message: 'Error generating PDF' });
         res.end();
     });
 
     archive.on('error', error => {
+        console.log(error);
+        logger.log('error', {
+          message: error.message,
+          stack: error.stack
+        });
         console.error('Archive error:', error);
         res.status(500).json({ message: 'Error creating zip archive' });
         res.end();
@@ -114,4 +130,13 @@ export default async function handler(req, res) {
     archive.on('finish', () => {
         res.end();
     });
+
+} catch (error) {
+    console.log(error);
+    logger.log('error', {
+      message: error.message,
+      stack: error.stack
+    });
+    return res.status(500).json({ message: 'Internal Server Error' });
+}
 }
