@@ -70,10 +70,10 @@ export default async function handler(req, res) {
     archive.pipe(res);
 
     // Append each image to the archive
-    for (const photo of photos) {
-        const image = fs.createReadStream(photo.filepath);
-         archive.append(image, { name: `${photo.title}-${photo.size}.${photo.filetype}` });
-    }
+
+    const imageAppendPromises = photos.map(photo => appendImageToArchive(archive, photo));
+
+    await Promise.all(imageAppendPromises);
     
 
   /*    // Create a PDF document
@@ -135,4 +135,17 @@ export default async function handler(req, res) {
     });
     return res.status(500).json({ message: 'Internal Server Error' });
 }
+}
+
+
+
+function appendImageToArchive(archive, photo) {
+    return new Promise((resolve, reject) => {
+        fs.promises.readFile(photo.filepath)
+            .then(data => {
+                archive.append(data, { name: `${photo.title}-${photo.size}.${photo.filetype}` });
+                resolve();
+            })
+            .catch(reject);
+    });
 }
