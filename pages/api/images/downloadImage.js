@@ -37,6 +37,8 @@ export default async function handler(req, res) {
         }
     });
 
+    console.log(photos)
+
     await deActivateExclusiveImages(photos)
 
     // Update the download count for the photos
@@ -74,9 +76,8 @@ export default async function handler(req, res) {
     const imageAppendPromises = photos.map(photo => appendImageToArchive(archive, photo));
 
     await Promise.all(imageAppendPromises);
-    
 
-  /*    // Create a PDF document
+     // Create a PDF document
     const receiptDir = './receipts';
     if (!fs.existsSync(receiptDir)) {
         fs.mkdirSync(receiptDir, { recursive: true });
@@ -92,16 +93,18 @@ export default async function handler(req, res) {
     //Style PDF document
     const styledDocFile = await addReceiptInformation(doc, receipt, photos)
 
-    styledDocFile.end(); */
+    styledDocFile.end();
+
+    archive.append(fs.createReadStream(receiptPath), { name: receiptFilename });
+    archive.finalize(); 
 
     // Append the PDF to the archive after it's fully written
-   /*  stream.on('finish', () => {
-        archive.append(fs.createReadStream(receiptPath), { name: receiptFilename });
-         archive.finalize(); 
-    }); */
-    archive.finalize();
+     stream.on('finish', async () => {
+         
+    }); 
+
     // Handle errors
-   /*  stream.on('error', error => {
+    stream.on('error', error => {
         console.log(error);
         logger.log('error', {
           message: error.message,
@@ -110,7 +113,7 @@ export default async function handler(req, res) {
         console.error('Error generating PDF:', error);
         res.status(500).json({ message: 'Error generating PDF' });
         res.end();
-    }); */
+    }); 
 
     archive.on('error', error => {
         console.log(error);
