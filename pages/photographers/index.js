@@ -49,7 +49,7 @@ export default function Index({ photographers, photographersPage }) {
                     />
                     <div className='px-6 pt-14'>
                       <div className='font-semibold text-xl text-center text-gray-800 mb-2'>
-                        {photographer.user}
+                        {photographer.firstName} {photographer.lastName}
                       </div>
                       <div className='text-center text-gray-600'>
                         {photographer.info.cardText}
