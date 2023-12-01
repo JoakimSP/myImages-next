@@ -115,7 +115,6 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
 
                 <h1 className="text-center text-4xl font-semibold text-white mt-12 mb-6 dark:text-white">Upload a photo</h1>
                 <p className="text-center text-xl text-red-500 border-2 border-red-600 bg-white my-4">
-                    Currently, we only accept <strong className="text-2xl">.tiff</strong> files. Please ensure that the largest dimension of your image is at least <strong className="text-2xl">4112 pixels</strong>.
                     Currently, we only accept <strong className="text-2xl">.tiff</strong> files. Please ensure that the largest dimension of your image is at least
                      <strong className="text-2xl">3260 pixels</strong> and the minimum filesize is  <strong className="text-2xl">80mb</strong>
                 </p>
