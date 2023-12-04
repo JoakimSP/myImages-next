@@ -20,47 +20,47 @@ export default async function handler(req, res) {
     const receipt = JSON.parse(receiptString);
 
     // Fetch the receipt from the database
-        const receiptDB = await prisma.receipt.findFirst({
-            where: {
-                id: receipt[0].id
-            },
-        });
+    const receiptDB = await prisma.receipt.findFirst({
+        where: {
+            id: receipt[0].id
+        },
+    });
 
-        // Check if the receipt has already been downloaded
-        if (receiptDB.downloaded) {
-            return res.status(404).json({ message: "not allowed" });
+    // Check if the receipt has already been downloaded
+    if (receiptDB.downloaded) {
+        return res.status(404).json({ message: "not allowed" });
+    }
+
+    const photoIdsToArray = receipt[0].photosID.split(",");
+    const photos = await prisma.photos.findMany({
+        where: {
+            id: { in: photoIdsToArray }
         }
+    });
 
-        const photoIdsToArray = receipt[0].photosID.split(",");
-        const photos = await prisma.photos.findMany({
-            where: {
-                id: { in: photoIdsToArray }
-            }
-        });
-    
 
     await deActivateExclusiveImages(photos)
 
-   
-        // Update the download count for the photos
-        await prisma.photos.updateMany({
-            where: {
-                id: { in: photoIdsToArray },
-            },
-            data: {
-                countDownloaded: { increment: 1 },
-            },
-        });
 
-        // Update the downloaded status of the receipt
-        await prisma.receipt.update({
-            where: {
-                index: receipt[0].index
-            },
-            data: {
-                downloaded: true,
-            },
-        });
+    // Update the download count for the photos
+    await prisma.photos.updateMany({
+        where: {
+            id: { in: photoIdsToArray },
+        },
+        data: {
+            countDownloaded: { increment: 1 },
+        },
+    });
+
+    // Update the downloaded status of the receipt
+    await prisma.receipt.update({
+        where: {
+            index: receipt[0].index
+        },
+        data: {
+            downloaded: true,
+        },
+    });
 
     // Create an archive
     const archive = archiver('zip', {
@@ -123,13 +123,16 @@ export default async function handler(req, res) {
     archive.append(fs.createReadStream(receiptPath), { name: receiptFilename });
     // Append the PDF to the archive after it's fully written
     await new Promise((resolve, reject) => {
-        archive.on('finish', resolve);
+        archive.on('finish', () => {
+            resolve()
+            res.end();
+        });
         archive.on('error', reject);
         archive.finalize();
     });
 
 
-        res.end();
+
 }
 
 
@@ -141,6 +144,13 @@ function appendImageToArchive(archive, photo) {
                 archive.append(data, { name: `${photo.title}-${photo.size}.${photo.filetype}` });
                 resolve();
             })
-            .catch(reject);
+            .catch(error => {
+                logger.log('error', {
+                    message: error.message,
+                    stack: error.stack
+                });
+                reject()
+            });
+           
     });
 }
