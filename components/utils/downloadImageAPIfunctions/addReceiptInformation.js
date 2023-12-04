@@ -122,7 +122,7 @@ async function addReceiptInformation(docFile, receipt, photos) {
   }
   
   // Add contact information below the footer line
-  const contactInfo = "Contact us at pernilla@spprod.se | Phone: +46155 20 56 00";
+  const contactInfo = "Contact us at support@myimages.se"
   docFile.fontSize(12)
      .text(contactInfo, docFile.x, docFile.y + 10, {
          align: 'center',
@@ -130,6 +130,8 @@ async function addReceiptInformation(docFile, receipt, photos) {
      });
   
 // ... Add more content to the PDF ...
+
+
     return docFile
 }
 
