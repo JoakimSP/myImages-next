@@ -9,6 +9,7 @@ import EditPhoto from "@/components/editPhoto"
 const logger = require('@/components/utils/logger')
 import Layout from "@/components/layout/layout"
 import { toast } from "react-toastify"
+import Link from "next/link"
 
 
 export default function Index(props) {
@@ -148,6 +149,12 @@ export default function Index(props) {
                                 >
                                     Add to cart
                                 </button>
+
+                                <div className="mt-4">
+                                    <Link className="text-indigo-600 hover:text-indigo-800 font-semibold underline" href="/table">
+                                        Size guide
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
