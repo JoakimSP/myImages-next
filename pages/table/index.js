@@ -15,41 +15,41 @@ const Index = () => {
 
   return (
     <Layout>
-        <GoBackButton/>
-        <div className="overflow-x-auto xl:mx-48">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Camera Megapixel</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Approximate Image Size</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 4x6 in</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 8x12 in (A4)</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 12x16 in (A3)</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 16x24 in</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 20x28 in</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 28x40 in</th>
+      <GoBackButton />
+      <div className="overflow-x-auto xl:mx-48">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Camera Megapixel</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Approximate Image Size</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 4x6 in / 10.2x15.2 cm</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 8x12 in / 20.3x30.5 cm (A4)</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 12x16 in / 30.5x40.6 cm (A3)</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 16x24 in / 40.6x61.0 cm</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 20x28 in / 50.8x71.1 cm</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Print Size 28x40 in / 71.1x101.6 cm</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {cameras.map((camera, index) => (
+              <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{camera.megapixel}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{camera.pixelSize}</td>
+                {camera.quality.map((color, i) => (
+                  <td key={i} className={`px-6 py-4 whitespace-nowrap text-sm border-4 border-white ${color}`}></td>
+                ))}
               </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {cameras.map((camera, index) => (
-                <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{camera.megapixel}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{camera.pixelSize}</td>
-                  {camera.quality.map((color, i) => (
-                    <td key={i} className={`px-6 py-4 whitespace-nowrap text-sm border-4 border-white ${color}`}></td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="flex my-4 w-full h-10">
-                    <div className="flex-1 flex justify-center items-center text-center text-white bg-green-500"><p>Very Good</p></div>
-                    <div className="flex-1 flex justify-center items-center text-center text-white bg-green-400"><p>Good</p></div>
-                    <div className="flex-1 flex justify-center items-center text-center text-white bg-yellow-500"><p>Average</p></div>
-                    <div className="flex-1 flex justify-center items-center text-center text-white bg-orange-500"><p>Doubtful</p></div>
-                    <div className="flex-1 flex justify-center items-center text-center text-white bg-red-500"><p>Not Usable</p></div>
-                </div>
+            ))}
+          </tbody>
+        </table>
+        <div className="flex my-4 w-full h-10">
+          <div className="flex-1 flex justify-center items-center text-center text-white bg-green-500"><p>Very Good</p></div>
+          <div className="flex-1 flex justify-center items-center text-center text-white bg-green-400"><p>Good</p></div>
+          <div className="flex-1 flex justify-center items-center text-center text-white bg-yellow-500"><p>Average</p></div>
+          <div className="flex-1 flex justify-center items-center text-center text-white bg-orange-500"><p>Doubtful</p></div>
+          <div className="flex-1 flex justify-center items-center text-center text-white bg-red-500"><p>Not Usable</p></div>
         </div>
+      </div>
     </Layout>
   );
 };
