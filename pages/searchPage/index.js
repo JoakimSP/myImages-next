@@ -3,11 +3,15 @@ import Layout from "@/components/layout/layout"
 import SearchBar from "@/components/searchbar"
 import ShowImagesNext from "@/components/showImages"
 import Pagination from "@/components/searchPage/Pagination"
-import Router from "next/router"
+import { useRouter } from "next/router"
 
 export default function Index({ filterdImages, categories, totalImages }) {
+    const Router = useRouter()
     const currentPage = parseInt(Router.query.page) || 1;
     const totalPages = Math.ceil(totalImages / 20);
+    console.log(filterdImages)
+    console.log(totalImages)
+
 
     return (
         <Layout>
@@ -25,9 +29,8 @@ export default function Index({ filterdImages, categories, totalImages }) {
 export async function getServerSideProps(context) {
     const { searchPhrase, categorie, page = 1 } = context.query;
     const pageSize = 20;
-    let photos;
-    let totalImages;
 
+    // Common conditions for all queries
     const commonConditions = {
         OR: [
             { size: "thumb" },
@@ -37,71 +40,80 @@ export async function getServerSideProps(context) {
     };
 
     try {
-        let category;
-        if (categorie !== "All categories") {
-            category = await prisma.categories.findFirst({
+        let categoryCondition = {};
+        if (categorie && categorie !== "All categories") {
+            const category = await prisma.categories.findFirst({
                 where: { name: decodeURIComponent(categorie) },
                 select: { id: true }
             });
 
-            if (!category) {
-                throw new Error(`Category: ${categorie} not found.`);
+            if (category) {
+                categoryCondition = { categoriesId: category.id };
             }
-            photos = await prisma.photos.findMany({
-                where: {
-                    ...commonConditions,
-                    categoriesId: category.id
-                },
-                skip: (page - 1) * pageSize,
-                take: pageSize,
-            });
-            totalImages = await prisma.photos.count({
-                where: {
-                    ...commonConditions,
-                    categoriesId: category.id
-                }
-            });
-
-        } else {
-            photos = await prisma.photos.findMany({
-                where: commonConditions,
-                skip: (page - 1) * pageSize,
-                take: pageSize,
-            });
-        
-            // Count total images with only common conditions
-            totalImages = await prisma.photos.count({
-                where: commonConditions
-            });
         }
 
-        const filterCondition = image =>
-            image.tags
-            && Array.isArray(image.tags)
-            && image.tags.some(tag =>
-                typeof tag === 'string'
-                && (tag.toLowerCase().includes(searchPhrase?.toLowerCase() || "")
-                    || (searchPhrase?.toLowerCase() || "").includes(tag.toLowerCase()))
+        // Fetch photos without search condition
+        let photos = await prisma.photos.findMany({
+            where: {
+                ...commonConditions,
+                ...categoryCondition
+            },
+            skip: (page - 1) * pageSize,
+            take: pageSize,
+        });
+
+        // Fetch total count without search condition
+        let totalCount = await prisma.photos.count({
+            where: {
+                ...commonConditions,
+                ...categoryCondition
+            },
+        });
+
+        // Manual filter for tags if searchPhrase is provided
+        if (searchPhrase) {
+            const allPhotos = await prisma.photos.findMany({
+                where: {
+                    ...commonConditions,
+                    ...categoryCondition
+                },
+            });
+            const filteredPhotos = allPhotos.filter(photo =>
+                photo.tags &&
+                photo.tags.some(tag => tag.toLowerCase().includes(searchPhrase.toLowerCase()))
             );
+            totalCount = filteredPhotos.length; // Update total count based on filtered photos
+            // Filter the photos for the current page
+            photos = filteredPhotos.slice((page - 1) * pageSize, page * pageSize);
+        }
 
-        const filterdImages = searchPhrase ? photos.filter(filterCondition) : photos;
+        // Calculate total pages
+        const totalPages = Math.ceil(totalCount / pageSize);
 
+        // Fetch all categories
         const categoriesAll = await prisma.categories.findMany({
             select: { id: true, name: true }
         });
 
         return {
-            props: { filterdImages, categories: categoriesAll, totalImages }
+            props: {
+                filterdImages: photos,
+                categories: categoriesAll,
+                totalImages: totalCount, // Total count of filtered images
+                totalPages // Total number of pages
+            }
         };
     } catch (error) {
-        const categoriesAll = await prisma.categories.findMany({
-            select: { id: true, name: true }
-        });
         console.error(error);
         return {
-            props: { filterdImages: [], categories: categoriesAll, totalImages: 0 }
+            props: {
+                filterdImages: [],
+                categories: [],
+                totalImages: 0,
+                totalPages: 0
+            }
         };
     } finally {
-        prisma.$disconnect();
+        await prisma.$disconnect();
     }
 }
