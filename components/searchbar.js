@@ -8,7 +8,7 @@ function SearchBar({ categories }) {
   console.log(categorie)
   const HandleSearch = (e) => {
     e.preventDefault();
-    router.push(`/searchPage?searchPhrase=${e.target.searchDropdown.value}&categorie=${encodeURIComponent(categorie)}`);
+    router.push(`/searchPage?searchPhrase=${e.target.searchDropdown.value}&categorie=${encodeURIComponent(categorie)}&page=1`);
   };
 
   return (
