@@ -1,27 +1,45 @@
 import Layout from "@/components/layout/layout"
 import Image from "next/image";
 import Link from "next/link";
+import aboveBed from '/public/appcontent/inspirationImages/above-bed.jpg';
+import aboveDrawerWall from '/public/appcontent/inspirationImages/above-drawer-wall.jpg';
+import livingRoomEntry from '/public/appcontent/inspirationImages/besides-livingroom-entry.jpg';
+import coffeeShopCorner from '/public/appcontent/inspirationImages/coffieshop-corner.jpg';
+import endOfStairs from '/public/appcontent/inspirationImages/end-of-stairs.jpg';
+import smallImageGallery from '/public/appcontent/inspirationImages/gallery-smallimage.png';
+import galleryView from '/public/appcontent/inspirationImages/gallery.jpg';
+import hallway from '/public/appcontent/inspirationImages/hallway.jpg';
+import livingRoomWall from '/public/appcontent/inspirationImages/livingroom-giant-wall-image.jpg';
+import modernLivingRoom from '/public/appcontent/inspirationImages/livingroom.jpg';
+import lounge from '/public/appcontent/inspirationImages/lounge.jpg';
+import officeFlower from '/public/appcontent/inspirationImages/office-flower-bee.jpg';
+import officeSpider from '/public/appcontent/inspirationImages/office-spider.jpg';
+import reception from '/public/appcontent/inspirationImages/reception.jpg';
+import wallDecoration from '/public/appcontent/inspirationImages/wall-decoration.jpg';
+import wallDecoration2 from '/public/appcontent/inspirationImages/wall-decoration2.jpg';
+import wallDecoration3 from '/public/appcontent/inspirationImages/wall-decoration3.jpg';
+
 
 export default function Index() {
 
     const galleryImages = [
-        { src: "/appcontent/inspirationImages/above-bed.jpg", alt: "Elegant Bedroom Setting", context: "Above Bed" },
-        { src: "/appcontent/inspirationImages/above-drawer-wall.jpg", alt: "Chic Drawer Wall Arrangement", context: "Above Drawer" },
-        { src: "/appcontent/inspirationImages/besides-livingroom-entry.jpg", alt: "Stylish Living Room Entry", context: "Living Room Entry" },
-        { src: "/appcontent/inspirationImages/coffieshop-corner.jpg", alt: "Cozy Coffee Shop Corner", context: "Coffee Shop" },
-        { src: "/appcontent/inspirationImages/end-of-stairs.jpg", alt: "End of Stairs Decoration", context: "Staircase" },
-        { src: "/appcontent/inspirationImages/gallery-smallimage.png", alt: "Small Image Gallery", context: "Small Image" },
-        { src: "/appcontent/inspirationImages/gallery.jpg", alt: "Gallery View", context: "Gallery" },
-        { src: "/appcontent/inspirationImages/hallway.jpg", alt: "Hallway Elegance", context: "Hallway" },
-        { src: "/appcontent/inspirationImages/livingroom-giant-wall-image.jpg", alt: "Living Room with Giant Wall Image", context: "Living Room Wall" },
-        { src: "/appcontent/inspirationImages/livingroom.jpg", alt: "Modern Living Room", context: "Living Room" },
-        { src: "/appcontent/inspirationImages/lounge.jpg", alt: "Relaxing Lounge", context: "Lounge" },
-        { src: "/appcontent/inspirationImages/office-flower-bee.jpg", alt: "Office with Flower and Bee Decor", context: "Office Flower" },
-        { src: "/appcontent/inspirationImages/office-spider.jpg", alt: "Office with Spider Wall Art", context: "Office Spider" },
-        { src: "/appcontent/inspirationImages/reception.jpg", alt: "Welcoming Reception Area", context: "Reception" },
-        { src: "/appcontent/inspirationImages/wall-decoration.jpg", alt: "Creative Wall Decoration", context: "Wall Decoration" },
-        { src: "/appcontent/inspirationImages/wall-decoration2.jpg", alt: "Abstract Wall Decoration", context: "Wall Decoration" },
-        { src: "/appcontent/inspirationImages/wall-decoration3.jpg", alt: "Modern Wall Decoration", context: "Wall Decoration" },
+        { src: aboveBed, alt: "Elegant Bedroom Setting", context: "Above Bed" },
+        { src: aboveDrawerWall, alt: "Chic Drawer Wall Arrangement", context: "Above Drawer" },
+        { src: livingRoomEntry, alt: "Stylish Living Room Entry", context: "Living Room Entry" },
+        { src: coffeeShopCorner, alt: "Cozy Coffee Shop Corner", context: "Coffee Shop" },
+        { src: endOfStairs, alt: "End of Stairs Decoration", context: "Staircase" },
+        { src: smallImageGallery, alt: "Small Image Gallery", context: "Small Image" },
+        { src: galleryView, alt: "Gallery View", context: "Gallery" },
+        { src: hallway, alt: "Hallway Elegance", context: "Hallway" },
+        { src: livingRoomWall, alt: "Living Room with Giant Wall Image", context: "Living Room Wall" },
+        { src: modernLivingRoom, alt: "Modern Living Room", context: "Living Room" },
+        { src: lounge, alt: "Relaxing Lounge", context: "Lounge" },
+        { src: officeFlower, alt: "Office with Flower and Bee Decor", context: "Office Flower" },
+        { src: officeSpider, alt: "Office with Spider Wall Art", context: "Office Spider" },
+        { src: reception, alt: "Welcoming Reception Area", context: "Reception" },
+        { src: wallDecoration, alt: "Creative Wall Decoration", context: "Wall Decoration" },
+        { src: wallDecoration2, alt: "Abstract Wall Decoration", context: "Wall Decoration" },
+        { src: wallDecoration3, alt: "Modern Wall Decoration", context: "Wall Decoration" },
     ];
 
     return (
@@ -37,7 +55,14 @@ export default function Index() {
                     {galleryImages.map((image, index) => (
                         <Link key={index} href={image.src}>
                             <div className="relative overflow-hidden rounded-lg shadow-lg h-96">
-                                <Image src={image.src} alt={image.alt} fill sizes="100vw 50vw 33vw" quality={30} className="object-cover" />
+                                <Image
+                                    src={image.src}
+                                    alt={image.alt}
+                                    fill
+                                    sizes="100vw 50vw 33vw"
+                                    quality={30}
+                                    className="object-cover"
+                                />
                                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
                                     <p className="text-white text-lg">{image.context}</p>
                                 </div>
