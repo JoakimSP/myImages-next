@@ -57,9 +57,9 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
               className="object-cover w-full max-h-[800px]"
 
             />
-            <div className="pl-8 absolute top-1/2 md:top-1/4 left-1/2 md:left-1/3 transform -translate-x-1/2 -translate-y-1/2 z-10">
-              <h1 className="text-white text-7xl font-light mb-4 whitespace-pre-wrap">{exclusiveCollection.homepageTitle}</h1>
-              <h3 className="text-white text-3xl font-light whitespace-pre-wrap">{exclusiveCollection.homepageSubTitle}</h3>
+            <div className="pl-8 absolute top-1/2 md:top-1/4 left-1/3 transform -translate-x-1/2 -translate-y-1/2 z-10">
+              <h1 className="text-white text-4xl  md:text-7xl font-light mb-4 whitespace-pre-wrap">{exclusiveCollection.homepageTitle}</h1>
+              <h3 className="text-white text-xl md:text-3xl font-light whitespace-pre-wrap">{exclusiveCollection.homepageSubTitle}</h3>
             </div>
           </div>
         </Link>
