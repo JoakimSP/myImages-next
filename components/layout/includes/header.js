@@ -50,10 +50,10 @@ export default function Header() {
 
     <ErrorBoundary>
       <nav className="bg-custom-header-grey">
-        <div className=" flex flex-wrap items-center justify-between md:justify-between mr-0  ml-12 p-4">
+        <div className=" flex flex-wrap items-center justify-between md:justify-between mr-0  md:ml-12 p-4">
 
 
-          <div className="flex items-center md:order-2">
+          <div className="flex flex-1 justify-between md:flex-none items-center md:order-2">
 
 
             <div className="flex items-center space-x-6">
