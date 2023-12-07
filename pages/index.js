@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import SearchBar from '@/components/searchbar'
+import SearchBar from '@/components/searchPage/searchbar'
 import Image from "next/image";
 import prisma from '@/components/prisma';
 import Layout from '@/components/layout/layout';
