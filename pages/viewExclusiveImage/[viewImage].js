@@ -10,6 +10,7 @@ const logger = require('@/components/utils/logger')
 import Layout from "@/components/layout/layout"
 import { toast } from "react-toastify"
 import Link from "next/link"
+import GoBackButton from "@/components/utils/goBackButton"
 
 
 export default function Index(props) {
@@ -87,7 +88,7 @@ export default function Index(props) {
     return (
         <Layout>
             <div className="bg-custom-grey mb-10">
-                <button className="inline-flex items-center m-4 px-4 py-2 border border-transparent text-base font-medium rounded-md text-black bg-white hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" onClick={() => router.back()}>Go back</button>
+                <GoBackButton/>
                 <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">
                     <h1 className="text-white text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
 
@@ -144,7 +145,7 @@ export default function Index(props) {
                                 ))}
 
                                 <button
-                                    className="w-full py-2 px-4 mt-6 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700 transition-all duration-300"
+                                    className="w-full py-2 px-4 mt-6 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                                     onClick={() => handleAddToCart(photo.id)}
                                 >
                                     Add to cart

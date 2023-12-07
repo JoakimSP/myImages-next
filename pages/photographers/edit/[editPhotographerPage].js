@@ -40,7 +40,7 @@ export default function EditPhotographerPage({ userdata, randomFactIndex, catego
                 <li className="flex-1">
                   <button
                     onClick={() => setActiveView('updateinfo')}
-                    className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'updateinfo' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                    className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'updateinfo' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
                   >
                     Info
                   </button>
@@ -48,7 +48,7 @@ export default function EditPhotographerPage({ userdata, randomFactIndex, catego
                 <li className="flex-1">
                   <button
                     onClick={() => setActiveView('uploadphoto')}
-                    className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'uploadphoto' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                    className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'uploadphoto' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
                   >
                     Upload
                   </button>
@@ -56,7 +56,7 @@ export default function EditPhotographerPage({ userdata, randomFactIndex, catego
                 <li className="flex-1">
                   <button
                     onClick={() => setActiveView('createcollection')}
-                    className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'uploadphoto' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                    className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'createcollection' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
                   >
                     Collections
                   </button>

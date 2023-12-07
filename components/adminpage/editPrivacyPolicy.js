@@ -34,7 +34,7 @@ export default function EditPrivacyPolicy({ text }) {
                 {ReactQuill ? <ReactQuill theme="snow" value={value} onChange={setValue} /> : null}
 
             </div>
-            <button onClick={handleSaveInput} className="py-2 px-6 w-28 self-center mt-4 bg-sky-700 text-white font-semibold rounded-md hover:bg-opacity-90 transition-all duration-300">Save</button>
+            <button onClick={handleSaveInput} className="py-2 px-6 w-28 self-center mt-4 bg-gray-700 border-2 border-black text-white font-semibold rounded-md hover:bg-opacity-90 transition-all duration-300">Save</button>
         </>
     )
 }

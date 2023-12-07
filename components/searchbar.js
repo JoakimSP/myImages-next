@@ -16,12 +16,12 @@ function SearchBar({ categories }) {
       <form onSubmit={HandleSearch} className="w-full md:w-3/4 lg:w-1/2 mx-12">
         <div className="flex flex-wrap relative">
           <label htmlFor="categoryDropdown" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Categories</label>
-          <div className="relative flex-shrink-0 z-10 w-full sm:w-auto mb-2 sm:mb-0">
+          <div className="relative flex-shrink-0 z-10 w-full sm:w-auto mb-2 sm:mb-">
             <select
               id="categoryDropdown"
               value={categorie}
               onChange={(e) => setCategorie(e.target.value)}
-              className="block appearance-none py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600 w-full md:rounded-r-none rounded-r-lg"
+              className="block appearance-none py-2.5 px-4 text-sm font-medium text-white bg-gray-600 border border-gray-950 rounded-l-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600 w-full md:rounded-r-none rounded-r-lg"
             >
               <option value="All categories">All categories</option>
               {categories.map((cat) => (

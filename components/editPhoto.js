@@ -110,7 +110,7 @@ export default function EditPhoto({ photo, categories, collections, photoCopies,
             </div>
     
             <div className="mt-6">
-                <input type="submit" value="Submit" className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700 transition duration-300 ease-in-out" />
+                <input type="submit" value="Submit" className="px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"/>
             </div>
         </form>
     </ErrorBoundary>

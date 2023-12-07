@@ -96,7 +96,7 @@ export default function EditPricePage({ pricingInfo }) {
                 <div className="mt-8 flex justify-center w-full px-4">
                     <button
                         type="submit"
-                        className="w-1/2 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 active:bg-blue-700 transition duration-300 ease-in-out transform hover:-translate-y-0.5"
+                        className="w-1/2 bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600 active:bg-gray-700 transition duration-300 ease-in-out transform hover:-translate-y-0.5"
                     >
                         Update
                     </button>
