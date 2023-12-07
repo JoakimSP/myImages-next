@@ -10,6 +10,7 @@ import EditPricePage from "@/components/adminpage/editPricePage";
 import Mail from "@/components/adminpage/mail";
 import EditSupport from "@/components/adminpage/EditSupport";
 import EditPhotographPage from "@/components/adminpage/editPhotographPage";
+import BoughtExclusiveImages from "@/components/adminpage/boughtExclusiveImages";
 
 
 export default function AdminPage({ photographers,
@@ -46,6 +47,8 @@ export default function AdminPage({ photographers,
         return <Mail contactMails={contactMails} />;
       case 'support':
         return <EditSupport supportText={supportText} />;
+      case 'photos':
+        return <BoughtExclusiveImages photos={exclusiveCollection.photos}/>;
       default:
         return null;
     }
@@ -62,7 +65,7 @@ export default function AdminPage({ photographers,
           <li className="flex-1">
             <button
               onClick={() => changeActiveView('photographers')}
-              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'photographers' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'photographers' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
             >
               Photographers
             </button>
@@ -70,15 +73,23 @@ export default function AdminPage({ photographers,
           <li className="flex-1">
             <button
               onClick={() => changeActiveView('photographersPage')}
-              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'photographers' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'photographersPage' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
             >
               PhotographersPage
             </button>
           </li>
           <li className="flex-1">
             <button
+              onClick={() => changeActiveView('photos')}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'photos' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
+            >
+              Exclusive Photos
+            </button>
+          </li>
+          <li className="flex-1">
+            <button
               onClick={() => changeActiveView('categories')}
-              className={`w-full whitespace-nowrap text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'categories' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+              className={`w-full whitespace-nowrap text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'categories' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
             >
               Photo Settings
             </button>
@@ -86,7 +97,7 @@ export default function AdminPage({ photographers,
           <li className="flex-1">
             <button
               onClick={() => changeActiveView('privacy')}
-              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'privacy' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'privacy' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
             >
               Privacy
             </button>
@@ -94,7 +105,7 @@ export default function AdminPage({ photographers,
           <li className="flex-1">
             <button
               onClick={() => changeActiveView('collections')}
-              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'collections' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'collections' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
             >
               Collections
             </button>
@@ -102,7 +113,7 @@ export default function AdminPage({ photographers,
           <li className="flex-1">
             <button
               onClick={() => changeActiveView('pricing')}
-              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'collections' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'pricing' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
             >
               pricing
             </button>
@@ -110,7 +121,7 @@ export default function AdminPage({ photographers,
           <li className="flex-1">
             <button
               onClick={() => changeActiveView('mail')}
-              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'collections' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'mail' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
             >
               Mail
             </button>
@@ -118,7 +129,7 @@ export default function AdminPage({ photographers,
           <li className="flex-1">
             <button
               onClick={() => changeActiveView('support')}
-              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'collections' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-200'}`}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'support' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
             >
               support
             </button>
