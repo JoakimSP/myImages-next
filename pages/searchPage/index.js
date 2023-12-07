@@ -1,6 +1,6 @@
 import prisma from "@/components/prisma"
 import Layout from "@/components/layout/layout"
-import SearchBar from "@/components/searchbar"
+import SearchBar from "@/components/searchPage/searchbar"
 import ShowImagesNext from "@/components/showImages"
 import Pagination from "@/components/searchPage/Pagination"
 import { useRouter } from "next/router"
@@ -9,9 +9,6 @@ export default function Index({ filterdImages, categories, totalImages }) {
     const Router = useRouter()
     const currentPage = parseInt(Router.query.page) || 1;
     const totalPages = Math.ceil(totalImages / 20);
-    console.log(filterdImages)
-    console.log(totalImages)
-
 
     return (
         <Layout>
