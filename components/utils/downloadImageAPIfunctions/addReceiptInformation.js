@@ -1,4 +1,4 @@
-import prisma from "@/components/prisma";
+import formatCurrency from "../formatCurrency";
 async function addReceiptInformation(docFile, receipt, photos) {
 
     const receiptData = {
@@ -74,7 +74,7 @@ async function addReceiptInformation(docFile, receipt, photos) {
   
   // Cost
   docFile.fontSize(14)
-  .text(`Cost: ${receiptData.cost}`, 50, currentY)
+  .text(`Cost: ${formatCurrency(receiptData.cost)}`, 50, currentY)
   .moveDown();
   
   currentY += lineHeight;
@@ -87,7 +87,7 @@ async function addReceiptInformation(docFile, receipt, photos) {
   
   // Item details
   const imageList = receiptData.images.map(image => 
-   `Image ID: ${image.id} - Pricegroup: ${image.size} - Price: ${image.price}`
+   `Image ID: ${image.id} - Pricegroup: ${image.size} - Price: ${formatCurrency(image.price)}`
   );
   
   // Set the font size for the list
