@@ -17,12 +17,14 @@ export default function AdminPage({ photographers,
   categories,
   policyText,
   pricingInfo,
+  pricingExclusiveInfo,
   collections,
   featuredcol,
   contactMails,
   exclusiveCollection,
   supportText,
   photographersPage }) {
+    console.log(pricingExclusiveInfo)
 
   const [activeView, setActiveView] = useState();
   useEffect(() => {
@@ -42,7 +44,7 @@ export default function AdminPage({ photographers,
       case 'collections':
         return <AddNewCollection collections={collections} photographers={photographers} featuredcol={featuredcol} exclusiveCollection={exclusiveCollection} />;
       case 'pricing':
-        return <EditPricePage pricingInfo={pricingInfo} />;
+        return <EditPricePage pricingInfo={pricingInfo} pricingExclusiveInfo={pricingExclusiveInfo} />;
       case 'mail':
         return <Mail contactMails={contactMails} />;
       case 'support':
@@ -240,6 +242,17 @@ console.log(photographersPage)
         footerText: true,
       }
     });
+    const pricingExclusiveInfo = await prisma.pricingpageExclusive.findFirst({
+      where: {
+        id: "1"
+      },
+      select: {
+        title: true,
+        subtitle: true,
+        image: true,
+        text: true,
+      }
+    });
 
     const supportText = await prisma.support.findMany({
       select: {
@@ -255,6 +268,7 @@ console.log(photographersPage)
         categories: JSON.parse(JSON.stringify(categories)),
         policyText,
         pricingInfo,
+        pricingExclusiveInfo,
         collections: JSON.parse(JSON.stringify(collections)),
         featuredcol: JSON.parse(JSON.stringify(featuredcol)),
         contactMails,
@@ -281,6 +295,7 @@ console.log(photographersPage)
         exclusiveCollection: [],
         supportText: [],
         pricingInfo: [],
+        pricingExclusiveInfo: [],
         photographersPage: [],
       }
     }
