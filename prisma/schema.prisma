@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
 }
 
 datasource db {
@@ -86,15 +86,14 @@ model cart {
 }
 
 model Receipt {
-  id           String   @default(cuid())
-  index        Int      @id @default(autoincrement()) @unique
+  id           String  @default(cuid())
+  index        Int     @id @unique @default(autoincrement())
   photosID     String
   sessionEmail String
-  downloaded   Boolean  @default(false)
+  downloaded   Boolean @default(false)
   dateAdded    String
   price        Int
 }
-
 
 model categories {
   id          String   @id @default(cuid())
@@ -170,7 +169,7 @@ model photographerPage {
 model pricingpage {
   id                 String   @id @default("1")
   title              String   @db.VarChar(255)
-  subtitle           String   @db.VarChar(255)
+  subtitle           String   @db.LongText
   imageUrlLeft       String   @db.VarChar(255)
   imageTitleLeft     String   @db.VarChar(255)
   imageSubTitleLeft  String   @db.LongText
@@ -182,6 +181,16 @@ model pricingpage {
   footerText         String   @db.LongText
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model pricingpageExclusive {
+  id        String   @id @default("1")
+  title     String   @db.VarChar(255)
+  subtitle  String   @db.LongText
+  image     String   @db.VarChar(255)
+  text      String   @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model contact {
