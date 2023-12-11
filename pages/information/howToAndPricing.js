@@ -14,7 +14,7 @@ export default function howToAndPricing({ pricingData }) {
                 <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg">
                     {pricingData.subtitle}
                 </div>
-                <div className="mb-8 flex justify-center space-x-4 whitespace-nowrap">
+                <div className="mb-8 flex flex-col md:flex-row items-center justify-center space-x-4 whitespace-nowrap">
                     <Link href="/information/howToAndPricing" className="border-b-4 border-white px-2 py-2.5 text-xl font-bold hover:border-blue-400 md:px-5">
 
                         Pricing Information
@@ -58,7 +58,13 @@ export default function howToAndPricing({ pricingData }) {
                         <div className="p-4">
                             <h2 className="text-xl font-semibold mb-2">{pricingData.imageTitleRight}</h2>
                             <p className="text-gray-400 mb-4">{pricingData.imageSubTitleRight}</p>
+                            <p className="text-gray-400 mb-4"> All payments are done using PayPal services. In order to facilitate your payment,
+                             please see the following guide to get started with your personal
+                              PayPal account: <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://www.paypal.com/c2/webapps/mpp/how-to-guides/how-to-use-paypal?locale.x=en_C2"}>Go to instructions</Link></p>
                             <span className="text-lg font-bold whitespace-pre-wrap">{pricingData.imagePriceRight}</span>
+                            <span className="text-lg font-bold whitespace-pre-wrap">To enable you to shop images found on our website you need to sign in using your Google account.
+                             If you do not have a Google account, please create one following these <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://support.google.com/mail/answer/56256?hl=en"}>instructions</Link>
+                             </span>
                         </div>
                     </div>
                 </div>
