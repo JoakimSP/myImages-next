@@ -53,7 +53,7 @@ export default function Support({supportText}) {
                                         type="button"
                                         className="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800"
                                     >
-                                        <span>What Should I Do If I Can't Find the Answer I'm Looking For?</span>
+                                        <span>What Should I Do If I Can&apos;t Find the Answer I&apos;m Looking For?</span>
                                         <svg
                                             data-accordion-icon
                                             className={`w-3 h-3 shrink-0 ${toggleState[99] ? "rotate-180" : ""}`}
