@@ -1,8 +1,9 @@
 import { useState } from "react";
 import InputField from "../utils/inputField";
 import { toast } from "react-toastify";
+import EditPricePageExclusive from "./editPricePageExclusive";
 
-export default function EditPricePage({ pricingInfo }) {
+export default function EditPricePage({ pricingInfo, pricingExclusiveInfo }) {
     const [formData, setFormData] = useState({
         title: pricingInfo.title || '',
         subtitle: pricingInfo.subtitle || '',
@@ -51,6 +52,7 @@ export default function EditPricePage({ pricingInfo }) {
         }
     };
     return (
+        <>
         <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:p-16">
             <form onSubmit={handleSubmit} className="w-full max-w-4xl bg-white p-8 rounded-2xl shadow-xl flex flex-wrap">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center w-full">Update Pricing Page</h2>
@@ -89,7 +91,14 @@ export default function EditPricePage({ pricingInfo }) {
                 {/* Footer Text - Placing it below the columns */}
                 <div className="w-full px-4 mt-6">
                     <h3 className="font-semibold mb-4 text-lg text-blue-600 border-b-2 pb-2">Footer Text</h3>
-                    <InputField as={"textarea"} type="text" label="Footer Text" name="footertext" value={formData.footertext} onChange={handleChange} />
+                    <InputField
+                     as={"textarea"}
+                      type="text"
+                       label="Footer Text"
+                        name="footertext"
+                         value={formData.footertext}
+                          onChange={handleChange}
+                           />
                 </div>
 
                 {/* Submit Button */}
@@ -103,5 +112,7 @@ export default function EditPricePage({ pricingInfo }) {
                 </div>
             </form>
         </div>
+        <EditPricePageExclusive pricingExclusiveInfo={pricingExclusiveInfo}/>
+        </>
     );
 }
