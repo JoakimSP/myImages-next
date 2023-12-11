@@ -51,9 +51,8 @@ export default function Index({ getPhotoInformation }) {
     return (
         <Layout>
             <div className="md:m-48 p-8 bg-white rounded-lg shadow-xl">
-                <h1 className="text-2xl font-bold mb-6 text-center">Safeguard your original content with our market-hold feature</h1>
-                <p className="mb-4 text-sm text-gray-600">With our market-hold, gain peace of mind as we ensure the removal of your chosen image or video from our platform for your exclusive use. Enjoy flexible timeframes and complete buyout options. Remember, all our assets are royalty-free, allowing uninterrupted usage even after the market-hold period concludes.</p>
-                <p className="mb-4 text-sm text-blue-500">Reach out at +46155 20 56 00 within our working hours, or simply complete the form below. We&apos;re eager to assist you further.</p>
+                <h1 className="text-2xl font-bold mb-6 text-center">Contact Us</h1>
+                <p className="mb-4 text-sm text-gray-600 text-center">Please enter your personal information and your query so we can support you.</p>
                 <form>
 
                     <div className="mb-4">
@@ -89,7 +88,7 @@ export default function Index({ getPhotoInformation }) {
                             required
                         />
                     </div>
-                    <div className="mb-4">
+                    {/* <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Business Phone</label>
                         <input
                             name="businessPhone"
@@ -119,7 +118,7 @@ export default function Index({ getPhotoInformation }) {
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             type="text"
                         />
-                    </div>
+                    </div> */}
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Country</label>
                         <select className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={formData.country} name="country" onChange={handleChange}>
