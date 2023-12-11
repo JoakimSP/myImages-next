@@ -32,7 +32,7 @@ function Footer() {
                                 <h2 className="mb-6 text-sm font-semibold uppercase text-white">Support</h2>
                                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                     <li className="mb-4">
-                                        <Link href="/information/support" className="hover:underline">Customer support</Link>
+                                        <Link href="/information/support" className="hover:underline">Frequently Asked Questions</Link>
                                     </li>
                                 </ul>
                             </div>
