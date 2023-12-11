@@ -31,8 +31,8 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
           />
 
           <div className='flex flex-col justify-start items-center w-screen h-full pt-36 absolute text-center'>
-            <h1 className=' text-white text-3xl md:text-7xl font-light whitespace-pre-wrap z-20'>Welcome to myImages.se</h1>
-            <h1 className='  text-white text-lg md:text-3xl font-light  whitespace-pre-wrap z-20'> Your market place for high res images</h1>
+            <h1 className=' text-white text-3xl md:text-7xl font-light whitespace-pre-wrap z-20'>Welcome to myimages.se</h1>
+            <h1 className='  text-white text-lg md:text-3xl font-light  whitespace-pre-wrap z-20'> Your market place for high res images.</h1>
           </div>
           <Image
             src={`/appcontent/18048EB5-ACE3-499A-AFE5-D0CCB02513BC.JPG`}
