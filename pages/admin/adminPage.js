@@ -24,7 +24,6 @@ export default function AdminPage({ photographers,
   exclusiveCollection,
   supportText,
   photographersPage }) {
-    console.log(pricingExclusiveInfo)
 
   const [activeView, setActiveView] = useState();
   useEffect(() => {
