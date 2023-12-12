@@ -47,7 +47,7 @@ export default function EditPricePageExclusive({pricingExclusiveInfo}) {
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:p-16">
-            <form onSubmit={handleSubmit} className="w-full max-w-4xl bg-white p-8 rounded-2xl shadow-xl flex flex-wrap" enctype="multipart/form-data" >
+            <form onSubmit={handleSubmit} className="w-full max-w-4xl bg-white p-8 rounded-2xl shadow-xl flex flex-wrap" encType="multipart/form-data" >
                 <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center w-full">Update Pricing Exclusive Page</h2>
 
                 {/* Across-Page Title */}
