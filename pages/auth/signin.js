@@ -67,9 +67,9 @@ export default function SignIn() {
                             </button>
                             <div>
                             <p className="text-sm text-gray-600 dark:text-gray-400"> To enable purchasing of photos you need a PayPal account,
-                             don't have an account yet? Get started here: <Link className="className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' " href={"https://www.paypal.com/c2/webapps/mpp/how-to-guides/how-to-use-paypal?locale.x=en_C2"}>Go to instructions.</Link></p>
+                             don&apos;t have an account yet? Get started here: <Link className="className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' " href={"https://www.paypal.com/c2/webapps/mpp/how-to-guides/how-to-use-paypal?locale.x=en_C2"}>Go to instructions.</Link></p>
                             </div>
-                            
+
                             {/* Divider */}
                             <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
                                 <p className="mx-4 mb-0 text-center font-semibold dark:text-neutral-200">OR</p>
