@@ -196,7 +196,7 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
                             className="mt-4 px-5 py-2.5 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                             onClick={uploadImage}
                         >
-                            Ladda upp bild
+                            Upload image
                         </button>
                     </div>
 

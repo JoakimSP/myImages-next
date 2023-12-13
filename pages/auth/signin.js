@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import GoBackButton from "@/components/utils/goBackButton";
 
 /* import { signIn, csrfToken } from "next-auth/react"; */
 
@@ -46,7 +47,9 @@ export default function SignIn() {
 
                     {/* Right column container with form */}
                     <div className="flex-1 flex flex-col justify-center mx-6 w-5/12 z-10">
+                        
                         <form>
+                        <GoBackButton/>
                             {/* Customer Login Heading */}
                             <div className="mb-3">
                                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Customer Login</h2>
