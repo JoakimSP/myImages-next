@@ -1,17 +1,12 @@
 import prisma from "@/components/prisma";
 import multer from 'multer';
 import path from 'path';
-import fs from 'fs';
 
 
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const directory = path.join(__dirname, 'images', 'pricingPageExclusive');
-        if (!fs.existsSync(directory)) {
-            fs.mkdirSync(directory, { recursive: true });
-        }
-        cb(null, directory);
+        cb(null, 'images/pricingPageExclusive/');
     },
     filename: function (req, file, cb) {
         cb(null, 'image' + path.extname(file.originalname));
