@@ -54,7 +54,7 @@ export default function Index({ lastReceipt, photos }) {
                 {photos.map((photo, index) => (
                   <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
                     <h4 className="font-semibold text-gray-800">Title: {photo.title}</h4>
-                    <p className="text-gray-600">License Type: {photo.exclusive ? "Exclusive" : "Regular"}</p>
+                    <p className="text-gray-600">License Type: {photo.exclusive ? "Exclusive" : "Standard"}</p>
                     <p className="text-gray-600">Size: {photo.size}</p>
                     <p className="text-gray-600">Price: {formatCurrency(photo.price)}</p>
                   </div>
