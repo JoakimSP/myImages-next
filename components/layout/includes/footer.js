@@ -26,6 +26,9 @@ function Footer() {
                                     <li className="mb-4">
                                         <Link href="/information/privacyPolicy" className="hover:underline">Privacy Policy</Link>
                                     </li>
+                                    <li className="mb-4">
+                                        <Link href="/information/legalNotice" className="hover:underline">Legal Notice</Link>
+                                    </li>
                                 </ul>
                             </div>
                             <div>
@@ -33,6 +36,9 @@ function Footer() {
                                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                     <li className="mb-4">
                                         <Link href="/information/support" className="hover:underline">Frequently Asked Questions</Link>
+                                    </li>
+                                    <li className="mb-4">
+                                        <Link href="/contact" className="hover:underline">Contact Us</Link>
                                     </li>
                                 </ul>
                             </div>
