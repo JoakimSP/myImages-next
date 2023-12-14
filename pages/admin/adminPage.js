@@ -11,11 +11,13 @@ import Mail from "@/components/adminpage/mail";
 import EditSupport from "@/components/adminpage/EditSupport";
 import EditPhotographPage from "@/components/adminpage/editPhotographPage";
 import BoughtExclusiveImages from "@/components/adminpage/boughtExclusiveImages";
+import EditLegalNotice from "@/components/adminpage/editLegalNotice";
 
 
 export default function AdminPage({ photographers,
   categories,
   policyText,
+  legalText,
   pricingInfo,
   pricingExclusiveInfo,
   collections,
@@ -40,6 +42,8 @@ export default function AdminPage({ photographers,
         return <AddNewCategory categories={categories} collections={collections} photographers={photographers} />;
       case 'privacy':
         return <EditPrivacyPolicy text={policyText} />;
+      case 'legal':
+        return <EditLegalNotice text={legalText} />;
       case 'collections':
         return <AddNewCollection collections={collections} photographers={photographers} featuredcol={featuredcol} exclusiveCollection={exclusiveCollection} />;
       case 'pricing':
@@ -101,6 +105,14 @@ export default function AdminPage({ photographers,
               className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'privacy' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
             >
               Privacy
+            </button>
+          </li>
+          <li className="flex-1">
+            <button
+              onClick={() => changeActiveView('legal')}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'legal' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
+            >
+              Legal
             </button>
           </li>
           <li className="flex-1">
@@ -199,6 +211,14 @@ export async function getServerSideProps(context) {
         text: true
       }
     });
+    const legalText = await prisma.legalnotice.findFirst({
+      where: {
+        id: "1"
+      },
+      select: {
+        text: true
+      }
+    });
 
     const photographersPage = await prisma.photographerPage.findFirst({
       where : {
@@ -210,7 +230,7 @@ export async function getServerSideProps(context) {
       }
     })
 
-console.log(photographersPage)
+
     const contactMails = await prisma.contact.findMany({
       select: {
         id: true,
@@ -266,6 +286,7 @@ console.log(photographersPage)
         photographers,
         categories: JSON.parse(JSON.stringify(categories)),
         policyText,
+        legalText,
         pricingInfo,
         pricingExclusiveInfo,
         collections: JSON.parse(JSON.stringify(collections)),
@@ -288,6 +309,7 @@ console.log(photographersPage)
         photographers: [],
         categories: [],
         policyText: null,
+        legalText: null,
         collections: [],
         featuredcol: [],
         contactMails: [],
