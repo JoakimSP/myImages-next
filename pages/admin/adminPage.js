@@ -12,11 +12,13 @@ import EditSupport from "@/components/adminpage/EditSupport";
 import EditPhotographPage from "@/components/adminpage/editPhotographPage";
 import BoughtExclusiveImages from "@/components/adminpage/boughtExclusiveImages";
 import EditLegalNotice from "@/components/adminpage/editLegalNotice";
+import ReceiptsList from "@/components/adminpage/listReceipts";
 
 
 export default function AdminPage({ photographers,
   categories,
   policyText,
+  receipt,
   legalText,
   pricingInfo,
   pricingExclusiveInfo,
@@ -53,7 +55,9 @@ export default function AdminPage({ photographers,
       case 'support':
         return <EditSupport supportText={supportText} />;
       case 'photos':
-        return <BoughtExclusiveImages photos={exclusiveCollection.photos}/>;
+        return <BoughtExclusiveImages photos={exclusiveCollection.photos} />;
+      case 'receipt':
+        return <ReceiptsList receipts={receipt} />;
       default:
         return null;
     }
@@ -147,6 +151,14 @@ export default function AdminPage({ photographers,
               support
             </button>
           </li>
+          <li className="flex-1">
+            <button
+              onClick={() => changeActiveView('receipt')}
+              className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'receipt' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
+            >
+              receipt
+            </button>
+          </li>
         </ul>
 
         <div className="flex flex-col pb-44">{renderActiveView()}</div>
@@ -158,24 +170,48 @@ export default function AdminPage({ photographers,
 
 export async function getServerSideProps(context) {
 
+  let data = {
+    photographers: [],
+    categories: [],
+    policyText: "",
+    legalText: "",
+    collections: [],
+    featuredcol: [],
+    contactMails: [],
+    exclusiveCollection: [],
+    supportText: [],
+    pricingInfo: [],
+    pricingExclusiveInfo: [],
+    photographersPage: [],
+    receipt: []
+  };
+
   try {
+    const receipt = await prisma.receipt.findMany({
+      orderBy : {
+        index: 'desc'
+      }
+    })
+    if(receipt){data.receipt = receipt}
 
     const photographers = await prisma.photographer.findMany({
       orderBy: [
         { lastName: 'asc' }
       ]
     })
+    if (photographers) { data.photographers = photographers }
     const categories = await prisma.categories.findMany({
       orderBy: [
         { name: 'asc' }
       ]
     })
+    if (categories) { data.categories = JSON.parse(JSON.stringify(categories)) }
     const collections = await prisma.collection.findMany({
       orderBy: [
         { name: 'asc' }
       ]
     })
-
+    if (collections) { data.collections = JSON.parse(JSON.stringify(collections)) }
     const exclusiveCollection = await prisma.exclusivecollections.findFirst({
       where: {
         id: "1"
@@ -193,6 +229,7 @@ export async function getServerSideProps(context) {
         photographerPersonID: true
       }
     })
+    if (exclusiveCollection) { data.exclusiveCollection = exclusiveCollection }
     const featuredcol = await prisma.featuredcollections.findFirst({
       where: {
         id: "1"
@@ -203,6 +240,7 @@ export async function getServerSideProps(context) {
         subTitle: true
       }
     })
+    if (featuredcol) { data.featuredcol = JSON.parse(JSON.stringify(featuredcol)) }
     const policyText = await prisma.privacypolicy.findFirst({
       where: {
         id: "1"
@@ -211,6 +249,7 @@ export async function getServerSideProps(context) {
         text: true
       }
     });
+    if (policyText) { data.policyText = policyText }
     const legalText = await prisma.legalnotice.findFirst({
       where: {
         id: "1"
@@ -219,9 +258,9 @@ export async function getServerSideProps(context) {
         text: true
       }
     });
-
+    if (legalText) { data.legalText = legalText }
     const photographersPage = await prisma.photographerPage.findFirst({
-      where : {
+      where: {
         id: "1"
       },
       select: {
@@ -229,7 +268,7 @@ export async function getServerSideProps(context) {
         subtitle: true
       }
     })
-
+    if (photographersPage) { data.photographersPage = photographersPage }
 
     const contactMails = await prisma.contact.findMany({
       select: {
@@ -245,6 +284,7 @@ export async function getServerSideProps(context) {
         photos: true,
       }
     })
+    if (contactMails) { data.contactMails = contactMails }
     const pricingInfo = await prisma.pricingpage.findFirst({
       where: {
         id: "1"
@@ -261,6 +301,7 @@ export async function getServerSideProps(context) {
         footerText: true,
       }
     });
+    if (pricingInfo) { data.pricingInfo = pricingInfo }
     const pricingExclusiveInfo = await prisma.pricingpageExclusive.findFirst({
       where: {
         id: "1"
@@ -272,18 +313,18 @@ export async function getServerSideProps(context) {
         text: true,
       }
     });
-
+    if (pricingExclusiveInfo) { data.pricingExclusiveInfo = pricingExclusiveInfo }
     const supportText = await prisma.support.findMany({
       select: {
         question: true,
         answer: true
       }
     })
+    if (supportText) { data.supportText = JSON.parse(JSON.stringify(supportText)) }
 
-   
     return {
       props: {
-        photographers,
+        /* photographers,
         categories: JSON.parse(JSON.stringify(categories)),
         policyText,
         legalText,
@@ -294,7 +335,8 @@ export async function getServerSideProps(context) {
         contactMails,
         exclusiveCollection,
         supportText: JSON.parse(JSON.stringify(supportText)),
-        photographersPage
+        photographersPage */
+        ...data
       }
     }
 
@@ -306,18 +348,7 @@ export async function getServerSideProps(context) {
     })
     return {
       props: {
-        photographers: [],
-        categories: [],
-        policyText: null,
-        legalText: null,
-        collections: [],
-        featuredcol: [],
-        contactMails: [],
-        exclusiveCollection: [],
-        supportText: [],
-        pricingInfo: [],
-        pricingExclusiveInfo: [],
-        photographersPage: [],
+       ...data
       }
     }
   } finally {
