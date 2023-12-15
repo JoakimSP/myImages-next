@@ -25,7 +25,7 @@ export default function ViewReceipt({ receipt, date }) {
                 </div>
                 <div>
                     <h3 className="font-semibold text-gray-600">Purchased photos</h3>
-                   {photos.map( photo =>{ return <p>{photo}</p>})}
+                   {photos.map( (photo, index) =>{ return <p key={index}>{photo}</p>})}
                 </div>
                 
             </div>
