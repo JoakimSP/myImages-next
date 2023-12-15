@@ -21,7 +21,7 @@ export default function howToAndPricing({ pricingData }) {
 
                     </Link>
                     <Link href="/information/exclusiveRIghts" className="px-2 py-2.5 text-xl font-bold text-gray-300 hover:border-b-4 hover:text-blue-400 md:px-5">
-                        Exclusive Collection, how it works
+                        Exclusive Collection
                     </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

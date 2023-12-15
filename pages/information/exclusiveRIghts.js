@@ -25,7 +25,7 @@ export default function ExclusiveRights({ pricingExclusiveData }) {
                                 Photos & Sizes
                             </Link>
                             <Link href="/information/exclusiveRights" className="z-10 border-b-4 border-white px-2 py-2.5 text-xl font-bold text-gray-300 hover:border-b-4 hover:text-blue-400 md:px-5">
-                            Exclusive Collection, how it works
+                            Exclusive Collection
                             </Link>
                         </div>
                     </div>
