@@ -27,7 +27,7 @@ export default function EditExlusiveCollection({ exclusiveCollection, photograph
       });
     }
   }, [exclusiveCollection]);
-console.log(exclusiveCollection)
+
   const handleChange = (e) => {
     if (e.target.name === 'heroImage') {
       setFormData({

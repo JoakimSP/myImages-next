@@ -10,7 +10,7 @@ import { useState, useEffect } from "react"
 export default function PhotographersName({ photographer, photos }) {
   const { info, heropicture, personID } = photographer
   const [imageUrls, setImageUrls] = useState([]);
-console.log(photographer)
+
   useEffect(() => {
     async function fetchImages() {
       try {

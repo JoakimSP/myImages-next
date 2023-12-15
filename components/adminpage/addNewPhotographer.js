@@ -37,6 +37,7 @@ export default function AddNewPhotographer({ photographers }) {
       toast("Created new photographer")
       setCurrentUsers((prev) => [...prev, stateData])
     } catch (error) {
+      console.log(error)
       logErrorToApi({
         message: error.message,
         stack: error.stack

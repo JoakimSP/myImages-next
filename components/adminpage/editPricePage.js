@@ -43,7 +43,6 @@ export default function EditPricePage({ pricingInfo, pricingExclusiveInfo }) {
             if (response.ok) {
                 toast("Data was updated")
                 const data = await response.json();
-                console.log("Updated data:", data);
             } else {
                 console.error("Error updating the pricing page.");
             }
