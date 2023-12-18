@@ -17,9 +17,6 @@ export default function ReceiptsList({ receipts }) {
     const filterReceiptsByDate = () => {
         let start = startDate ? new Date(startDate + 'T00:00:00').getTime() : null;
         let end = endDate ? new Date(endDate + 'T23:59:59').getTime() : null;
-
-        console.log(start)
-        console.log(end)
     
         return receipts.filter(receipt => {
             let receiptDate = new Date(Number(receipt.dateAdded)).getTime();
