@@ -2,14 +2,16 @@ import formatCurrency from "../formatCurrency";
 async function addReceiptInformation(docFile, receipt, photos) {
 
     const receiptData = {
-        companyName: "myImages.se",
+        companyName: "SPIT AB / myimages.se",
         organizationNumber: 5569158503,
         saleDateTime: new Date().toLocaleString(),
         receiptId: receipt[0].id,
         receiptIndex: receipt[0].index,
         images: photos,      
-        cost: receipt[0].price,                               
+        cost: receipt[0].price,
+        vat: "Swedish VAT (25%) is included in sale price within purchase in Sweden."                             
       };
+
       
       const blueColor = '#005b96';
       const lightGrey = '#f2f2f2';
@@ -76,6 +78,13 @@ async function addReceiptInformation(docFile, receipt, photos) {
   docFile.fontSize(14)
   .text(`Cost: ${formatCurrency(receiptData.cost)}`, 50, currentY)
   .moveDown();
+
+  currentY += lineHeight;
+
+
+  docFile.fontSize(14)
+  .text(`Vat: ${receiptData.vat}`, 50, currentY)
+  .moveDown();
   
   currentY += lineHeight;
   
@@ -86,8 +95,9 @@ async function addReceiptInformation(docFile, receipt, photos) {
   currentY += 10; 
   
   // Item details
-  const imageList = receiptData.images.map(image => 
+  const imageList = receiptData.images.map(image =>
    `Image ID: ${image.id} - Pricegroup: ${image.size} - Price: ${formatCurrency(image.price)}`
+
   );
   
   // Set the font size for the list
