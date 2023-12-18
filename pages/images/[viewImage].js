@@ -164,7 +164,7 @@ export default function ViewImage(props) {
 
                                 <div>
                                     <p className="text-gray-500 text-sm mt-2 break-normal">Purchasing a non-exclusive image through this platform includes a standard license (regular license) for the photo.
-                                     This entails a license for personal use, with the condition that the image may not be shared. For further details, refer to the <Link className="text-indigo-600 hover:text-indigo-800 font-semibold underline" href={"/information/legalNotice"}>'Legal Notice'</Link> section.</p>
+                                     This entails a license for personal use, with the condition that the image may not be shared. For further details, refer to the <Link className="text-indigo-600 hover:text-indigo-800 font-semibold underline" href={"/information/legalNotice"}>Legal Notice</Link> section.</p>
                                 </div>
 
                             </div>
