@@ -33,6 +33,7 @@ export default function BoughtExclusiveImages({ photos }) {
     return (
         <>
             <div className="flex flex-col justify-center items-center my-8">
+                <h1 className='text-5xl text-white font-bold text-center mb-8'>All exclusive photos that have been purchased</h1>
                 <table className="w-1/2 bg-white shadow-md rounded-md">
                     <thead>
                         <tr className="bg-gray-200">
@@ -51,7 +52,7 @@ export default function BoughtExclusiveImages({ photos }) {
                                     <button className="bg-blue-500 mx-2 rounded p-1 transform active:scale-95 transition-transform duration-100">
                                         <Link
                                         
-                                            href={`/images/viewimage?img=${encodeURIComponent(photo?.filepath)}&folderpath=${photo?.folderpath}`}>Go to photo</Link>
+                                            href={`/viewExclusiveImage/viewimage?img=${encodeURIComponent(photo?.filepath)}&folderpath=${photo?.folderpath}`}>Go to photo</Link>
                                     </button>
                                 </td>
                                 {/*  <td className="py-2 px-4">
