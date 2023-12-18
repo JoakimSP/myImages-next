@@ -97,7 +97,7 @@ export default function AddNewPhotographer({ photographers }) {
               {currentUsers.map((user) => (
                 <div key={user.firstName} className="flex justify-between">
                   <li  className="mb-2 text-lg text-gray-400 hover:text-gray-300 transition-all duration-200">
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${user.firstName} ${user.lastName},  ID: ${user.personID}`}
                   </li>
                   <button onClick={() => handleDelete(user.personID)} className="bg-red-500 rounded px-1 transform active:scale-95 transition-transform duration-100">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" className="w-4 h-4">
