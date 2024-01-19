@@ -48,7 +48,7 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
           <ShowFeaturedCollection featuredcol={featuredcol} />
         }
         <Link href={"/collections/exclusiveCollection"}>
-          <div className='relative h-full '>
+          <div className='relative h-full'>
             <Image
               src={`/api/images/getFeaturedColImages?imagePath=${exclusiveCollection.heroImagepathrelative}`}
               alt="Exclusive collection"
@@ -57,9 +57,11 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
               className="object-cover w-full max-h-[800px]"
 
             />
-            <div className="pl-8 absolute top-1/2 md:top-1/4 left-1/3 transform -translate-x-1/2 -translate-y-1/2 z-10">
-              <h1 className="text-white text-4xl  md:text-7xl font-light mb-4 whitespace-pre-wrap">{exclusiveCollection.homepageTitle}</h1>
-              <h3 className="text-white text-xl md:text-3xl font-light whitespace-pre-wrap">{exclusiveCollection.homepageSubTitle}</h3>
+            <div className="flex justify-center items-center absolute h-full w-full top-0 z-10">
+              <div className='flex-1 pl-4 md:pl-8 md:mb-36'>
+                <h1 className="text-white text-4xl md:text-7xl font-light mb-4 whitespace-pre-wrap">{exclusiveCollection.homepageTitle}</h1>
+                <h3 className="text-white text-lg md:text-3xl font-light whitespace-pre-wrap">{exclusiveCollection.homepageSubTitle}</h3>
+              </div>
             </div>
           </div>
         </Link>
