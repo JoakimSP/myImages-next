@@ -48,7 +48,7 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
           <ShowFeaturedCollection featuredcol={featuredcol} />
         }
         <Link href={"/collections/exclusiveCollection"}>
-          <div className='relative h-full overflow-scroll'>
+          <div className='relative h-full overflow-scroll xl:overflow-hidden'>
             <Image
               src={`/api/images/getFeaturedColImages?imagePath=${exclusiveCollection.heroImagepathrelative}`}
               alt="Exclusive collection"
