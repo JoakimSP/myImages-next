@@ -4,6 +4,7 @@ import Layout from '@/components/layout/layout';
 import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
+import blurDataURL from '@/components/svgSkeleton';
 
 
 export default function ViewCollections({ collection }) {
@@ -55,7 +56,9 @@ export default function ViewCollections({ collection }) {
                                         width={firstPhotoThumb.width}
                                         height={firstPhotoThumb.height}
                                         className={"object-cover"}
-                                        quality={100} />
+                                        quality={100}
+                                        placeholder="blur"
+                                        blurDataURL={blurDataURL} />
                                 </Link>
                             </div>
                         </div>
@@ -75,7 +78,9 @@ export default function ViewCollections({ collection }) {
                                     width={thumbPhoto?.width}
                                     height={thumbPhoto?.height}
                                     className="mb-5"
-                                    layout='responsive' />
+                                    layout='responsive'
+                                    placeholder="blur"
+                                    blurDataURL={blurDataURL} />
                             </Link>
                         );
                     })}

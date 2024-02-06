@@ -11,6 +11,7 @@ import Layout from "@/components/layout/layout"
 import Link from "next/link"
 import GoBackButton from "@/components/utils/goBackButton"
 import { toast } from "react-toastify"
+import blurDataURL from "@/components/svgSkeleton"
 
 
 export default function ViewImage(props) {
@@ -107,6 +108,8 @@ export default function ViewImage(props) {
                                 height={600}
                                 alt={`#`}
                                 onContextMenu={(e) => e.preventDefault()}
+                                placeholder="blur"
+                                blurDataURL={blurDataURL}
                             />
                             <p className="text-base mt-6 text-white whitespace-pre-wrap">{photo.description}</p>
                             {

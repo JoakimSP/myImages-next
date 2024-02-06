@@ -4,6 +4,7 @@ import prisma from '@/components/prisma';
 import Image from 'next/image';
 import { useState } from 'react';
 import Link from "next/link";
+import blurDataURL from "@/components/svgSkeleton";
 
 
 export default function ExclusiveCollection({ collection, photos }) {
@@ -57,7 +58,9 @@ export default function ExclusiveCollection({ collection, photos }) {
                                 width={thumbPhoto?.width}
                                 height={thumbPhoto?.height}
                                 className="mb-5"
-                                layout='responsive' />
+                                layout='responsive'
+                                placeholder="blur"
+                                blurDataURL={blurDataURL}/>
                         </Link>
                     );
                 })}

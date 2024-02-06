@@ -18,6 +18,7 @@ import reception from '/public/appcontent/inspirationImages/webp/reception.webp'
 import wallDecoration from '/public/appcontent/inspirationImages/webp/wall-decoration.webp';
 import wallDecoration2 from '/public/appcontent/inspirationImages/webp/wall-decoration2.webp';
 import wallDecoration3 from '/public/appcontent/inspirationImages/webp/wall-decoration3.webp';
+import blurDataURL from "@/components/svgSkeleton";
 
 /* // Import thumbnail images for blur placeholders
 import thumbAboveBed from '/public/appcontent/inspirationImages/thumbnails/above-bed.webp';
@@ -61,7 +62,7 @@ export default function Index() {
         { src: wallDecoration2, linkSrc: "/appcontent/inspirationImages/wall-decoration2.jpg", alt: "Abstract Wall Decoration", context: "Wall Decoration" },
         { src: wallDecoration3, linkSrc: "/appcontent/inspirationImages/wall-decoration3.jpg", alt: "Modern Wall Decoration", context: "Wall Decoration" },
     ];
-    
+
 
     return (
         <Layout>
@@ -82,8 +83,8 @@ export default function Index() {
                                     fill
                                     sizes="100vw 50vw 33vw"
                                     quality={30}
-                                    /* placeholder="blur"
-                                    blurDataURL={image.placeholder} */
+                                    placeholder="blur"
+                                    blurDataURL={blurDataURL}
                                     className="object-cover"
                                 />
                                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
