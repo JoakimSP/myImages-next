@@ -17,7 +17,7 @@ export default function ShowAllCollection({ collections }) {
                                     fill={true}
                                     className="object-cover w-full"
                                     sizes="(max-width: 500px) 50vw 33vw"
-                                    quality={30}
+                                    quality={1}
                                     placeholder="blur"
                                     blurDataURL={blurDataURL}
                                 />

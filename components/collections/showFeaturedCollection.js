@@ -72,6 +72,7 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                                     className="object-cover w-full"
                                     placeholder="blur"
                                     blurDataURL={blurDataURL}
+                                    quality={1}
                                 />
                             </Link>
                         </div>

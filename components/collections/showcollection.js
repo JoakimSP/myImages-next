@@ -24,6 +24,7 @@ export default function ShowPhotographerCollection({ photographer }) {
                                 sizes="(max-width: 768px)"
                                 placeholder="blur"
                                 blurDataURL={blurDataURL}
+                                quality={1}
                             />
                         </div>
                         <div className="pt-6"><h3 className="text-center text-3xl text-white">{col.name}</h3></div>
