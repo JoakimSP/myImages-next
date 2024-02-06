@@ -5,6 +5,7 @@ import prisma from '@/components/prisma';
 import Layout from '@/components/layout/layout';
 import ShowFeaturedCollection from '@/components/collections/showFeaturedCollection';
 import Link from 'next/link';
+import blurDataURL from '@/components/svgSkeleton';
 
 
 
@@ -28,6 +29,8 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
             width={200}
             height={200}
             className="object-cover z-20 absolute top-0 left-0 m-4 w-auto h-auto max-h-[200px] max-w-[200px]"
+            placeholder="blur"
+            blurDataURL={blurDataURL}
           />
 
           <div className='flex flex-col justify-start items-center w-screen h-full pt-36 absolute text-center'>
@@ -40,6 +43,8 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
             fill={true}
             className="object-cover w-full"
             priority={true}
+            placeholder="blur"
+            blurDataURL={blurDataURL}
           />
 
           <SearchBar categories={categories} />
@@ -55,6 +60,8 @@ export default function Home({ categories, featuredcol, exclusiveCollection }) {
               width={1500}
               height={1500}
               className="object-cover w-full max-h-[800px]"
+              placeholder="blur"
+              blurDataURL={blurDataURL}
 
             />
             <div className="flex justify-center items-center absolute h-full w-full top-0 z-10">

@@ -3,7 +3,7 @@ import Layout from '@/components/layout/layout'
 import Link from 'next/link'
 import prisma from '@/components/prisma';
 import Image from 'next/image';
-
+import blurDataURL from '@/components/svgSkeleton';
 export default function howToAndPricing({ pricingData }) {
     return (
         <Layout>
@@ -35,6 +35,8 @@ export default function howToAndPricing({ pricingData }) {
                                     alt={pricingData.imageTitleLeft}
                                     fill={true}
                                     sizes="100vw 50vw"
+                                    placeholder="blur"
+                                    blurDataURL={blurDataURL}
                                 />
                             </div>
                         </Link>
@@ -59,12 +61,12 @@ export default function howToAndPricing({ pricingData }) {
                             <h2 className="text-xl font-semibold mb-2">{pricingData.imageTitleRight}</h2>
                             <p className="text-gray-400 mb-4">{pricingData.imageSubTitleRight}</p>
                             <p className="text-gray-400 mb-4"> All payments are done using PayPal services. In order to facilitate your payment,
-                             please see the following guide to get started with your personal
-                              PayPal account: <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://www.paypal.com/c2/webapps/mpp/how-to-guides/how-to-use-paypal?locale.x=en_C2"}>Go to instructions</Link></p>
+                                please see the following guide to get started with your personal
+                                PayPal account: <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://www.paypal.com/c2/webapps/mpp/how-to-guides/how-to-use-paypal?locale.x=en_C2"}>Go to instructions</Link></p>
                             <span className="text-lg font-bold whitespace-pre-wrap">{pricingData.imagePriceRight}</span>
                             <span className="text-lg font-bold whitespace-pre-wrap">To enable you to shop images found on our website you need to sign in using your Google account.
-                             If you do not have a Google account, please create one following these <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://support.google.com/mail/answer/56256?hl=en"}>instructions</Link>
-                             </span>
+                                If you do not have a Google account, please create one following these <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://support.google.com/mail/answer/56256?hl=en"}>instructions</Link>
+                            </span>
                         </div>
                     </div>
                 </div>
