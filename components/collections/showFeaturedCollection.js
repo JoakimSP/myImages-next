@@ -7,6 +7,7 @@ import blurDataURL from "../svgSkeleton";
 
 export default function ShowFeaturedCollection({ featuredcol }) {
     const [activeGroup, setActiveGroup] = useState(0);
+    const [loadingId, setLoadingId] = useState(null);
     const [slidesPerGroup, setSlidesPerGroup] = useState(4); // Start with default of 4
 
     const slides = featuredcol.collection.map(col => ({
@@ -34,6 +35,10 @@ export default function ShowFeaturedCollection({ featuredcol }) {
         return () => window.removeEventListener('resize', updateSlidesPerGroup);
     }, []);
 
+    const handleClick = (id) => {
+        setLoadingId(id);
+    };
+
     const goToGroup = (index) => {
         setActiveGroup(index);
     };
@@ -60,9 +65,11 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                     width: `${totalGroups * 100}%`
                 }}
             >
-                {sortedSlides.map((slide, index) => (
+                {sortedSlides.map((slide, index) => {
+                const isLoading = slide.id === loadingId;
+                return(
                     <div key={slide.id} className="flex flex-col w-full mx-2">
-                        <div className="flex-1 px-2 relative flex flex-col">
+                        <div className="flex-1 px-2 relative flex flex-col" onClick={() => handleClick(slide.id)}>
                             <Link className="relative w-full h-full" href={`/collections/viewCollections?collectionID=${slide.id}`}>
                                 <Image
                                     src={`/api/images/getFeaturedColImages?imagePath=${slide.image}`}
@@ -74,13 +81,22 @@ export default function ShowFeaturedCollection({ featuredcol }) {
                                     blurDataURL={blurDataURL}
                                     quality={1}
                                 />
+                                {isLoading && (
+                                    <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black bg-opacity-50 z-10">
+                                        <svg className="animate-spin h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    </div>
+                                )}
                             </Link>
                         </div>
                         <div className="h-12 pt-6">
                             <h3 className="h-40 text-3xl text-center text-white">{slide.name}</h3>
                         </div>
                     </div>
-                ))}
+                )
+                })}
             </div>
             <div className="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
                 {Array.from({ length: totalGroups }).map((_, index) => (
