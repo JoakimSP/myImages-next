@@ -10,6 +10,7 @@ import GoBackButton from "@/components/utils/goBackButton";
 
 export default function SignIn() {
     const [errorMessage, setErrorMessage] = useState("");
+    const [isPhotographer, setIsPhotographer] = useState(false);
     const email = useRef("");
     const pass = useRef("");
     const router = useRouter()
@@ -47,9 +48,9 @@ export default function SignIn() {
 
                     {/* Right column container with form */}
                     <div className="flex-1 flex flex-col justify-center mx-6 w-5/12 z-10">
-                        
+
                         <form>
-                        <GoBackButton/>
+                            <GoBackButton />
                             {/* Customer Login Heading */}
                             <div className="mb-3">
                                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Customer Login</h2>
@@ -68,9 +69,19 @@ export default function SignIn() {
                                 </svg>
                                 Continue with Google
                             </button>
+                            <button
+                                className="mb-3 flex w-full items-center justify-center rounded bg-primary px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                style={{ backgroundColor: "#0078d4" }}
+                                onClick={() => signIn('auth0', { callbackUrl: `${window.location.origin}/` })}
+                                role="button"
+                            >
+                                <Image src={"/appcontent/camera.png"} alt="Myimages logo" width={25} height={25} className={"mx-3"} />
+                                Sign in using email
+                            </button>
+
                             <div>
-                            <p className="text-sm text-gray-600 dark:text-gray-400"> To enable purchasing of photos you need a PayPal account,
-                             don&apos;t have an account yet? Get started here: <Link className="className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' " href={"https://www.paypal.com/c2/webapps/mpp/how-to-guides/how-to-use-paypal?locale.x=en_C2"}>Go to instructions.</Link></p>
+                                <p className="text-sm text-gray-600 dark:text-gray-400"> To enable purchasing of photos you need a PayPal account,
+                                    don&apos;t have an account yet? Get started here: <Link className="className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' " href={"https://www.paypal.com/c2/webapps/mpp/how-to-guides/how-to-use-paypal?locale.x=en_C2"}>Go to instructions.</Link></p>
                             </div>
 
                             {/* Divider */}
@@ -78,58 +89,57 @@ export default function SignIn() {
                                 <p className="mx-4 mb-0 text-center font-semibold dark:text-neutral-200">OR</p>
                             </div>
 
+                            <h2 className="my-4">Are you a photographer with specific cresidentals to this application?</h2>
+
                             {/* Photographer Login Heading */}
-                            <div className="mb-6">
-                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Photographer Login</h2>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">Use your email and password to sign in.</p>
-                            </div>
+                                <div className="mb-6">
+                                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Photographer Login</h2>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400">Use your email and password to sign in.</p>
 
-                            {/* Email input */}
-                            {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
-                            <div className="mb-6">
-                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Email Address
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    placeholder="Email address"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    onChange={(e) => (email.current = e.target.value)}
-                                    required
-                                />
-                            </div>
+                                    {/* Email input */}
+                                    {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
+                                    <div className="mb-6">
+                                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Email Address
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            placeholder="Email address"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            onChange={(e) => (email.current = e.target.value)}
+                                            required
+                                        />
+                                    </div>
 
-                            {/* Password input */}
-                            <div className="mb-6">
-                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Password
-                                </label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    placeholder="Password"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    onChange={(e) => (pass.current = e.target.value)}
-                                    required
-                                />
-                            </div>
+                                    {/* Password input */}
+                                    <div className="mb-6">
+                                        <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Password
+                                        </label>
+                                        <input
+                                            type="password"
+                                            id="password"
+                                            placeholder="Password"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            onChange={(e) => (pass.current = e.target.value)}
+                                            required
+                                        />
+                                    </div>
 
-                            {/* Remember me and Forgot password link */}
-                            <div className="mb-6 flex items-center justify-between">
-                                <a href="#!" className="text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600">
-                                    Forgot password?
-                                </a>
-                            </div>
+                                    {/* Remember me and Forgot password link */}
+                                    <div className="mb-6 flex items-center justify-between">
+                                        <a href="#!" className="text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600">
+                                            Forgot password?
+                                        </a>
+                                    </div>
 
-                            {/* Submit button */}
-                            <button onClick={onSubmit} className="inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal bg-slate-50 text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
-                                Sign in
-                            </button>
+                                    {/* Submit button */}
+                                    <button onClick={onSubmit} className="inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal bg-slate-50 text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                                        Sign in
+                                    </button>
+                                </div>
 
-                            
-
-                            
                         </form>
                     </div>
                 </div>
