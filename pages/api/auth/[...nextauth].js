@@ -4,7 +4,10 @@ import prisma from "@/components/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from 'bcrypt';
+import Auth0Provider from "next-auth/providers/auth0";
 const logger = require('@/components/utils/logger');
+
+
 
 // Credentials Provider Configuration
 const credentialsProvider = CredentialsProvider({
@@ -45,17 +48,24 @@ const googleProvider = GoogleProvider({
   clientSecret: process.env.GOOGLE_CLIENT_SECRET
 });
 
+const auth0provider = Auth0Provider({
+  clientId: process.env.AUTH0_CLIENT_ID,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  issuer: process.env.AUTH0_ISSUER
+})
+
+
 // Next Auth Options
 export const authOptions = {
   session: {
     strategy: 'jwt'
   },
-  providers: [credentialsProvider, googleProvider],
+  providers: [credentialsProvider, googleProvider, auth0provider],
   secret: process.env.JWT_SECRET,
   database: process.env.DATABASE_URL,
   adapter: PrismaAdapter(prisma),
 
-  pages: {
+ pages: {
     signIn: '/auth/signin', // Custom sign-in page path
     // ... you can override other pages if needed
   },
