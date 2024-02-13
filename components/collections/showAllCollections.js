@@ -17,8 +17,8 @@ export default function ShowAllCollection({ collections }) {
                     const isLoading = col.id === loadingId;
 
                     return (
-                        <Link href={`/collections/viewCollections?collectionID=${col.id}`}>
-                            <div key={col.id} className="group relative h-96" onClick={() => handleClick(col.id)}>
+                        <Link key={col.id} href={`/collections/viewCollections?collectionID=${col.id}`}>
+                            <div  className="group relative h-96" onClick={() => handleClick(col.id)}>
                                 <Image
                                     src={`/api/images/getFeaturedColImages?imagePath=${col.imagepathrelative}`}
                                     alt="Collection image"
