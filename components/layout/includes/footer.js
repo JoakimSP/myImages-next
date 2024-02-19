@@ -42,6 +42,14 @@ function Footer() {
                                     </li>
                                 </ul>
                             </div>
+                            <div>
+                                <h2 className="mb-6 text-sm font-semibold uppercase text-white">Photographer</h2>
+                                <ul className="text-gray-500 dark:text-gray-400 font-medium">
+                                    <li className="mb-4">
+                                        <Link href="/auth/photographerSignIn" className="hover:underline">Sign in as photographer</Link>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div className="mb-6 md:mb-0">
                             <Link href="/" className="flex items-center">
