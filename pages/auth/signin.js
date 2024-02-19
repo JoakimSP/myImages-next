@@ -51,7 +51,7 @@ export default function SignIn() {
                         <div className="flex-1">
                             <GoBackButton />
                         </div>
-                        <form className="flex-[2_2_0%]">
+                        <div className="flex-[2_2_0%]">
 
                             {/* Customer Login Heading */}
                             <div className="mb-3">
@@ -93,7 +93,7 @@ export default function SignIn() {
 
 
 
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
