@@ -39,7 +39,7 @@ export default function Index(props) {
     })
 
     const choosePriceOption = (copy, isCommercial) => {
-    
+
         // Check if the selected option is for a commercial license
         if (isCommercial) {
             setPriceOption({
@@ -53,7 +53,7 @@ export default function Index(props) {
                 price: copy.price  // Set to the default price
             });
         }
-    
+
         setSelectedOption(copy.size);
     };
 
@@ -129,7 +129,7 @@ export default function Index(props) {
                                         </div>
                                     </>
                                 ) : null
-                                
+
                             }
                         </div>
 
@@ -144,7 +144,7 @@ export default function Index(props) {
                                                     <div>
                                                         <div className={`flex gap-4 items-center ${copy.size == "original" && !photo.exclusive ? 'hidden' : ''}`}>
                                                             <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light h-4 w-4" />
-                                                            <p className="text-black font-semibold whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">Non-Commercial license</p>
+                                                            <p className="text-black font-semibold whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">Non-Commercial<br /> license</p>
                                                         </div>
                                                         <div className={`${priceOption.price == copy.price ? "block" : "hidden"}`}>
                                                             <p className="text-gray-600 font-semibold"></p>
@@ -158,14 +158,14 @@ export default function Index(props) {
                                             }
                                         </div>
                                         <div >
-                                            
+
                                             {
                                                 copy.size == "large" &&
                                                 <div className="flex justify-between items-start border-b-2 px-4 py-3 mb-3">
                                                     <div>
                                                         <div className={`flex gap-4 items-center ${copy.size == "original" && !photo.exclusive ? 'hidden' : ''}`}>
                                                             <input type={"radio"} value={copy.commercialPrice} onChange={() => choosePriceOption(copy, true)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light h-4 w-4" />
-                                                            <p className="text-black font-semibold whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">Commercial license</p>
+                                                            <p className="text-black font-semibold whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">Commercial<br /> license</p>
                                                         </div>
                                                         <div className={`${priceOption.price == copy.commercialPrice ? "block" : "hidden"}`}>
                                                             <p className="text-gray-600 font-semibold"></p>
@@ -191,6 +191,15 @@ export default function Index(props) {
                                     <Link className="text-indigo-600 hover:text-indigo-800 font-semibold underline" href="/table">
                                         Size guide
                                     </Link>
+                                </div>
+
+                                <div>
+                                    <p className="text-gray-500 text-sm mt-2 break-normal">You can buy photos from the Exclusive Collection either by a &quot;Non Commercial Licence&quot;,
+                                        meaning it is for your own personal usage and not for sharing it with others and you can print a maximum of 20 copies of it,
+                                        or you can buy a photo with a &quot;Commercial License&quot;, meaning you&apos;ll get a non-restricted exclusive global user/owner right/license
+                                        to selected photo where you can print as many copies as you like. With both license types selected photo will be erased from our database
+                                        once the purchase is done. For further details, refer to the <Link className="text-indigo-600 hover:text-indigo-800 font-semibold underline" href={"/information/legalNotice"}>Legal Notice</Link> section.
+                                        Photos bought from the Exclusive Collection are always in the photos original size (Large) and file format is .TIFF.</p>
                                 </div>
                             </div>
                         </div>
