@@ -38,14 +38,24 @@ export default function Index(props) {
         return photo.size === "thumb"
     })
 
-    const choosePriceOption = (option) => {
-        setPriceOption({
-            size: option.size,
-            price: option.price
-        })
-
-        setSelectedOption(option.size);
-    }
+    const choosePriceOption = (copy, isCommercial) => {
+    
+        // Check if the selected option is for a commercial license
+        if (isCommercial) {
+            setPriceOption({
+                size: copy.size,
+                price: copy.commercialPrice  // Set to commercial price
+            });
+        } else {
+            // For non-commercial or other options
+            setPriceOption({
+                size: copy.size,
+                price: copy.price  // Set to the default price
+            });
+        }
+    
+        setSelectedOption(copy.size);
+    };
 
     async function handleAddToCart(id) {
         if (!session) { return signIn() }
@@ -89,7 +99,7 @@ export default function Index(props) {
     return (
         <Layout>
             <div className="bg-custom-grey mb-10">
-                <GoBackButton/>
+                <GoBackButton />
                 <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">
                     <h1 className="text-white text-3xl text-center font-bold mt-8 mb-6">{photo.title}</h1>
 
@@ -119,6 +129,7 @@ export default function Index(props) {
                                         </div>
                                     </>
                                 ) : null
+                                
                             }
                         </div>
 
@@ -126,27 +137,49 @@ export default function Index(props) {
                             <div className="border-4 rounded-md bg-white shadow-xl p-6 overflow-hidden">
                                 {filterdPhotoCopies.map((copy, index) => (
                                     <div key={index}>
-                                        {
-                                            copy.size == "large" &&
-                                            <div className="flex justify-between items-start border-b-2 px-4 py-3 mb-3" key={index}>
-                                            <div>
-                                                <div className={`flex gap-4 items-center ${copy.size == "original" && !photo.exclusive ? 'hidden' : ''}`}>
-                                                    <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light h-4 w-4" />
-                                                    <p className="text-black font-semibold whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">{copy.size}</p>
+                                        <div >
+                                            {
+                                                copy.size == "large" &&
+                                                <div className="flex justify-between items-start border-b-2 px-4 py-3 mb-3" >
+                                                    <div>
+                                                        <div className={`flex gap-4 items-center ${copy.size == "original" && !photo.exclusive ? 'hidden' : ''}`}>
+                                                            <input type={"radio"} value={copy.price} onChange={() => choosePriceOption(copy)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light h-4 w-4" />
+                                                            <p className="text-black font-semibold whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">Non-Commercial license</p>
+                                                        </div>
+                                                        <div className={`${priceOption.price == copy.price ? "block" : "hidden"}`}>
+                                                            <p className="text-gray-600 font-semibold"></p>
+                                                            <p className="text-gray-500 text-sm mt-2 break-normal">{copy.width}px / {copy.height}px -{copy.filetype}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center max-w-xs">
+                                                        <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden mt-2">{formatCurrency(copy.price)}</p>
+                                                    </div>
                                                 </div>
-                                                <div className={`${priceOption.size == copy.size ? "block" : "hidden"}`}>
-                                                    <p className="text-gray-600 font-semibold"></p>
-                                                    <p className="text-gray-500 text-sm mt-2 break-normal">{copy.width}px / {copy.height}px -{copy.filetype}</p>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center max-w-xs">
-                                                <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden mt-2">{formatCurrency(copy.price)}</p>
-                                            </div>
+                                            }
                                         </div>
-                                        }
+                                        <div >
+                                            
+                                            {
+                                                copy.size == "large" &&
+                                                <div className="flex justify-between items-start border-b-2 px-4 py-3 mb-3">
+                                                    <div>
+                                                        <div className={`flex gap-4 items-center ${copy.size == "original" && !photo.exclusive ? 'hidden' : ''}`}>
+                                                            <input type={"radio"} value={copy.commercialPrice} onChange={() => choosePriceOption(copy, true)} name="priceChoice" className="focus:ring focus:ring-custom-grey-light h-4 w-4" />
+                                                            <p className="text-black font-semibold whitespace-nowrap overflow-ellipsis overflow-hidden max-w-xs capitalize">Commercial license</p>
+                                                        </div>
+                                                        <div className={`${priceOption.price == copy.commercialPrice ? "block" : "hidden"}`}>
+                                                            <p className="text-gray-600 font-semibold"></p>
+                                                            <p className="text-gray-500 text-sm mt-2 break-normal">{copy.width}px / {copy.height}px -{copy.filetype}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center max-w-xs">
+                                                        <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden mt-2">{formatCurrency(copy.commercialPrice)}</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
                                 ))}
-
                                 <button
                                     className="w-full py-2 px-4 mt-6 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                                     onClick={() => handleAddToCart(photo.id)}
