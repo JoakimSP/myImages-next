@@ -14,7 +14,7 @@ const photosIDString = photoIDsInCart.join(',');
             data: {
                 id: id,
                 sessionEmail: email,
-                photosID: photosIDString,
+                photosID: JSON.stringify(photosInCart),
                 dateAdded: Date.now().toString(),
                 price: sumOfCart
             }

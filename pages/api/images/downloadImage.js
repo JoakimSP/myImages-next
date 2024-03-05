@@ -15,6 +15,8 @@ export const config = {
 
 export default async function handler(req, res) {
     const receiptString = decodeURIComponent(req.query.receipt);
+    const photoObjects = decodeURIComponent(req.query.photoObjects);
+    const cartData = decodeURIComponent(req.query.cartData);
     const receipt = JSON.parse(receiptString);
 
     // Fetch the receipt from the database
@@ -29,7 +31,8 @@ export default async function handler(req, res) {
         return res.status(404).json({ message: 'not allowed' });
     }
 
-    const photoIdsToArray = receipt[0].photosID.split(',');
+    const photoIdsToArray = JSON.parse(receipt[0].photosID).map(photo => photo.id);
+    console.log(photoIdsToArray)
     const photos = await prisma.photos.findMany({
         where: {
             id: { in: photoIdsToArray },
@@ -103,7 +106,7 @@ export default async function handler(req, res) {
     doc.pipe(stream);
 
     try {
-        await addReceiptInformation(doc, receipt, photos);
+        await addReceiptInformation(doc, receipt, photos, photoObjects, cartData);
         doc.end();
 
         await new Promise((resolve, reject) => {

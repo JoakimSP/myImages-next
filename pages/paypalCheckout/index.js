@@ -5,12 +5,12 @@ const logger = require('@/components/utils/logger')
 import { logErrorToApi } from "@/components/utils/logErrorToApi";
 import Layout from "@/components/layout/layout";
 
-export default function Index({ photosInCart, email }) {
+export default function Index({ photosInCart, email, cartData }) {
   const router = useRouter()
   const sumOfCart = photosInCart.reduce((total, photo) => {
-    return total + parseInt(photo.price)
-  }, 0)
-
+    return total + parseInt(photo.priceoption);
+  }, 0);
+console.log("cartData:", cartData)
   return (
     <Layout>
 
@@ -54,7 +54,9 @@ export default function Index({ photosInCart, email }) {
                     router.push({
                       pathname: '/checkout',
                       query: {
-                        sumOfCart
+                        sumOfCart,
+                        photosInCart,
+                        cartData: JSON.stringify(cartData)
                       }
                     })
                   }
@@ -80,23 +82,28 @@ export default function Index({ photosInCart, email }) {
 
 
 export async function getServerSideProps(context) {
-const {email} = context.query
+  const { email } = context.query
 
   try {
     const cartData = await prisma.cart.findMany({
-      where : {
-        sessionEmail : email
-      }
-    })
-    const photoIDsInCart = cartData.map(item => item.photoID);
-
-    const photosInCart = await prisma.photos.findMany({
       where: {
-        id: {
-          in: photoIDsInCart
-        }
+        sessionEmail: email
       }
     })
+    const photoIDs = cartData.map(item => item.photoID);
+
+    const photos = await prisma.photos.findMany({
+      where: { id: { in: photoIDs } }
+    });
+
+    const photosInCart = photoIDs.map(photoID => {
+      const photo = photos.find(p => p.id === photoID);
+      const cartItem = cartData.find(item => item.photoID === photoID);
+      return {
+        ...photo,
+        priceoption: cartItem.priceoption // Include priceoption in the photo object
+      };
+    });
 
     if (!photosInCart) {
       return {
@@ -110,7 +117,8 @@ const {email} = context.query
     return {
       props: {
         photosInCart,
-        email: cartData[0].sessionEmail
+        email: cartData[0].sessionEmail,
+        cartData
       }
     }
   } catch (error) {

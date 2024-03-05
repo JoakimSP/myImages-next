@@ -1,16 +1,18 @@
 import formatCurrency from "../formatCurrency";
-async function addReceiptInformation(docFile, receipt, photos) {
-
+async function addReceiptInformation(docFile, receipt, photos, photoObjects, cartData) {
+console.log(JSON.parse(photoObjects))
     const receiptData = {
         companyName: "SPIT AB / myimages.se",
         organizationNumber: 5569158503,
         saleDateTime: new Date().toLocaleString(),
         receiptId: receipt[0].id,
         receiptIndex: receipt[0].index,
-        images: photos,      
+        images: JSON.parse(photoObjects),      
         cost: receipt[0].price,
         vat: "Swedish VAT (25%) is included in sale price within purchase in Sweden."                             
       };
+
+      const parsedCartData = JSON.parse(cartData)
 
       
       const blueColor = '#005b96';
@@ -95,8 +97,8 @@ async function addReceiptInformation(docFile, receipt, photos) {
   currentY += 10; 
   
   // Item details
-  const imageList = receiptData.images.map(image =>
-   `Image ID: ${image.id} - Pricegroup: ${image.size} - Price: ${formatCurrency(image.price)}`
+  const imageList = receiptData.images.map((image, index) =>
+   `Image ID: ${image.id} - Pricegroup: ${image.size} - Price: ${formatCurrency(image.priceoption)} - license: ${image.commercialPrice == parsedCartData[index].priceoption  ? "Exclusive" : "Standard" }`
 
   );
   

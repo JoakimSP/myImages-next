@@ -7,11 +7,16 @@ import { CartContext } from "@/context/cartProvider"
 import ErrorBoundary from '@/components/errorBoundery';
 import Layout from '@/components/layout/layout';
 
-export default function Index({ lastReceipt, photos }) {
+export default function Index({ lastReceipt, photos, photoObjects}) {
   const { data: session } = useSession()
   const { clearCart } = useContext(CartContext)
   const router = useRouter()
   const [sumOfCart, setSumOfCart] = useState();
+  const cartData = JSON.parse(router.query.cartData)
+
+  console.log("cartData:", cartData)
+  console.log("photoObjects:", photoObjects)
+
   useEffect(() => {
     if (router.asPath !== router.route) {
       setSumOfCart(router.query.sumOfCart);
@@ -21,7 +26,7 @@ export default function Index({ lastReceipt, photos }) {
     e.preventDefault()
     /* const photosID = lastReceipt.map(photo => photo.photosID); */
     if (lastReceipt) {
-      window.open(`/api/images/downloadImage?receipt=${encodeURIComponent(JSON.stringify(lastReceipt))}`, '_blank');
+      window.open(`/api/images/downloadImage?receipt=${encodeURIComponent(JSON.stringify(lastReceipt))}&photoObjects=${encodeURIComponent(JSON.stringify(photoObjects))}&cartData=${encodeURIComponent(JSON.stringify(cartData))}`, '_blank');
 
     }
     clearCart()
@@ -29,7 +34,7 @@ export default function Index({ lastReceipt, photos }) {
        router.push("/")
      }, 5000); */
   }
-  console.log(photos)
+
   return (
     <Layout>
       <ErrorBoundary>
@@ -51,12 +56,14 @@ export default function Index({ lastReceipt, photos }) {
 
               <h3 className="text-xl font-semibold text-gray-800 mb-4">Image Details</h3>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-6'>
-                {photos.map((photo, index) => (
+                {photoObjects.map((photo, index) => (
                   <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
                     <h4 className="font-semibold text-gray-800">Title: {photo.title}</h4>
-                    <p className="text-gray-600">License Type: {photo.exclusive ? "Exclusive" : "Standard"}</p>
+                    <p className="text-gray-600">License Type: {photo.commercialPrice == cartData[index].priceoption ? "Exclusive" : "Standard"}</p>  {/* TODO: RIght now the exclusive photos are allways non exclusive since
+                                                                                                              Since the exclusive column in db is only for thumbnail photos only.
+                                                                                                              Fix it.  */}
                     <p className="text-gray-600">Size: {photo.size}</p>
-                    <p className="text-gray-600">Price: {formatCurrency(photo.price)}</p>
+                    <p className="text-gray-600">Price: {formatCurrency(photo.priceoption)}</p>
                   </div>
                 ))}
               </div>
@@ -88,27 +95,23 @@ export default function Index({ lastReceipt, photos }) {
 
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context)
+  const session = await getSession(context);
 
   const result = await prisma.receipt.findMany({
     where: {
-      sessionEmail: session.user.email
-    }
-  })
+      sessionEmail: session.user.email,
+    },
+  });
 
+  const filterReceipt = result.sort((a, b) => parseInt(a.dateAdded) - parseInt(b.dateAdded));
 
-  const filterReceipt = await result.sort((a, b) => {
-    if (parseInt(a.dateAdded) > parseInt(b.dateAdded)) {
-      return 1
-    }
-    else {
-      return -1
-    }
-  })
+  const lastReceipt = filterReceipt.slice(-1);
 
-  const lastReceipt = filterReceipt.slice(-1)
+  // Assuming photosID is a JSON string representing an array of objects
+  const photoObjects = JSON.parse(lastReceipt[0].photosID);
 
-  const photoIDs = lastReceipt[0].photosID.split(',');
+  // Extracting just the IDs from each object
+  const photoIDs = photoObjects.map(photo => photo.id);
 
   const photos = await prisma.photos.findMany({
     where: {
@@ -116,15 +119,14 @@ export async function getServerSideProps(context) {
         in: photoIDs,
       },
     },
-  })
+  });
 
-  prisma.$disconnect()
+  await prisma.$disconnect();
   return {
     props: {
       lastReceipt,
       photos,
-    }
-  }
-
-
-} 
+      photoObjects
+    },
+  };
+}
