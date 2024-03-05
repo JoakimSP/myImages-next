@@ -96,6 +96,7 @@ handler.post(async (req, res) => {
         priceSmall,
         priceMedium,
         priceLarge,
+        commercialPrice,
         tags
       } = parsedPhotoInformation
 
@@ -249,22 +250,28 @@ handler.post(async (req, res) => {
 
       // Store the large
       const originalPath = join(file.destination, `${file.filename}`);
+      const data = {
+        personID: personID,
+        filename: filename,
+        filetype: "tiff",
+        filesize: filesize,
+        filepath: originalPath,
+        folderpath: file.destination,
+        size: 'large',
+        price: parseInt(priceLarge),
+        width: imageMetadata.width,
+        height: imageMetadata.height,
+        title: title,
+        description: description,
+        tags: tags
+      }
+      if(commercialPrice !== null || commercialPrice !== undefined){
+        data.commercialPrice = parseInt(commercialPrice)
+      }
 
       await prisma.photos.create({
         data: {
-          personID: personID,
-          filename: filename,
-          filetype: "tiff",
-          filesize: filesize,
-          filepath: originalPath,
-          folderpath: file.destination,
-          size: 'large',
-          price: parseInt(priceLarge),
-          width: imageMetadata.width,
-          height: imageMetadata.height,
-          title: title,
-          description: description,
-          tags: tags
+          ...data
         }
 
       });
