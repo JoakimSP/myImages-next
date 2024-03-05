@@ -168,7 +168,7 @@ export default function ViewImage(props) {
                                 <div>
                                     <p className="text-gray-500 text-sm mt-2 break-normal">Purchasing a non-exclusive photo through this platform includes a Standard License (regular license) for the photo.
                                      This entails a license for personal use, with the condition that the photo may not be shared and a limitation for print of the photo to a maximum of 20 copies.
-                                      For further details, refer to the <Link className="text-indigo-600 hover:text-indigo-800 font-semibold underline" href={"/information/legalNotice"}>Legal Notice</Link> section. If you need to print more copies of a photo under a "Standard License",
+                                      For further details, refer to the <Link className="text-indigo-600 hover:text-indigo-800 font-semibold underline" href={"/information/legalNotice"}>Legal Notice</Link> section. If you need to print more copies of a photo under a &quot;Standard License&quot;,
                                        please get in contact through our Contact Form to ask a price for Commercial usage.</p>
                                 </div>
 
