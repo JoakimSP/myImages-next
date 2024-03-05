@@ -13,6 +13,7 @@ export default function ShoppingCart({ photosInCart, session, cartData }) {
   const { removeFromCart } = useContext(CartContext)
   const {email} = session.user
  
+ 
   async function handleRemoveFromCart(id, userEmail) {
     removeFromCart(id)
 
@@ -65,7 +66,7 @@ export default function ShoppingCart({ photosInCart, session, cartData }) {
                                 Remove
                             </button>
                         </div>
-                        <span className="m-6">{formatCurrency(photo.price)}</span>
+                        <span className="m-6">{formatCurrency(cartData[index].priceoption)}</span>
                     </div>
                 ))
             }
