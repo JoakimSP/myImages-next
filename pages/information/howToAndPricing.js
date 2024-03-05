@@ -42,7 +42,7 @@ export default function howToAndPricing({ pricingData }) {
                         </Link>
                         <div className="p-4">
                             <h2 className="text-xl font-semibold mb-2">{pricingData.imageTitleLeft}</h2>
-                            <p className="text-gray-400 mb-4">{pricingData.imageSubTitleLeft}</p>
+                            <p className="text-gray-400 mb-4 whitespace-pre-wrap">{pricingData.imageSubTitleLeft}</p>
                             <span className="text-lg font-bold whitespace-pre-wrap">{pricingData.imagePriceLeft}</span>
                         </div>
                     </div>
@@ -59,13 +59,14 @@ export default function howToAndPricing({ pricingData }) {
                         </div>
                         <div className="p-4">
                             <h2 className="text-xl font-semibold mb-2">{pricingData.imageTitleRight}</h2>
-                            <p className="text-gray-400 mb-4">{pricingData.imageSubTitleRight}</p>
+                            <p className="text-gray-400 mb-4 whitespace-pre-wrap">{pricingData.imageSubTitleRight}</p>
                             <p className="text-gray-400 mb-4"> All payments are done using PayPal services. In order to facilitate your payment,
                                 please see the following guide to get started with your personal
                                 PayPal account: <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://www.paypal.com/c2/webapps/mpp/how-to-guides/how-to-use-paypal?locale.x=en_C2"}>Go to instructions</Link></p>
                             <span className="text-lg font-bold whitespace-pre-wrap">{pricingData.imagePriceRight}</span>
-                            <span className="text-lg font-bold whitespace-pre-wrap">To enable you to shop images found on our website you need to sign in using your Google account.
-                                If you do not have a Google account, please create one following these <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://support.google.com/mail/answer/56256?hl=en"}>instructions</Link>
+                            <span className="text-lg font-bold whitespace-pre-wrap">For purchase of a photo from our website you&apos;ll either need a personal Google account to sign in to your cart or you can choose to sign in using email/password for authentication.
+                             Sign in first, by choosing one of the sign in options, after which you can start using the Cart functionality for shopping of photos.
+                              If you do not have a Google account, please create one following these <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://support.google.com/mail/answer/56256?hl=en"}>instructions</Link>
                             </span>
                         </div>
                     </div>
