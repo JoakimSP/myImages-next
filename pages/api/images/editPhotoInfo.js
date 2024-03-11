@@ -10,6 +10,7 @@ export default async function handler(req, res) {
         priceLarge,
         priceSmall,
         priceMedium,
+        priceCommercial,
         photoID,
         tags,
         categoriesId,
@@ -100,6 +101,15 @@ export default async function handler(req, res) {
         })
 
         if (isExclusive) {
+            await prisma.photos.update({
+                where: {
+                    id: idMap['large']
+                },
+                data: {
+                    commercialPrice: parseInt(priceCommercial)
+                }
+            })
+
             await prisma.exclusivecollections.update({
                 where: {
                     id: "1"
