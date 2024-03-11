@@ -36,7 +36,7 @@ export default function ExclusiveCollection({ collection, photos }) {
                     </div>
                 </div>
                 <div className='flex'>
-                    <div className="flex-1 h-96 bg-custom-grey text-white text-left p-4">
+                    <div className="flex-1 h-96 overflow-y-scroll lg:h-auto lg:overflow-auto bg-custom-grey text-white text-left p-4">
                         <div className='p-12'>
                             <h2 className='text-2xl md:text-6xl'>{collection.title}</h2>
                             <p className='text-lg md:text-3xl mb-8'>{collection.subtitle}</p>
