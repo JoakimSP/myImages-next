@@ -11,6 +11,7 @@ export default function EditPhoto({ photo, categories, collections, photoCopies,
     const photoCopiesfilter = photoCopies.filter(copy => copy.size !== "thumb" && copy.size !== "small-wm");
     const photoCopiesPriceUI = photoCopiesfilter.map(copy => ({ id: copy.id, size: copy.size, price: copy.price, commercialPrice: copy.commercialPrice }));
     const photoCopiesId = photoCopies.map(copy => ({ id: copy.id, size: copy.size }));
+    console.log(photoCopiesPriceUI)
 
     const handleUpdateTags = (newTags) => {
         setTags(newTags);
@@ -35,7 +36,7 @@ export default function EditPhoto({ photo, categories, collections, photoCopies,
 
 
         }
-console.log(newPhotoInformation.priceCommercial)
+        
 
         try {
             const response = await fetch('../api/images/editPhotoInfo', {
@@ -76,13 +77,13 @@ console.log(newPhotoInformation.priceCommercial)
                             <label className="block text-lg mb-2" htmlFor="price">Price {copy.size}</label>
                             <input id="price" type="number" min="0" name={`price${copy.size}`} className="w-full p-2 border rounded" defaultValue={copy.price} placeholder={copy.price} required />
                         </div>
-                        <div>
-                            <label className="block relative text-lg mb-2" htmlFor="commercialPrice">Price Commercial <span className="absolut font-thin text-xs border-2 rounded-md m-2 px-1 text-white hover:after:content-['Only_edit_this_if_the_image_is_exclusive'] hover:after:absolute hover:after:bottom-8 hover:after:left-0 hover:after:bg-gray-800 hover:after:text-gray-100 hover:after:p-2 hover:after:rounded">?</span></label>
-                            <input id="price" type="number" min="0" name={`pricecommercial`} className="w-full p-2 border rounded" defaultValue={copy.commercialPrice} placeholder={copy.commercialPrice}/>
-                        </div>
+
                     </>
                 ))}
-
+                <div>
+                    <label className="block relative text-lg mb-2" htmlFor="commercialPrice">Price Commercial <span className="absolut font-thin text-xs border-2 rounded-md m-2 px-1 text-white hover:after:content-['Only_edit_this_if_the_image_is_exclusive'] hover:after:absolute hover:after:bottom-8 hover:after:left-0 hover:after:bg-gray-800 hover:after:text-gray-100 hover:after:p-2 hover:after:rounded">?</span></label>
+                    <input id="price" type="number" min="0" name={`pricecommercial`} className="w-full p-2 border rounded" defaultValue={photoCopiesPriceUI[0]?.commercialPrice} placeholder={photoCopiesPriceUI[0]?.commercialPrice} />
+                </div>
 
                 {!photo.exclusive &&
                     <div className="grid grid-cols-2 gap-4">
