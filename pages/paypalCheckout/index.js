@@ -14,7 +14,7 @@ console.log("cartData:", cartData)
   return (
     <Layout>
 
-      <PayPalScriptProvider options={{ "client-id": process.env.PAYPAL_CLIENT_ID, currency: "USD" }}>
+      <PayPalScriptProvider options={{ "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID, currency: "USD" }}>
         <div className="relative lg:p-96 lg:ml-32 mt-48 md:mt-0">
           <PayPalButtons
             createOrder={(data, actions) => {
