@@ -12,6 +12,7 @@ import { toast } from "react-toastify"
 import Link from "next/link"
 import GoBackButton from "@/components/utils/goBackButton"
 import blurDataURL from "@/components/svgSkeleton"
+import Head from "next/head"
 
 
 export default function Index(props) {
@@ -98,6 +99,11 @@ export default function Index(props) {
 
     return (
         <Layout>
+            <Head>
+                <title>Photo Details</title>
+                <meta name="description" content="View details of a photo, choose license options, and add it to your cart." />
+                <meta name="keywords" content="photo details, license options, cart, photographer, collections, categories" />
+            </Head>
             <div className="bg-custom-grey mb-10">
                 <GoBackButton />
                 <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">

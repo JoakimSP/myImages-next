@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import GoBackButton from "@/components/utils/goBackButton";
+import Head from "next/head";
 
 
 export default function PhotographerSignIn() {
@@ -29,7 +30,13 @@ export default function PhotographerSignIn() {
         }
     };
 
-    return (
+    return (<>
+        <Head>
+            <title>Photographer Sign In Page</title>
+            <meta name="description" content="Sign in page for photographers with specific credentials to this application." />
+            <meta name="keywords" content="photographers, sign in, authentication, login, credentials" />
+            {/* Additional meta tags */}
+        </Head>
         <div className="h-screen w-full">
             <div className="flex flex-1 h-full flex-wrap justify-center lg:justify-between">
                 {/* Left column container with background */}
@@ -83,7 +90,7 @@ export default function PhotographerSignIn() {
                             {/* Remember me and Forgot password link */}
                             <div className="mb-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">Forgot password? 
+                                    <p className="text-sm text-gray-600 dark:text-gray-400">Forgot password?
                                         <Link href="/contact" className="text-blue-500 ml-2 hover:text-blue-600 dark:hover:text-blue-400">
                                             Contact the admin to reset password
                                         </Link>
@@ -100,5 +107,6 @@ export default function PhotographerSignIn() {
                 </div>
             </div>
         </div>
+    </>
     )
 }

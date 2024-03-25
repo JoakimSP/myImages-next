@@ -19,6 +19,7 @@ import wallDecoration from '/public/appcontent/inspirationImages/webp/wall-decor
 import wallDecoration2 from '/public/appcontent/inspirationImages/webp/wall-decoration2.webp';
 import wallDecoration3 from '/public/appcontent/inspirationImages/webp/wall-decoration3.webp';
 import blurDataURL from "@/components/svgSkeleton";
+import Head from "next/head";
 
 /* // Import thumbnail images for blur placeholders
 import thumbAboveBed from '/public/appcontent/inspirationImages/thumbnails/above-bed.webp';
@@ -66,6 +67,12 @@ export default function Index() {
 
     return (
         <Layout>
+            <Head>
+                <title>Inspiration Rooms</title>
+                <meta name="description" content="Find inspiration for creating personalized artwork for your home or workplace with our exclusive collection of images." />
+                <meta name="keywords" content="inspiration, rooms, exclusive collection, artwork, images, home decor, workplace decor" />
+            </Head>
+
             <div className="container mx-auto px-4 py-8">
                 <h1 className="text-4xl font-bold text-center mb-10 text-white">Inspiration Rooms</h1>
                 <h3 className="text-xl lg:px-36 text-center mb-10 text-white">Find your inspiration for creating your personalized art work for your home or work place here.

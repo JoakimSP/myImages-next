@@ -4,16 +4,21 @@ import { useRouter } from "next/router";
 const logger = require('@/components/utils/logger')
 import { logErrorToApi } from "@/components/utils/logErrorToApi";
 import Layout from "@/components/layout/layout";
+import Head from "next/head";
 
 export default function Index({ photosInCart, email, cartData }) {
   const router = useRouter()
   const sumOfCart = photosInCart.reduce((total, photo) => {
     return total + parseInt(photo.priceoption);
   }, 0);
-console.log("cartData:", cartData)
+  console.log("cartData:", cartData)
   return (
     <Layout>
-
+      <Head>
+        <title>Checkout</title>
+        <meta name="description" content="Complete your purchase securely with PayPal." />
+        <meta name="keywords" content="checkout, payment, PayPal, shopping cart, purchase" />
+      </Head>
       <PayPalScriptProvider options={{ "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID, currency: "USD" }}>
         <div className="relative lg:p-96 lg:ml-32 mt-48 md:mt-0">
           <PayPalButtons

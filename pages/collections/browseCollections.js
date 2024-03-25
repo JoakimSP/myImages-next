@@ -1,10 +1,16 @@
 import ShowAllCollection from "@/components/collections/showAllCollections"
 import prisma from "@/components/prisma"
 import Layout from "@/components/layout/layout"
+import Head from "next/head"
 
 export default function BrowseCollections({ collections }) {
     return (
         <Layout>
+            <Head>
+                <title>Browse Collections</title>
+                <meta name="description" content="Browse our Collections where we have gathered images in the same style and theme in pre-selected Collection folders." />
+                <meta name="keywords" content="collections, images, themes, styles" />
+            </Head>
             <div className="my-16">
                 <div className="my-16">
                     <h1 className="text-white text-7xl text-center font-light mb-4">Browse our Collections</h1>

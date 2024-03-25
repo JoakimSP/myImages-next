@@ -1,5 +1,6 @@
 import Layout from "@/components/layout/layout";
 import GoBackButton from "@/components/utils/goBackButton";
+import Head from "next/head";
 
 const Index = () => {
   // Camera data with megapixel, pixel size and quality based on the original table
@@ -15,6 +16,11 @@ const Index = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>Camera Quality Table</title>
+        <meta name="description" content="A table displaying camera megapixel, approximate image size, and print sizes with corresponding quality indicators." />
+        <meta name="keywords" content="camera, megapixel, image size, print size, quality, table" />
+      </Head>
       <GoBackButton />
       <div className="overflow-x-auto xl:mx-48">
         <table className="min-w-full divide-y divide-gray-200">

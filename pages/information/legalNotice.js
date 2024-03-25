@@ -1,6 +1,7 @@
 import { useState } from "react";
 import prisma from "@/components/prisma";
 import Layout from "@/components/layout/layout";
+import Head from "next/head";
 
 
 export default function PrivacyPolicy({ text }) {
@@ -11,8 +12,13 @@ export default function PrivacyPolicy({ text }) {
 
     return (
         <Layout>
-        <div className="bg-custom-grey">
-       
+            <Head>
+                <title>Legal Notice</title>
+                <meta name="description" content="Read our privacy policy to learn about how we collect, use, and protect your personal information on our website." />
+                <meta name="keywords" content="privacy policy, data protection, personal information, website security" />
+            </Head>
+            <div className="bg-custom-grey">
+
                 <div className="w-4/5 m-auto  text-white py-8">
                     <style jsx global>{`
                         .custom-css h1{
@@ -88,11 +94,11 @@ export default function PrivacyPolicy({ text }) {
                     `}</style>
                     <div className="custom-css" dangerouslySetInnerHTML={{ __html: text && text.text ? text.text : "" }}></div>
                 </div>
-               
-        </div>
+
+            </div>
         </Layout>
     );
-    
+
 }
 
 

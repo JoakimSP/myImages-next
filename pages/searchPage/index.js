@@ -4,6 +4,7 @@ import SearchBar from "@/components/searchPage/searchbar"
 import ShowImagesNext from "@/components/showImages"
 import Pagination from "@/components/searchPage/Pagination"
 import { useRouter } from "next/router"
+import Head from "next/head"
 
 export default function Index({ filterdImages, categories, totalImages }) {
     const Router = useRouter()
@@ -12,12 +13,18 @@ export default function Index({ filterdImages, categories, totalImages }) {
 
     return (
         <Layout>
+            <Head>
+                <title>Search Results</title>
+                <meta name="description" content="Search results for photography images" />
+                <meta name="keywords" content="photography, images, search, categories" />
+            </Head>
+
             <div className="flex justify-center items-center mt-36">
                 <SearchBar categories={categories} />
             </div>
             <Pagination totalPages={totalPages} currentPage={currentPage} />
             <ShowImagesNext photos={filterdImages} />
-            
+
 
         </Layout>
     )

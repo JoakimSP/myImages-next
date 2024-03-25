@@ -6,8 +6,9 @@ import prisma from '@/components/prisma';
 import { CartContext } from "@/context/cartProvider"
 import ErrorBoundary from '@/components/errorBoundery';
 import Layout from '@/components/layout/layout';
+import Head from 'next/head';
 
-export default function Index({ lastReceipt, photos, photoObjects}) {
+export default function Index({ lastReceipt, photos, photoObjects }) {
   const { data: session } = useSession()
   const { clearCart } = useContext(CartContext)
   const router = useRouter()
@@ -37,6 +38,11 @@ export default function Index({ lastReceipt, photos, photoObjects}) {
 
   return (
     <Layout>
+      <Head>
+        <title>Check out</title>
+        <meta name="description" content="A receipt will be downloaded together with the image." />
+        <meta name="keywords" content="payment receipt, image download, photo details, buyer information" />
+      </Head>
       <ErrorBoundary>
         <div className="flex items-center justify-center min-h-screen">
           <div className="container mx-auto p-8 max-w-4xl rounded-lg shadow-lg bg-white">

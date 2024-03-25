@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Router from "next/router";
 import { toast } from "react-toastify";
+import Head from "next/head";
 export default function Index({ getPhotoInformation }) {
     const [formData, setFormData] = useState({
         firstName: "",
@@ -50,6 +51,12 @@ export default function Index({ getPhotoInformation }) {
 
     return (
         <Layout>
+            <Head>
+                <title>Contact Us</title>
+                <meta name="description" content="Contact us to submit your inquiry or request assistance. Fill out the form with your personal information and message, and our team will review your submission promptly." />
+                <meta name="keywords" content="contact, inquiry, assistance, form, message" />
+            </Head>
+
             <div className="md:m-48 p-8 bg-white rounded-lg shadow-xl">
                 <h1 className="text-2xl font-bold mb-6 text-center">Contact Us</h1>
                 <p className="mb-4 text-sm text-gray-600 text-center">Please enter your personal information and your query so we can support you.</p>

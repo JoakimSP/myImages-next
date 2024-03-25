@@ -4,6 +4,7 @@ import Image from "next/image";
 const logger = require('@/components/utils/logger');
 import Layout from "@/components/layout/layout";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 
 export default function Index({ photographers, photographersPage }) {
   const [imageUrls, setImageUrls] = useState([]);
@@ -29,11 +30,16 @@ export default function Index({ photographers, photographersPage }) {
 
   return (
     <Layout>
+      <Head>
+        <title>{photographersPage.title}</title>
+        <meta name="description" content={photographersPage.subtitle} />
+        <meta name="keywords" content="photographers, photography, images, profiles" />
+      </Head>
       <div className="bg-custom-grey">
         <div className='min-h-screen py-10'>
           <h1 className="mb-5 text-white text-center text-4xl font-bold md:text-6xl">{photographersPage.title}</h1>
           <div className="mx-auto mb-6 max-w-4xl text-center leading-7 md:text-lg text-white">
-           {photographersPage.subtitle}
+            {photographersPage.subtitle}
           </div>
           <div className='flex flex-wrap justify-center gap-6 px-4 lg:px-24'>
             {photographers.map(photographer => {
@@ -49,7 +55,7 @@ export default function Index({ photographers, photographersPage }) {
                     />
                     <div className='px-6 pt-14'>
                       <div className='font-semibold text-xl text-center text-gray-800 mb-2'>
-                        {photographer.firstName} {photographer.lastName} 
+                        {photographer.firstName} {photographer.lastName}
                       </div>
                       <div className='text-center text-gray-600'>
                         {photographer.info.cardText}
@@ -69,7 +75,7 @@ export default function Index({ photographers, photographersPage }) {
 export async function getServerSideProps() {
   try {
     const photographers = await prisma.photographer.findMany({
-      include : {
+      include: {
         info: true
       }
     });

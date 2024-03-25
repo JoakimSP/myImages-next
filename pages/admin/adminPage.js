@@ -13,6 +13,7 @@ import EditPhotographPage from "@/components/adminpage/editPhotographPage";
 import BoughtExclusiveImages from "@/components/adminpage/boughtExclusiveImages";
 import EditLegalNotice from "@/components/adminpage/editLegalNotice";
 import ReceiptsList from "@/components/adminpage/listReceipts";
+import Head from "next/head";
 
 
 export default function AdminPage({ photographers,
@@ -69,6 +70,12 @@ export default function AdminPage({ photographers,
   };
   return (
     <Layout>
+      <Head>
+        <title>Admin Page - Manage MyImages</title>
+        <meta name="description" content="Manage photographers, categories, policies, collections, pricing, and more on the admin page of MyImages." />
+        <meta name="keywords" content="admin page, manage photographers, manage categories, edit policies, manage collections, edit pricing, MyImages admin" />
+      </Head>
+
       <div className="min-h-screen flex flex-col justify-start items-center px-6 md:px-24">
         <ul className="flex flex-wrap space-x-1 md:space-x-2 bg-white p-2 rounded-lg shadow-lg">
           <li className="flex-1">
@@ -188,11 +195,11 @@ export async function getServerSideProps(context) {
 
   try {
     const receipt = await prisma.receipt.findMany({
-      orderBy : {
+      orderBy: {
         index: 'desc'
       }
     })
-    if(receipt){data.receipt = receipt}
+    if (receipt) { data.receipt = receipt }
 
     const photographers = await prisma.photographer.findMany({
       orderBy: [
@@ -348,7 +355,7 @@ export async function getServerSideProps(context) {
     })
     return {
       props: {
-       ...data
+        ...data
       }
     }
   } finally {

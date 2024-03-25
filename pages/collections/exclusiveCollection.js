@@ -5,12 +5,13 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Link from "next/link";
 import blurDataURL from "@/components/svgSkeleton";
+import Head from "next/head";
 
 
 export default function ExclusiveCollection({ collection, photos }) {
     const [images, setImages] = useState([]);
 
- 
+
 
     const groupedPhotos = photos.reduce((acc, photo) => {
         const key = `${photo.title}-${photo.filename}`;
@@ -28,6 +29,11 @@ export default function ExclusiveCollection({ collection, photos }) {
     const firstPhoto = collection.photos.slice(0, 1)
     return (
         <Layout>
+            <Head>
+                <title>Exclusive Collection</title>
+                <meta name="description" content="Explore exclusive collections with images gathered in the same style and theme, handpicked by our team." />
+                <meta name="keywords" content="exclusive, collections, images, themes, styles" />
+            </Head>
             <div className='flex flex-col w-full h-screen' >
                 <div className="relative h-2/3">
                     <Image src={`/api/images/viewImage?name=${collection.heroImagepath}`} alt={collection.title} fill={true} className={"object-cover"} />
@@ -47,7 +53,7 @@ export default function ExclusiveCollection({ collection, photos }) {
             </div>
             <div className='w-full p-5 pb-10 mx-auto mb-10 gap-5 columns-1 md:columns-2 lg:columns-3 space-y-5 bg-custom-grey'>
                 {Object.entries(groupedPhotos).map(([key, photoGroup], index) => {
-                    
+
                     const thumbPhoto = photoGroup.find(p => p.size === 'thumb');
                     const smallWmPhoto = photoGroup.find(p => p.size === 'small-wm');
                     return (
@@ -60,7 +66,7 @@ export default function ExclusiveCollection({ collection, photos }) {
                                 className="mb-5"
                                 layout='responsive'
                                 placeholder="blur"
-                                blurDataURL={blurDataURL}/>
+                                blurDataURL={blurDataURL} />
                         </Link>
                     );
                 })}
@@ -92,20 +98,20 @@ export async function getServerSideProps(context) {
             const folderpaths = collection.photos.map(photo => photo.folderpath);
             const photos = await prisma.photos.findMany({
                 where: {
-                    AND: [ 
+                    AND: [
                         {
                             folderpath: {
                                 in: folderpaths
                             },
                         },
                         {
-                            OR: [ 
+                            OR: [
                                 { size: "thumb" },
                                 { size: "small-wm" }
                             ]
                         }
                     ],
-                    active : true
+                    active: true
                 }
             });
 

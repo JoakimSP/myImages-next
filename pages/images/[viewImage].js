@@ -12,6 +12,7 @@ import Link from "next/link"
 import GoBackButton from "@/components/utils/goBackButton"
 import { toast } from "react-toastify"
 import blurDataURL from "@/components/svgSkeleton"
+import Head from "next/head"
 
 
 export default function ViewImage(props) {
@@ -95,6 +96,12 @@ export default function ViewImage(props) {
 
     return (
         <Layout>
+            <Head>
+                <title>View Image</title>
+                <meta name="description" content="View details of the selected image, choose size options, add to cart, and manage your images. Purchase non-exclusive photos with a Standard License for personal use." />
+                <meta name="keywords" content="view image, photo details, add to cart, non-exclusive photos, standard license" />
+            </Head>
+
             <div className="bg-custom-grey mb-10">
                 <GoBackButton />
                 <div className="flex flex-col justify-center mt-12 mx-auto px-4 sm:px-6 md:px-8 max-w-screen-xl">
@@ -167,9 +174,9 @@ export default function ViewImage(props) {
 
                                 <div>
                                     <p className="text-gray-500 text-sm mt-2 break-normal">Purchasing a non-exclusive photo through this platform includes a Standard License (regular license) for the photo.
-                                     This entails a license for personal use, with the condition that the photo may not be shared and a limitation for print of the photo to a maximum of 20 copies.
-                                      For further details, refer to the <Link className="text-indigo-600 hover:text-indigo-800 font-semibold underline" href={"/information/legalNotice"}>Legal Notice</Link> section. If you need to print more copies of a photo under a &quot;Standard License&quot;,
-                                       please get in contact through our Contact Form to ask a price for Commercial usage.</p>
+                                        This entails a license for personal use, with the condition that the photo may not be shared and a limitation for print of the photo to a maximum of 20 copies.
+                                        For further details, refer to the <Link className="text-indigo-600 hover:text-indigo-800 font-semibold underline" href={"/information/legalNotice"}>Legal Notice</Link> section. If you need to print more copies of a photo under a &quot;Standard License&quot;,
+                                        please get in contact through our Contact Form to ask a price for Commercial usage.</p>
                                 </div>
 
                             </div>

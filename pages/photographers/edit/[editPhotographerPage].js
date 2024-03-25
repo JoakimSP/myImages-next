@@ -6,7 +6,7 @@ import { useState } from "react";
 import Layout from "@/components/layout/layout";
 import LoadingScreen from "@/components/utils/loadingScreen";
 import CreateCollection from "@/components/editphotographerinfo/createCollection";
-
+import Head from "next/head";
 
 export default function EditPhotographerPage({ userdata, randomFactIndex, categories, collections }) {
   const [activeView, setActiveView] = useState('photographers');
@@ -32,6 +32,11 @@ export default function EditPhotographerPage({ userdata, randomFactIndex, catego
       }
 
       <Layout>
+        <Head>
+          <title>Edit Photographer Page</title>
+          <meta name="description" content="Page for editing photographer information, uploading photos, and managing collections." />
+          <meta name="keywords" content="photographer, edit, upload, collections, photography, manage, information" />
+        </Head>
 
         <div className="bg-custom-grey min-h-screen">
           <div className="min-h-screen flex flex-col justify-center items-center px-6 md:px-24">

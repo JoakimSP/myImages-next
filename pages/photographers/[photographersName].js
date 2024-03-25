@@ -6,6 +6,7 @@ const logger = require('@/components/utils/logger')
 import Layout from "@/components/layout/layout"
 import ShowPhotographerCollection from "@/components/collections/showcollection"
 import { useState, useEffect } from "react"
+import Head from "next/head"
 
 export default function PhotographersName({ photographer, photos }) {
   const { info, heropicture, personID } = photographer
@@ -16,7 +17,7 @@ export default function PhotographersName({ photographer, photos }) {
       try {
         const response = await fetch(`/api/images/getHeroAndProfilePic?profilepicture=${photographer.profilepicture}&heropicture=${photographer.heropicture}`);
         const data = await response.json();
-  
+
         setImageUrls({
           profileImage: data.profileImage,
           heroImage: data.heroImage
@@ -29,55 +30,61 @@ export default function PhotographersName({ photographer, photos }) {
   }, [photographer]);
 
   return (
-    
-    <Layout>
-<div className="bg-custom-grey">
-    {/* Header */}
-    <div className=" min-h-screen flex flex-col"> 
-    {/* Main Profile Section */}
-    <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: imageUrls.heroImage ? `url(${imageUrls.heroImage})` : 'none' }}>
-        <div className="absolute inset-0 bg-black opacity-60"></div>
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white space-y-5">
-            <h1 className="text-6xl font-bold text-center">{photographer.firstName + " " + photographer.lastName}</h1>
-            <p className="text-xl font-light text-center">{photographer.info.heroText}</p>
-        </div>
-    </section>
 
-    {/* Details Section */}
-    <section className="bg-white py-12 px-6 md:px-24">
-        <div className="flex flex-wrap -mx-4">
-            <div className="w-full lg:w-1/3 px-4 flex justify-center">
-            {imageUrls.profileImage ? 
-              <Image src={imageUrls.profileImage} alt="Image of photographer" width={300} height={300} className="rounded-full shadow-xl" />
-              : <div className="rounded-full shadow-xl bg-gray-200" style={{ width: 300, height: 300 }}></div>  // Placeholder in case the image is missing
-            }
+    <Layout>
+      <Head>
+        <title>{`${photographer.firstName} ${photographer.lastName}`}</title>
+        <meta name="description" content={`Profile of ${photographer.firstName} ${photographer.lastName}, a photographer showcasing their work and collections.`} />
+        <meta name="keywords" content={`${photographer.firstName} ${photographer.lastName}, photographer, photography, collections, images`} />
+      </Head>
+
+      <div className="bg-custom-grey">
+        {/* Header */}
+        <div className=" min-h-screen flex flex-col">
+          {/* Main Profile Section */}
+          <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: imageUrls.heroImage ? `url(${imageUrls.heroImage})` : 'none' }}>
+            <div className="absolute inset-0 bg-black opacity-60"></div>
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-white space-y-5">
+              <h1 className="text-6xl font-bold text-center">{photographer.firstName + " " + photographer.lastName}</h1>
+              <p className="text-xl font-light text-center">{photographer.info.heroText}</p>
             </div>
-            <div className="w-full lg:w-2/3 px-4 space-y-6">
+          </section>
+
+          {/* Details Section */}
+          <section className="bg-white py-12 px-6 md:px-24">
+            <div className="flex flex-wrap -mx-4">
+              <div className="w-full lg:w-1/3 px-4 flex justify-center">
+                {imageUrls.profileImage ?
+                  <Image src={imageUrls.profileImage} alt="Image of photographer" width={300} height={300} className="rounded-full shadow-xl" />
+                  : <div className="rounded-full shadow-xl bg-gray-200" style={{ width: 300, height: 300 }}></div>  // Placeholder in case the image is missing
+                }
+              </div>
+              <div className="w-full lg:w-2/3 px-4 space-y-6">
                 <div className="space-y-3">
-                    <h2 className="text-4xl font-semibold">{photographer.firstName + " " + photographer.lastName}</h2>
-                    <p className="text-gray-500 text-lg">Creating art since {info.careerStart}</p>
+                  <h2 className="text-4xl font-semibold">{photographer.firstName + " " + photographer.lastName}</h2>
+                  <p className="text-gray-500 text-lg">Creating art since {info.careerStart}</p>
                 </div>
                 <div className="space-y-5">
-                    <BioDetail title="About Me" content={info.about} />
-                    <BioDetail title="Lens of Choice" content={info.lens} />
-                    <BioDetail title="Favorite Capture" content={info.favoritePhoto} />
-                    <BioDetail title="I Love to Photograph" content={info.photoPreference} />
+                  <BioDetail title="About Me" content={info.about} />
+                  <BioDetail title="Lens of Choice" content={info.lens} />
+                  <BioDetail title="Favorite Capture" content={info.favoritePhoto} />
+                  <BioDetail title="I Love to Photograph" content={info.photoPreference} />
                 </div>
+              </div>
             </div>
+          </section>
+
+          {/* Signature Collections Section */}
+          <section className="py-12 px-6 md:px-24 bg-custom-grey">
+            <h4 className="text-4xl text-white mb-10 font-semibold text-center">{photographer.firstName}&apos;s Signature Collections</h4>
+            <ShowPhotographerCollection photographer={photographer} />
+          </section>
+          <div className="border-t-8 h-auto w-auto">{ShowPhotographerImage(personID)}</div>
         </div>
-    </section>
 
-    {/* Signature Collections Section */}
-    <section className="py-12 px-6 md:px-24 bg-custom-grey">
-        <h4 className="text-4xl text-white mb-10 font-semibold text-center">{photographer.firstName}&apos;s Signature Collections</h4>
-        <ShowPhotographerCollection photographer={photographer}/>
-    </section>
-    <div className="border-t-8 h-auto w-auto">{ShowPhotographerImage(personID)}</div>
-</div>
-
-</div>
-</Layout>
-// Assuming you have a component to handle individual bio details to reduce repetition.
+      </div>
+    </Layout>
+    // Assuming you have a component to handle individual bio details to reduce repetition.
 
 
   )
@@ -85,10 +92,10 @@ export default function PhotographersName({ photographer, photos }) {
 
 export function BioDetail({ title, content }) {
   return (
-      <div>
-          <h6 className="font-semibold text-xl text-gray-900">{title}</h6>
-          <p className="text-gray-700">{content}</p>
-      </div>
+    <div>
+      <h6 className="font-semibold text-xl text-gray-900">{title}</h6>
+      <p className="text-gray-700">{content}</p>
+    </div>
   );
 }
 
@@ -105,7 +112,7 @@ export async function getStaticProps(context) {
       include: {
         info: true,
         collection: true,
-        
+
       }
     })
 
@@ -126,7 +133,7 @@ export async function getStaticProps(context) {
     logger.log('error', {
       message: error.message,
       stack: error.stack
-  })
+    })
   }
 
 }
@@ -151,7 +158,7 @@ export async function getStaticPaths() {
     logger.log('error', {
       message: error.message,
       stack: error.stack
-  })
+    })
   }
 }
 

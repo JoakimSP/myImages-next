@@ -4,9 +4,15 @@ import Link from 'next/link'
 import prisma from '@/components/prisma';
 import Image from 'next/image';
 import blurDataURL from '@/components/svgSkeleton';
+import Head from 'next/head';
 export default function howToAndPricing({ pricingData }) {
     return (
         <Layout>
+            <Head>
+                <title>How To and Pricing</title>
+                <meta name="description" content="Learn about our pricing information and explore exclusive collections of high-quality images. Find out how to purchase photos using PayPal services and Google accounts." />
+                <meta name="keywords" content="pricing information, exclusive collections, high-quality images, PayPal services, Google accounts" />
+            </Head>
             <div className="pt-4 text-white w-full h-full px-4 md:px-0 bg-custom-grey">
                 <h1 className="mb-5 text-center text-4xl font-bold md:text-6xl">
                     {pricingData.title}
@@ -65,8 +71,8 @@ export default function howToAndPricing({ pricingData }) {
                                 PayPal account: <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://www.paypal.com/c2/webapps/mpp/how-to-guides/how-to-use-paypal?locale.x=en_C2"}>Go to instructions</Link></p>
                             <span className="text-lg font-bold whitespace-pre-wrap">{pricingData.imagePriceRight}</span>
                             <span className="text-lg font-bold whitespace-pre-wrap">For purchase of a photo from our website you&apos;ll either need a personal Google account to sign in to your cart or you can choose to sign in using email/password for authentication.
-                             Sign in first, by choosing one of the sign in options, after which you can start using the Cart functionality for shopping of photos.
-                              If you do not have a Google account, please create one following these <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://support.google.com/mail/answer/56256?hl=en"}>instructions</Link>
+                                Sign in first, by choosing one of the sign in options, after which you can start using the Cart functionality for shopping of photos.
+                                If you do not have a Google account, please create one following these <Link className='font-bold text-blue-500 hover:text-blue-600 focus:text-blue-600 hover:underline focus:underline transition duration-300 ease-in-out px-1 -mx-1' href={"https://support.google.com/mail/answer/56256?hl=en"}>instructions</Link>
                             </span>
                         </div>
                     </div>

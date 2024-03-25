@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import blurDataURL from '@/components/svgSkeleton';
+import Head from 'next/head';
 
 
 export default function ViewCollections({ collection }) {
@@ -27,6 +28,11 @@ export default function ViewCollections({ collection }) {
 
     return (
         <Layout>
+            <Head>
+                <title>{collection.name}</title>
+                <meta name="description" content={collection.subtitle} />
+                <meta name="keywords" content={`${collection.name}, ${collection.subtitle}, collection, images`} />
+            </Head>
             <div className='w-full h-auto min-h-screen' >
                 {/* Collection Header Image and Name */}
                 <div className="min-h-[600px] man-h-[800px]">

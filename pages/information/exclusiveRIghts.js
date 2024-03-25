@@ -3,10 +3,16 @@ import Link from "next/link"
 import Image from "next/image"
 import prisma from "@/components/prisma"
 import blurDataURL from "@/components/svgSkeleton"
+import Head from "next/head"
 
 export default function ExclusiveRights({ pricingExclusiveData }) {
     return (
         <Layout>
+            <Head>
+                <title>Exclusive Rights</title>
+                <meta name="description" content="Explore exclusive rights to high-quality images. Learn about exclusive collections and pricing information for premium photos." />
+                <meta name="keywords" content="exclusive rights, premium images, exclusive collections, pricing information" />
+            </Head>
             <div className="pt-4 text-white w-full h-full px-4 md:px-0 bg-custom-grey">
                 <div className="relative h-full">
                     <Image
