@@ -20,9 +20,6 @@ export default function ResetPhotographerPassword({ setActiveView, id, currentUs
                 password: e.target.password.value,
             }
 
-            console.log(e.target.password.value)
-            console.log(newPassword.id)
-
             try {
                 const response = await fetch("../api/users/resetPassword", {
                     method: "POST",
