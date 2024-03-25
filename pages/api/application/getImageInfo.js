@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 
     try {
         
-    console.log(req.body)
+   
    const photoInformation = await prisma.photos.findMany({
         where: {
             id : {in : req.body }
