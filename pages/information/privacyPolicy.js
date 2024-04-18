@@ -59,13 +59,13 @@ export default function PrivacyPolicy({ text }) {
                         }
                         
                         .custom-css a {
-                            color: blue;
+                            color: #a2a2ff;
                             text-decoration: underline;
                             transition: color 0.3s;
                         }
                         
                         .custom-css a:hover {
-                            color: darkblue;
+                            color: #5757ef;
                         }
                         
                         .custom-css ol {
