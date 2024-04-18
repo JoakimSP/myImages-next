@@ -6,6 +6,7 @@ import { useState } from "react";
 import Layout from "@/components/layout/layout";
 import LoadingScreen from "@/components/utils/loadingScreen";
 import CreateCollection from "@/components/editphotographerinfo/createCollection";
+import SecurityOptions from "@/components/editphotographerinfo/securityOptions";
 import Head from "next/head";
 
 export default function EditPhotographerPage({ userdata, randomFactIndex, categories, collections }) {
@@ -20,6 +21,8 @@ export default function EditPhotographerPage({ userdata, randomFactIndex, catego
         return <UploadImage userdata={userdata} setIsLoading={setIsLoading} categories={categories} collections={collections} />;
       case 'createcollection':
         return <CreateCollection collections={collections} photographer={userdata} />;
+      case 'securityoptions':
+        return <SecurityOptions userdata={userdata}/>;
       default:
         return null;
     }
@@ -64,6 +67,14 @@ export default function EditPhotographerPage({ userdata, randomFactIndex, catego
                     className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'createcollection' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
                   >
                     Collections
+                  </button>
+                </li>
+                <li className="flex-1">
+                  <button
+                    onClick={() => setActiveView('securityoptions')}
+                    className={`w-full text-center py-2 px-4 rounded-lg transition-colors duration-200 ease-in focus:outline-none focus:ring-2 focus:ring-blue-500 ${activeView === 'securityoptions' ? 'text-white bg-gray-600' : 'text-gray-700 hover:bg-gray-200'}`}
+                  >
+                    security options
                   </button>
                 </li>
               </ul>
