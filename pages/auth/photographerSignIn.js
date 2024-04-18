@@ -11,6 +11,7 @@ export default function PhotographerSignIn() {
     const [errorMessage, setErrorMessage] = useState("");
     const email = useRef("");
     const pass = useRef("");
+    const token = useRef("");
     const router = useRouter()
 
     const onSubmit = async (e) => {
@@ -18,11 +19,13 @@ export default function PhotographerSignIn() {
         const result = await signIn("credentials", {
             email: email.current,
             password: pass.current,
+            token: token.current,
             redirect: false,
             callbackUrl: "/",
         });
 
         if (result?.error) {
+            console.log(result.error)
             setErrorMessage("Incorrect email or password. Please try again.");
         } else {
             setErrorMessage("");
@@ -85,6 +88,19 @@ export default function PhotographerSignIn() {
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     onChange={(e) => (pass.current = e.target.value)}
                                     required
+                                />
+                            </div>
+
+                            <div className="mb-6">
+                                <label htmlFor="token" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    2FA Token if enabled
+                                </label>
+                                <input
+                                    type="text"
+                                    id="token"
+                                    placeholder="Enter your 2FA token"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    onChange={(e) => (token.current = e.target.value)}
                                 />
                             </div>
                             {/* Remember me and Forgot password link */}
