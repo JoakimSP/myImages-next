@@ -99,6 +99,9 @@ handler.post(async (req, res) => {
         commercialPrice,
         tags
       } = parsedPhotoInformation
+      console.log(priceSmall)
+      console.log(priceMedium)
+      console.log(priceLarge)
 
       const imageMetadata = await sharp(file.path).metadata();
 
@@ -258,7 +261,7 @@ handler.post(async (req, res) => {
         filepath: originalPath,
         folderpath: file.destination,
         size: 'large',
-        price: parseInt(priceLarge),
+        price: parseFloat(priceLarge),
         width: imageMetadata.width,
         height: imageMetadata.height,
         title: title,
@@ -266,7 +269,7 @@ handler.post(async (req, res) => {
         tags: tags
       }
       if(commercialPrice !== null || commercialPrice !== undefined){
-        data.commercialPrice = parseInt(commercialPrice)
+        data.commercialPrice = parseFloat(commercialPrice)
       }
 
       await prisma.photos.create({
@@ -319,7 +322,7 @@ async function processAndStoreImage({
       height: imageMetadata.height,
       title,
       description,
-      price: parseInt(price),
+      price: parseFloat(price),
       tags,
     }
 

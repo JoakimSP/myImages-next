@@ -44,7 +44,7 @@ export default async function handler(req, res) {
             data: {
                 photoID: selectedImage.id,
                 sessionEmail: session,
-                priceoption: parseInt(priceOption.price),
+                priceoption: parseFloat(priceOption.price),
                 thumbnail: thumbnail
             },
         });

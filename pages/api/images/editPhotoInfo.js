@@ -18,9 +18,9 @@ export default async function handler(req, res) {
         isExclusive,
     } = req.body
 
-    let priceS = priceSmall ? parseInt(priceSmall) : null
-    let priceM = priceMedium ? parseInt(priceMedium) : null
-    let priceL = priceLarge ? parseInt(priceLarge) : null
+    let priceS = priceSmall ? parseFloat(priceSmall) : null
+    let priceM = priceMedium ? parseFloat(priceMedium) : null
+    let priceL = priceLarge ? parseFloat(priceLarge) : null
 
 
     const idMap = {};
@@ -106,7 +106,7 @@ export default async function handler(req, res) {
                     id: idMap['large']
                 },
                 data: {
-                    commercialPrice: parseInt(priceCommercial)
+                    commercialPrice: parseFloat(priceCommercial)
                 }
             })
 

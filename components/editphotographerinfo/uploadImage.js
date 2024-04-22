@@ -160,12 +160,12 @@ export default function UploadImage({ userdata, setIsLoading, categories, collec
 
                         {!exclusive && (
                             <>
-                                <InputField type={"number"} label={"price small"} name={"priceSmall"} onChange={(e) => handleInputChange('priceSmall', e.target.value)} required />
-                                <InputField type={"number"} label={"price medium"} name={"priceMedium"} onChange={(e) => handleInputChange('priceMedium', e.target.value)} required />
+                                <InputField type={"number"} label={"price small"} name={"priceSmall"} onChange={(e) => handleInputChange('priceSmall', e.target.value)} step={".01"} required />
+                                <InputField type={"number"} label={"price medium"} name={"priceMedium"} onChange={(e) => handleInputChange('priceMedium', e.target.value)} step={".01"}  required />
                             </>
                         )}
-                        {exclusive && ( <InputField type={"number"} label={"commercial Price"} name={"commercialPrice"} onChange={(e) => handleInputChange('commercialPrice', e.target.value)} required />)}
-                        <InputField type={"number"} label={`${!exclusive ? "Price Large" : "Price Exclusive"}`} name={"priceLarge"} onChange={(e) => handleInputChange('priceLarge', e.target.value)} required />
+                        {exclusive && ( <InputField type={"number"} label={"commercial Price"} name={"commercialPrice"} onChange={(e) => handleInputChange('commercialPrice', e.target.value)} step={".01"}  required />)}
+                        <InputField type={"number"} label={`${!exclusive ? "Price Large" : "Price Exclusive"}`} name={"priceLarge"} onChange={(e) => handleInputChange('priceLarge', e.target.value)} step={".01"}  required />
                         {!exclusive &&
                             <>
                                 <div className="grid grid-cols-2 gap-4">

@@ -9,7 +9,7 @@ import Head from "next/head";
 export default function Index({ photosInCart, email, cartData }) {
   const router = useRouter()
   const sumOfCart = photosInCart.reduce((total, photo) => {
-    return total + parseInt(photo.priceoption);
+    return total + parseFloat(photo.priceoption);
   }, 0);
   console.log("cartData:", cartData)
   return (
