@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react"
 import ErrorBoundary from "@/components/errorBoundery"
 import Image from "next/image"
 import { useRouter } from "next/router"
+import PromptForSek from "@/components/utils/promtForSek"
 
 
 
@@ -98,6 +99,7 @@ export default function Header() {
             </ul>
           </div>
         </div>
+        <PromptForSek/>
       </nav>
     </ErrorBoundary>
   )
