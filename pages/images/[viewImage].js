@@ -139,7 +139,7 @@ export default function ViewImage(props) {
                         <div className="w-full md:w-1/3 px-6 mt-6 md:mt-0">
                             <div className="border-4 rounded-md bg-white shadow-xl p-6 overflow-hidden">
                                 {filterdPhotoCopies.map((copy, index) => (
-                                    <>
+       
                                         <div className="flex justify-between items-start border-b-2 px-4 py-3 mb-3" key={index}>
                                             <div>
                                                 <div className={`flex gap-4 items-center ${copy.size == "original" && !photo.exclusive ? 'hidden' : ''}`}>
@@ -155,8 +155,6 @@ export default function ViewImage(props) {
                                                 <p className="text-xl font-semibold text-gray-800 whitespace-nowrap overflow-ellipsis overflow-hidden mt-2">{formatCurrency(copy.price)}</p>
                                             </div>
                                         </div>
-
-                                    </>
                                 ))}
 
                                 <button
