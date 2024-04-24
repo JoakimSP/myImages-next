@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 
-export default function formatCurrency(number, locale) {
+export default function FormatCurrency(number, locale) {
   const [currency, setCurrency] = useState('USD'); // Start with USD for consistent initial rendering
   const [convertedNumber, setConvertedNumber] = useState(number); // Initialize with the original number
   const [exchangeRate, setExchangeRate] = useState(1); // Default exchange rate is 1
