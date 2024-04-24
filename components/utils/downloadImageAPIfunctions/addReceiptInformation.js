@@ -1,4 +1,4 @@
-import formatCurrency from "../formatCurrency";
+import formatCurrencyAPI from "../formatCurrencyAPI";
 async function addReceiptInformation(docFile, receipt, photos, photoObjects, cartData) {
 console.log(JSON.parse(photoObjects))
     const receiptData = {
@@ -78,7 +78,7 @@ console.log(JSON.parse(photoObjects))
   
   // Cost
   docFile.fontSize(14)
-  .text(`Cost: ${formatCurrency(receiptData.cost)}`, 50, currentY)
+  .text(`Cost: ${formatCurrencyAPI(receiptData.cost)}`, 50, currentY)
   .moveDown();
 
   currentY += lineHeight;
@@ -98,7 +98,7 @@ console.log(JSON.parse(photoObjects))
   
   // Item details
   const imageList = receiptData.images.map((image, index) =>
-   `Image ID: ${image.id} - Pricegroup: ${image.size} - Price: ${formatCurrency(image.priceoption)} - license: ${image.commercialPrice == parsedCartData[index].priceoption  ? "Exclusive" : "Standard" }`
+   `Image ID: ${image.id} - Pricegroup: ${image.size} - Price: ${formatCurrencyAPI(image.priceoption)} - license: ${image.commercialPrice == parsedCartData[index].priceoption  ? "Exclusive" : "Standard" }`
 
   );
   
