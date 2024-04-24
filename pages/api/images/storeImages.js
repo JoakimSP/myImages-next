@@ -99,9 +99,7 @@ handler.post(async (req, res) => {
         commercialPrice,
         tags
       } = parsedPhotoInformation
-      console.log(priceSmall)
-      console.log(priceMedium)
-      console.log(priceLarge)
+
 
       const imageMetadata = await sharp(file.path).metadata();
 
