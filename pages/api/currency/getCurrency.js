@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   }
 
   try {
-      const currencyRate = await prisma.currencySek.findUnique({
+      const currencyRate = await prisma.currencySek.findFirst({
           where: {
               id: "1"  // Assuming you have a specific ID for the SEK currency rate
           }
