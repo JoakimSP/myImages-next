@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     const apiKey = 'fca_live_bV8eh92OBMoOnN6K6E6Pq7LJRm2VR9vodhSnSvIk';
     
     try {
-        const checkLastCurrencyUpdate = await prisma.currencySek.findUnique({
+        const checkLastCurrencyUpdate = await prisma.currencySek.findFirst({
             where: { id: "1" }
         });
 
