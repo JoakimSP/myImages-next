@@ -7,7 +7,7 @@ import { CartContext } from "@/context/cartProvider"
 import ErrorBoundary from '@/components/errorBoundery';
 import Layout from '@/components/layout/layout';
 import Head from 'next/head';
-import { logErrorToApi } from "@/components/utils/logErrorToApi";
+import logger from '@/components/utils/logger';
 import infoLogger from '@/components/utils/infoLogger';
 
 export default function Index({ lastReceipt, photos, photoObjects }) {
@@ -36,7 +36,7 @@ export default function Index({ lastReceipt, photos, photoObjects }) {
     }
     clearCart()
   } catch (error) {
-    logErrorToApi({
+    logger.log('error', {
       message: error.message,
       stack: error.stack
     })
