@@ -7,6 +7,8 @@ import { CartContext } from "@/context/cartProvider"
 import ErrorBoundary from '@/components/errorBoundery';
 import Layout from '@/components/layout/layout';
 import Head from 'next/head';
+import { logErrorToApi } from "@/components/utils/logErrorToApi";
+import infoLogger from '@/components/utils/infoLogger';
 
 export default function Index({ lastReceipt, photos, photoObjects }) {
   const { data: session } = useSession()
@@ -15,22 +17,30 @@ export default function Index({ lastReceipt, photos, photoObjects }) {
   const [sumOfCart, setSumOfCart] = useState();
   const cartData = JSON.parse(router.query.cartData)
 
-  console.log("cartData:", cartData)
-  console.log("photoObjects:", photoObjects)
-
   useEffect(() => {
     if (router.asPath !== router.route) {
       setSumOfCart(router.query.sumOfCart);
     }
   }, [router]);
+
   async function handleDownloadImage(e) {
     e.preventDefault()
+    infoLogger.info("Try to reach downloadImage API")
+    try {
+      
+    
     /* const photosID = lastReceipt.map(photo => photo.photosID); */
     if (lastReceipt) {
       window.open(`/api/images/downloadImage?receipt=${encodeURIComponent(JSON.stringify(lastReceipt))}&photoObjects=${encodeURIComponent(JSON.stringify(photoObjects))}&cartData=${encodeURIComponent(JSON.stringify(cartData))}`, '_blank');
 
     }
     clearCart()
+  } catch (error) {
+    logErrorToApi({
+      message: error.message,
+      stack: error.stack
+    })
+  }
     /*  setTimeout(() => {
        router.push("/")
      }, 5000); */
