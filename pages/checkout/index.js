@@ -7,8 +7,7 @@ import { CartContext } from "@/context/cartProvider"
 import ErrorBoundary from '@/components/errorBoundery';
 import Layout from '@/components/layout/layout';
 import Head from 'next/head';
-import logger from '@/components/utils/logger';
-import infoLogger from '@/components/utils/infoLogger';
+import { logErrorToApi } from '@/components/utils/logErrorToApi';
 
 export default function Index({ lastReceipt, photos, photoObjects }) {
   const { data: session } = useSession()
@@ -25,7 +24,6 @@ export default function Index({ lastReceipt, photos, photoObjects }) {
 
   async function handleDownloadImage(e) {
     e.preventDefault()
-    infoLogger.info("Try to reach downloadImage API")
     try {
       
     
@@ -36,7 +34,7 @@ export default function Index({ lastReceipt, photos, photoObjects }) {
     }
     clearCart()
   } catch (error) {
-    logger.log('error', {
+    logErrorToApi('error', {
       message: error.message,
       stack: error.stack
     })
