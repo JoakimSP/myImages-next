@@ -6,7 +6,6 @@ const addReceiptInformation = require('@/components/utils/downloadImageAPIfuncti
 const deActivateExclusiveImages = require('@/components/utils/downloadImageAPIfunctions/deActiveateExclusiveImage');
 import { resolve } from 'path';
 const logger = require('@/components/utils/logger');
-const infoLogger = require('@/components/utils/infoLogger');
 
 export const config = {
     api: {
@@ -15,13 +14,12 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-    infoLogger.info("try to save all info to variables")
     const receiptString = decodeURIComponent(req.query.receipt);
     const photoObjects = decodeURIComponent(req.query.photoObjects);
     const cartData = decodeURIComponent(req.query.cartData);
     const receipt = JSON.parse(receiptString);
 
-    infoLogger.info("Save all info to variables done")
+
 
     // Fetch the receipt from the database
     const receiptDB = await prisma.receipt.findFirst({
@@ -30,14 +28,14 @@ export default async function handler(req, res) {
         },
     });
 
-    infoLogger.info("state before the downloaded check")
+
 
     // Check if the receipt has already been downloaded
     if (receiptDB.downloaded) {
         return res.status(404).json({ message: 'not allowed' });
     }
 
-    infoLogger.info("state after the downloaded check")
+
 
     const photoIdsToArray = JSON.parse(receipt[0].photosID).map(photo => photo.id);
     console.log(photoIdsToArray)
