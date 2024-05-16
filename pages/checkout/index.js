@@ -28,9 +28,12 @@ export default function Index({ lastReceipt, photos, photoObjects }) {
       
     
     /* const photosID = lastReceipt.map(photo => photo.photosID); */
-    if (lastReceipt) {
+    if (lastReceipt && photoObjects && cartData) {
       window.open(`/api/images/downloadImage?receipt=${encodeURIComponent(JSON.stringify(lastReceipt))}&photoObjects=${encodeURIComponent(JSON.stringify(photoObjects))}&cartData=${encodeURIComponent(JSON.stringify(cartData))}`, '_blank');
 
+    }
+    else {
+      console.log("Some information is missing")
     }
     clearCart()
   } catch (error) {
