@@ -242,7 +242,7 @@ export async function getServerSideProps(context) {
             if (photographer) {
                 props.photographer = photographer;
             }
-            if (photographer.role != "admin") {
+            if (photographer.role && photographer.role != "admin") {
                 const filterCollections = collections.filter(col => { return col.photographerPersonID == photographer.personID })
                 props.collections = filterCollections
             }
