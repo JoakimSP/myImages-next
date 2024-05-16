@@ -106,10 +106,10 @@ export default async function handler(req, res) {
     doc.pipe(stream);
 
     try {
-        await addReceiptInformation(doc, receipt, photos, photoObjects, cartData);
+       /*  await addReceiptInformation(doc, receipt, photos, photoObjects, cartData); */
         doc.end();
 
-        await new Promise((resolve, reject) => {
+       /*  await new Promise((resolve, reject) => {
             stream.on('finish', resolve);
             stream.on('error', (error) => {
                 logger.log('error', {
@@ -119,9 +119,9 @@ export default async function handler(req, res) {
                 reject(error);
             });
         });
-
+ */
         // Append the PDF to the archive after it's fully written
-        archive.append(fs.createReadStream(receiptPath), { name: receiptFilename });
+       /*  archive.append(fs.createReadStream(receiptPath), { name: receiptFilename }); */
 
         // Finalize the archive
         archive.finalize();
