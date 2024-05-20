@@ -32,8 +32,32 @@ export default function Index({ lastReceipt, photos, photoObjects }) {
     console.log(cartData)
     /* const photosID = lastReceipt.map(photo => photo.photosID); */
     if (lastReceipt && photoObjects && cartData) {
-      logInfoToApi("Try to reach the download API")
-      window.open(`/api/images/downloadImage?receipt=${encodeURIComponent(JSON.stringify(lastReceipt))}&photoObjects=${encodeURIComponent(JSON.stringify(photoObjects))}&cartData=${encodeURIComponent(JSON.stringify(cartData))}`, '_blank');
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/api/images/downloadImage';
+      form.target = '_blank';
+
+      const receiptInput = document.createElement('input');
+      receiptInput.type = 'hidden';
+      receiptInput.name = 'lastReceipt';
+      receiptInput.value = JSON.stringify(lastReceipt);
+      form.appendChild(receiptInput);
+
+      const photoObjectsInput = document.createElement('input');
+      photoObjectsInput.type = 'hidden';
+      photoObjectsInput.name = 'photoObjects';
+      photoObjectsInput.value = JSON.stringify(photoObjects);
+      form.appendChild(photoObjectsInput);
+
+      const cartDataInput = document.createElement('input');
+      cartDataInput.type = 'hidden';
+      cartDataInput.name = 'cartData';
+      cartDataInput.value = JSON.stringify(cartData);
+      form.appendChild(cartDataInput);
+
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
 
     }
     else {

@@ -15,12 +15,14 @@ export const config = {
 };
 
 export default async function handler(req, res) {
+    if (req.method !== 'POST') {
+        res.setHeader('Allow', ['POST']);
+        return res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
 
     infoLogger.info("Start downloading")
-    const receiptString = decodeURIComponent(req.query.receipt);
-    const photoObjects = decodeURIComponent(req.query.photoObjects);
-    const cartData = decodeURIComponent(req.query.cartData);
-    const receipt = JSON.parse(receiptString);
+    const { lastReceipt, photoObjects, cartData } = req.body;
+    const receipt = JSON.parse(lastReceipt);
 
 
 
