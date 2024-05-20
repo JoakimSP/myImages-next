@@ -6,6 +6,7 @@ const addReceiptInformation = require('@/components/utils/downloadImageAPIfuncti
 const deActivateExclusiveImages = require('@/components/utils/downloadImageAPIfunctions/deActiveateExclusiveImage');
 import { resolve } from 'path';
 const logger = require('@/components/utils/logger');
+import infoLogger from '@/components/utils/infoLogger';
 
 export const config = {
     api: {
@@ -14,6 +15,8 @@ export const config = {
 };
 
 export default async function handler(req, res) {
+
+    infoLogger.info("Start downloading")
     const receiptString = decodeURIComponent(req.query.receipt);
     const photoObjects = decodeURIComponent(req.query.photoObjects);
     const cartData = decodeURIComponent(req.query.cartData);

@@ -8,6 +8,7 @@ import ErrorBoundary from '@/components/errorBoundery';
 import Layout from '@/components/layout/layout';
 import Head from 'next/head';
 import { logErrorToApi } from '@/components/utils/logErrorToApi';
+import { logInfoToApi } from '@/components/utils/logInfoToApi';
 
 export default function Index({ lastReceipt, photos, photoObjects }) {
   const { data: session } = useSession()
@@ -26,9 +27,12 @@ export default function Index({ lastReceipt, photos, photoObjects }) {
     e.preventDefault()
     try {
       
-    
+    console.log(lastReceipt)
+    console.log(photoObjects)
+    console.log(cartData)
     /* const photosID = lastReceipt.map(photo => photo.photosID); */
     if (lastReceipt && photoObjects && cartData) {
+      logInfoToApi("Try to reach the download API")
       window.open(`/api/images/downloadImage?receipt=${encodeURIComponent(JSON.stringify(lastReceipt))}&photoObjects=${encodeURIComponent(JSON.stringify(photoObjects))}&cartData=${encodeURIComponent(JSON.stringify(cartData))}`, '_blank');
 
     }

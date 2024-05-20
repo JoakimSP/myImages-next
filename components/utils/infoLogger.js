@@ -1,7 +1,6 @@
 import winston from 'winston';
 
-const infoLogger = () => {
-    return winston.createLogger({
+const infoLogger = winston.createLogger({
         transports: [
             new winston.transports.File({
                 filename: 'info.log',
@@ -10,6 +9,6 @@ const infoLogger = () => {
             })
         ]
     });
-}
+
 
 export default infoLogger;
