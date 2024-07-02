@@ -7,7 +7,7 @@ import EditPrivacyPolicy from "@/components/adminpage/editPrivacyPolicy";
 import Layout from "@/components/layout/layout";
 import AddNewCollection from "@/components/adminpage/addNewCollection";
 import EditPricePage from "@/components/adminpage/editPricePage";
-import Mail from "@/components/adminpage/mail";
+import Mail from "@/components/adminpage/mail/mail";
 import EditSupport from "@/components/adminpage/EditSupport";
 import EditPhotographPage from "@/components/adminpage/editPhotographPage";
 import BoughtExclusiveImages from "@/components/adminpage/boughtExclusiveImages";

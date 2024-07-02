@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
+import SendEmailsToCustomers from './sendEmailsToCustomers';
 
 export default function Mail({ contactMails }) {
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -33,6 +34,7 @@ export default function Mail({ contactMails }) {
 
   return (
     <div className="flex flex-col justify-center items-center my-8">
+      <SendEmailsToCustomers/>
       <table className="w-1/2 bg-white shadow-md rounded-md">
         <thead>
           <tr className="bg-gray-200">
