@@ -7,6 +7,10 @@ import ErrorBoundary from "@/components/errorBoundery"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import PromptForSek from "@/components/utils/promtForSek"
+import { setCookie, getCookie } from 'cookies-next';
+import usdFlag from "@/components/utils/flagSvg/USflag"
+import sekFlag from "@/components/utils/flagSvg/Sekflag"
+import arrow from "@/components/utils/flagSvg/arrow"
 
 
 
@@ -15,10 +19,12 @@ export default function Header() {
   const { cart } = useContext(CartContext)
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [photographers, setPhotographers] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const [currency, setCurrency] = useState('USD');
   const router = useRouter();
 
   let currentUserInfo = [];
- 
+
   const isActive = (pathname) => router.pathname === pathname;
 
 
@@ -35,6 +41,14 @@ export default function Header() {
       } catch (error) {
         console.error("Failed to fetch photographers:", error);
       }
+      try {
+        const savedCurrency = getCookie('currencyChoice');
+        if (savedCurrency) {
+          setCurrency(savedCurrency);
+        }
+      } catch (error) {
+
+      }
     }
 
     fetchPhotographers();
@@ -47,6 +61,14 @@ export default function Header() {
   if (session && session.user) {
     currentUserInfo = photographers.filter(user => user.email === session.user.email);
   }
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
+  const handleCurrencyChange = (choice) => {
+    setCurrency(choice);
+    setCookie('currencyChoice', choice, { maxAge: 30 * 24 * 60 * 60 }); // Expires in 30 days
+    toggleVisibility();
+    router.reload();
+  };
   return (
 
     <ErrorBoundary>
@@ -96,10 +118,50 @@ export default function Header() {
               {currentUserInfo && currentUserInfo[0]?.role == "admin" && (
                 <li><Link href="/admin/adminPage" className={`block py-2 pl-3 pr-4 rounded md:p-0 ${isActive('/admin/adminPage') ? 'text-blue-500' : 'text-white'}`} >Admin Page</Link></li>
               )}
+              <li className={`relative z-50 ${isMobileMenuOpen ? "w-64" : "w-full"}  md:w-auto p-4`}>
+                <button
+                  onClick={toggleVisibility}
+                  className="flex items-center justify-center text-sm bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  {isVisible ? (
+                    <>
+                      {currency == "USD" ? usdFlag : sekFlag}
+                      <span className="ml-2">{arrow}</span>
+                    </>
+                  ) : (
+                    <>
+                      {currency == "USD" ? usdFlag : sekFlag}
+                      <span className="ml-2">{arrow}</span>
+                    </>
+                  )}
+                </button>
+                <div
+                  className={`absolute mt-2 w-64 right-0 top-full bg-white shadow-lg rounded-lg transition-transform duration-300 ease-in-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+                    }`}
+                >
+                  <button
+                    onClick={() => handleCurrencyChange("USD")}
+                    className={`w-full flex items-center ${currency == "USD" ? "bg-gray-400" : "bg-gray-300"
+                      } hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded`}
+                  >
+                    {usdFlag}
+                    USD
+                  </button>
+                  <button
+                    onClick={() => handleCurrencyChange("SEK")}
+                    className={`w-full flex items-center ${currency == "SEK" ? "bg-gray-400" : "bg-gray-300"
+                      } hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded`}
+                  >
+                    {sekFlag}
+
+                    SEK
+                  </button>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
-        <PromptForSek/>
+
       </nav>
     </ErrorBoundary>
   )
