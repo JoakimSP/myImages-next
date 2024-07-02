@@ -8,7 +8,7 @@ export default function BrowseCollections({ collections }) {
         <Layout>
             <Head>
                 <title>Browse Collections</title>
-                <meta name="description" content="Browse our Collections where we have gathered images in the same style and theme in pre-selected Collection folders." />
+                <meta name="description" content="Browse our Collections where we have gathered photos in the same style and theme in pre-selected Collection folders." />
                 <meta name="keywords" content="collections, images, themes, styles" />
             </Head>
             <div className="my-16">
