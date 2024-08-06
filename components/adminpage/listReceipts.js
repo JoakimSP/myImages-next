@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ViewReceipt from './viewReceipt';
+import FormatCurrency from '../utils/formatCurrency';
 
 export default function ReceiptsList({ receipts }) {
     const [selectedReceipt, setSelectedReceipt] = useState(null);
@@ -50,7 +51,7 @@ export default function ReceiptsList({ receipts }) {
                     <div key={receipt.id} className="border p-2 rounded-lg cursor-pointer bg-gray-500 hover:bg-gray-100" onClick={() => setSelectedReceipt(receipt)}>
                         <p>Receipt ID: {receipt.id}</p>
                         <p>Date: {formatDate(receipt.dateAdded)}</p>
-                        <p>Price: ${receipt.price}</p>
+                        <p>Price: {FormatCurrency(receipt.price)}</p>
                     </div>
                 ))}
             </div>
