@@ -4,10 +4,9 @@ const logger = require('@/components/utils/logger')
 export default async function handler(req, res) {
 
     const { email, photosInCart, sumOfCart } = req.body
-    const { id } = req.body.details
+    const { id } = req.body.details.purchase_units[0].payments.captures[0]
 const photoIDsInCart = photosInCart.map(item => item.id);
 const photosIDString = photoIDsInCart.join(',');
-
 
     try {
         const result = await prisma.receipt.create({
