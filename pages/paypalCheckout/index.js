@@ -11,7 +11,6 @@ export default function Index({ photosInCart, email, cartData }) {
   const sumOfCart = photosInCart.reduce((total, photo) => {
     return total + parseFloat(photo.priceoption);
   }, 0);
-  console.log("cartData:", cartData)
   return (
     <Layout>
       <Head>
@@ -59,6 +58,7 @@ export default function Index({ photosInCart, email, cartData }) {
                     router.push({
                       pathname: '/checkout',
                       query: {
+                        details,
                         sumOfCart,
                         photosInCart,
                         cartData: JSON.stringify(cartData)

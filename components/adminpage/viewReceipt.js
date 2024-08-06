@@ -3,7 +3,6 @@ import formatCurrency from "../utils/formatCurrency";
 
 export default function ViewReceipt({ receipt, date }) {
     const [photoInformation, setPhotoInformation] = useState();
-
     const photos = receipt.photosID.split(",");
 
     useEffect(() => {
@@ -42,11 +41,12 @@ export default function ViewReceipt({ receipt, date }) {
                 <InfoItem label="Purchased" value={date} />
                 <div>
                     <h3 className="font-semibold text-gray-600">Purchased photos</h3>
-                    {photoInformation ? (
+                    {JSON.parse(receipt.photosID) ? (
                         <div className="space-y-2">
-                            {photoInformation.map((photo, index) => (
+                            {JSON.parse(receipt.photosID).map((photo, index) => (
                                 <div key={index} className="border p-2 rounded">
                                     <p className="font-semibold">Photo ID: {photo.id}</p>
+                                    <p>Title: {photo.title}</p>
                                     <p>Photographer ID: {photo.personID}</p>
                                     <p>price : {formatCurrency(photo.price)}</p>
                                 </div>
