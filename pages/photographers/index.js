@@ -75,6 +75,11 @@ export default function Index({ photographers, photographersPage }) {
 export async function getServerSideProps() {
   try {
     const photographers = await prisma.photographer.findMany({
+       where : {
+        email : {
+          not: "admin@admin"
+        }
+      },
       include: {
         info: true
       }
